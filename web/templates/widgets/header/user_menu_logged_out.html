@@ -1,0 +1,17 @@
+{% load menu_tags %}
+
+<li class="header-item">
+    <span class="header-user">Vous n'êtes pas connecté</span>
+    <span class="header-user">Pour accéder à l'intranet, veuillez vous
+        <a href="{% url 'account_login' %}">connecter</a> 
+        ou vous
+        <a href="{% url 'account_signup' %}">inscrire</a>
+    </span>
+</li>            
+<li class="header-item cgs-unlog">
+    <nav class="cgs-nav profile cgs-unlog">
+        {% with class_type="nav" menu_type="unlog" %}
+            {% flat_menu 'logged_out' show_menu_heading=False max_levels=1 %}
+        {% endwith %}
+    </nav>
+</li>

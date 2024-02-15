@@ -1,0 +1,501 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-12 12:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] "Veuillez soumettre au plus %(num)d item."
+msgstr[1] "Veuillez soumettre au plus %(num)d items."
+msgstr[2] "Veuillez soumettre au plus %(num)d items."
+
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] "Veuillez soumettre au moins %(num)d item."
+msgstr[1] "Veuillez soumettre au moins %(num)d items."
+msgstr[2] "Veuillez soumettre au moins %(num)d items."
+
+#: .\administration\models.py:49 .\administration\models.py:100
+#: .\administration\models.py:141 .\administration\models.py:183
+#: .\administration\models.py:224 .\administration\models.py:265
+#: .\administration\models.py:306 .\amicale\models.py:104 .\home\models.py:131
+msgid "Introduction"
+msgstr "Introduction"
+
+#: .\administration\models.py:313
+msgid "Responsable"
+msgstr "Responsable"
+
+#: .\administration\models.py:319
+msgid "Membres"
+msgstr "Membres"
+
+#: .\administration\models.py:352 .\administration\models.py:424
+#: .\amicale\models.py:136
+msgid "Agenda"
+msgstr "Agenda"
+
+#: .\administration\models.py:359 .\administration\models.py:434
+#: .\home\models.py:110
+msgid "Document"
+msgstr "Document"
+
+#: .\administration\models.py:360 .\administration\models.py:435
+msgid "Attachments"
+msgstr "Pièces jointes"
+
+#: .\administration\models.py:402
+msgid "Convocation"
+msgstr "Convocation"
+
+#: .\administration\models.py:403
+msgid "Sélectionnez la convocation associée."
+msgstr "Sélectionnez la convocation associée."
+
+#: .\administration\models.py:425 .\amicale\models.py:137 .\home\models.py:144
+msgid "This is the main content of the page."
+msgstr "Ceci est le contenu principal de la page."
+
+#: .\agents\models.py:56 .\home\models.py:116
+msgid "Title"
+msgstr "Titre"
+
+#: .\agents\models.py:72
+msgid "one category"
+msgstr "une catégorie"
+
+#: .\agents\models.py:73
+msgid "categories"
+msgstr "catégories"
+
+#: .\agents\models.py:92
+msgid "introduction"
+msgstr "introduction"
+
+#: .\agents\models.py:124
+msgid "Target for the answer"
+msgstr "Cible pour la réponse"
+
+#: .\agents\models.py:127
+msgid ""
+"The target only required if the question is contingent or specific. In this "
+"case, use this field to describe the targeted group. If there are multiple "
+"targets, fill in the 𝐭𝐚𝐫𝐠𝐞𝐭 fields for each answer. Otherwise, leave this "
+"field empty."
+msgstr ""
+"La cible est seulement requise si la question est conditionnelle ou spécifique. Dans ce cas, utilisez ce champ pour décrire le groupe ciblé. S'il y a plusieurs cibles, remplissez les champs 𝐭𝐚𝐫𝐠𝐞𝐭 pour chaque réponse. Sinon, laissez ce champ vide."
+
+#: .\agents\models.py:148
+msgid "Answer content"
+msgstr "Contenu de la réponse"
+
+#: .\agents\models.py:150
+msgid ""
+"Try to be as much exhaustive as possible. If the answer is a step by sted "
+"guide, use Headings (as step's names) and paragraphs (as step's "
+"explanation), headings will create achors (clickable & linkable). Use media "
+"to add images, videos, documents, etc."
+msgstr ""
+"Essayez d'être le plus exhaustif possible. Si la réponse est un guide étape par étape, utilisez des titres (comme noms d'étapes) et des paragraphes (comme explication d'étapes), les titres créeront des ancres (cliquables et liables). Utilisez les médias pour ajouter des images, vidéos, documents, etc."
+
+#: .\agents\models.py:169
+msgid "Category"
+msgstr "Catégorie"
+
+#: .\agents\models.py:172 .\agents\models.py:212
+msgid "Question"
+msgstr "Question"
+
+#: .\agents\models.py:176
+msgid "Target audience or choice"
+msgstr "Public cible ou choix"
+
+#: .\agents\models.py:178
+msgid ""
+"If the answer is contingent or targeted, enter a sub-question here to "
+"introduce the choice list for users. Otherwise, leave this field empty."
+msgstr ""
+"Si la réponse est conditionnelle ou ciblée, saisissez ici une sous-question "
+"pour introduire la liste des choix pour les utilisateurs. Sinon, laissez ce "
+"champ vide."
+
+#: .\agents\models.py:189
+msgid "Answer(s)"
+msgstr "Réponse(s)"
+
+#: .\agents\models.py:191
+msgid ""
+"Click on the ⊕ icon below to add an answer. If this is a multiple scenario "
+"question, add as many answers as needed."
+msgstr ""
+"Cliquez sur l'icône ⊕ ci-dessous pour ajouter une réponse. S'il s'agit d'une "
+"question à scénarios multiples, ajoutez autant de réponses que nécessaire."
+
+#: .\agents\models.py:198
+msgid "Faq Tags"
+msgstr "Balises FAQ"
+
+#: .\agents\models.py:208
+msgid "Sub-question (criteria)"
+msgstr "Sous-question (critères)"
+
+#: .\amicale\models.py:76
+msgid "Author imge"
+msgstr "Image de l'auteur"
+
+#: .\amicale\models.py:88
+msgid "Author"
+msgstr "Auteur"
+
+#: .\amicale\models.py:89
+msgid "Authors"
+msgstr "Auteurs"
+
+#: .\amicale\models.py:95
+msgid "tagged_items"
+msgstr "Articles marqués"
+
+#: .\amicale\models.py:107
+msgid ""
+"This is the text wich will be shown on the blog post list page. Take is as "
+"an excerpt."
+msgstr ""
+"C'est le texte qui sera affiché sur la page de la liste des articles de blog. "
+"Considérez-le comme un extrait."
+
+#: .\amicale\models.py:111 .\home\models.py:133
+msgid "Post date"
+msgstr "Date de publication"
+
+#: .\amicale\models.py:116
+msgid "Amicale Tags"
+msgstr "Balises Amicale"
+
+#: .\amicale\models.py:142
+msgid "Use a map?"
+msgstr "Utiliser une carte ?"
+
+#: .\amicale\models.py:143
+msgid "Check this box if you want to use a map."
+msgstr "Cochez cette case si vous souhaitez utiliser une carte."
+
+#: .\amicale\models.py:149 .\amicale\models.py:211
+msgid "Location"
+msgstr "Emplacement"
+
+#: .\amicale\models.py:150
+msgid "Select location on the map."
+msgstr "Sélectionnez l'emplacement sur la carte."
+
+#: .\amicale\models.py:156 .\amicale\models.py:205
+msgid "Address"
+msgstr "Adresse"
+
+#: .\amicale\models.py:157
+msgid "Address to geocode to get the location."
+msgstr "Adresse à géocoder pour obtenir l'emplacement."
+
+#: .\amicale\models.py:163
+msgid "Name to display for this point on the map."
+msgstr "Nom à afficher pour ce point sur la carte."
+
+#: .\amicale\models.py:168
+msgid "Link for the point on the map."
+msgstr "Lien pour le point sur la carte."
+
+#: .\amicale\models.py:191
+msgid "Blog information"
+msgstr "Informations sur le blog"
+
+#: .\amicale\models.py:194 .\home\models.py:156
+msgid "Content"
+msgstr "Contenu"
+
+#: .\amicale\models.py:197
+msgid "Image"
+msgstr "Image"
+
+#: .\amicale\models.py:198
+msgid "Gallery images"
+msgstr "Images de la galerie"
+
+#: .\amicale\models.py:213
+msgid "Name (marker)"
+msgstr "Nom (marqueur)"
+
+#: .\amicale\models.py:214
+msgid "Link (marker)"
+msgstr "Lien (marqueur)"
+
+#: .\amicale\models.py:216
+msgid "Map details"
+msgstr "Détails de la carte"
+
+#: .\amicale\models.py:266
+msgid "Caption"
+msgstr "Légende"
+
+#: .\amicale\models.py:267
+msgid "You can add a caption to the image (optional)."
+msgstr "Vous pouvez ajouter une légende à l'image (facultatif)."
+
+#: .\dashboard\wagtail_hooks.py:36
+msgid "Custom settings"
+msgstr "Paramètres personnalisés"
+
+#: .\dashboard\wagtail_hooks.py:43
+msgid "My custom settings"
+msgstr "Mes paramètres personnalisés"
+
+#: .\home\models.py:53
+msgid "URL"
+msgstr "URL"
+
+#: .\home\models.py:53
+msgid "Enter the URL."
+msgstr "Entrez l'URL."
+
+#: .\home\models.py:56
+msgid "Replacement Text"
+msgstr "Texte de remplacement"
+
+#: .\home\models.py:57
+msgid "Enter the visible text for this link (optional)."
+msgstr "Entrez le texte visible pour ce lien (facultatif)."
+
+#: .\home\models.py:62
+msgid "Link"
+msgstr "Lien"
+
+#: .\home\models.py:73
+#, python-brace-format
+msgid ""
+"\n"
+"            <div>\n"
+"                <video width=\"{1}\" height=\"{2}\" controls>\n"
+"                    {0}\n"
+"                    Your browser does not support the video tag.\n"
+"                </video>\n"
+"            </div>\n"
+"            "
+msgstr ""
+
+#: .\home\models.py:84
+#, python-brace-format
+msgid ""
+"\n"
+"            <div>\n"
+"                <audio controls>\n"
+"                    {0}\n"
+"                    Your browser does not support the audio element.\n"
+"                </audio>\n"
+"            </div>\n"
+"            "
+msgstr ""
+
+#: .\home\models.py:153
+msgid "Page informations"
+msgstr "Informations sur la page"
+
+#: .\intranet\settings\base.py:289
+msgid "French"
+msgstr "Français"
+
+#: .\intranet\settings\base.py:290
+msgid "English"
+msgstr "Anglais"
+
+#: .\intranet\settings\base.py:291
+msgid "Spanish"
+msgstr "Espagnol"
+
+#: .\templates\account\login.html:6 .\templates\account\login.html:9
+#: .\templates\account\login.html:44
+msgid "Sign In"
+msgstr "Se connecter"
+
+#: .\templates\account\login.html:16
+#, python-format
+msgid ""
+"\n"
+"  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
+"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte %(site_name)s et "
+"connectez-vous ci-dessous:\n"
+"  "
+msgstr ""
+
+#: .\templates\account\login.html:25
+msgid "or"
+msgstr "ou"
+
+#: .\templates\account\login.html:29
+#, python-format
+msgid ""
+"\n"
+"  Si vous n'avez pas encore créé de compte, veuillez <a "
+"href=\"%(signup_url)s\">vous inscrire</a> d'abord.\n"
+"  "
+msgstr ""
+
+#: .\templates\account\login.html:42
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié ?"
+
+#: .\templates\account\logout.html:5 .\templates\account\logout.html:8
+#: .\templates\account\logout.html:17 .\templates\account\profile.html:93
+msgid "Sign Out"
+msgstr "Se déconnecter"
+
+#: .\templates\account\logout.html:13
+msgid "Are you sure you want to sign out?"
+msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
+
+#: .\templates\account\logout.html:21
+msgid "No, stay logged in"
+msgstr "Non, rester connecté"
+
+#: .\templates\account\logout.html:22
+msgid "Return to site"
+msgstr "Revenir au site"
+
+#: .\templates\account\profile.html:6
+msgid "Profile"
+msgstr "Profil"
+
+#: .\templates\account\profile.html:10
+msgid "Account profile"
+msgstr "Profil du compte"
+
+#: .\templates\account\profile.html:19
+msgid "First name"
+msgstr "Prénom"
+
+#: .\templates\account\profile.html:25
+msgid "Last name"
+msgstr "Nom de famille"
+
+#: .\templates\account\profile.html:34 .\users\models.py:77
+msgid "Display name"
+msgstr "Nom d'affichage"
+
+#: .\templates\account\profile.html:40 .\users\models.py:83
+msgid "Date of birth"
+msgstr "Date de naissance"
+
+#: .\templates\account\profile.html:46 .\users\models.py:86
+msgid "Address line 1"
+msgstr "Adresse ligne 1"
+
+#: .\templates\account\profile.html:52 .\users\models.py:89
+msgid "Address line 2"
+msgstr "Adresse ligne 2"
+
+#: .\templates\account\profile.html:58 .\users\models.py:92
+msgid "Postal Code"
+msgstr "Code postal"
+
+#: .\templates\account\profile.html:64 .\users\models.py:95
+#: .\users\models.py:112
+msgid "City"
+msgstr "Ville"
+
+#: .\templates\account\profile.html:70
+msgid "Country"
+msgstr "Pays"
+
+#: .\templates\account\profile.html:76 .\users\models.py:106
+msgid "Mobile phone"
+msgstr "Téléphone mobile"
+
+#: .\templates\account\profile.html:82
+msgid "Additional information"
+msgstr "Informations supplémentaires"
+
+#: .\templates\account\profile.html:99
+msgid "Admin"
+msgstr "Admin"
+
+#: .\templates\account\signup.html:5
+msgid "Signup"
+msgstr "Inscription"
+
+#: .\templates\account\signup.html:8 .\templates\account\signup.html:23
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\templates\account\signup.html:12
+#, python-format
+msgid ""
+"\n"
+"  Vous avez déjà un compte ? Alors veuillez <a href=\"%(login_url)s\">vous connecter</"
+"a>.\n"
+"  "
+msgstr ""
+
+#: .\templates\agents\faq_category_index_page.html:13
+msgid "Showing FAQ pages in category"
+msgstr "Affichage des pages FAQ dans la catégorie"
+
+#: .\templates\agents\faq_category_index_page.html:23
+#: .\templates\agents\faq_tag_index_page.html:21
+#: .\templates\amicale\amicale_author_index_page.html:19
+#: .\templates\amicale\amicale_tag_index_page.html:19
+msgid "Revised:"
+msgstr "Révisé :"
+
+#: .\templates\agents\faq_category_index_page.html:26
+msgid "No FAQ pages found for this category."
+msgstr "Aucune page FAQ trouvée pour cette catégorie."
+
+#: .\templates\agents\faq_tag_index_page.html:13
+#: .\templates\amicale\amicale_tag_index_page.html:12
+msgid "Showing pages tagged with"
+msgstr "Affichage des pages taguées avec"
+
+#: .\templates\agents\faq_tag_index_page.html:24
+#: .\templates\amicale\amicale_tag_index_page.html:22
+msgid "No pages found for this tag."
+msgstr "Aucune page trouvée pour ce tag."
+
+#: .\templates\amicale\amicale_author_index_page.html:12
+msgid "Showing pages authored by"
+msgstr "Affichage des pages rédigées par"
+
+#: .\templates\amicale\amicale_author_index_page.html:22
+msgid "No pages found for this author."
+msgstr "Aucune page trouvée pour cet auteur."
+
+#: .\users\forms.py:14 .\users\forms.py:31 .\users\forms.py:45
+msgid "Commune"
+msgstr "Commune"
+
+#: .\users\models.py:79
+msgid "Will be shown e.g. when commenting"
+msgstr "Sera affiché, par exemple, lors de la rédaction de commentaires"
+
+#: .\users\models.py:100
+msgid ""
+"Enter a valid international mobile phone number starting with +(country code)"
+msgstr ""
+"Entrez un numéro de téléphone mobile international valide commençant par +(code pays)"
+
+#: .\users\models.py:105
+msgid "With country code and no spaces"
+msgstr "Avec le code pays et sans espaces"

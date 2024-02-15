@@ -1,0 +1,156 @@
+{% extends "wagtailusers/users/create.html" %}
+
+{% block fields %}
+    {% if form.is_active %}
+    <li>
+        {% include "wagtailadmin/shared/field.html" with field=form.is_active %}
+    </li>
+    {% endif %}
+    <section class="w-panel" id="mandatory_info-section" aria-labelledby="mandatory_info-heading" data-panel="">
+      <div class="w-panel__header">
+          <a class="w-panel__anchor w-panel__anchor--prefix" href="#mandatory_info-section" data-panel-anchor="" aria-labelledby="mandatory_info-heading">
+              <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+          </a>
+          <button class="w-panel__toggle" type="button" aria-label="Afficher/masquer la section" aria-describedby="mandatory_info-heading" data-panel-toggle="" aria-controls="mandatory_info-content" aria-expanded="true">
+              
+              <svg class="icon icon-placeholder w-panel__icon" aria-hidden="true"><use href="#icon-placeholder"></use></svg>
+          </button>
+          <h2 class="w-panel__heading w-panel__heading--label" id="mandatory_info-heading" data-panel-heading="">
+                  <span data-panel-heading-text="">Informations obligatoires</span>
+                  <div class="help cgs-panel-mb-1">A remplir par : Administrateur ou utilisateur.</div>
+          </h2>
+          <a class="w-panel__anchor w-panel__anchor--suffix" href="#mandatory_info-section" aria-labelledby="mandatory_info-heading">
+              <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+          </a>
+          <div class="w-panel__divider"></div>
+      </div>
+      <div id="mandatory_info-content" class="w-panel__content">
+        {% if form.separate_username_field %}
+            <li>{% include "wagtailadmin/shared/field.html" with field=form.username_field %}</li>
+        {% endif %}
+        <li>{% include "wagtailadmin/shared/field.html" with field=form.email %}</li>
+        <li>{% include "wagtailadmin/shared/field.html" with field=form.first_name %}</li>
+        <li>{% include "wagtailadmin/shared/field.html" with field=form.last_name %}</li>
+        <li>{% include "wagtailadmin/shared/field.html" with field=form.civility %}</li>
+        {% if form.password1 %}
+            <li>{% include "wagtailadmin/shared/field.html" with field=form.password1 %}</li>
+        {% endif %}
+        {% if form.password2 %}
+            <li>{% include "wagtailadmin/shared/field.html" with field=form.password2 %}</li>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="w-panel" id="elected_info-section" aria-labelledby="elected_info-heading" data-panel="">
+        <div class="w-panel__header">
+            <a class="w-panel__anchor w-panel__anchor--prefix" href="#elected_info-section" data-panel-anchor="" aria-labelledby="elected_info-heading">
+                <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+            </a>
+            <button class="w-panel__toggle" type="button" aria-label="Afficher/masquer la section" aria-describedby="elected_info-heading" data-panel-toggle="" aria-controls="elected_info-content" aria-expanded="false">
+                
+                <svg class="icon icon-placeholder w-panel__icon" aria-hidden="true"><use href="#icon-placeholder"></use></svg>
+            </button>
+            <h2 class="w-panel__heading w-panel__heading--label" id="elected_info-heading" data-panel-heading="">
+                    <span data-panel-heading-text="">Informations spécifiques</span>
+                    <div class="help cgs-panel-mb-1">A remplir par : Administrateurs (uniquement pour les élus).</div>
+            </h2>
+            <a class="w-panel__anchor w-panel__anchor--suffix" href="#elected_info-section" aria-labelledby="elected_info-heading">
+                <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+            </a>
+            <div class="w-panel__divider"></div>
+        </div>
+        <div id="elected_info-content" class="w-panel__content"  hidden="">
+            <section class="w-panel w-panel--nested w-panel--indented--1" id="municipality-section" aria-labelledby="municipality-heading" data-panel="">
+                <div class="w-panel__header">
+                  <a class="w-panel__anchor w-panel__anchor--prefix" href="#municipality-section" data-panel-anchor="" aria-labelledby="municipality-heading">
+                      <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+                  </a>
+                  <h2 class="w-panel__heading w-panel__heading--label" id="municipality-heading" data-panel-heading="">
+                          <span data-panel-heading-text="">Commune</span>
+                  </h2>
+                  <div class="w-panel__divider"></div>
+                </div>
+                <div id="municipality-content" class="w-panel__content">
+                    <li>{% include "wagtailadmin/shared/field.html" with field=form.municipality %}</li>
+                    <li>{% include "wagtailadmin/shared/field.html" with field=form.function_municipality %}</li>
+                </div>
+            </section>
+            <section class="w-panel w-panel--nested w-panel--indented--1" id="council-section" aria-labelledby="council-heading" data-panel="">
+                <div class="w-panel__header">
+                  <a class="w-panel__anchor w-panel__anchor--prefix" href="#council-section" data-panel-anchor="" aria-labelledby="council-heading">
+                      <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+                  </a>
+                  <h2 class="w-panel__heading w-panel__heading--label" id="council-heading" data-panel-heading="">
+                          <span data-panel-heading-text="">Conseil communautaire</span>
+                  </h2>
+                  <div class="w-panel__divider"></div>
+                </div>
+                <div id="council-content" class="w-panel__content">
+                    <li>{% include "wagtailadmin/shared/field.html" with field=form.function_council %}</li>
+                    <li>{% include "wagtailadmin/shared/field.html" with field=form.function_bureau %}</li>
+                </div>
+            </section>
+            <section class="w-panel w-panel--nested w-panel--indented--1" id="commission-section" aria-labelledby="commission-heading" data-panel="">
+              <div class="w-panel__header">
+                <a class="w-panel__anchor w-panel__anchor--prefix" href="#commission-section" data-panel-anchor="" aria-labelledby="commission-heading">
+                    <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+                </a>
+                <h2 class="w-panel__heading w-panel__heading--label" id="commission-heading" data-panel-heading="">
+                        <span data-panel-heading-text="">Commissions & groupes de travail</span>
+                </h2>
+                <div class="w-panel__divider"></div>
+              </div>
+              <div id="commission-content" class="w-panel__content">
+                  <li>{% include "wagtailadmin/shared/field.html" with field=form.commission %}</li>
+                  <li>{% include "wagtailadmin/shared/field.html" with field=form.function_commission %}</li>
+              </div>
+          </section>
+          <section class="w-panel w-panel--nested w-panel--indented--1" id="conference-section" aria-labelledby="conference-heading" data-panel="">
+            <div class="w-panel__header">
+              <a class="w-panel__anchor w-panel__anchor--prefix" href="#conference-section" data-panel-anchor="" aria-labelledby="conference-heading">
+                  <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+              </a>
+              <h2 class="w-panel__heading w-panel__heading--label" id="conference-heading" data-panel-heading="">
+                      <span data-panel-heading-text="">Conférence des maires</span>
+              </h2>
+              <div class="w-panel__divider"></div>
+            </div>
+            <div id="conference-content-hidden" class="w-panel__content">
+                <li>Non disponible</li>
+            </div>
+            <div id="conference-content" class="w-panel__content cgs-panel-hidden">
+                <li>{% include "wagtailadmin/shared/field.html" with field=form.function_conference %}</li>
+            </div>
+        </section>
+        </div>
+      </section>
+
+    <section class="w-panel" id="personal_info-section" aria-labelledby="personal_info-heading" data-panel="">
+      <div class="w-panel__header">
+          <a class="w-panel__anchor w-panel__anchor--prefix" href="#personal_info-section" data-panel-anchor="" aria-labelledby="personal_info-heading">
+              <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+          </a>
+          <button class="w-panel__toggle" type="button" aria-label="Afficher/masquer la section" aria-describedby="personal_info-heading" data-panel-toggle="" aria-controls="personal_info-content" aria-expanded="false">
+              
+              <svg class="icon icon-placeholder w-panel__icon" aria-hidden="true"><use href="#icon-placeholder"></use></svg>
+          </button>
+          <h2 class="w-panel__heading w-panel__heading--label" id="personal_info-heading" data-panel-heading="">
+                  <span data-panel-heading-text="">Informations optionnelles</span>
+                  <div class="help">A remplir par : Utilisateurs.</div>
+          </h2>
+          <a class="w-panel__anchor w-panel__anchor--suffix" href="#personal_info-section" aria-labelledby="personal_info-heading">
+              <svg class="icon icon-link w-panel__icon" aria-hidden="true"><use href="#icon-link"></use></svg>
+          </a>
+          <div class="w-panel__divider"></div>
+      </div>
+      <div id="personal_info-content" class="w-panel__content" hidden="">
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.address1 %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.address2 %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.zip_code %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.city %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.country %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.mobile_phone %}</li>
+          <li>{% include "wagtailadmin/shared/field.html" with field=form.date_of_birth %}</li>             
+      </div>
+    </section>
+{% endblock %}

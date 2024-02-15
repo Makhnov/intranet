@@ -1,0 +1,36 @@
+{% load wagtailcore_tags %}
+
+{% with value as block %}
+    <div class="faq-step-answers cgs-primary cgs-step">
+        <div class="steps-intro">
+            <!-- Affiche l'introduction des étapes si elle existe -->
+            INTRO : {{ block.steps_intro|richtext }}
+        </div>
+        <ol class="steps-list">
+            {% for item in block.steps %}
+                <li class="step-item">
+                    <div class="step-name cgs-swap">
+                        {{ item.step_item }}
+                        <a class="cgs-button cgs-swapable" title="Afficher">
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
+                        </a>
+                    </div>
+                    <div class="step-answer cgs-answer cgs-swap-hidden">
+                        {% for inner_block in item.step_answer %}
+                            {% if inner_block.block_type == 'single_answer' %}
+                                <div class="cgs-single cgs-answer">
+                                    {% include "agents/widgets/single_answer_block.html" with value=inner_block.value %}
+                                </div>     
+                            {% elif inner_block.block_type == 'multiple_answer' %}
+                                    {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}
+                            {% elif inner_block.block_type == 'step_answer' %}
+                                    {% include "agents/widgets/step_secondary_block.html" with value=inner_block.value %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endwith %}

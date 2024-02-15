@@ -1,0 +1,26 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+
+{% if answer_block.block_type == 'heading' %}
+    <h4>{{ answer_block.value }}</h4>
+{% elif answer_block.block_type == 'paragraph' %}
+    <p>{{ answer_block.value }}</p>
+{% elif answer_block.block_type == 'media' %}
+    <!-- Vous pouvez ajuster ce bloc pour afficher le media comme vous le souhaitez -->
+    {{ answer_block }}
+{% elif answer_block.block_type == 'image' %}
+    {% image answer_block.value fill-800x600 %}
+{% elif answer_block.block_type == 'link' %}
+    <a href="{{ answer_block.value }}">{{ answer_block.value }}</a>
+{% elif answer_block.block_type == 'embed' %}
+    {{ answer_block.value }}
+{% elif answer_block.block_type == 'list' %}
+    <ul>
+        {% for item in answer_block.value %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+{% elif answer_block.block_type == 'quote' %}
+    <blockquote>{{ answer_block.value }}</blockquote>
+{% elif answer_block.block_type == 'table' %}
+    {% include_block block %}
+{% endif %}

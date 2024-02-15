@@ -1,0 +1,25 @@
+{% load wagtailcore_tags %}
+
+{% with value as block %}
+    <div class="faq-multiple-secondary cgs-secondary cgs-multiple">
+        <div class="choices-intro">
+            <!-- Affiche l'introduction des choix conditionnels si elle existe -->
+            INTRO : {{ block.choices_intro|richtext }}
+        </div>
+        <div class="choices-tabs">
+            {% for item in block.choices %}
+                <div class="choice-tab" data-target="secondary-answer-{{ forloop.counter }}">
+                    <!-- Affiche le critère/la condition pour ce choix -->
+                    {{ item.choice_item }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="choices-content">
+            {% for item in block.choices %}
+                <div class="choice-answer cgs-answer" id="secondary-answer-{{ forloop.counter }}">
+                    {% include "agents/widgets/single_answer_block.html" with value=item.choice_answer %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endwith %}

@@ -1,0 +1,147 @@
+// Légère modification de la barre de navigation (lorsque la quickbar est un menu)
+cgs-quickbar nav.cgs-nav {
+    margin: 0 !important;
+
+    &.convoc {
+        border-right: 2px solid var(--cgs-quickbar-1);
+    }
+
+    li.nav-item, a.nav-link, a.nav-link img, a.nav-link svg {
+        height: calc(var(--nav-icon-size) + .5em);
+        width: calc(var(--nav-icon-size) + .5em);
+    }
+
+    ul.nav-box {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        height: calc(var(--nav-icon-size) + .5em);
+        
+        &:not(:last-child) {
+            border-bottom: 1px solid var(--cgs-quickbar-1);
+            &:first-child {
+                border-bottom: 2px solid var(--cgs-quickbar-1);
+            }
+        }
+        
+        &.single {
+            li.nav-item {
+                margin:0;
+                &:first-child:not(:last-child) {
+                    border-right: calc(5 * var(--cgs-stroke-width)) solid #000;
+                }
+            }
+        }
+        > p {
+            width: 100%;
+            text-align: center;
+            padding:0 .5em;
+            font-size: calc(var(--header-font-size) + .25em);
+        }
+
+        li.nav-item {
+            position: relative;
+            justify-content: center;
+            margin:0 calc(var(--nav-icon-margin) / 2);
+        }
+
+        a.nav-link {
+            padding:0;
+        }
+
+        li.nav-item > span {
+            position: absolute;
+            pointer-events: none;
+            bottom:0;
+            font-size: var(--header-font-size);
+            color: rgba(1, 1, 1, 0.5);
+        }
+    }
+}
+
+cgs-quickbar button img, cgs-quickbar button svg {
+    height: var(--quickbar-button-size);
+    width: var(--quickbar-button-size);
+}
+
+cgs-quickbar {
+    position: fixed;
+    z-index: 9999;
+    bottom: calc(var(--quickbar-button-size) + var(--footer-height) + 1em);
+    width: 100%;
+    max-width: var(--container-width);
+    overflow: visible;
+}
+
+// CONTAINER
+div.cgs-quickbar-container {
+    width: 100%;
+}
+
+// BOUTON
+button#cgs-userbar-trigger {    
+    all:initial;
+
+    position: absolute;
+    z-index: 9999;
+    cursor: pointer;
+   
+    left:1em;
+    height: var(--quickbar-button-size);
+    width: var(--quickbar-button-size); 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    background-color: transparent;
+
+    div.cgs-swapable {
+        height: var(--quickbar-button-size);
+        width: var(--quickbar-button-size);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        top: 2.5px;
+        left: 2.5px;
+        height: calc(var(--quickbar-button-size) - 5px);
+        width: calc(var(--quickbar-button-size) - 5px);
+        border-radius: 50%;
+        //background-color: red;
+        box-shadow: 
+            0 0 5px 0 rgba(0, 0, 0, .8),
+            2px 2px 8px 2px rgba(0, 0, 0, .4)
+        ;    
+    }
+}
+
+// CONTENU
+div.cgs-quickbar-content {
+    position: absolute;
+    z-index: 9998;
+    bottom: calc(-1* var(--quickbar-button-size));
+    left: calc(var(--quickbar-button-size) + .5em);
+
+    width: fit-content;
+    max-width: calc(var(--container-width) - (var(--quickbar-button-size) * 2) - 3.5em);
+    min-height: calc(var(--quickbar-button-size) - (var(--nav-icon-margin) / 4) - (var(--cgs-stroke-width) * 10));
+    padding: calc(var(--nav-icon-margin) / 8) calc(var(--nav-icon-margin) / 4);
+
+    display: flex!important;
+    justify-content: flex-start;
+    align-items: center;
+
+    background-color: white;
+    border: calc(5 * var(--cgs-stroke-width)) solid black;
+    border-radius: .5em;
+    
+    clip-path: inset(0 100% 0 0); /* Commence comme une ligne verticale au milieu */
+    transition: clip-path 0.5s ease-in-out;
+
+    &:not(.cgs-hidden) {
+        clip-path: inset(0 0 0 0);          
+    }
+}

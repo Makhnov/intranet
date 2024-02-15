@@ -1,0 +1,46 @@
+{% load wagtailcore_tags %}
+
+<ul class="{{ class_type }}-box theme">
+    {% for theme in themes %}
+            <li class="{{ class_type }}-item theme {% if theme.slug == selected %}cgs-selected{% endif %}">
+                <a 
+                    href="{% slugurl 'faq' %}?category={{ theme.slug }}"
+                    class="{{ class_type }}-link theme" 
+                    title="{{ theme.tooltip|default_if_none:'' }}" 
+                    alt="{{ theme.title|default_if_none:'' }}"
+                >
+                {% if theme.logo %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=theme.logo %}
+                {% endif %}
+                </a>
+                {% if class_type == "menu" %}
+                    <p>{{ theme.title }}</p>
+                {% endif %}
+            </li>
+    {% endfor %}
+    <li class="{{ class_type }}-item theme {% if request.GET.category == "*" %}cgs-selected{% endif %}">
+        <a 
+        href="{% slugurl 'faq' %}?category=*"
+        class="{{ class_type }}-link theme" 
+        title="Voire toutes les questions/réponses" 
+        alt="Toutes les FAQ"
+    >
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.all_faq %}
+    </a>
+    {% if class_type == "menu" %}
+        <p>Toutes</p>
+    {% endif %}
+    </li>
+    {% if index %}    
+        <li class="nav-item theme index{% if index %} cgs-selected{% endif %}">
+            <a 
+                href="{% slugurl 'faq' %}"
+                class="nav-link theme" 
+                title="Retour à l'index" 
+                alt="FAQ Index"
+            >
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            </a>
+        </li>
+    {% endif %}
+</ul>

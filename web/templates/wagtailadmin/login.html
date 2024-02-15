@@ -1,0 +1,74 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load i18n static wagtailadmin_tags %}
+
+{% block titletag %}{% trans "Sign in" %}{% endblock %}
+{% block bodyclass %}login{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.min.css' %}">
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+
+        <div class="header-bar cgs-content-block">
+            <h1>{% trans "Intranet Dashboard" %}</h1>
+        </div>       
+
+        <div class="messages" role="status">
+            {% if messages or form.errors %}
+                <ul>
+                    {% if form.errors %}
+                        {% for error in form.non_field_errors %}
+                            <li class="error">{{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="login-logo cgs-content-block">
+            <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
+            <h1>{% trans "Welcome !" %}</h1>
+        </div>
+
+        <form class="login-form cgs-content-block" action="{% url 'wagtailadmin_login' %}" method="post" autocomplete="off" novalidate>
+                {% csrf_token %}
+
+                {% url 'wagtailadmin_home' as home_url %}
+                <input type="hidden" name="next" value="{{ next|default:home_url }}" />
+
+                {% with username_value=form.username.value|default_if_none:'' %}
+                    {% formattedfield field=form.username classname="cgs-form-block" label_text="Identifiant" rendered_field='<input id="id_username" type="text" name="username" maxlength="150" value="'|add:username_value|add:'" required="">'|safe %}
+                {% endwith %}
+                {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required=""><span class="cgs-eye cgs-hidden"></span>' %}
+
+                <a class="reset-password cgs-form-block" href="{% url 'wagtailadmin_password_reset' %}">{% trans "Forgotten password?" %}</a>
+
+                {% trans "Remember me" as checkbox_text %}
+                {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me cgs-form-block" name="remember" text=checkbox_text %}
+
+            <footer class="form-actions cgs-form-block">
+                    <div class="fake button" style="position:absolute;">
+                        {% trans 'Connexion' %}
+                    </div>
+                    <button
+                        type="submit"
+                        class="button button-longrunning"
+                        data-controller="w-progress"
+                        data-action="w-progress#activate"
+                        data-w-progress-active-value="{% trans 'Connexion…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'Connexion' %}</em>
+                    </button>
+            </footer>
+        </form>
+
+        {% block below_login %}{% endblock %}
+
+    </main>
+{% endblock %} 

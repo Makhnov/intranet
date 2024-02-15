@@ -1,0 +1,61 @@
+# IDE and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Python
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+.python-version
+
+# Virtual environment
+/venv/
+.venv/
+venv/
+ENV/
+
+# Node.js dependencies
+node_modules/
+
+# Medias
+/media/
+
+# Compiled assets
+/static/
+/frontend/build/
+
+# Compiled Python files
+*.pyc
+
+# Temporary files
+*.tmp
+
+# Database files
+*.sqlite3
+*.db
+*.sql
+*.sql.gz
+
+# Environment variables file
+.env
+.env/
+
+# Log files
+logs/logs
+*.log
+
+# Credentials
+/files/ignore/
+
+# Cache files
+__pycache__/

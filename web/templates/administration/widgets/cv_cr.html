@@ -1,0 +1,16 @@
+{% if convocation or compte_rendu %}
+    <nav class="cgs-nav quickbar administration">
+        <ul class="nav-box single">
+            {% if convocation %}
+                {% with class_type="nav" item=convocation %}
+                    {% include 'administration/widgets/li_item.html' %}
+                {% endwith %}     
+            {% endif %}
+            {% if compte_rendu %}   
+                {% with class_type="nav" item=compte_rendu %}
+                    {% include 'administration/widgets/li_item.html' %}
+                {% endwith %}
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

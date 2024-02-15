@@ -1,0 +1,37 @@
+{% if wrapper %}
+    <div class="cgs-swap cgs-swap-wrapper">  
+{% endif %}
+
+<a 
+    class="{{ swap_class }} cgs-swapable" 
+    title={{ swap_initial }} 
+    {% if smooth %}data-smooth=True{% endif %} 
+    {% if horizontal %}data-width=True{% endif %} 
+>
+    {% if chevron %}
+        {% if horizontal %}        
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more_right %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less_left %}
+        {% else %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less %}
+        {% endif %}
+    {% elif cross %}    
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.open %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close %}
+    {% elif filter %}    
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.apply_filter %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter %}
+    {% else %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less %}    
+    {% endif %}
+</a>
+
+{% if heading %}
+    <p class="cgs-heading">{{ heading }}</p>
+{% endif %}
+
+{% if wrapper %}
+    </div>
+{% endif %}

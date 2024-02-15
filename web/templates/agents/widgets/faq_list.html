@@ -1,0 +1,82 @@
+{% load wagtailcore_tags %}
+
+{% if selected_category %}
+    <h2>FAQs pour la catégorie: {{ selected_category }}</h2>
+{% elif selected_tags %}
+    <h2>FAQs pour les tags: {{ selected_tags|join:", " }}</h2>
+{% else %}
+    <h2>Toutes les FAQs</h2>
+{% endif %}
+
+<!-- Itérer directement sur les FAQs regroupées par catégorie depuis le contexte -->
+{% for category, faqs_in_category in faqs.items %}
+    <div class="faqCategoryList">
+        <!-- Affichage du titre de la catégorie -->
+        <h3 class="mt-4 mb-3 thematique" id="{{ category.id }}">{{ category.title }}</h3>
+        <div class="thematique-block">
+            {% for faq in faqs_in_category %}
+                <div class="card mb-3">
+                    <div class="card-header" id="heading{{ faq.id }}">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left flex-grow-1" type="button" data-toggle="collapse" data-target="#collapse{{ faq.id }}" aria-expanded="true" aria-controls="collapse{{ faq.id }}">
+                                    {{ faq.question }}
+                                </button>
+                                <a class="btn btn-link btn-block text-right" href="{% pageurl faq %}" role="button" aria-pressed="true">+</a>
+                            </h2>
+                            <div class="faqinfos cgs-tags">
+                                {% for tag in faq.tags.all %}
+                                    <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">
+                                        <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
+                                            {{ tag.name }}
+                                        </button>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div id="collapse{{ faq.id }}" class="collapse" aria-labelledby="heading{{ faq.id }}">
+                        <div class="card-body">
+                            {% if faq.overview %}
+                                <div class="overview">{{ faq.overview|richtext }}</div>
+                            {% endif %}
+                            {% if faq.filter %}
+                                <div class="subquestion">{{ faq.filter }}</div>
+                            {% endif %}
+                            {% for block in faq.answers %}
+                                {% if block.block_type == 'faq_answer' %}
+                                    {% if block.value.target %}
+                                    <div class="accordion" id="answerList{{ forloop.counter }}">
+                                        <div class="card">
+                                            <div class="card-header" id="targetHeading{{ forloop.counter }}">
+                                                <h5 class="mb-0 ml-3">
+                                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#targetCollapse{{ forloop.counter }}" aria-expanded="false" aria-controls="targetCollapse{{ forloop.counter }}">
+                                                        {{ block.value.target }}
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="targetCollapse{{ forloop.counter }}" class="collapse" aria-labelledby="targetHeading{{ forloop.counter }}" data-parent="#collapse{{ faq.id }}">
+                                                <div class="card-body">
+                                                    {% for answer_block in block.value.answer_content %}
+                                                        {% include "agents/widgets/faq_answer_block_content.html" %}
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                        <div class="card-body">
+                                            {% for answer_block in block.value.answer_content %}
+                                                {% include "agents/widgets/faq_answer_block_content.html" %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}

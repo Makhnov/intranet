@@ -1,0 +1,13 @@
+{% load static i18n wagtailcore_tags wagtailimages_tags cgsimages_tags %}
+
+{% if intranet_icon and intranet_icon.is_svg %}    
+    {% with class=class_type %}
+        {{ intranet_icon|html_svg:class }}
+    {% endwith %}
+{% elif intranet_icon %}
+    {% image intranet_icon original as img %}
+    <img src="{{ img.url }}" alt="{{ intranet_icon.title }}" class="{{ class_type }}">
+{% else %}
+    {% srcset_image intranet.root_page.specific.logo height-200 as img %}
+    <img src="{{ img.url }}" alt="Icone par défaut" class="{{ class_type }}">
+{% endif %}

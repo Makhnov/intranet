@@ -1,0 +1,6 @@
+plugins.security.ssl.transport.pemcert_filepath: opensearch.pem
+plugins.security.ssl.transport.pemkey_filepath: opensearch-key.pem
+plugins.security.ssl.transport.pemtrustedcas_filepath: root-ca.pem
+plugins.security.ssl.http.enabled: false
+plugins.security.allow_unsafe_democertificates: true
+plugins.security.allow_default_init_securityindex: true

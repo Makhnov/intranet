@@ -1,0 +1,37 @@
+{% load static i18n wagtailcore_tags cgs_tags %}
+
+<div class="cgs-search cgs-swap-visible" id="searchColumn">           
+    <form id="faqFilterForm" action="{% pageurl page %}" method="get"> 
+        <fieldset class="active">
+            <legend>Filtres actifs :</legend>
+            <div id="activeQuery"></div>
+            <div id="activeCategory"></div>
+            <div id="activeTags"></div>
+        </fieldset>
+        <fieldset class="themes">
+            <legend>Filtrer par catégorie:</legend>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="category" value="*" id="allCategories" {% if not request.GET.category or request.GET.category == "*" %}checked{% endif %}>
+                <label class="form-check-label" for="allCategories">
+                    Toutes
+                </label>
+            </div>
+            {% for category in categories %}
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="category" value="{{ category.slug }}" id="category{{ category.id }}" {% if request.GET.category == category.slug %}checked{% endif %}>
+                <label class="form-check-label" for="category{{ category.id }}">
+                    {{ category.title }}
+                </label>
+            </div>
+            {% endfor %}
+        </fieldset> 
+        <fieldset class="tags">
+            <legend>Filtrer par tag:</legend>
+            {% for tag in popular_tags %}
+                <button type="button" class="btn btn-outline-primary tag-button" data-tag="{{ tag.tag.name }}">{{ tag.tag.name }}</button>
+            {% endfor %}
+        </fieldset>
+        <input type="hidden" name="query" placeholder="Rechercher" value="{{ request.GET.query }}">
+    </form>
+    <div class="cgs-block" id="faqFilterUrl" data-url="{% url 'faq_filter' %}" style="display: none;"></div>
+</div>

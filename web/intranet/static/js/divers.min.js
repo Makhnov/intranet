@@ -1,0 +1,1 @@
+console.log("Fichier divers.js chargé");

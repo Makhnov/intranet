@@ -1,0 +1,33 @@
+.cgs-button img, .cgs-button svg {
+    cursor: pointer;
+    height: 1.5em;
+    width: auto;
+    aspect-ratio: 1/1;
+}
+
+
+.choices-tabs {
+    .choice-tab {
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+    }
+}
+
+cgs-quickbar {
+    .cgs-search-menu {
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+    }
+    svg.cgs-quickbar-svg {
+        cursor: pointer;
+        height: var(--nav-icon-size);
+        width: auto;
+        aspect-ratio: 1/1;
+    }
+}

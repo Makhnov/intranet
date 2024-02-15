@@ -1,0 +1,10 @@
+{% load menu_tags restriction_tags %}
+
+{% for item in menu_items %}
+    {% if item.link_page %}
+        {% authorized_user item.link_page as visible %}
+        {% if visible %}
+            {% children_menu item.link_page max_levels=sub_level %}
+        {% endif %}
+    {% endif %}
+{% endfor %}

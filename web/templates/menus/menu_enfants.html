@@ -1,0 +1,63 @@
+{% load wagtailcore_tags menu_tags restriction_tags %}
+
+<ul class="{{ class_type }}-box {{ child_type }}{% if class_type == "nav" %} {{ item.text }}{% endif %}">
+    {% if menu_items %}
+        {% for child_item in menu_items %}
+            {% if child_item %}
+                {% if child_type in child_item.url %}
+                    <li 
+                        class="{{ class_type }}-item {{ child_type }} {% if child_item.href in page.url %}cgs-selected{% endif %}{% if child_item.slug %} {{ child_item.slug|slice:"0:6" }}{% endif %}"
+                        {% if child_item.item_year %}data-year="{{ child_item.item_year }}"{% endif %}
+                        {% if child_item.item_month %}data-month="{{ child_item.item_month }}"{% endif %}
+                        {% if child_item.item_day %}data-day="{{ child_item.item_day }}"{% endif %}
+                    >
+                        <a 
+                            href="{{ child_item.href }}" 
+                            class="{{ class_type }}-link {{ child_type }}" 
+                            id="{{ child_type }}Dropdown_{{ child_item.link_page.pk }}" 
+                            data-toggle="dropdown" 
+                            {% if child_item.tooltip %}
+                                title="{{ child_item.tooltip }}"
+                            {% else %}
+                                title="{{ child_item.slug|default_if_none:'' }}"
+                            {% endif %} 
+                            alt="{{ child_item.title|default_if_none:'' }}"
+                        >      
+                        {% if logo_type %}                                
+                            {% include 'widgets/images/logo.html' with intranet_icon=item.link_page.logo %}
+                        {% else %}
+                            {% if "Convocation" in child_item.title %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.convocation %}
+                            {% elif "Compte-rendu" in child_item.title %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.compte_rendu %}
+                            {% else %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=child_item.logo %}                                    
+                            {% endif %}
+                        {% endif %}
+                        </a>
+                        {% if show_menu_heading %}
+                            <p>{{ child_item.text }}</p>
+                        {% elif items_number == "all" or items_number == "administration" or items_number == "conseil" or items_number == "bureau" or items_number == "conference" %}
+                            <span>{{ child_item.slug|slice:"-10:-5" }}</span>
+                        {% endif %}
+                        {% if child_item.has_children_in_menu %}
+                            {% include 'widgets/children_menu.html' with menu_items=child_item.get_children_in_menu class_type=class_type child_type=child_type items_number=items_number show_menu_heading=show_menu_heading logo_type=logo_type %}
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if index_page %}
+            <li class="nav-item {{ child_type }} index {% if page.url == item.href %}cgs-selected{% endif %}">
+                <a 
+                    href="{{item.href}}"
+                    class="nav-link theme" 
+                    title="Retour à l'index" 
+                    alt="{{ child_type}} Index"
+                >
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+                </a>
+            </li>
+        {% endif %}
+    {% endif %}
+</ul>

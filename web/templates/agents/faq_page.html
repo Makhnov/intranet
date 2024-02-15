@@ -1,0 +1,95 @@
+{% extends "agents/faq_base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}cgs-faq page{% endblock %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="cgs-container cgs-faq">
+            <div class="cgs-page">
+                <!-- Affiche le titre de la FAQ -->
+                <h2>{{ page.title }}</h2>
+                
+                <!-- Affiche la catégorie de la FAQ, si elle existe -->
+                {% if page.category %}
+                    <div class="faq-category">
+                        Catégorie: {{ page.category }}
+                    </div>
+                {% endif %}
+                
+                <!-- Affiche la question de la FAQ -->
+                <div class="faq-question">
+                    <h3>Question : {{ page.question }}</h3>
+                </div>
+                
+                <!-- Affiche la(es) réponse(s) de la FAQ -->
+                <div class="faq-answers">
+                    <h3>Réponse(s) :</h3>
+                    {% for block in page.answer %}
+                        {% if block.block_type == 'single_answer' %}
+                            <div class="cgs-single cgs-answer">
+                                {% include "agents/widgets/single_answer_block.html" with value=block.value %}
+                            </div>                        
+                        {% elif block.block_type == 'multiple_answer' %}
+                            {% include "agents/widgets/multiple_answer_block.html" with value=block.value %}
+                        {% elif block.block_type == 'step_answer' %}
+                            {% include "agents/widgets/step_answer_block.html" with value=block.value %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                <!-- Affiche les FAQ liées, si elles existent -->
+                {% if page.related %}
+                    <div class="faq-related">
+                        <h3>Thèmes similaires</h3>
+                        {% for block in page.related %}
+                            {% include_block block %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <!-- Affiche les textes de loi liés, si ils existent -->
+                {% if page.law_texts %}
+                    <div class="faq-law-texts">
+                        <h3>Textes de loi</h3>
+                        {% for block in page.law_texts %}
+                            {% include_block block %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <!-- Affiche les tags liés à la FAQ, si ils existent -->
+                {% if page.tags.all %}
+                    <div class="faq-tags">
+                        <h3>Tags</h3>
+                        {% for tag in page.tags.all %}
+                            <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">
+                                <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
+                                    {{ tag.name }}
+                                </button>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Affiche les pages de FAQ par catégorie -->
+            <div class="faq-category-index">
+                {% for category in page.faqpages %}
+                    <div class="faq-category-item">
+                        <a href="{{ category.url }}">{{ category }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Affiche les pages de FAQ par tag -->
+            <div class="faq-tag-index">
+                {% for tag in page.faqpages %}
+                    <div class="faq-tag-item">
+                        <a href="{{ tag.url }}">{{ tag }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main> 
+{% endblock %}

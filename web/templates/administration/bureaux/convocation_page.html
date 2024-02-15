@@ -1,0 +1,30 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
+
+{% block extra_css %}
+    {% if is_pdf %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_pdf.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_bureau_pdf.min.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_bureau.min.css' %}">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Watermark -->
+    {% if settings.dashboard.PDFSettings.watermark %}
+        {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
+    {% endif %}
+
+    <!-- Logo -->
+    {% if settings.dashboard.PDFSettings.logo %}
+        {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+    {% endif %}
+
+    <!-- Image de pied de page -->
+    {% if settings.dashboard.PDFSettings.footer_image %}
+        {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+    {% endif %}
+</div>
+{% endblock %}

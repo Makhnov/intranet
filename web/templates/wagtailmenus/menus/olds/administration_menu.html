@@ -1,0 +1,23 @@
+{% load wagtailimages_tags menu_tags restriction_tags %}
+
+<ul class="{{ menu_type }}-menu">
+    {% for item in menu_items %}
+        {% if item.link_page %}
+            {% authorized_user item.link_page as visible %}
+            {% if visible %}
+                <li class="{{ menu_type }}-item{% if item.has_children_in_menu %} {{ menu_type }}-dropdown{% endif %}">
+                    <a href="{{ item.href }}" class="{{ menu_type }}-link{% if item.has_children_in_menu %} {{ menu_type }}-dropdown-toggle{% endif %}" id="{{ menu_type }}Dropdown_{{ item.link_page.pk }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-tooltip="{{ item.link_page.tooltip|default_if_none:'' }}">
+                        {% if item.link_page.logo %}
+                            {% image item.link_page.logo original as img %}
+                            <img src="{{ img.url }}" alt="{{ item.link_page.title }}">
+                        {% endif %}
+                    </a>
+                    <p>{{ item.text }}</p>
+                </li>
+            {% endif %}
+        {% else %}
+            {% comment %} Si l'élément du menu n'est pas une page {% endcomment %}
+        {% endif %}
+    {% endfor %}
+</ul>
+

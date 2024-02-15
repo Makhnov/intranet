@@ -1,0 +1,36 @@
+{% extends "administration/administration_base.html" %}
+{% load menu_tags cgs_tags static %}
+
+{% block body_class %}cgs-{{ item_type }} {% if item_type == "commissions" %}menu{% else %}list{% endif %}{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/menu.min.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+    {% if item_type == "commissions" %}
+        {% with class_type="menu" menu=children show_menu_heading=True logo_type=True %}
+            {% include 'administration/widgets/main_item.html' %}
+        {% endwith %}
+    {% else %}
+        {% with class_type="list" menu=children show_menu_heading=True %}
+            {% include 'administration/widgets/main_item.html' %}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block footer_mid %}
+    {% if item_type == "commission" or item_type == "commissions" %}
+        {% with class_type="nav" item_type="commissions" menu=commissions_menu logo_type=True index=True %}
+            {% include 'administration/widgets/ul_item.html' %}
+        {% endwith %}
+    {% else %}
+        {% with class_type="nav" item_type="administration" menu=admin_menu logo_type=True %}
+            {% include 'administration/widgets/ul_item.html' %}
+        {% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block quickbar %}
+    {% cv_cr %}     
+{% endblock %}

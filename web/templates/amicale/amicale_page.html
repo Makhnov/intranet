@@ -1,0 +1,110 @@
+{% extends "amicale/amicale_base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">{{ page.title }}</h1>
+        <p class="meta text-muted">{{ page.date }}</p>
+
+        {% with author=page.author %}
+            {% if author %}
+                <div class="author">
+                    <p>Posted by:</p>
+                    <ul>
+                        <li style="display: inline">
+                            <a href="{% slugurl 'auteur' %}?author={{ author.id }}">
+                                {% image author.author_image fill-40x60 style="vertical-align: middle" %}
+                                {{ author.name }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="author unknown">
+                    <p>Posted by:</p>
+                    <ul>
+                        <li style="display: inline">
+                            <a href="{% slugurl 'auteurs' %}?author=unknown">
+                                Unknown
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="row">
+        {% for item in page.gallery_images.all %}
+            <div class="col-md-4 mb-4">
+                {% image item.image fill-320x240 class="img-fluid" %}
+                <p class="text-center">{{ item.caption }}</p>
+            </div>
+        {% endfor %}
+        </div>
+
+        {% for block in page.body %}
+            <div class="mb-4">
+                {% if block.block_type == 'media' %}
+                    {{ block }}
+                {% elif block.block_type == 'heading' %}
+                    <h2>{{ block.value }}</h2>
+                {% elif block.block_type == 'paragraph' %}
+                    {{ block }}
+                {% elif block.block_type == 'image' %}
+                    {% image block.value fill-320x240 class="img-fluid" %}
+                {% elif block.block_type == 'document' %}
+                    <a href="{{ block.value.url }}">{{ block.value.title }}</a>
+                {% elif block.block_type == 'link' %}
+                    <a href="{{ block.value.url }}">{{ block.value.text|default:block.value.url }}</a>
+                {% elif block.block_type == 'embed' %}
+                    {% include "widgets/images/embed_block.html" with embed_block=block.value %}
+                {% elif block.block_type == 'list' %}
+                    <ul>
+                        {% for item in block.value %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                {% elif block.block_type == 'quote' %}
+                    <blockquote>
+                        {{ block.value }}
+                    </blockquote>
+                {% elif block.block_type == 'inscription' %}
+                    {% include_block block %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        {% if page.inscription_form %}
+            <div class="inscription-form mb-4">
+                {% for block in page.inscription_form %}
+                    {% include_block block %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if page.use_map %}
+        <div id="carte" class="mb-4"
+            data-lat="{{ page.lat }}" 
+            data-lng="{{ page.lng }}" 
+            data-point-name="{{ page.point_name }}" 
+            data-point-link="{{ page.point_link }}">
+        </div>
+        {% endif %}
+
+        <p><a href="{{ page.get_parent.url }}" class="btn btn-primary">Return to blog</a></p>
+        {% with tags=page.tags.all %}
+            {% if tags %}
+                <div class="tags">
+                    <p>Tags</p>
+                    {% for tag in tags %}
+                        <a href="{% slugurl 'amicale' %}?tag={{ tag.slug }}">
+                            <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
+                                {{ tag.name }}
+                            </button>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+{% endblock content %}

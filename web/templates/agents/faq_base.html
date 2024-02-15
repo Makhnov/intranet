@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags menu_tags cgs_tags %}
+
+{% block body_class %}cgs-faq {% if is_root %}menu{% else %}list{% endif %}{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/agents.min.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+  <script type="module" src="{% static 'js/agents.min.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+    <nav class="cgs-nav header">
+        {% with class_type="nav" %}
+            {% flat_menu 'home' show_menu_heading="True" max_levels=1 %}
+        {% endwith %}
+    </nav>
+{% endblock %}
+
+{% block footer_left %}
+  {% include 'widgets/search/faq_search.html' %}
+{% endblock %}
+
+{% block footer_mid %}
+	{% faq_themes class_type="nav" index=True %}
+{% endblock %}

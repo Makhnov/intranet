@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static menu_tags %}
+
+{% block body_class %}cgs-amicale list{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/amicale.min.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  {% if page.use_map %}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  {% endif %}
+{% endblock extra_css %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script type="module" src="{% static 'js/amicale.min.js' %}"></script>
+
+    {% if page.use_map %}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <script type="module" src="{% static 'js/amicale.min.js' %}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    <nav class="cgs-nav header">
+        {% with class_type="nav" %}
+            {% flat_menu 'home' show_menu_heading="True" max_levels=1 %}
+        {% endwith %}
+    </nav>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load wagtailcore_tags %}
+
+{% with value as block %}
+    <div class="faq-step-secondary cgs-secondary cgs-step">
+        <div class="steps-intro">
+            <!-- Affiche l'introduction des sous-étapes si elle existe -->
+            INTRO : {{ block.steps_intro|richtext }}
+        </div>
+        <ol class="steps-list">
+            {% for item in block.steps %}
+                <li class="step-item">
+                    <div class="step-name cgs-swap">
+                        {{ item.step_item }}
+                        <a class="cgs-button cgs-swapable" title="Afficher">
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
+                        </a>
+                    </div>
+                    <div class="step-answer cgs-answer cgs-swap-hidden">
+                        {% include "agents/widgets/single_answer_block.html" with value=item.step_answer %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+{% endwith %}

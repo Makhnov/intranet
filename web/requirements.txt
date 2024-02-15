@@ -1,0 +1,26 @@
+#DOCKER Python 3.10.12
+python-dotenv==1.0.0
+Django==5.0
+wagtail==6.0
+wagtail-generic-chooser==0.6.1
+gunicorn==21.2.0
+gevent==24.2.1
+redis==5.0.0
+django-allauth==0.54.0
+django-countries==7.5.1
+django-cors-headers==4.2.0
+django-weasyprint==2.2.2
+dj-rest-auth==4.0.1
+psycopg2-binary==2.9.9
+termcolor==2.4.0
+
+git+https://github.com/Makhnov/wagtailcache.git#egg=wagtail-cache
+git+https://github.com/Makhnov/wagtailguide.git#egg=wagtail-guide
+git+https://github.com/Makhnov/wagtailgeowidget.git#egg=wagtailgeowidget
+git+https://github.com/Makhnov/wagtailmedia.git#egg=wagtailmedia
+git+https://github.com/Makhnov/wagtailmenus.git#egg=wagtailmenus
+git+https://github.com/Makhnov/wagtailmodeladmin.git#egg=wagtail-modeladmin
+git+https://github.com/Makhnov/wagtailquickcreate.git#egg=wagtail-quick-create
+git+https://github.com/Makhnov/wagtailpdf#egg=wagtail-pdf-view
+git+https://github.com/Makhnov/wagtailjoyous.git#egg=ls.joyous
+git+https://github.com/Makhnov/wagtailforms.git#egg=wagtailstreamforms

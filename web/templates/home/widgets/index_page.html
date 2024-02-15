@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/divers.min.css' %}">
+{% endblock extra_css %}
+
+{% block body_class %}cgs-{{ item_type }} {{ class_type }}{% endblock %}
+
+{% block header %}
+    <nav class="cgs-nav header">
+        {% with class_type="nav" %}
+            {% flat_menu 'home' show_menu_heading="True" max_levels=1 %}
+        {% endwith %}
+    </nav>
+{% endblock %}
+
+{% block content %}
+<main class="main-content">          
+    <div class="cgs-container cgs-{{ item_type }}">
+            <div class="cgs-page">  
+                {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
+                <div class="cgs-search cgs-swap-visible" id="searchColumn">                             
+                    <form action="{{ request.path }}" method="get">
+                        <fieldset>
+                            <legend>Recherche</legend>
+                            <input type="text" name="query" placeholder="Rechercher..." value="{% if search_query %}{{ search_query }}{% endif %}">
+                        </fieldset>
+                        <fieldset>
+                            <legend>Type</legend>
+                            <label>
+                                <input type="radio" name="type" value="all" {% if type != "generic" and type != "download" and type != "form" %}checked{% endif %}>
+                                Tout
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="generic" {% if type == "generic" %}checked{% endif %}>
+                                Pages web
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="download" {% if type == "download" %}checked{% endif %}>
+                                Documents
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="form" {% if type == "form" %}checked{% endif %}>
+                                Formulaire
+                            </label>
+                        </fieldset>
+                        
+                        <button type="submit">Rechercher</button>
+                    </form>                        
+                </div>
+                
+                <div class="cgs-{{ class_type }}">
+                    {% for type, pages in grouped_subpages.items %}
+                        {% if pages %}
+                            {% if type == 'generic' %}
+                                <h2>Pages web</h2>
+                                <ul class="{{ class_type }}-box {{ item_type }} webpages">
+                                    {% for page in pages %}
+                                        <li class="{{ class_type }}-item {{ item_type }} webpage">
+                                            <a 
+                                                href="{{ page.url }}"
+                                                class="{{ class_type }}-link {{ item_type }} webpage" 
+                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
+                                                alt="{{ page.title|default_if_none:'' }}"
+                                                target="_blank"
+                                            >                                            
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.generic class_type="cgs-nofill cgs-small-icon" %}
+                                            <p>{{ page.title }}</p>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            
+                            {% if type == 'download' %}
+                                <h2>Documents</h2>
+                                <ul class="{{ class_type }}-box {{ item_type }} documents">
+                                    {% for page in pages %}
+                                        <li class="{{ class_type }}-item {{ item_type }} document">
+                                            <a 
+                                                href="{{ page.url }}"
+                                                class="{{ class_type }}-link {{ item_type }} document" 
+                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
+                                                alt="{{ page.title|default_if_none:'' }}"
+                                            > 
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill cgs-small-icon" %}
+                                            <p>{{ page.title }}</p>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            
+                            {% if type == 'form' %}
+                                <h2>Formulaires divers</h2>
+                                <ul class="{{ class_type }}-box {{ item_type }} formulaires">
+                                    {% for page in pages %}
+                                        <li class="{{ class_type }}-item {{ item_type }} formulaire">
+                                            <a 
+                                                href="{{ page.url }}"
+                                                class="{{ class_type }}-link {{ item_type }} formulaire" 
+                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
+                                                alt="{{ page.title|default_if_none:'' }}"
+                                            > 
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.form class_type="cgs-nofill cgs-small-icon" %}
+                                            <p>{{ page.title }}</p>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+            </div>
+        </main>    
+{% endblock content %}
+
+
+{% block extra_js %}
+  <script type="module" src="{% static 'js/divers.min.js' %}"></script>
+{% endblock %}

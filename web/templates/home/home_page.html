@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load static i18n wagtailcore_tags menu_tags restriction_tags %}
+
+{% block body_class %}cgs-home menu{% endblock %}
+
+{% block content %}
+    <main class="main-content">        
+        <div class="cgs-container cgs-home">
+            {% with class_type="menu" %}
+                {% flat_menu 'home' max_levels=1 %}
+            {% endwith %}
+        </div>
+    </main>    
+{% endblock %}
+
+{% block footer_mid %}    
+    {% with class_type="nav" logo_settings=True %}
+        {% flat_menu 'footer' show_menu_heading=False max_levels=1 %}
+    {% endwith %}
+{% endblock %}

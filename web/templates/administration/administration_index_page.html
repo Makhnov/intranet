@@ -1,0 +1,12 @@
+{% extends "administration/administration_base.html" %}
+{% load cgs_tags restriction_tags %}
+
+{% block content %}
+    {% with class_type="menu" item_type="administration" menu=admin_menu logo_type=True show_menu_heading=True %}
+        {% include 'administration/widgets/main_item.html' %}
+    {% endwith %}
+{% endblock %}
+
+{% block quickbar %}
+    {% cv_cr %}     
+{% endblock %}

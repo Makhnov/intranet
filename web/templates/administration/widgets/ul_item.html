@@ -1,0 +1,21 @@
+{% load wagtailcore_tags cgs_tags restriction_tags %}
+
+{% if menu %}
+    <ul class="{{ class_type }}-box {{ item_type }}">
+        {% for item in menu %}
+            {% include 'administration/widgets/li_item.html' %}
+        {% endfor %}
+        {% if index %}
+            <li class="nav-item {{ child_type }} index{% if page.slug == item_type %} cgs-selected{% endif %}">
+                <a 
+                    href="{% slugurl item_type %}"
+                    class="nav-link theme" 
+                    title="Retour à l'index" 
+                    alt="{{item_type}} Index"
+                >
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

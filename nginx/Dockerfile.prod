@@ -1,0 +1,74 @@
+FROM tutum/nginx
+RUN rm /etc/nginx/sites-enabled/default
+ADD sites-enabled/nginx_without_ssl /etc/nginx/sites-enabled/nginx_config
+
+# CMD ["nginx", "-g", "daemon off;"]
+# EXPOSE 80
+
+# FROM python:3.12.0-bullseye
+
+# # Création d'un utilisateur non-root pour des raisons de sécurité
+# RUN useradd -ms /bin/bash wagtail
+
+# # Installation des dépendances nécessaires et des locales en une seule commande RUN pour réduire les couches Docker
+# RUN apt-get update && apt-get install -y \
+#     build-essential \
+#     libpq-dev \
+#     libjpeg62-turbo-dev \
+#     zlib1g-dev \
+#     libwebp-dev \
+#     git \
+#     locales \
+#  && echo "fr_FR.UTF-8 UTF-8" > /etc/locale.gen \
+#  && locale-gen fr_FR.UTF-8 \
+#  && rm -rf /var/lib/apt/lists/*
+
+# # Mise à jour de pip et installation de Gunicorn
+# RUN python -m pip install --upgrade pip \
+#  && pip install "gunicorn==20.0.4"
+
+# # Configuration des variables d'environnement
+# ENV PYTHONUNBUFFERED=1 \
+#     PORT=8000 \
+#     LANG=fr_FR.UTF-8 \
+#     LANGUAGE=fr_FR:fr \
+#     LC_ALL=fr_FR.UTF-8
+
+# RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+# RUN source "$HOME/.cargo/env"
+# ENV PATH="/root/.cargo/bin:${PATH}"
+
+# # Exposition du port utilisé par le conteneur
+# EXPOSE 8000
+
+# # Définition du répertoire de travail
+# WORKDIR /app
+
+# # Copie du fichier de requirements et installation des dépendances Python
+# COPY requirements.txt .
+# RUN pip install -r requirements.txt
+
+# # Copie du reste du code source dans le conteneur
+# COPY . /app
+
+# # Collect static files.
+# RUN python manage.py collectstatic --noinput --clear
+
+# # Changement de la propriété du répertoire /app pour l'utilisateur wagtail et création du répertoire media
+# RUN chown -R wagtail:wagtail /app \
+#  && mkdir -p /app/media/ \
+#  && chmod -R 777 /app/media
+
+# # Copie et configuration du fichier entrypoint
+# # COPY ./compose/local/web/entrypoint.sh /entrypoint.sh
+# # RUN sed -i 's/\r$//g' /entrypoint.sh \
+# #  && chmod +x /entrypoint.sh
+
+# # Utilisation de l'utilisateur non-root pour exécuter l'application
+# USER wagtail
+
+# # Lancement de l'application Wagtail
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# # Lancement de l'application par entrypoint (migration, superuser, runserver, etc.)
+# # ENTRYPOINT ["/entrypoint.sh"]

@@ -1,0 +1,81 @@
+<main class="main-content">          
+    <div class="cgs-container cgs-{{ item_type }}">
+        {% if not is_menu %}
+            <div class="cgs-page">  
+                {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
+                <div class="cgs-search cgs-swap-visible" id="searchColumn">           
+                    <form action="{{ request.path }}" method="get">
+                        <fieldset>
+                            <legend>Recherche</legend>
+                            <input type="text" name="query" placeholder="Rechercher..." value="{% if search_query %}{{ search_query }}{% endif %}">
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Dates</legend>
+                            <input type="date" name="start_date" value="{% if start_date %}{{ start_date }}{% endif %}">
+                            <input type="date" name="end_date" value="{% if end_date %}{{ end_date }}{% endif %}">
+                        </fieldset>
+                        
+                        <fieldset>
+                            <legend>Type</legend>
+                            <label>
+                                <input type="radio" name="type" value="all" {% if type != "convocations" and type != "comptes_rendus" %}checked{% endif %}>
+                                Tout
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="convocations" {% if type == "convocations" %}checked{% endif %}>
+                                Convocations
+                            </label>
+                            <label>
+                                <input type="radio" name="type" value="comptes_rendus" {% if type == "comptes_rendus" %}checked{% endif %}>
+                                Comptes rendus
+                            </label>
+                        </fieldset>
+                        
+                        <button type="submit">Rechercher</button>
+                    </form>                        
+                </div>
+                <div class="cgs-list">
+        {% endif %}
+        {% if children.members_pages or children.convocation_pages_by_year or children.compterendu_pages_by_year %}
+            {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
+            <section class="cgs-members cgs-swap-hidden">
+                {% if members %}
+                    {% for function, members in members.items %}
+                        <h2>{{ function }}</h2>
+                        <ul>
+                            {% for member in members %}
+                                <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            </section>
+            <ul class="{{ class_type }}-box {{ item_type }}">
+                {% for year, convocations in children.convocation_pages_by_year.items %}
+                        <h2>Convocations {{ year }}</h2>
+                        {% for convocation in convocations %}
+                            {% include 'administration/widgets/li_item.html' with item=convocation %}
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+
+            <ul class="{{ class_type }}-box {{ item_type }}">
+                {% for year, compterendus in children.compterendu_pages_by_year.items %}
+                        <h2>Comptes-Rendus {{ year }}</h2>
+                        {% for compterendu in compterendus %}
+                            {% include 'administration/widgets/li_item.html' with item=compterendu %}
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            {% include 'administration/widgets/ul_item.html' %}
+        {% endif %}
+        
+        {% if not is_menu %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</main>    

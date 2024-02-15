@@ -1,0 +1,44 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+<div class="joy-ev-item cgs-shadow">
+
+  <div class="joy-ev-main cgs-swap">
+    <div class="joy-title joy-title--item">          
+      {% if event.image %}
+      <a class="joy-img-link joy-field">
+        {% image event.image original class="joy-img-link__img cgs-expandable" %}
+      </a>
+      {% endif %}
+      <h3><a class="joy-title__link" href="{{ url }}">{{ title }}</a></h3>
+      {% include 'widgets/images/swap.html' with chevron=True swap_class="joy-img-more joy-field " swap_initial="Afficher" %}
+    </div>
+
+    {% include "joyous/includes/when.html" %}
+    {% include "joyous/includes/where.html" %}
+  </div>
+
+  <div class="joy-ev-sub cgs-swap-hidden">
+    {% if event.details %}
+      {% if event.extra_information %}
+      <div class="joy-ev-extra joy-field">
+        {{ event.extra_information|richtext|truncatewords_html:150 }}
+      </div> 
+      {% endif %}
+      <div class="joy-ev-details joy-field">
+        {{ event.details|richtext|truncatewords_html:150 }}
+      </div>
+      {% else %}
+      {% if event.cancellation_details %}
+      <div class="joy-ev-details joy-field">
+        {{ event.cancellation_details|richtext }}
+      </div> 
+      {% endif %}
+    {% endif %}
+
+    {% if event.website %}
+    <div class="joy-ev-website joy-field">
+      <a class="joy-ev-website__link" href="{{ event.website }}" target="_blank">{{ event.website }}</a>
+    </div>
+    {% endif %}
+  </div>
+
+</div>   

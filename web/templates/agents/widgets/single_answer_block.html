@@ -1,0 +1,29 @@
+{% load wagtailcore_tags wagtailimages_tags embed_tags %}
+
+{% for sub_block in value %}
+    {% if sub_block.block_type == 'heading' %}
+        <h2>{{ sub_block.value }}</h2>
+    {% elif sub_block.block_type == 'paragraph' %}
+        {{ sub_block.value|richtext }}
+    {% elif sub_block.block_type == 'media' %}
+        <!-- Traiter le bloc média selon sa structure -->
+    {% elif sub_block.block_type == 'image' %}
+        {% image sub_block.value fill-300x300 %}
+    {% elif sub_block.block_type == 'document' %}
+        <a href="{{ sub_block.value.url }}">{{ sub_block.value.title }}</a>
+    {% elif sub_block.block_type == 'link' %}
+        <a href="{{ sub_block.value }}">{{ sub_block.value }}</a>
+    {% elif sub_block.block_type == 'embed' %}
+        {% include "widgets/images/embed_block.html" with embed_block=sub_block.value %}
+    {% elif sub_block.block_type == 'list' %}
+        <ul>
+            {% for item in sub_block.value %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% elif sub_block.block_type == 'quote' %}
+        <blockquote>{{ sub_block.value }}</blockquote>
+    {% elif sub_block.block_type == 'table' %}
+        <!-- Traiter le bloc table selon sa structure, par exemple en générant un tableau HTML -->
+    {% endif %}
+{% endfor %}

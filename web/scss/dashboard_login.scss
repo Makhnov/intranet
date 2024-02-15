@@ -1,0 +1,267 @@
+body.login, body.signup {    
+    font-family: rhino, sans-serif;
+    background: none;
+
+    *:not(em) {
+        color: white;
+    }
+}
+
+body.login #main, body.signup #main {
+    // background: radial-gradient(
+    //     100% 300.28% at 100% 0%, 
+    //     var(--wp--preset--color--greeng) 0%, 
+    //     var(--wp--preset--color--blue) 50%,
+    //     var(--wp--preset--color--bluegtest) 130%
+    // );
+    background: radial-gradient(
+        100% 300.28% at 115% -20%, 
+        var(--cgs-color-tertiary) 0%, 
+        var(--cgs-color-secondary) 50%,
+        var(--cgs-color-primary) 100%
+    );
+    // background: radial-gradient(
+    //     100% 300.28% at 110% -20%, 
+    //     var(--wstest3) 0%, 
+    //     var(--wptest1) 100%        
+    // );
+    border: none;
+    overflow: hidden;
+    padding: 0 3rem 1.5rem;
+    width: 50%;
+    max-width: 32rem;
+    min-width: 22rem;
+
+    .cgs-content-block:not(.header-bar) {
+        margin: 2rem auto;
+    }
+}
+
+#main {//header
+    .header-bar {
+        margin: 0 auto 1rem;
+    }
+
+    .header-bar {
+        position: relative;
+        width: calc(100% + 10rem);
+        background-image: url(../images/vague.svg);
+        background-size: cover;
+        background-position: bottom;
+        left: -5rem;
+        height: 5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        h1 {
+            margin:0;
+            color: var(--w-color-primary);
+        }
+    }
+}
+
+#main {//Messages
+    .messages {
+        width: calc(100% + 2rem);
+        left: -1rem;
+
+        ul li {
+            padding: 1em 1.25em;
+        }
+    }    
+}
+
+#main {//Logo
+    .login-logo {
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+
+        img {
+            width: 70%;
+            max-width: 15rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: clamp(2.25em, 4vw, 3em);
+            margin:0 auto;
+        }
+    }    
+}
+
+#main form.login-form {//Formulaire
+
+    max-width: 22.5rem;
+
+    label {
+        user-select: none;
+    }
+
+    .w-field__wrapper {// Bloc "field"
+        label {//Labels
+            width: fit-content;
+            padding: 0;
+            color:white;
+            position: absolute;
+
+            filter: contrast(40%);
+            transform: translate(0rem, .5rem);
+            transition: transform .25s ease-in-out, filter .35s linear, border-bottom .35s linear;          
+
+            &.w-field__label {
+                font-weight: 100;
+                font-size: 100%;
+            }
+
+            span {
+                display: none;
+            }
+        }
+
+        .w-field {//Div des inputs
+            .w-field__input {
+                margin-top: 0;
+                border-bottom: 2px solid whitesmoke;
+                padding: .25rem 0;
+
+                input:focus, 
+                input:focus-visible {
+                    outline: none!important; 
+                }
+
+                input:not([name='remember']) {
+                    all:initial;    
+                    width: 100%;                    
+                    color:white;
+                    font-size: 1.15rem;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .cgs-form-block:not(.password) {
+        margin: 0 auto 2rem;
+    }
+
+    .cgs-form-block.password {//Bloc mot de passe
+        margin: 0 auto .1rem;
+    }
+       
+    .cgs-form-block.reset-password {//Bloc mot de passe oublié
+        font-size: 75%;
+        font-weight: 300;
+    }
+
+
+    .cgs-eye {
+        position: absolute;
+        cursor: pointer;
+
+        height: 1.125rem;
+        width: 1.125rem;
+        transform: translateX(-1.125rem);
+
+        background-image: url(../images/hide-logo.png);
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        filter: brightness(0) invert(1);
+    }
+
+    .cgs-eye.cgs-hidden {
+        background-image: url(../images/show-logo.png);
+
+        &:hover {
+            animation: blink 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        }    
+    }
+   
+    //ANIMATION DES LABELS
+    .cgs-form-block.cgs-focus:not(.cgs-input), .cgs-form-block.cgs-input {
+        label {
+            filter: contrast(100%);
+            transform: translate(-.25rem, -1.25rem);
+            border-bottom: .5px solid whitesmoke;
+        }
+    }
+
+    label.remember-me {// Checkbox
+        margin-left:0!important;
+        width: fit-content;
+        font-weight: 100;
+        cursor: pointer;
+    }
+
+    footer.form-actions {// Bloc submit
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+    }
+    
+    footer.form-actions .button, footer.form-actions div.fake, section.signup-option button.signup {
+        margin-inline-start:0;
+        height: 2.5em;
+        width: fit-content;
+        padding: 0 2em;
+        border-radius: 2rem;
+        background-color: white;
+        color: var(--w-color-primary);
+        line-height: normal;
+        display: grid;
+        place-content: center;
+        
+        &.fake {
+            position:absolute;
+            z-index: 2;
+            cursor: pointer;
+        }
+    }
+
+    section.signup-option {
+        margin: 1.75rem auto 0;
+        padding-top: .65rem;
+        border-top: 1.5px solid whitesmoke;
+        font-size: .8rem;
+
+        p {            
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            align-content: center;
+            flex-wrap: wrap;
+            column-gap: .2rem;
+
+            span {
+                color: gainsboro;
+            }
+
+            span:first-of-type {
+                min-width: min-content;
+                flex:none;
+            }
+
+            span:nth-of-type(2) {
+                display: flex;
+                overflow: visible;
+                transform-origin:bottom ;
+                &:hover {
+                    transform: scale(1.1); 
+                    z-index: 1;
+                }
+            }   
+
+            a {
+                align-self: center;
+                justify-self: center;
+                font-weight: 700;
+                color: white;
+            }
+        }
+    }
+}

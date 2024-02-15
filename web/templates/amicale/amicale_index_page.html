@@ -1,0 +1,37 @@
+{% extends "amicale/amicale_base.html" %}
+
+{% block content %}
+<main class="main-content">
+    <div class="cgs-container cgs-amicale">    
+        <div class="cgs-page">         
+            {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
+            {% include "amicale/widgets/search.html" %}
+            
+            <div class="cgs-list amicale">
+                {% with class_type="list" cgs_type="amicale" %}
+                    {% if amicale_news %}
+                        <ul class="{{ class_type }}-box {{ cgs_type }}">
+                            <h2>Nouvelles du Cagire</h2>
+                            {% include "amicale/widgets/amicale_list.html" with menu=amicale_news item_type="news" %}
+                        </ul>
+                    {% endif %}
+
+                    {% if amicale_sorties%}
+                        <ul class="{{ class_type }}-box {{ cgs_type }}">
+                            <h2>Prochaines sorties</h2>
+                            {% include "amicale/widgets/amicale_list.html" with menu=amicale_sorties item_type="sorties" %}
+                        </ul>
+                    {% endif %}
+
+                    {% if amicale_divers%}
+                        <ul class="{{ class_type }}-box {{ cgs_type }}">
+                            <h2>Autres</h2>
+                            {% include "amicale/widgets/amicale_list.html" with menu=amicale_divers item_type="divers" %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

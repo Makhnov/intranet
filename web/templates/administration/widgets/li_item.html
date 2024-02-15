@@ -1,0 +1,38 @@
+{% load wagtailcore_tags static %}
+
+{% with item=item.specific %}
+    {% if item %}
+        <li 
+            class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}"
+            {% if item.item_year %}data-year="{{ item.item_year }}"{% endif %}
+            {% if item.item_month %}data-month="{{ item.item_month }}"{% endif %}
+            {% if item.item_day %}data-day="{{ item.item_day }}"{% endif %}
+        >
+            <a 
+                href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+                class="{{ class_type }}-link {{ item_type }}" 
+                title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
+                alt="{{ item.title|default_if_none:'' }}"
+            >
+                {% if class_type == "list" %}
+                    <p>{% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}</p>
+                {% else %}
+                    {% if logo_type %}                               
+                        {% include 'widgets/images/logo.html' with intranet_icon=item.logo %}
+                    {% else %}
+                        {% if "Convocation" in item.title %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.convocation class_type="cgs-nofill" %}
+                        {% elif "Compte-rendu" in item.title %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.compte_rendu class_type="cgs-nofill" %}
+                        {% else %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=item.logo class_type="cgs-nofill" %}                                    
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </a>
+            {% if show_menu_heading and not class_type == "list" %}
+                <p>{% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}</p>
+            {% endif %}            
+        </li>
+    {% endif %}
+{% endwith %}

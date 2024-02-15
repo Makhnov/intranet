@@ -1,0 +1,136 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
+
+{% block extra_css %}
+    {% if is_pdf %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_pdf.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil_pdf.min.css' %}">
+    {% else %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil.min.css' %}">
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Watermark -->
+    {% if settings.dashboard.PDFSettings.watermark %}
+        {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
+    {% endif %}
+
+    <!-- Logo -->
+    {% if settings.dashboard.PDFSettings.logo %}
+        {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+    {% endif %}
+  
+    <div class="grid-item grid-invitation">
+        <div class="grid-invitation-content">
+            <p>Date de la convocation : {{ page.date|date:"l d F Y" }}</p>
+            <p>Lieu de la réunion : {{ settings.dashboard.PDFSettings.locality }} (Hôtel communautaire)</p>
+            {% if titular %}
+                <p> {{ titular.0.civility }} {{ titular.0.identity }}, {{ titular.0.function }} de la communauté de communes.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+
+
+    <div class="grid-item grid-membres">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-dark"><u>Secrétaire de séance</u></h5>
+                <p>
+                    {{ page.secretary.civility }} {{ page.secretary.first_name }} {{ page.secretary.last_name.upper }} - {{ page.secretary.get_function_council_display }} 
+                    {% if page.secretary.function_commission == '2' %}
+                        en charge de la commission
+                    {% else %}
+                        de la commission
+                    {% endif %}
+                    {{ page.secretary.commission }}
+                </p>          
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-dark"><u>Titulaires Présents :</u></h5>
+                <p>
+                    {% for user in titular %}
+                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                    {% endfor %}
+                </p>          
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-dark"><u>
+                    {% if alternate|length == 1 %}
+                    suppléant présent
+                  {% else %}
+                    suppléants présents
+                  {% endif %}
+                  </u></h5>
+                <p>
+                    {% for user in alternate %}
+                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-dark"><u>Absents excusés ayant donné procuration :</u></h5>
+                <p>
+                    {% for user in replaced %}
+                        {{ user.absent_identity }} ({{ user.absent_municipality }}) a donné procuration à {{ user.substitute_identity }} {% if not forloop.last %}, {% else %}.{% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-dark"><u>Absents excusés :</u></h5>
+                <p>
+                    {% for user in unreplaced %}
+                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+        
+    </div>     
+
+    <div class="grid-item grid-odj">
+        <p>
+            {% if page.quorum %}
+                Monsieur le président fait l'appel, constate que le quorum est atteint.
+            {% else %}
+                Monsieur le président fait l'appel, constate que le quorum n'est pas atteint.
+            {% endif %}
+        </p>
+        {% for block in page.body %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+    
+    <div class="grid-item grid-documents">
+        <h4>Documents associés :</h4>
+        <ul>
+        {% for document in page.compterendu_documents.all %}
+            {% if document.document %}
+                <span>
+                    <a href="{{ document.document.url }}" target="_blank">{{ document.title }} |</a>
+                </span>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Image de pied de page -->
+    {% if settings.dashboard.PDFSettings.footer_image %}
+        {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+    {% endif %}
+</div>
+{% endblock %}

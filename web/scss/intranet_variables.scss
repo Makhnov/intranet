@@ -1,0 +1,406 @@
+:root {
+    --cgs-color-primary:rgb(0, 133, 111);
+    --cgs-color-secondary:rgb(0, 179, 189);
+    --cgs-color-tertiary:rgb(146, 214, 0);
+    
+    --cgs-logo-1:rgb(0, 135, 112);
+    --cgs-logo-2:rgb(0, 179, 190);
+    --cgs-logo-3:rgb(146, 212, 0);
+    --cgs-logo-4:rgb(146, 139, 129);
+    --cgs-logo-5:rgb(221, 72, 20);
+
+    --cgs-color-menu-1:hsl(188, 58%, 61%);
+    --cgs-color-menu-2:hsl(77, 66%, 61%);
+    --cgs-color-menu-3:hsl(168, 56%, 39%);
+    --cgs-color-menu-4:hsl(172, 49%, 59%);
+    --cgs-color-menu-5:hsl(21, 95%, 63%);
+
+    --wp--preset--color--blue: hsl(184, 100%, 37%);
+    --wp--preset--color--blueg: hsl(171, 100%, 28%);
+    --wp--preset--color--bluegtest: rgb(20, 77, 69);
+    --wp--preset--color--green: hsl(83, 48%, 56%);
+    --wp--preset--color--greeng: hsl(83, 67%, 62%);
+    --wp--preset--color--orange: hsl(20, 75%, 55%);
+
+    --cgs-quickbar-1: #6bd6e6;
+    --cgs-theme-light: #fff;
+    --cgs-theme-dark: #000;
+
+    --cgs-theme-light-1: #fff;
+    --cgs-theme-light-2: radial-gradient(100% 300.28% at 115% -20%,var(--cgs-color-secondary) 0,var(--cgs-color-primary) 100%);
+    --cgs-theme-light-2-bis: var(--cgs-color-menu-3);
+
+    --cgs-theme-dark-1: black;
+    --cgs-theme-dark-2: #000;
+    --cgs-theme-primary: #00b3be;
+
+    --wraper-color-menu: var(--cgs-theme-light-1);
+    --content-color-menu: var(--cgs-theme-light-2);
+    --wraper-color-list: var(--cgs-theme-light-2-bis);
+    --content-color-list: var(--cgs-theme-light-1);
+}
+
+
+@font-face {
+	font-family: 'rhino';
+	font-weight: 100;
+	src: url("../fonts/CoreRhino25Thin.otf") format("opentype")
+}
+@font-face {
+	font-family: 'rhino';
+	font-weight: 300;
+	src: url("../fonts/CoreRhino35Light.otf") format("opentype")
+}
+@font-face {
+	font-family: 'rhino';
+	font-weight: 400;
+	src: url("../fonts/CoreRhino45Regular.otf") format("opentype")
+}
+@font-face {
+	font-family: 'rhino';
+	font-weight: 700;
+	src: url("../fonts/CoreRhino65Bold.otf") format("opentype")
+}
+
+
+// TOUTES TAILLES D'ECRANS
+@media screen {
+    :root { 
+        // Epaisseur du trait des icones
+        --cgs-stroke-width: .6px;
+
+        // HAUTEUR DU CONTENU
+        --container-height: calc(100vh - var(--header-height) - 80px);
+
+        //FOOTER
+        --footer-height: 3.5em;
+
+        // ZONE DE RECHERCHE
+        --searchbox-width: 300px;
+
+        // Petites icones 
+        --small-icon-size: 1.25em;
+
+        // Moyennes icones
+        --mid-icon-size:1.5em;
+    }
+
+    body {
+        &.menu {
+            #courbure {
+                fill:var(--wraper-color-menu); 
+            }
+            #courbure_cache {
+                background-color:var(--wraper-color-menu);
+            }
+            div.cgs-content {
+                background: var(--content-color-menu);
+            }
+            footer nav {
+                background: var(--wraper-color-menu);
+            }
+        }
+        
+        &.list, &.page {
+            background:whitesmoke;
+
+            #courbure {
+                fill:var(--wraper-color-list); 
+            }
+            #courbure_cache {
+                background:var(--wraper-color-list);
+            }
+            div.cgs-content {
+                background: var(--content-color-list);
+            }
+            footer nav {
+                background: var(--wraper-color-list);
+            }
+            header {
+                .logo-pochoir {
+                    img {
+                        filter:invert(50%) sepia(46%) saturate(591%) hue-rotate(118deg) brightness(93%) contrast(86%)!important;
+                    }  
+                    &::before {
+                        background: white!important;   
+                    }
+                    &.right {
+                        &:nth-of-type(1):hover {
+                            &::before {
+                                background: #008770!important;
+                            }
+                        }
+                        &:nth-of-type(2):hover {
+                            &::before {
+                                background: #00b3be!important;
+                            }
+                        }
+                        &:nth-of-type(3):hover {
+                            &::before {
+                                background: #92d400!important;
+                            }
+                        }
+                        &:nth-of-type(4):hover {
+                            &::before {
+                                background: #928b81!important;
+                            }
+                        }
+                    }
+                }        
+                li:nth-of-type(2)  {
+                    span, p {
+                        color:var(--wraper-color-menu);
+                    }
+                }
+                nav.profile span.cache {
+                    background: var(--wraper-color-list)!important;
+                }   
+            }
+            footer {
+                nav.footer {
+                    cgs-search {
+                        input {
+                            color:var(--wraper-color-menu);
+                            border-bottom: 2px solid var(--wraper-color-menu);
+                        }
+                    }
+                    li.nav-item {
+                        &.cgs-selected::after {
+                            background: var(--wraper-color-menu)!important;
+                        }
+                        svg:not(.cgs-nofill), svg:not(.cgs-nofill) * {
+                            fill: var(--wraper-color-menu)!important;  
+                            stroke-width: 0!important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// TRES GRANDS ECRANS
+@media screen and (min-width: 1800px) {
+    :root {
+        // CGS-CONTENT
+        --container-width: 1600px;
+        
+        // HEADER (Général)
+        --header-height: 225px;
+        --header-font-size: .9rem;
+
+        // HEADER (Logo)
+        --logo-cagire-width:40%;
+
+        // HEADER (Navbar)        
+        --nav-icon-size: 2.5em;
+        --nav-icon-margin: 1.75em;
+
+        // HEADER (User menu)
+        --user-icon-size: 3.5em;  
+        --user-subicon-size: 3em;        
+        --user-icon-translation:4.5em;      
+        --user-icon-position: calc((var(--user-icon-size) - var(--user-subicon-size)) / 2);
+
+        // MAIN (Menu central)
+        --menu-content-width: 40%;
+        --menu-item-size: 4.5em;  
+        
+        // QUICKBAR
+        --quickbar-button-size: 3.5em;
+    }
+}
+
+// GRANDS ECRANS
+@media screen and (min-width: 1200px) and (max-width: 1799px) {
+    :root {
+        // CGS-CONTENT
+        --container-width: 1200px;        
+
+        // HEADER (Général)
+        --header-height: 200px;
+        --header-font-size: .85rem;
+
+        // HEADER (Logo)
+        --logo-cagire-width:50%;
+       
+        // HEADER (Navbar)        
+        --nav-icon-size: 2em;
+        --nav-icon-margin: 1.5em;
+
+        // HEADER (User menu)
+        --user-icon-size: 3em;     
+        --user-subicon-size: 2.75em; 
+        --user-icon-translation:4.125em;  
+        --user-icon-position: calc((var(--user-icon-size) - var(--user-subicon-size)) / 2);
+
+        // MAIN (Menu central)
+        --menu-content-width: 50%;
+        --menu-item-size: 4em;
+
+        // QUICKBAR
+        --quickbar-button-size: 3.25em;
+    }
+}
+
+// ECRANS MOYENS, TABLETTES
+@media screen and (min-width: 800px) and (max-width: 1199px) {
+    :root {
+        // CGS-CONTENT
+        --container-width: 768px;
+
+        // HEADER (Général)
+        --header-height: 175px;
+        --header-font-size: .8rem;
+
+        // HEADER (Navbar)        
+        --nav-icon-size: 1.8em;
+        --nav-icon-margin: 1em;
+
+        // HEADER (Logo)
+        --logo-cagire-width:70%;
+
+        // HEADER (User menu)
+        --user-icon-size: 2.75em;   
+        --user-subicon-size: 2.375em; 
+        --user-icon-translation:3.75em;            
+        --user-icon-position: calc((var(--user-icon-size) - var(--user-subicon-size)) / 2);
+
+        // MAIN (Menu central)
+        --menu-content-width: 60%;
+        --menu-item-size: 3.5em;
+
+        // QUICKBAR
+        --quickbar-button-size: 3em;
+    }
+
+    #courbure_cache {
+        display: block!important;
+    }
+}
+
+// PETITS ECRANS, GRAND SMARTPHONES
+@media screen and (min-width: 500px) and (max-width: 799px) {    
+    :root {
+        // CGS-CONTENT
+        --container-width: 100%;
+
+        // HEADER (Général)
+        --header-height: 125px;
+        --header-font-size: .65rem;
+
+        // HEADER (Logo)
+        --logo-cagire-width:70%;
+
+        // HEADER (Navbar)        
+        --nav-icon-size: 1.6em;
+        --nav-icon-margin: 0.7em;
+
+        // HEADER (User menu)
+        --user-icon-size: 2.2em;
+        --user-subicon-size: 1.6em;
+        --user-icon-translation: 2.5em;
+        --user-icon-position: calc((var(--user-icon-size) - var(--user-subicon-size)) / 2);
+
+        // MAIN (Menu central)
+        --menu-content-width: 75%;
+        --menu-item-size: 3em;
+
+        //FOOTER
+        --footer-height: 3em;
+
+        // QUICKBAR
+        --quickbar-button-size: 3em;
+    }
+    #courbure_cache {
+        display: block!important;
+    }
+    .cgs-nav .cgs-nav .nav-item p {
+        font-weight: 400;
+    }
+    .logo-section.right {
+        display: none!important;
+    }
+    .cgs-content header.cgs ul.header-menu li.header-item {
+        &:nth-child(1) {
+            width:30%;
+            
+            a.header-link {
+                width:100%;
+                justify-content: center;
+
+                .logo-section.right {
+                    display: none!important;
+                }
+            }
+        }
+        &:nth-child(2) {
+            width: 40%;
+        }   
+        &:nth-child(3) {
+            width: 30%;
+        }        
+    }
+}
+
+// TRES PETITS ECRANS, SMARTPHONES
+@media screen and (max-width: 499px) {
+    :root {
+        // CGS-CONTENT
+        --container-width: 100%;
+
+        // HEADER (Général)
+        --header-height: 110px;
+        --header-font-size: 0.5em;
+
+        // HEADER (Navbar)
+        --nav-icon-size: 1.5em;
+        --nav-icon-margin: 0.5em;
+
+        // HEADER (Logo)
+        --logo-cagire-width:70%;
+
+        // HEADER (User menu)
+        --user-icon-size: 1.9em;
+        --user-subicon-size: 1.4em;
+        --user-icon-translation: 2.15em;
+        --user-icon-position: calc((var(--user-icon-size) - var(--user-subicon-size)) / 2);
+
+        // MAIN (Menu central)
+        --menu-content-width: 80%;
+        --menu-item-size: 2.5em;
+
+        //FOOTER
+        --footer-height: 3em;
+
+        // QUICKBAR
+        --quickbar-button-size: 2.75em;
+    }
+    #courbure_cache {
+        display: block!important;
+    }
+    .cgs-nav .cgs-nav .nav-item p {
+        font-weight: 400;
+        letter-spacing: -1px;
+    }
+    .cgs-content header.cgs ul.header-menu li.header-item {
+        &:nth-child(1) {
+            width:30%;
+            
+            a.header-link {
+                width:100%;
+                justify-content: center;
+
+                .logo-section.right {
+                    display: none!important;
+                }
+            }
+        }
+        &:nth-child(2) {
+            width: 40%;
+        }   
+        &:nth-child(3) {
+            width: 30%;
+        }        
+    }
+}

@@ -1,0 +1,23 @@
+{% load menu_tags restriction_tags %}
+
+{% if menu_items %}
+    <ul class="{% if not is_root_menu %}dropdown-submenu-menu{% else %}dropdown-menu{% endif %}" aria-labelledby="{% if not is_root_menu %}navbarDropdownSub_{{ parent_page.pk }}{% else %}navbarDropdown_{{ parent_page.pk }}{% endif %}">
+    {% for item in menu_items %}
+        {% if item.href %}
+            {% authorized_user item as visible %}
+            {% if visible %}
+                <li class="{% if item.has_children_in_menu %}dropdown-submenu dropdown-item{% else %}dropdown-item{% endif %}">
+                    <a href="{{ item.href }}" class="{% if item.has_children_in_menu %}dropdown-link dropdown-toggle{% else %}dropdown-link{% endif %}" id="navbarDropdownSub_{{ item.pk }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ item.text }}({{ item.pk }})
+                    </a>
+                    {% if item.has_children_in_menu %}
+                        {% sub_menu item is_root_menu=False %}
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% else %}
+            <!-- Gérer ici le cas où l'item de sous-menu n'est pas lié à une page Wagtail -->
+        {% endif %}
+    {% endfor %}
+    </ul>
+{% endif %}

@@ -1,0 +1,841 @@
+/***************************************************************************************************************************************************************
+ * VARIABLES : \intranet\scss\intranet_variables.scss
+ **************************************************************************************************************************************************************/
+ 
+$cgs-logo: var(--cgs-logo-1), var(--cgs-logo-2), var(--cgs-logo-3), var(--cgs-logo-1), var(--cgs-logo-2), var(--cgs-logo-3);
+$cgs-orange: hsl(21, 95%, 63%);
+
+/***************************************************************************************************************************************************************
+ * GENERAL
+ **************************************************************************************************************************************************************/
+ 
+html {// INITIALISATIONS
+    scrollbar-width: none;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    
+    body {
+            
+        header ul, header li {
+            all:initial;
+        }
+        
+        .cgs-list ul, .cgs-list li, .cgs-list a, nav ul, nav li, cgs-quickbar ul, cgs-quickbar li {
+            all:initial;
+        }
+
+        main > p, main > div, main > div > ul, main > div > ul > li, p {
+            all:initial;
+        }
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        
+        .cgs-content, cgs-quickbar {
+            * {
+                font-family: 'rhino';
+            }
+            
+            &::-webkit-scrollbar {
+                display: none;
+            }
+    
+            a {
+                color: $cgs-orange;
+            }
+        }
+    }
+
+    header,footer {
+        z-index: 1000;
+    }
+    header, footer, cgs-quickbar {
+        user-select: none;        
+    }
+    .cgs-search a {
+        all:initial;
+    }
+    .cgs-small-icon, a.cgs-small-icon img, a.cgs-small-icon svg {
+        cursor: pointer;
+        height: var(--small-icon-size);
+        width: auto;
+        aspect-ratio: 1/1;
+    }
+    .cgs-mid-icon, a.cgs-mid-icon img, a.cgs-mid-icon svg {
+        cursor: pointer;
+        height: var(--mid-icon-size);
+        width: auto;
+        aspect-ratio: 1/1;
+    }
+}
+
+.cgs-hidden, .cgs-swap-hidden {// OBJETS CACHES (instant)
+    display: none!important;
+}
+
+.cgs-width-none {// OBJETS INVISIBLES (LARGEUR 0.3s)
+    transform: scaleX(0)!important;
+    width: 0!important;
+}
+
+.cgs-height-none {// OBJETS INVISIBLES (HAUTEUR 0.3s)
+    transform: scaleY(0)!important;    
+    height: 0% !important;
+}
+
+html {// IMAGES EN PLEIN ECRAN
+    img.cgs-expandable, svg.cgs-expandable {
+        cursor: move;
+    }
+    
+    .cgs-fullscreen-container {
+        display: flex;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    
+        img {
+            position: absolute;
+            cursor: initial;
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+    }
+}
+
+.cgs-shadow {// OMBRES SUR BLOCS (Amicale, calendrier)
+    position:relative!important;
+    
+    &:before, &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        z-index: -1;
+
+        width: calc(50% - 5px);
+        height: 20px;
+        bottom: 12px;
+
+        box-shadow: 0 15px 10px rgba(0, 0, 0, 0.7);
+      }
+
+      &::before {
+        transform: rotate(-1.5deg);
+        left:5px;
+        background-color: red;
+        //z-index: 10;
+      }
+
+      &::after {
+        transform: rotate(1.5deg);
+        right:5px;
+        background-color: green;
+        //z-index: 10;
+      }
+}
+
+/***************************************************************************************************************************************************************
+ * STRUCTURE GENERALE
+ **************************************************************************************************************************************************************/
+ 
+/***********************************************    BODY : [wagtail-userbar | cgs-content | cgs-quickbar]   ***************************************************/
+body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/***********************************************    CGS-QUICKBAR : intranet\scss\intranet_quickbar.scss   *****************************************************/
+/***********************************************    WAGTAIL-USERBAR : intranet\scss\dashboard.scss        *****************************************************/
+/***********************************************    CGS-CONTENT : [header | main | footer]                *****************************************************/
+div.cgs-content {
+    width: 100%;
+    max-width: var(--container-width);
+    
+    background: radial-gradient(
+        100% 300.28% at 115% -20%, 
+        var(--cgs-color-secondary) 0%,
+        var(--cgs-color-primary) 100%
+    );
+    box-shadow: 0px 0px .5em -.1em rgba(0, 0, 0, 0.75);
+
+    z-index: 0;
+}
+
+/***********************************************   HEADER                                                 *****************************************************/
+header.cgs {
+    position: fixed;
+    overflow-y: visible;
+    overflow-x: hidden;
+
+    width: var(--container-width);
+    height: var(--header-height);
+    padding-bottom: 16px;
+
+    #courbure {
+        filter: drop-shadow(0 .1em .25em rgba(0, 0, 0, 0.75));
+    }
+}
+
+/***********************************************   MAIN                                                   *****************************************************/
+main {    
+    width: 98%;    
+    margin:0 1%;    
+
+    height: fit-content;
+    min-height: var(--container-height);
+    padding: calc(var(--header-height) + 16px) 0 64px 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/***********************************************   FOOTER                                                 *****************************************************/
+div.cgs-content {//footer
+
+    footer.cgs, footer::before, footer > nav, footer div.cgs-box, footer ul.nav-box, footer li.nav-item, footer cgs-search {
+        height: var(--footer-height);
+    }
+
+    footer.cgs {
+        position: fixed;
+        bottom: 0;
+        width: var(--container-width);
+        padding-top: .5em;
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: -1;
+            bottom:0;
+            left:0;
+            width: 100%;
+            box-shadow: 0 .25em .75em rgba(0, 0, 0, 0.75);
+        }
+    }
+
+}
+
+/***************************************************************************************************************************************************************
+ * HEADER : [ul.header-menu | SVG(vague) | DIV(cache)]
+***************************************************************************************************************************************************************/
+
+/***********************************************    CACHE : intranet\scss\intranet_variables.scss (@medias  ***************************************************/
+#courbure_cache {
+    display:none;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 50px;
+}
+
+/***********************************************    VAGUE                                                   ***************************************************/
+#courbure {    
+    position: absolute;   
+    height: auto;
+    width: 100vw;
+
+    top: 0;
+    left: 0;
+    transform: translate(calc((100vw - var(--container-width)) / -2), calc(-100% + var(--header-height)));
+}
+
+/**************************    HEADER-MENU : [li.header-item (LOGO HOME) | li.header-item (MSG) + NAVBAR | li.header-item (USERMENU)]  *********************************/
+ul.header-menu {
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+ul.header-menu > li {
+    width: calc(100% / 3);  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:nth-of-type(1) {
+        display: flex;
+        height: 90%;
+    }
+    &:nth-of-type(2) {
+        display: grid;
+        grid-template-rows: 1fr auto auto 1fr 1fr;
+        grid-template-columns: 1fr;
+        place-content: center;
+        height: 100%;
+    }
+    &:nth-of-type(3) {      
+        height: 90%;
+    }
+}
+
+/***********************************************    LOGO CAGIRE                                             ***************************************************/
+ul.header-menu > li:nth-of-type(1) {  
+    @keyframes cgsRotation {
+        from {
+            background-position: 100% 50%;
+        }
+        to {
+            background-position: 0% 50%;
+        }
+    }
+
+    > a {
+        display: flex;
+        width: var(--logo-cagire-width);
+
+        > div {
+            width: 50%;
+            height: 100%;
+            flex:none;
+
+            &.logo-section.right {
+                display: flex;
+                flex-direction: column;
+                
+                > div {
+                    width: 100%;
+                    height: auto;
+                    flex:1 1 auto;
+                }
+            }
+        }
+    }
+
+    div {
+        position: relative;
+        display: inline-block;
+
+        &.logo-pochoir::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            mix-blend-mode: screen;
+        }
+
+        &.left {
+            &::before {
+                background-image: linear-gradient(to right, $cgs-logo);
+                background-size: 275% 100%;
+                transition: background-image 0.5s ease-out;
+            }
+    
+            &:hover::before {
+                animation: cgsRotation 2.75s linear infinite;
+            }
+        }
+        
+        &.right {
+            &::before {
+                transition: filter 0.5s linear;
+            }            
+            &:nth-child(1)::before {
+                background-color: var(--cgs-logo-1);
+            }
+            &:nth-child(2)::before {
+                background-color: var(--cgs-logo-2);
+            }
+            &:nth-child(3)::before {
+                background-color: var(--cgs-logo-3);
+            }
+            &:nth-child(4)::before {
+                background-color: var(--cgs-logo-4);
+            }
+            &:hover::before {
+                filter:brightness(1.5);
+            }
+        }
+    }
+
+    div img {
+        display: block;
+        position: relative;
+        width: 100%;        
+        height: auto;
+        transition: transform 0.5s ease;
+    }
+}
+
+/***********************************************    MESSAGE D'ACCUEIL                                       ***************************************************/
+ul.header-menu > li:nth-of-type(2) {
+    font-weight: bold;
+
+    span {
+        display: block;
+        width: 100%;
+        text-align: center;
+
+    }
+    span:first-of-type {
+        grid-row: 2;
+        grid-column: 1;
+        font-size: calc(var(--header-font-size) + .75em);
+    }
+    span:last-of-type {
+        grid-row: 3;
+        grid-column: 1;
+        font-size: calc(var(--header-font-size) + .25em);
+    }
+}
+
+/***********************************************    NAVIGATION (HEADER & FOOTER)                            ***************************************************/
+ul.nav-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    &:not(.home, .profile, .unlog) {
+        flex-wrap: wrap;
+    }
+
+    li.nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    li.nav-item:not(.cgs-selected, .unlog, .profile) {
+        a svg:not(.cgs-nofill), a img:not(.cgs-nofill) {
+            opacity: .6;
+            transition: opacity .3s ease-in-out;
+        }
+
+        &:hover a.nav-link svg, &:hover a.nav-link img {
+            fill: var(--cgs-color-menu-5) !important;
+            * {
+                fill: var(--cgs-color-menu-5) !important;
+            }
+        }
+    }
+
+    li.nav-item a.nav-link {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+
+        img, svg {
+            height: var(--nav-icon-size);
+            width: var(--nav-icon-size);
+            flex:none;
+        }
+    }
+    li.nav-item:not(.unlog, .profile, .index) svg:not(.cgs-nofill) {
+        fill: var(--cgs-logo-1)!important;     
+        * {
+            fill: var(--cgs-logo-1)!important;     
+        }
+    }
+}
+
+/***********************************************    HEADER                                                  ***************************************************/
+header nav.cgs-nav.header {
+    width: 100%;
+    grid-row: 5;
+    grid-column: 1;
+    margin-bottom: calc(var(--nav-icon-margin) + .5em);
+    align-self: end;
+
+    li.nav-item, a.nav-link {
+        height: var(--nav-icon-size);
+        width: var(--nav-icon-size);
+        flex:none;
+    }
+
+    li.nav-item {
+        justify-content: flex-start;
+        margin:0 var(--nav-icon-margin);
+    }
+
+    li.nav-item:not(.cgs-selected) p {
+        display:none;
+    }
+
+    li.nav-item.cgs-selected {
+        svg, img {
+            transform-origin: bottom;
+            transform: scale(1.2);
+        }
+    }
+
+    p {
+        margin:0;
+        font-size: calc(var(--header-font-size) + .2em);
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+/***********************************************    MENU UTILISATEUR GENERAL                                ***************************************************/
+ul.header-menu > li:nth-of-type(3) {
+    nav {
+        position: relative;
+    }
+    nav > ul {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/***********************************************    MENU UTILISATEUR CONNECTE                               ***************************************************/
+ul.header-menu > li:nth-of-type(3):not(.cgs-unlog) {
+    nav.profile {
+        position: relative;
+        width: var(--user-icon-size);
+        height: var(--user-icon-size);
+    }
+
+    nav.profile ul.nav-box {
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        img.avatar, svg.avatar {
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            z-index: 10;
+
+            & ~ span:not(.cache) {
+                transform: rotate(45deg) scale(.7);
+            }
+
+            &:hover ~ span:not(.cache) {
+                transform: rotate(45deg) scale(1);
+            }
+        }
+
+        span.cgs-arrow {
+            position: absolute;
+            display: block;
+            box-sizing: border-box;
+
+            &:not(.cache) {
+                border:1px solid black;
+                background-color: var(--cgs-logo-2);
+                top: 0;
+                left: 0;
+                height: var(--user-icon-size);
+                width: var(--user-icon-size);
+                transition: transform .3s ease-in-out;
+            }
+
+            &.cache {
+                background-color: white;
+                border-radius: 50%;
+                top: -.25em;
+                left: -.25em;
+                height: calc(var(--user-icon-size) + .5em);
+                width: calc(var(--user-icon-size) + .5em);
+            }
+        }
+    }
+
+    nav.profile ul.nav-box li.profile {
+        visibility: hidden;
+        position: absolute;
+        cursor: pointer;
+
+        height: var(--user-subicon-size);
+        width: var(--user-subicon-size);
+
+        top: var(--user-icon-position);
+        left: var(--user-icon-position);
+        transition: transform .4s;
+
+        a {
+            position: relative;
+            display: grid;
+            place-content: center;
+            overflow: hidden;      
+        }
+    
+        a svg, a img {
+            height: var(--user-subicon-size);
+            width: auto;    
+            aspect-ratio: 1/1;
+        }
+    }
+
+    nav.profile ul.cgs-open {
+        span:not(.cache) {
+            transform: rotate(45deg) scale(1)!important;
+        }
+
+        li.profile {
+            visibility: visible;
+    
+            &:nth-of-type(1) {
+                transform:translate(var(--user-icon-translation), 0);
+            }        
+            &:nth-of-type(2) {
+                transform:translate(0, var(--user-icon-translation));
+            }
+            &:nth-of-type(3) {
+                transform:translate(calc(-1 * var(--user-icon-translation)), 0);
+            }
+            &:nth-of-type(4) {
+                transform: translate(0, calc(-1 * var(--user-icon-translation)));
+            }
+        }
+    }
+}
+
+/***********************************************    MENU UTILISATEUR DECONNECTE                             ***************************************************/
+ul.header-menu > li:nth-of-type(3).cgs-unlog {
+    nav {
+        width: 100%;
+        height: 100%;
+    } 
+    
+    nav > ul {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+}
+
+/***************************************************************************************************************************************************************
+ * MAIN : [cgs-nav | cgs-container.cgs-{menu_type}]
+***************************************************************************************************************************************************************/
+
+/***********************************************    CONTAINER                                               ***************************************************/
+div.cgs-container {
+    height: 100%;    
+    flex:1 0 auto;
+    display: flex;
+    //Spécificités diverses (largeur, flex, etc.) dans les pages intranet_menus (pour les pages de menu) et intranet_pages (pour les autres)
+}
+
+/***************************************************************************************************************************************************************
+ * FOOTER : [LEFT (SEARCH, etc.) | NAV (UL, etc.) | RIGHT (INDEX, etc.)]
+***************************************************************************************************************************************************************/
+
+/***********************************************    NAVBAR                                                  ***************************************************/
+footer nav.footer.cgs-nav {   
+    position: relative;
+
+    margin:0;
+
+    display: grid;   
+    grid-template-columns: 1fr var(--footer-height) 1fr 1fr var(--footer-height) 1fr; // footer_left, icone_left, footer_center, icone_right, footer_right 
+    grid-template-rows: 1fr;
+
+    & > *:not(cgs-search) {
+        justify-self: center;
+        align-self: center;
+    }
+    &:first-child {
+        grid-column: 1;
+    }
+    & div.cgs-box {        
+        &.left {
+            grid-column: 2;
+        }
+        &.right {
+            grid-column: 5;
+        }
+    }
+    & ul.nav-box {
+        &:first-of-type {
+            grid-column: 3;
+        }
+        &:last-of-type {
+            grid-column: 4;
+        }
+        &:only-of-type {
+            grid-column: 3 / span 2;
+            &.home {
+                grid-column: 1 / span 6;
+            }
+        }
+    }
+    &:last-child {
+        grid-column: 6;
+    }
+    &.ul.nav-box:first-of-type {
+        grid-column: 3;
+    }
+
+    // Chevrons
+    div.cgs-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        svg, img {
+            height: calc(var(--nav-icon-size) + .25em);
+            width: calc(var(--nav-icon-size) + .25em);            
+        }
+    }
+
+    ul.nav-box {
+        width: fit-content;
+        max-width: calc(100% - calc((var(--nav-icon-margin) * 1.5) + var(--nav-icon-size)));
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow: scroll;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        &.convoc {
+            justify-content: flex-end;
+
+            li.convoc {
+                transform-origin:center;
+                &:first-child {
+                    transform: scale(.7);
+                }
+                &:last-child {
+                    transform: scale(1);
+                }
+            }
+        }
+
+        &.compte {
+            justify-content: flex-start;
+            li.compte-item {
+                transform-origin:center;
+                &:last-child {
+                    transform: scale(.7);
+                }
+                &:first-child {
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+
+    li.nav-item {
+        position: relative;
+        justify-content: center;
+        margin:0 calc(var(--nav-icon-margin) * 0.75);
+        &.home {
+            margin: 0 calc(var(--nav-icon-margin) * 1.25);
+        }
+
+        &.index {
+            position: absolute;
+            right: 0;
+        }
+        &.cgs-selected {
+            &::after {
+                content: "";
+                position: absolute;
+                top:calc((var(--footer-height) - var(--nav-icon-size)) / -2);
+                display: block;
+                height: calc(var(--nav-icon-size) + .75em);
+                width: calc(var(--nav-icon-size) + .75em);
+                background-color: var(--cgs-logo-1);
+                clip-path: polygon(50% 15%, 35% 0, 65% 0);
+            }
+        }
+    }
+
+    li.nav-item, a.nav-link {
+        flex:none;
+        width: fit-content;
+        height: fit-content;
+    }
+
+    a.nav-link img:not(.cgs-nofill), a.nav-link svg:not(.cgs-nofill) {
+        flex:none;
+        height: var(--nav-icon-size);
+        width: var(--nav-icon-size);
+    }
+
+    a.nav-link img.cgs-nofill, a.nav-link svg.cgs-nofill {
+        flex:none;
+        height: calc(var(--nav-icon-size) + .25em);
+        width: calc(var(--nav-icon-size) + .25em);
+    }
+    /* <p> Désactivés dans le HTML pour l'instant
+    li.nav-item {
+        &:not(:hover) p {
+            font-size: 0;
+        }
+        p {
+            position: absolute;
+            cursor: pointer;
+            pointer-events: none;
+            background-color: white;
+            border-radius:.2em;
+            top: 0;         
+            transition: .3s ease-in-out;
+        }    
+    }*/
+}
+
+/***********************************************    SEARCHBAR                                               ***************************************************/
+cgs-search {
+    align-self: flex-start;
+
+    display: flex;
+    justify-content: flex-start;
+    column-gap: calc(var(--nav-icon-margin) * .75);
+
+    svg {
+        cursor: pointer;
+
+        flex:none;
+        height: 1.75em;
+        width: 1.75em;
+        padding-left: 1em;
+        margin: auto 0;
+    }
+
+    form {
+        display: flex; 
+        height: 2em;
+        margin: auto 0;
+
+        input {
+            all:initial;
+            border-bottom: 2px solid var(--cgs-logo-1);
+            height: 100%;
+            width: 100%;
+
+            &.cgs-open {                
+                width:500px;
+                max-width:calc(100vw - ((var(--nav-icon-margin) * .75) + 4em));
+            }
+        }
+    }
+}
+

@@ -1,0 +1,59 @@
+# Utilisation d'une image Python officielle comme image de base
+FROM python:3.12.0-bullseye
+
+# Création d'un utilisateur non-root pour des raisons de sécurité
+RUN useradd -ms /bin/bash wagtail
+
+# Installation des dépendances nécessaires
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    libjpeg62-turbo-dev \
+    zlib1g-dev \
+    libwebp-dev \
+    git \
+ && rm -rf /var/lib/apt/lists/*
+
+# Mise à jour de pip
+RUN python -m pip install --upgrade pip
+
+# Configuration des variables d'environnement
+ENV PYTHONUNBUFFERED=1 \
+    PORT=8000 \
+    LANG=fr_FR.UTF-8 \
+    LANGUAGE=fr_FR:fr \
+    LC_ALL=fr_FR.UTF-8
+
+# Exposition du port utilisé par le conteneur
+EXPOSE 8000
+
+# Définition du répertoire de travail
+WORKDIR /app
+
+# Copie des fichiers de requirements et installation des dépendances Python
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Postgres Entrypoint
+# COPY entrypoint.sh .
+# ENTRYPOINT ["entrypoint.sh"]
+
+# Copie du code source dans le conteneur
+COPY . /app
+
+# Changement de la propriété du répertoire /app pour l'utilisateur wagtail
+RUN chown -R wagtail:wagtail /app
+
+# Collect static files.
+RUN python manage.py collectstatic --noinput --clear
+
+# Changement de la propriété du répertoire /app pour l'utilisateur wagtail et création du répertoire media
+RUN chown -R wagtail:wagtail /app \
+ && mkdir -p /app/media/ \
+ && chmod -R 777 /app/media
+
+# Utilisation de l'utilisateur non-root pour exécuter l'application
+USER wagtail
+
+# Commande exécutée au démarrage du conteneur
+# CMD ["gunicorn", "intranet.wsgi:application", "--bind", "0.0.0.0:8000"]

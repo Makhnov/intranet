@@ -1,0 +1,65 @@
+{% comment %} 
+    flat_menu (menu_inferieur.html est aussi un flat_menu)
+    arguments : class_type, menu_type, menu_items, show_menu_heading, url, max_level, sub_level, items_number, etc. 
+{% endcomment %}
+{% load menu_tags restriction_tags %}
+
+<ul class="{{ class_type }}-box {{ menu_type }}">
+    {% for item in menu_items %}
+        {% if item.link_page %}
+        {% authorized_user item.link_page as visible %}
+            {% if visible %}
+                <li class="{{ class_type }}-item {{ menu_type }} {% if item.link_page.url in page.url %}cgs-selected{% endif %}">
+                    <a 
+                        href="{{ item.href }}" 
+                        class="{{ class_type }}-link {{ menu_type }}"
+                        id="{{ menu_type }}Dropdown_{{ item.link_page.pk }}" 
+                        data-toggle="dropdown" 
+                        title="{{ item.link_page.tooltip|default_if_none:'' }}" 
+                        alt="{{ item.link_page.title|default_if_none:'' }}"
+                    >
+                    {% if logo_settings %}
+                        {% if show_menu_heading %}
+                            {% with intranet_icon=settings.dashboard.IntranetIcons|get_dynamic_attr:item.link_page.slug %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=intranet_icon class_type="cgs-nofill" %}
+                            {% endwith %}
+                        {% else %}
+                            {% include 'widgets/images/logo.html' with intranet_icon=item.link_page.logo class_type="cgs-nofill" %}
+                        {% endif %}
+                    {% else %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=item.link_page.logo %}
+                    {% endif %}
+                    </a>
+                    {% if show_menu_heading %}
+                        <p>{{ item.text }}</p>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% else %}
+            <li class="{{ class_type }}-item {{ menu_type }}">
+                <a 
+                    href="{{ item.href }}" 
+                    target="_blank"
+                    class="{{ class_type }}-link {{ menu_type }}"
+                    id="{{ menu_type }}Dropdown_{{ item.link_page.pk }}" 
+                    data-toggle="dropdown" 
+                    title="{{ item.text|default_if_none:'' }}" 
+                    alt="{{ item.handle|default_if_none:'' }}"
+                >
+                {% if logo_settings %}
+                    {% with intranet_icon=settings.dashboard.IntranetIcons|get_dynamic_attr:item.handle %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=intranet_icon class_type="cgs-nofill" %}
+                    {% endwith %}
+                {% else %}
+                    {% with intranet_icon=settings.dashboard.IntranetIcons|get_dynamic_attr:item.handle %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=intranet_icon %}
+                    {% endwith %}
+                {% endif %}
+                </a>
+                {% if show_menu_heading %}
+                    <p>{{ item.text }}</p>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

@@ -1,0 +1,34 @@
+{% load wagtailcore_tags wagtailimages_tags menu_tags restriction_tags cgsimages_tags %}
+{% wagtail_site as intranet %}
+
+<ul class="{{ menu_type }}-menu">
+    {% for item in menu_items %}
+        {% if item.link_page %}
+            {% authorized_user item.link_page as visible %}
+            {% if visible %}
+                <li class="menu-item {{ menu_type }}-item">
+                    <a 
+                        href="{{ item.href }}" 
+                        class="menu-link {{ menu_type }}-link" 
+                        id="{{ menu_type }}Dropdown_{{ item.link_page.pk }}" 
+                        data-toggle="dropdown" 
+                        title="{{ item.link_page.tooltip|default_if_none:'' }}" 
+                        alt="{{ item.link_page.title|default_if_none:'' }}"
+                    >
+                    {% if item.link_page.logo.is_svg %}
+                        {{ item.link_page.logo|html_svg }}
+                    {% elif item.link_page.logo %}
+                        {% image item.link_page.logo original as img %}
+                        <img src="{{ img.url }}" alt="{{ item.link_page.title }}">
+                    {% else %}
+                        {% srcset_image intranet.root_page.specific.logo height-200 %}
+                    {% endif %}
+                    </a>
+                    <p>{{ item.text }}</p>
+                </li>
+            {% endif %}
+        {% else %}
+            {% comment %} Si l'élément du menu n'est pas une page {% endcomment %}
+        {% endif %}
+    {% endfor %}
+</ul>

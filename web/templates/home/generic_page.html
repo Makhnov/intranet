@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags wagtailuserbar static %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/generic.min.css' %}">
+{% endblock extra_css %}
+
+{% block body_class %}template-genericpage{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <!-- Introduction -->
+        <div class="intro mb-4">
+            <p>{{ page.intro }}</p>
+        </div>
+
+        <!-- Date -->
+        {% if page.date %}
+            <div class="post-date mb-4">
+            <p>Posté le: {{ page.date|date:"d M Y" }}</p>
+            </div>
+        {% endif %}
+
+        <!-- Body content -->
+        <div class="page-body">
+            {% for block in page.body %}
+            <div class="mb-4">
+                {% if block.block_type == 'media' %}
+                {{ block }}
+                {% elif block.block_type == 'heading' %}
+                <h2>{{ block.value }}</h2>
+                {% elif block.block_type == 'paragraph' %}
+                {{ block }}
+                {% elif block.block_type == 'form' %}
+                {% include_block block %}
+                {% elif block.block_type == 'image' %}
+                <!-- Custom image rendering here -->
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="module" src="{% static 'js/generic.min.js' %}"></script>
+{% endblock %}

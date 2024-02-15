@@ -1,0 +1,118 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load i18n static wagtailadmin_tags account socialaccount %}
+
+{% block titletag %}{% trans "Sign Up" %}{% endblock %}
+{% block bodyclass %}login signup{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.min.css' %}">
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+        <div class="header-bar cgs-content-block">
+            <h1>{% trans "Sign Up" %}</h1>
+        </div>
+
+        <div class="messages" role="status">
+            {% if messages or form.errors %}
+                <ul>
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li class="error">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="login-logo cgs-content-block">
+            <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
+            <h1>{% trans "Welcome !" %}</h1>
+        </div>
+
+        {% if next and not request.user.is_authenticated %}
+        <p>{% trans "Please log in to access this page." %}</p>
+        {% endif %}   
+
+        <form class="login-form cgs-content-block" action="{% url 'account_signup' %}" method="post" autocomplete="off" novalidate>
+            {% csrf_token %}
+
+            {{ form.non_field_errors | safe }}
+            
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+            
+            <div class="w-field__wrapper cgs-form-block" data-field-wrapper="">
+                <label class="w-field__label" for="id_email" id="id_email-label">{% trans "Email" %}</label>
+                <div class="w-field w-field--char_field w-field--text_input" data-field="" data-contentpath="{{ field.name }}">
+                    <div class="w-field__errors" data-field-errors="">{{ field.errors }}</div>
+                    <div class="w-field__help" data-field-help=""></div>
+                    <div class="w-field__input" data-field-input="">
+                        <input type="email" name="email" autocomplete="email" maxlength="320" required="" id="id_email">
+                    </div>
+                </div>
+            </div>
+            <div class="w-field__wrapper cgs-form-block" data-field-wrapper="">
+                <label class="w-field__label" for="id_username" id="id_username-label">{% trans "Username" %}</label>
+                <div class="w-field w-field--char_field w-field--text_input" data-field="" data-contentpath="{{ field.name }}">
+                    <div class="w-field__errors" data-field-errors="">{{ field.errors }}</div>
+                    <div class="w-field__help" data-field-help=""></div>
+                    <div class="w-field__input" data-field-input="">
+                        <input type="text" name="username" autocomplete="username" minlength="1" maxlength="150" required="" id="id_username">
+                    </div>
+                </div>
+            </div>
+            <div class="w-field__wrapper cgs-form-block" data-field-wrapper="">
+                <label class="w-field__label" for="id_password1" id="id_password1-label">{% trans "Password" %}</label>
+                <div class="w-field w-field--char_field w-field--text_input" data-field="" data-contentpath="{{ field.name }}">
+                    <div class="w-field__errors" data-field-errors="">{{ field.errors }}</div>
+                    <div class="w-field__help" data-field-help=""></div>
+                    <div class="w-field__input" data-field-input="">
+                        <input type="password" name="password1" autocomplete="new-password" required="" id="id_password1">
+                        <span class="cgs-eye cgs-hidden"></span> 
+                    </div>
+                </div>
+            </div>
+            <div class="w-field__wrapper cgs-form-block" data-field-wrapper="">
+                <label class="w-field__label" for="id_password2" id="id_password2-label">{% trans "Password (again)" %}</label>
+                <div class="w-field w-field--char_field w-field--text_input" data-field="" data-contentpath="{{ field.name }}">
+                    <div class="w-field__errors" data-field-errors="">{{ field.errors }}</div>
+                    <div class="w-field__help" data-field-help=""></div>
+                    <div class="w-field__input" data-field-input="">
+                        <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2">
+                        <span class="cgs-eye cgs-hidden"></span> 
+                    </div>
+                </div>
+            </div>
+            <footer class="form-actions cgs-form-block">
+                <div class="fake button">
+                    {% trans 'Sign Up' %}
+                </div>
+
+                <button
+                    type="submit"
+                    class="button button-longrunning"
+                    data-controller="w-progress"
+                    data-action="w-progress#activate"
+                    data-w-progress-active-value="{% trans 'Signing Up…' %}"
+                >
+                    {% icon name="spinner" %}
+                    <em data-w-progress-target="label">{% trans 'Sign Up' %}</em>
+                </button>
+            </footer>
+
+            <section class="signup-option cgs-option-block">
+                <p>
+                    {% blocktrans %}
+                        <span>Already have an account? Please</span>
+                        <span><a href="{{ login_url }}">sign in.</a><span>
+                    {% endblocktrans %}
+                </p>
+            </section>
+        </form>
+    </main>
+{% endblock %}

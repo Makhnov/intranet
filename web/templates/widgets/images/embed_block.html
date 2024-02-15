@@ -1,0 +1,8 @@
+{# Blocs personnalisé pour choisir la taille d'une image lors de l'affichage (amicale) #}
+{% load wagtailcore_tags wagtailembeds_tags embed_tags %}
+
+{% with css_class=embed_block|get_css_class alternative_title=embed_block|get_alternative_title %}
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe title="{{ alternative_title }}" class="embed-responsive-item {{ css_class }}" src="{{ embed_block.embed_url|embedurl }}" allowfullscreen></iframe>
+</div>
+{% endwith %}

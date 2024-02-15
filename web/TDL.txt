@@ -1,0 +1,18 @@
+# AUTO menu pour les convoc et CR
+
+# Modifier les titres et slugs cachés ...???
+    AmicalePage
+    FaqPage
+
+# Documents privés pour pages publiques et ressources.
+# Liste convocations et compte rendus 
+
+# QUICKBAR SORTIES A VENIR
+# FAQ
+    QUICKBAR    
+    TAGS MORE
+
+git status
+git add .
+git commit -m "Migrations initiales"
+git push origin

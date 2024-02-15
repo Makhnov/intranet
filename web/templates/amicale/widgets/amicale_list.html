@@ -1,0 +1,72 @@
+{% load i18n static wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags %}
+
+{% for item in menu %}
+    <li 
+        class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}"
+        {% if item.item_year %}data-year="{{ item.item_year }}"{% endif %}
+        {% if item.item_month %}data-month="{{ item.item_month }}"{% endif %}
+        {% if item.item_day %}data-day="{{ item.item_day }}"{% endif %}
+    >
+        <a 
+            href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+            class="{{ class_type }}-link {{ item_type }}" 
+            title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
+            alt="{{ item.title|default_if_none:'' }}"
+        >
+            {% if cgs_type == "amicale" %}
+                {% with class_type="cgs-nofill cgs-mid-icon" %}
+                    {% if item_type == "news" %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news %}
+                    {% elif item_type == "sorties" %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_sorties %}
+                    {% elif item_type == "divers" %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers %}
+                    {% else %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_none %}
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+            {% if class_type == "list" %}
+                <p>{% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}</p>
+            {% elif cgs_type == "administration" %}            
+                {% if logo_type %}                               
+                    {% include 'widgets/images/logo.html' with intranet_icon=item.logo %}
+                {% else %}
+                    {% if "Convocation" in item.title %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.convocation class_type="cgs-nofill" %}
+                    {% elif "Compte-rendu" in item.title %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.compte_rendu class_type="cgs-nofill" %}
+                    {% else %}
+                        {% include 'widgets/images/logo.html' with intranet_icon=item.logo class_type="cgs-nofill" %}                                    
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        </a>
+        {% if show_menu_heading and not class_type == "list" %}
+            <p>{% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}</p>
+        {% endif %}    
+        {% if cgs_type == "amicale" %}
+            {% comment %} auteur par défaut : unknown {% endcomment %}
+            <p>
+                {% if item.date %}
+                    {% trans "on"|capfirst %} {{ item.date | date:"d M Y." }} 
+                {% endif %}
+                {% if item.author %}                
+                    {% trans "Edited by" %} {{ item.author }}. 
+                    {% if item.author.author_image %}
+                        {% with item.author.author_image as img %}
+                            <a 
+                                href=""
+                                class="{{ class_type }}-link {{ item_type }}"
+                                title="Toutes les publications de {{ item.author.name }}"
+                                alt="{{ img.title|default_if_none:'' }}"
+                            >
+                                {% image item.author.author_image fill-60x40 %}
+                            </a>
+                        {% endwith %}
+                    {% endif %}
+                {% endif %}
+            </p>
+        {% endif %}    
+    </li>
+{% endfor %}
