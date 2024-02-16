@@ -11,8 +11,3 @@
 # FAQ
     QUICKBAR    
     TAGS MORE
-
-git status
-git add .
-git commit -m "Migrations initiales"
-git push origin
