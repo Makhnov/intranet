@@ -15,34 +15,41 @@ services:
       - "8000:8000"
     depends_on:
       - db
-      # - redis      
     env_file:
       - ./web/.env/.env.prod
     networks:
       - wagtail
     command: gunicorn intranet.wsgi:application --workers 4 --threads 4 --bind 0.0.0.0:8000
 
-
   nginx:
     container_name: nginx
     restart: unless-stopped
-    build: 
-      context: ./nginx/
-      dockerfile: ./Dockerfile.prod
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.prod
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./web/static:/static
-      - ./web/media:/media
-      - ./nginx/ssl:/etc/nginx/ssl
-      - ./nginx/logs:/etc/nginx/logs
+      - static_volume:/home/app/web/static
+      - media_volume:/home/app/web/media
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     depends_on:
       - web
-
     networks:
-      - wagtail    
+      - wagtail
 
+  certbot:
+    container_name: CertBot
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    networks:
+      - wagtail
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   db:
     container_name: db
@@ -57,15 +64,6 @@ services:
     networks:
       - wagtail
 
-  # redis:
-  #   container_name: redis
-  #   restart: always
-  #   image: "redis:alpine"
-  #   ports:
-  #     - "6379:6379"
-  #   networks:
-  #     - wagtail
-
 networks:
   wagtail:
     driver: bridge
@@ -74,3 +72,13 @@ volumes:
   postgres_data:
   static_volume:
   media_volume:  
+
+  
+  # redis:
+  #   container_name: redis
+  #   restart: always
+  #   image: "redis:alpine"
+  #   ports:
+  #     - "6379:6379"
+  #   networks:
+  #     - wagtail

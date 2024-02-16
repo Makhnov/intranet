@@ -1,6 +1,10 @@
-FROM tutum/nginx
-RUN rm /etc/nginx/sites-enabled/default
-ADD sites-enabled/nginx_without_ssl /etc/nginx/sites-enabled/nginx_config
+FROM nginx:1.21.6
+
+# Suppression de la configuration par défaut de Nginx
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copie de la nouvelle configuration de Nginx
+COPY nginx.conf /etc/nginx/conf.d
 
 # CMD ["nginx", "-g", "daemon off;"]
 # EXPOSE 80
