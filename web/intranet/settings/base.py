@@ -164,8 +164,8 @@ MIDDLEWARE = [
     # FetchFromCacheMiddleware must come LAST in the list of middleware to correctly cache everything
     "django.contrib.sessions.middleware.SessionMiddleware",
     "wagtailcache.cache.UpdateCacheMiddleware",  # First
-    "wagtailcache.cache.FetchFromCacheMiddleware",  # Last
     "django.middleware.common.CommonMiddleware",
+    "wagtailcache.cache.FetchFromCacheMiddleware",  # Last
     "django.middleware.csrf.CsrfViewMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -473,3 +473,5 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
         }
     }
 }
+
+SECURE_SSL_REDIRECT = False
