@@ -6,10 +6,17 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
+# Arrête les services et supprime les volumes et réseaux externes
+echo "### Shutting down containers and removing external volumes and networks"
+docker-compose -f /home/webmaster/docker_intranet/docker-compose.prod.yml down
+docker volume rm static_volume
+docker volume rm media_volume
+docker network rm frontend
+
 # Configuration
 domains=(intranet.cagiregaronnesalat.fr)
 rsa_key_size=4096
-data_path="./web/data/certbot"
+data_path="/home/webmaster/docker_intranet/data/certbot"
 email="service.informatique@cagiregaronnesalat.fr" # Remplacer par votre adresse email réelle
 staging=1 # Utiliser 1 pour le mode test afin d'éviter d'atteindre les limites de requêtes
 
@@ -32,6 +39,10 @@ fi
 
 # Démarre les services avec docker-compose.prod.yml
 echo "### Starting the docker-compose file"
+docker volume create static_volume 
+docker volume create media_volume 
+docker volume create ssl_volume 
+docker network create frontend
 docker-compose -f /home/webmaster/docker_intranet/docker-compose.prod.yml up -d
 
 # Demande le certificat SSL pour les domaines
@@ -61,7 +72,3 @@ docker-compose -f /home/webmaster/docker_intranet/docker-compose.prod.yml run --
     --agree-tos \
     --force-renewal" certbot
 echo
-
-# Arrête les services
-echo "### Shutting down the docker-compose"
-docker-compose -f /home/webmaster/docker_intranet/docker-compose.prod.yml down

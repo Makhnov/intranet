@@ -30,6 +30,11 @@ load_dotenv(dotenv_path)
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG")
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", False)
+DJANGO_SECURE_BROWSER_XSS_FILTER=os.environ.get("DJANGO_SECURE_BROWSER_XSS_FILTER", False)
+DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=os.environ.get("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", False)
+CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME', 'intranet')
@@ -245,18 +250,18 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # AUTH
-CORS_ALLOW_ALL_ORIGINS = True  # Debug
-# CORS_ALLOW_HEADERS = (
-#     "accept",
-#     "accept-encoding",
-#     "authorization",
-#     "content-type",
-#     "dnt",
-#     "origin",
-#     "user-agent",
-#     "x-csrftoken",
-#     "x-requested-with",
-# )
+# CORS_ALLOW_ALL_ORIGINS = True  # Debug
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+)
 
 
 # ALLAUTH SETTINGS
@@ -473,5 +478,3 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
         }
     }
 }
-
-SECURE_SSL_REDIRECT = False
