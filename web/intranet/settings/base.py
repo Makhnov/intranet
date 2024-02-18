@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os 
 import warnings
+from termcolor import colored
 from wagtail.utils.deprecation import RemovedInWagtail70Warning
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
@@ -21,20 +22,38 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 # Chargement du fichier .env.dev spécifique au développement
-dotenv_path = os.path.join(BASE_DIR, '.env/.env.dev')
+dotenv_path = os.path.join(BASE_DIR, '.env/.env.prod')
 load_dotenv(dotenv_path)
 #Vérification des variables d'environnement
 # print(f'environ', os.environ)
 
 # ENVIRONNEMENT
 SECRET_KEY = os.environ.get("SECRET_KEY")
-DEBUG = os.environ.get("DEBUG")
+print(colored(f"SECRET_KEY", "red", "on_black"), SECRET_KEY)
+DEBUG = os.environ.get("DEBUG", True)
+print(colored(f"DEBUG", "green", "on_white"), DEBUG)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", False)
-DJANGO_SECURE_BROWSER_XSS_FILTER=os.environ.get("DJANGO_SECURE_BROWSER_XSS_FILTER", False)
-DJANGO_SECURE_CONTENT_TYPE_NOSNIFF=os.environ.get("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", False)
+print(colored(f"ALLOWED_HOSTS", "blue", "on_white"), ALLOWED_HOSTS)
 CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
+print(colored(f"CSRF_TRUSTED_ORIGINS", "blue", "on_white"), CSRF_TRUSTED_ORIGINS)
+SECURE_HSTS_SECONDS=os.getenv("DJANGO_HSTS_SECONDS", 0)
+print(colored(f"SECURE_HSTS_SECONDS", "green", "on_white"), SECURE_HSTS_SECONDS)
+SECURE_HSTS_PRELOAD=os.getenv("DJANGO_SECURE_HSTS_PRELOAD", False)
+print(colored(f"SECURE_HSTS_PRELOAD", "green", "on_white"), SECURE_HSTS_PRELOAD)
+SECURE_HSTS_INCLUDE_SUBDOMAINS=os.getenv("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
+print(colored(f"SECURE_HSTS_INCLUDE_SUBDOMAINS", "green", "on_white"), SECURE_HSTS_INCLUDE_SUBDOMAINS)
+SECURE_BROWSER_XSS_FILTER=os.environ.get("DJANGO_SECURE_BROWSER_XSS_FILTER", False)
+print(colored(f"SECURE_BROWSER_XSS_FILTER", "green", "on_white"), SECURE_BROWSER_XSS_FILTER)
+SECURE_CONTENT_TYPE_NOSNIFF=os.environ.get("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", False)
+print(colored(f"SECURE_CONTENT_TYPE_NOSNIFF", "green", "on_white"), SECURE_CONTENT_TYPE_NOSNIFF)
+SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", False)
+print(colored(f"SECURE_SSL_REDIRECT", "green", "on_white"), SECURE_SSL_REDIRECT)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+print(colored(f"SECURE_PROXY_SSL_HEADER", "green", "on_white"), SECURE_PROXY_SSL_HEADER)
+SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", False)
+print(colored(f"SESSION_COOKIE_SECURE", "green", "on_white"), SESSION_COOKIE_SECURE)
+CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", False)
+print(colored(f"CSRF_COOKIE_SECURE", "green", "on_white"), CSRF_COOKIE_SECURE)
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME', 'intranet')
