@@ -8,10 +8,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
-    ]
-
     operations = [
         migrations.CreateModel(
             name='AccountPage',

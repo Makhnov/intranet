@@ -11,3 +11,23 @@
 # FAQ
     QUICKBAR    
     TAGS MORE
+
+# VERIF FRONT ADMINISTRATIONPAGE
+
+# README.MD :
+
+Redémarrage complet : 
+
+1.  Sélectionner un emplacement sur la machine
+2.  Cloner le répertoire git
+3.  Copier manuellement (ou recopier) les fichiers suivants : 
+        - Les variables d'envrionnement : /web/.env/*
+        - Les fichiers mots de passe (utilisateurs) /files/ignore/*.json    
+        - Les bases de données (test, minimale, completes ou data-only) /files/ignore/*.sql
+
+4.  Sourcer le bashrc (pour les raccourcis cf. doc)
+5.  Le cas échéant supprimer toutes les images, volumes, réseaux, etc.
+6.  Lancer le "build" des containers (dev ou prod)
+7.  Créer les volumes et les réseaux externes
+9.  Lancer le "up" des containers. Lancer le certbot puis modifier le fichier intranet.conf
+10. Injecter la BDD souhaitée 

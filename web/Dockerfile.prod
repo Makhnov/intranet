@@ -44,13 +44,17 @@ COPY . /app
 # Changement de la propriété du répertoire /app pour l'utilisateur wagtail
 RUN chown -R wagtail:wagtail /app
 
-# Collect static files.
-RUN python manage.py collectstatic --noinput --clear
-
 # Changement de la propriété du répertoire /app pour l'utilisateur wagtail et création du répertoire media
 RUN chown -R wagtail:wagtail /app \
  && mkdir -p /app/media/ \
  && chmod -R 777 /app/media
+
+# Changement de la propriété et des permissions pour le répertoire site-packages pour l'utilisateur wagtail
+RUN chown -R wagtail:wagtail /usr/local/lib/python3.12/site-packages/wagtail/migrations/ 
+# && chmod -R 777 /usr/local/lib/python3.12/site-packages/wagtail/migrations/
+
+# Collect static files.
+RUN python manage.py collectstatic --noinput --clear
 
 # Utilisation de l'utilisateur non-root pour exécuter l'application
 USER wagtail

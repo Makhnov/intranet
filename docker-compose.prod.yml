@@ -79,15 +79,15 @@ networks:
     driver: bridge  
   frontend:
     name: frontend
-    external: true
+    driver: bridge
 
 volumes:
   postgres_data:
-#    external: true
+    name: postgres_data
   static_volume:
-    external: true
+    name: static_volume
   media_volume:  
-    external: true
+    name: media_volume
   
   # redis:
   #   container_name: redis

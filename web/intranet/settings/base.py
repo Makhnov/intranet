@@ -29,31 +29,31 @@ load_dotenv(dotenv_path)
 
 # ENVIRONNEMENT
 SECRET_KEY = os.environ.get("SECRET_KEY")
-print(colored(f"SECRET_KEY", "red", "on_black"), SECRET_KEY)
+# print(colored(f"SECRET_KEY", "red", "on_black"), SECRET_KEY)
 DEBUG = os.environ.get("DEBUG", True)
-print(colored(f"DEBUG", "green", "on_white"), DEBUG)
+# print(colored(f"DEBUG", "green", "on_white"), DEBUG)
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-print(colored(f"ALLOWED_HOSTS", "blue", "on_white"), ALLOWED_HOSTS)
+# print(colored(f"ALLOWED_HOSTS", "blue", "on_white"), ALLOWED_HOSTS)
 CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
-print(colored(f"CSRF_TRUSTED_ORIGINS", "blue", "on_white"), CSRF_TRUSTED_ORIGINS)
+# print(colored(f"CSRF_TRUSTED_ORIGINS", "blue", "on_white"), CSRF_TRUSTED_ORIGINS)
 SECURE_HSTS_SECONDS=os.getenv("DJANGO_HSTS_SECONDS", 0)
-print(colored(f"SECURE_HSTS_SECONDS", "green", "on_white"), SECURE_HSTS_SECONDS)
+# print(colored(f"SECURE_HSTS_SECONDS", "green", "on_white"), SECURE_HSTS_SECONDS)
 SECURE_HSTS_PRELOAD=os.getenv("DJANGO_SECURE_HSTS_PRELOAD", False)
-print(colored(f"SECURE_HSTS_PRELOAD", "green", "on_white"), SECURE_HSTS_PRELOAD)
+# print(colored(f"SECURE_HSTS_PRELOAD", "green", "on_white"), SECURE_HSTS_PRELOAD)
 SECURE_HSTS_INCLUDE_SUBDOMAINS=os.getenv("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
-print(colored(f"SECURE_HSTS_INCLUDE_SUBDOMAINS", "green", "on_white"), SECURE_HSTS_INCLUDE_SUBDOMAINS)
+# print(colored(f"SECURE_HSTS_INCLUDE_SUBDOMAINS", "green", "on_white"), SECURE_HSTS_INCLUDE_SUBDOMAINS)
 SECURE_BROWSER_XSS_FILTER=os.environ.get("DJANGO_SECURE_BROWSER_XSS_FILTER", False)
-print(colored(f"SECURE_BROWSER_XSS_FILTER", "green", "on_white"), SECURE_BROWSER_XSS_FILTER)
+# print(colored(f"SECURE_BROWSER_XSS_FILTER", "green", "on_white"), SECURE_BROWSER_XSS_FILTER)
 SECURE_CONTENT_TYPE_NOSNIFF=os.environ.get("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", False)
-print(colored(f"SECURE_CONTENT_TYPE_NOSNIFF", "green", "on_white"), SECURE_CONTENT_TYPE_NOSNIFF)
+# print(colored(f"SECURE_CONTENT_TYPE_NOSNIFF", "green", "on_white"), SECURE_CONTENT_TYPE_NOSNIFF)
 SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", False)
-print(colored(f"SECURE_SSL_REDIRECT", "green", "on_white"), SECURE_SSL_REDIRECT)
+# print(colored(f"SECURE_SSL_REDIRECT", "green", "on_white"), SECURE_SSL_REDIRECT)
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-print(colored(f"SECURE_PROXY_SSL_HEADER", "green", "on_white"), SECURE_PROXY_SSL_HEADER)
+# print(colored(f"SECURE_PROXY_SSL_HEADER", "green", "on_white"), SECURE_PROXY_SSL_HEADER)
 SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", False)
-print(colored(f"SESSION_COOKIE_SECURE", "green", "on_white"), SESSION_COOKIE_SECURE)
+# print(colored(f"SESSION_COOKIE_SECURE", "green", "on_white"), SESSION_COOKIE_SECURE)
 CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", False)
-print(colored(f"CSRF_COOKIE_SECURE", "green", "on_white"), CSRF_COOKIE_SECURE)
+# print(colored(f"CSRF_COOKIE_SECURE", "green", "on_white"), CSRF_COOKIE_SECURE)
 
 # Wagtail settings
 WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME', 'intranet')
@@ -139,7 +139,7 @@ INSTALLED_APPS = [
     # PDF
     "wagtail_pdf_view", # https://github.com/donhauser/wagtail-pdf
     "wagtail.contrib.routable_page", # Requis par wagtail pdf view
-    "weasyprint", # https://github.com/fdemmer/django-weasyprint#django-weasyprint
+    # "weasyprint", # https://github.com/fdemmer/django-weasyprint#django-weasyprint
     # PDF
     
     # Media
@@ -294,7 +294,8 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 0
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# print(colored(f"ACCOUNT_EMAIL_VERIFICATION", "green", "on_white"), ACCOUNT_EMAIL_VERIFICATION)
 ACCOUNT_LOGOUT_ON_GET = True  # Debug
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # Debug
 ACCOUNT_PRESERVE_USERNAME_CASING = False
@@ -379,6 +380,7 @@ DEFAULT_AUTO_FIELD = (
 
 # Wagtail settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = "secretariat@cagiregaronnesalat.fr"
 
 WAGTAIL_GUIDE_SETTINGS = {
     "ADD_WAGTAIL_GUIDE_TO_HELP_MENU": True,
