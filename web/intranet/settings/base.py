@@ -297,7 +297,7 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 0
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 # print(colored(f"ACCOUNT_EMAIL_VERIFICATION", "green", "on_white"), ACCOUNT_EMAIL_VERIFICATION)
 ACCOUNT_LOGOUT_ON_GET = True  # Debug
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # Debug
@@ -402,20 +402,21 @@ WAGTAIL_ENABLE_UPDATE_CHECK = False
 # Configuration Redis
 # https://docs.wagtail.org/en/latest/advanced_topics/performance.html#cache
 
-WAGTAIL_CACHE = False
-# WAGTAIL_CACHE = True
+# WAGTAIL_CACHE = False
+WAGTAIL_CACHE = True
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
-#         "KEY_PREFIX": "wagtailcache",
-#         "TIMEOUT": 3600,
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
+        "KEY_PREFIX": "wagtailcache",
+        "TIMEOUT": 3600,
+    }
+}
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

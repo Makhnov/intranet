@@ -6,6 +6,7 @@ wagtail-generic-chooser==0.6.1
 gunicorn==21.2.0
 gevent==24.2.1
 redis==5.0.0
+django-redis==5.4.0 
 django-allauth==0.54.0
 django-countries==7.5.1
 django-cors-headers==4.2.0

@@ -31,3 +31,9 @@ Redémarrage complet :
 7.  Créer les volumes et les réseaux externes
 9.  Lancer le "up" des containers. Lancer le certbot puis modifier le fichier intranet.conf
 10. Injecter la BDD souhaitée 
+
+# OPENSEARCH
+# REDIS
+# Mails
+# PDF
+# TIMEZONE
