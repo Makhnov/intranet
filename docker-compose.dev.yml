@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/local/web/Dockerfile
+    container_name: back
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    env_file:
+      - ./.env/.env.dev
+    environment:
+      - WAGTAIL_SITE_NAME=intranet
+      - SITE_ID=1
+      - INTERNAL_IP=127.0.0.1
+      - WAGTAILADMIN_BASE_URL=http://localhost:8000
+      - WAGTAILAPI_BASE_URL=http://localhost:8000
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+      - DEBUG=True
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+
+  db:
+    image: postgres:14.0-alpine
+    container_name: db
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env/.env.dev.db
+
+  redis:
+    image: "redis:alpine"
+    container_name: cache
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

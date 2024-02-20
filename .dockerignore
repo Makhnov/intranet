@@ -21,7 +21,10 @@ coverage
 
 # Distribution / packaging
 .Python
+node_modules/
 env/
+etc/
+files/
 build/
 develop-eggs/
 dist/
@@ -37,3 +40,17 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# SSL
+/certbot/
+
+# source
+docker-compose*
+.git/
+.gitconfig
+.gitignore
+README.md
+TDL.txt
+var/
+*.yml
+*.md

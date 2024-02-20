@@ -28,7 +28,7 @@ ENV/
 node_modules/
 
 # Medias
-/media/
+media/
 
 # Compiled assets
 /static/

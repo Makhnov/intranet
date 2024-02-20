@@ -1,6 +1,9 @@
 # Utilisation d'une image Python officielle comme image de base
 FROM python:3.12.0-bullseye
 
+RUN whoami
+RUN id
+
 # Création d'un utilisateur non-root pour des raisons de sécurité
 RUN useradd -ms /bin/bash wagtail
 
@@ -21,8 +24,8 @@ RUN python -m pip install --upgrade pip
 ENV PYTHONUNBUFFERED=1 \
     PORT=8000 \
     LANG=fr_FR.UTF-8 \
-    LANGUAGE=fr_FR:fr \
-    LC_ALL=fr_FR.UTF-8
+    LANGUAGE=fr_FR:fr 
+#   LC_ALL=fr_FR.UTF-8
 
 # Exposition du port utilisé par le conteneur
 EXPOSE 8000
@@ -39,22 +42,22 @@ RUN pip install -r requirements.txt
 # ENTRYPOINT ["entrypoint.sh"]
 
 # Copie du code source dans le conteneur
-COPY . /app
+COPY ./web /app
 
-# Changement de la propriété du répertoire /app pour l'utilisateur wagtail
-RUN chown -R wagtail:wagtail /app
+RUN chown -R wagtail:wagtail /usr/local/lib/python3.12/site-packages/wagtail/migrations/
 
-# Changement de la propriété du répertoire /app pour l'utilisateur wagtail et création du répertoire media
-RUN chown -R wagtail:wagtail /app \
- && mkdir -p /app/media/ \
- && chmod -R 777 /app/media
+# Ajout de la commande pour attendre que la base de données soit prête
+COPY scripts/wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh
 
-# Changement de la propriété et des permissions pour le répertoire site-packages pour l'utilisateur wagtail
-RUN chown -R wagtail:wagtail /usr/local/lib/python3.12/site-packages/wagtail/migrations/ 
-# && chmod -R 777 /usr/local/lib/python3.12/site-packages/wagtail/migrations/
+# Ajout de l'entrée de commande
+COPY scripts/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Collect static files.
-RUN python manage.py collectstatic --noinput --clear
+ENTRYPOINT ["/entrypoint.sh"]
+# Réinitialisation des permissions pour le répertoire /migrations 
+# RUN chown -R root:root /usr/local/lib/python3.12/site-packages/wagtail/migrations/ \
+#  && chmod -R 644 /usr/local/lib/python3.12/site-packages/wagtail/migrations/
 
 # Utilisation de l'utilisateur non-root pour exécuter l'application
 USER wagtail

@@ -19,10 +19,13 @@ from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# print(colored(f"PROJECT_DIR", "red", "on_black"), PROJECT_DIR)
 BASE_DIR = os.path.dirname(PROJECT_DIR)
+# print(colored(f"BASE_DIR", "red", "on_black"), BASE_DIR)
 
 # Chargement du fichier .env.dev spécifique au développement
-dotenv_path = os.path.join(BASE_DIR, '.env/.env.prod')
+dotenv_path = os.path.join(BASE_DIR, '../.env/.env.prod')
+# print(colored(f"dotenv_path", "red", "on_black"), dotenv_path)
 load_dotenv(dotenv_path)
 #Vérification des variables d'environnement
 # print(f'environ', os.environ)
