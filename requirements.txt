@@ -1,21 +1,18 @@
 #DOCKER Python 3.10.12
-python-dotenv==1.0.0
-Django==5.0
-wagtail==6.0.1
-wagtail-generic-chooser==0.6.1
+termcolor==2.4.0
 gunicorn==21.2.0
 gevent==24.2.1
-redis==5.0.0
+psycopg2-binary==2.9.9
+Django==5.0
 django-redis==5.4.0 
-django-allauth==0.54.0
+django-allauth==0.60.1
 django-countries==7.5.1
 django-cors-headers==4.2.0
 django-weasyprint==2.2.2
-dj-rest-auth==4.0.1
-psycopg2-binary==2.9.9
-termcolor==2.4.0
+dj-rest-auth==5.0.1
+wagtail==6.0.1
+wagtail-generic-chooser==0.6.1
 
-git+https://github.com/Makhnov/wagtailcache.git#egg=wagtail-cache
 git+https://github.com/Makhnov/wagtailguide.git#egg=wagtail-guide
 git+https://github.com/Makhnov/wagtailgeowidget.git#egg=wagtailgeowidget
 git+https://github.com/Makhnov/wagtailmedia.git#egg=wagtailmedia

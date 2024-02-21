@@ -12,62 +12,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os 
-import warnings
 from termcolor import colored
-from wagtail.utils.deprecation import RemovedInWagtail70Warning
 from django.utils.translation import gettext_lazy as _
-from dotenv import load_dotenv
-
-PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# print(colored(f"PROJECT_DIR", "red", "on_black"), PROJECT_DIR)
-BASE_DIR = os.path.dirname(PROJECT_DIR)
-# print(colored(f"BASE_DIR", "red", "on_black"), BASE_DIR)
-
-# Chargement du fichier .env.dev spécifique au développement
-dotenv_path = os.path.join(BASE_DIR, '../.env/.env.prod')
-# print(colored(f"dotenv_path", "red", "on_black"), dotenv_path)
-load_dotenv(dotenv_path)
-#Vérification des variables d'environnement
-# print(f'environ', os.environ)
-
-# ENVIRONNEMENT
-SECRET_KEY = os.environ.get("SECRET_KEY")
-# print(colored(f"SECRET_KEY", "red", "on_black"), SECRET_KEY)
-DEBUG = os.environ.get("DEBUG", True)
-# print(colored(f"DEBUG", "green", "on_white"), DEBUG)
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-# print(colored(f"ALLOWED_HOSTS", "blue", "on_white"), ALLOWED_HOSTS)
-CSRF_TRUSTED_ORIGINS = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
-# print(colored(f"CSRF_TRUSTED_ORIGINS", "blue", "on_white"), CSRF_TRUSTED_ORIGINS)
-SECURE_HSTS_SECONDS=os.getenv("DJANGO_HSTS_SECONDS", 0)
-# print(colored(f"SECURE_HSTS_SECONDS", "green", "on_white"), SECURE_HSTS_SECONDS)
-SECURE_HSTS_PRELOAD=os.getenv("DJANGO_SECURE_HSTS_PRELOAD", False)
-# print(colored(f"SECURE_HSTS_PRELOAD", "green", "on_white"), SECURE_HSTS_PRELOAD)
-SECURE_HSTS_INCLUDE_SUBDOMAINS=os.getenv("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", False)
-# print(colored(f"SECURE_HSTS_INCLUDE_SUBDOMAINS", "green", "on_white"), SECURE_HSTS_INCLUDE_SUBDOMAINS)
-SECURE_BROWSER_XSS_FILTER=os.environ.get("DJANGO_SECURE_BROWSER_XSS_FILTER", False)
-# print(colored(f"SECURE_BROWSER_XSS_FILTER", "green", "on_white"), SECURE_BROWSER_XSS_FILTER)
-SECURE_CONTENT_TYPE_NOSNIFF=os.environ.get("DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", False)
-# print(colored(f"SECURE_CONTENT_TYPE_NOSNIFF", "green", "on_white"), SECURE_CONTENT_TYPE_NOSNIFF)
-SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", False)
-# print(colored(f"SECURE_SSL_REDIRECT", "green", "on_white"), SECURE_SSL_REDIRECT)
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-# print(colored(f"SECURE_PROXY_SSL_HEADER", "green", "on_white"), SECURE_PROXY_SSL_HEADER)
-SESSION_COOKIE_SECURE = os.environ.get("DJANGO_SESSION_COOKIE_SECURE", False)
-# print(colored(f"SESSION_COOKIE_SECURE", "green", "on_white"), SESSION_COOKIE_SECURE)
-CSRF_COOKIE_SECURE = os.environ.get("DJANGO_CSRF_COOKIE_SECURE", False)
-# print(colored(f"CSRF_COOKIE_SECURE", "green", "on_white"), CSRF_COOKIE_SECURE)
-
-# Wagtail settings
-WAGTAIL_SITE_NAME = os.environ.get('WAGTAIL_SITE_NAME', 'intranet')
-SITE_ID = int(os.environ.get('SITE_ID', 1))
-INTERNAL_IPS = [
-    os.environ.get('INTERNAL_IP', '127.0.0.1'),
-]
 
 # Ignorer les warnings spécifiques à `RemovedInWagtail70Warning`
+import warnings
+from wagtail.utils.deprecation import RemovedInWagtail70Warning
 warnings.filterwarnings("ignore", category=RemovedInWagtail70Warning)
 
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
@@ -179,29 +133,23 @@ INSTALLED_APPS = [
     "dj_rest_auth",  # https://dj-rest-auth.readthedocs.io/en/latest/
     "dj_rest_auth.registration",
     # Api
-    
-    # Cache
-    "wagtailcache",  # https://docs.coderedcorp.com/wagtail-cache/index.html
-    # Cache
 ]
 
 MIDDLEWARE = [
     # https://docs.coderedcorp.com/wagtail-cache/getting_started/install.html#install
     # UpdateCacheMiddleware must come FIRST and
     # FetchFromCacheMiddleware must come LAST in the list of middleware to correctly cache everything
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "wagtailcache.cache.UpdateCacheMiddleware",  # First
-    "django.middleware.common.CommonMiddleware",
-    "wagtailcache.cache.FetchFromCacheMiddleware",  # Last
-    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    # "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "intranet.urls"
@@ -215,9 +163,14 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",  # Allauth need this
-                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.request",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
                 "wagtail.contrib.settings.context_processors.settings",
                 "wagtailmenus.context_processors.wagtailmenus",
@@ -402,8 +355,6 @@ WAGTAIL_ENABLE_UPDATE_CHECK = False
 # Configuration Redis
 # https://docs.wagtail.org/en/latest/advanced_topics/performance.html#cache
 
-# WAGTAIL_CACHE = False
-WAGTAIL_CACHE = True
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PORT = os.getenv("REDIS_PORT")
@@ -411,10 +362,12 @@ REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
-        "KEY_PREFIX": "wagtailcache",
-        "TIMEOUT": 3600,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PASSWORD': REDIS_PASSWORD,
+        }
     }
 }
 
