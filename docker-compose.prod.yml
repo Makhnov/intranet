@@ -27,7 +27,7 @@ services:
       - /home/webmaster/docker_intranet/files/ignore/intranet_final_version.sql:/docker-entrypoint-initdb.d/intranet_final_version.sql
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./.env/.env.dev.db
+      - ./.env/.env.prod.db
     networks:
       - backend
 
@@ -61,7 +61,7 @@ services:
       - db
       - redis
     env_file:
-      - ./.env/.env.dev
+      - ./.env/.env.prod
     networks:
       - backend
       - frontend
