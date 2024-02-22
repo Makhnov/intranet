@@ -184,12 +184,12 @@ TEMPLATES = [
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE"),
-        "NAME": os.environ.get("SQL_DATABASE"),
-        "USER": os.environ.get("SQL_USER"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD"),
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.environ.get("SQL_DATABASE", "intranet-dev"),
+        "USER": os.environ.get("SQL_USER", "multi"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "root"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
 
@@ -352,24 +352,6 @@ TAG_SPACES_ALLOWED = False
 WAGTAIL_WORKFLOW_ENABLED = False
 WAGTAIL_ENABLE_UPDATE_CHECK = False
 
-# Configuration Redis
-# https://docs.wagtail.org/en/latest/advanced_topics/performance.html#cache
-
-
-REDIS_HOST = os.getenv("REDIS_HOST")
-REDIS_PORT = os.getenv("REDIS_PORT")
-REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
-
-CACHES = {
-    "default": {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PASSWORD': REDIS_PASSWORD,
-        }
-    }
-}
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

@@ -1,9 +1,6 @@
 # Utilisation d'une image Python officielle comme image de base
 FROM python:3.12.0-bullseye
 
-RUN whoami
-RUN id
-
 # Création d'un utilisateur non-root pour des raisons de sécurité
 RUN useradd -ms /bin/bash wagtail
 
@@ -58,6 +55,7 @@ ENTRYPOINT ["/entrypoint.sh"]
 # Réinitialisation des permissions pour le répertoire /migrations 
 # RUN chown -R root:root /usr/local/lib/python3.12/site-packages/wagtail/migrations/ \
 #  && chmod -R 644 /usr/local/lib/python3.12/site-packages/wagtail/migrations/
+
 
 # Utilisation de l'utilisateur non-root pour exécuter l'application
 USER wagtail

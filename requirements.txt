@@ -22,3 +22,6 @@ git+https://github.com/Makhnov/wagtailquickcreate.git#egg=wagtail-quick-create
 git+https://github.com/Makhnov/wagtailpdf#egg=wagtail-pdf-view
 git+https://github.com/Makhnov/wagtailjoyous.git#egg=ls.joyous
 git+https://github.com/Makhnov/wagtailforms.git#egg=wagtailstreamforms
+
+# Pour le développement web\intranet\settings\dev.py
+python-dotenv==1.0.1
