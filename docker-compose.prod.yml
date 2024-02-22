@@ -24,7 +24,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /home/webmaster/docker_intranet/files/ignore/intranet_final_version.sql:/docker-entrypoint-initdb.d/intranet_final_version.sql
+      - /home/webmaster/docker_intranet/files/ignore/clear_intranet.sql:/docker-entrypoint-initdb.d/clear_intranet.sql
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env/.env.prod.db
