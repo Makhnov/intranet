@@ -1,4 +1,5 @@
 # AUTO menu pour les convoc et CR
+# LEGACY BUILDER MAJ WARNING DOCKER COMPOSE BUILD
 
 # Modifier les titres et slugs cachés ...???
     AmicalePage
