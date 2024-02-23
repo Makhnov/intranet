@@ -113,9 +113,16 @@ li.menu-item {
             aspect-ratio: 1/1;
             transition: 0.3s;
         } 
-        svg:not(.cgs-nofill), svg:not(.cgs-nofill) * {
+        svg:not(.cgs-nofill, .cgs-semifill), svg:not(.cgs-nofill) *:not(.cgs-semifill) {
             fill: #fff!important;  
             stroke-width: 0!important;
+        }
+        $primary_color:#00856f;
+        $secondary_color:#00b3bd;
+        $cgs_semifill:mix($primary_color, $secondary_color, 50%);
+        svg.cgs-semifill, svg:not(.cgs-nofill) *.cgs-semifill {
+            fill: #fff!important;
+            stroke: $cgs_semifill!important;
         }
         img:not(.cgs-nofill) {
             filter: brightness(0) invert(1);        

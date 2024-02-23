@@ -430,7 +430,7 @@ ul.nav-box {
 
         &:hover a.nav-link svg, &:hover a.nav-link img {
             fill: var(--cgs-color-menu-5) !important;
-            * {
+            *:not(.cgs-semifill) {
                 fill: var(--cgs-color-menu-5) !important;
             }
         }
