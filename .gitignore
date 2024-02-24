@@ -31,7 +31,7 @@ node_modules/
 media/
 
 # Compiled assets
-/static/
+static/
 /frontend/build/
 
 # Compiled Python files
