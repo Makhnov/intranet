@@ -4,7 +4,7 @@ FROM python:3.12.0-bullseye
 # Création d'un utilisateur non-root pour des raisons de sécurité
 RUN useradd -ms /bin/bash wagtail
 
-# Installation des dépendances nécessaires
+# Installation des dépendances nécessaires et configuration des locales
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
@@ -12,17 +12,27 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libwebp-dev \
     git \
+    locales \
+ && sed -i '/fr_FR.UTF-8/s/^# //g' /etc/locale.gen \
+ && locale-gen fr_FR.UTF-8 \
+ && update-locale LANG=fr_FR.UTF-8 \
  && rm -rf /var/lib/apt/lists/*
 
 # Mise à jour de pip
 RUN python -m pip install --upgrade pip
 
-# Configuration des variables d'environnement
-ENV PYTHONUNBUFFERED=1 \
-    PORT=8000 \
-    LANG=fr_FR.UTF-8 \
-    LANGUAGE=fr_FR:fr 
-#   LC_ALL=fr_FR.UTF-8
+# Configuration des variables d'environnement pour le langage et l'encodage
+# ENV PYTHONUNBUFFERED=1 \
+#     PORT=8000 \
+#     LANG=fr_FR.UTF-8 \
+#     LANGUAGE=fr_FR:fr \
+#     LC_ALL=fr_FR.UTF-8
+
+ENV PYTHONUNBUFFERED=1
+ENV PORT=8000
+ENV LANG fr_FR.UTF-8
+ENV LANGUAGE fr_FR:fr
+ENV LC_ALL fr_FR.UTF-8
 
 # Exposition du port utilisé par le conteneur
 EXPOSE 8000
@@ -34,13 +44,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Postgres Entrypoint
-# COPY entrypoint.sh .
-# ENTRYPOINT ["entrypoint.sh"]
-
 # Copie du code source dans le conteneur
 COPY ./web /app
 
+# Réinitialisation des permissions pour le répertoire /migrations
 RUN chown -R wagtail:wagtail /usr/local/lib/python3.12/site-packages/wagtail/migrations/
 
 # Ajout de la commande pour attendre que la base de données soit prête
@@ -51,11 +58,12 @@ RUN chmod +x /usr/local/bin/wait-for-it.sh
 COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# On utilise l'utilisateur non-root pour exécuter l'application
 ENTRYPOINT ["/entrypoint.sh"]
+
 # Réinitialisation des permissions pour le répertoire /migrations 
 # RUN chown -R root:root /usr/local/lib/python3.12/site-packages/wagtail/migrations/ \
 #  && chmod -R 644 /usr/local/lib/python3.12/site-packages/wagtail/migrations/
-
 
 # Utilisation de l'utilisateur non-root pour exécuter l'application
 USER wagtail

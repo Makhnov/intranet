@@ -465,11 +465,11 @@ function single_event() {
     });
 
     function updateEventFields(ID) {
-        console.log("update ID", ID);
+        // console.log("update ID", ID);
         fetch('/api/v2/pages/' + ID) 
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 // Mise à jour du titre et du slug
                 const TempTitle = data.title.replace('Convocation ', '');
                 const EventTitle = TempTitle.charAt(0).toUpperCase() + TempTitle.slice(1);   
@@ -558,7 +558,6 @@ function compteRendu() {
 
     // Fonction qui crée la liste des secrétaires
     function updateSecretaryField(electedUsers, id) {
-        console.log(electedUsers);
         const emptyOption = document.createElement('option');
         emptyOption.textContent = "---------";
 
@@ -595,6 +594,7 @@ function compteRendu() {
                     const filteredUsers = data.items.filter(user => user.elected !== "empty");
                     
                     // Appelle la fonction callback avec la liste filtrée des utilisateurs
+                    console.log("filteredUsers", filteredUsers)
                     callback(null, filteredUsers);
                 } else {
                     // Appelle la fonction callback avec une erreur si 'items' n'est pas dans la réponse
@@ -701,7 +701,6 @@ function compteRendu() {
 
     // Animation (secoue + rouge)
     function nope(labelElement) {
-        console.log("nope");
         // Applique l'animation shake au parent du label
         const parentElement = labelElement.parentElement;
         parentElement.style.animation = 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both';
@@ -874,6 +873,7 @@ function compteRendu() {
     // Mise à jour des utilisateurs de la convocation
     function updateConvocationUsers(convocationId) {
         fetchUsers(function(err, electedUsers) {
+            console.log("electedUsers", electedUsers);
             if (err) {
                 console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
                 return;

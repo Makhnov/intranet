@@ -1,4 +1,5 @@
 from itertools import groupby
+import uuid
 
 from django import forms
 from django.db import models
@@ -385,10 +386,11 @@ class ConvocationPage(PdfViewPageMixin, Page):
     ]
     
     def save(self, *args, **kwargs):
-        if not self.title:  # Si le titre n'est pas déjà défini
-            self.title = "convocation"
-        if not self.slug:  # Si le slug n'est pas déjà défini
-            self.slug = "convocation"
+        if not self.title:
+            self.title = "Convocation"
+        if not self.slug or self.slug == "convocation":
+            unique_suffix = uuid.uuid4().hex[:6]  # Génère un suffixe unique
+            self.slug = f"convocation-{unique_suffix}"
         super().save(*args, **kwargs)
     
     def get_parent_type(self):
