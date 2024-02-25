@@ -526,12 +526,18 @@ function compteRendu() {
     
     // Secrétaire de séance
     const secretaryField = document.querySelector('#id_secretary');
+    const secretarySection = document.querySelector('#panel-child-contenu-secretary-section');
 
     // Absents remplacés
     const replacedUsersField = document.querySelector('#id_replaced_users');
+    const replacedUsersSection = document.querySelector('#panel-child-contenu-replaced_users-section');
 
     // Absents non remplacés
     const unreplacedUsersField = document.querySelector('#id_unreplaced_users');
+    const unreplacedUsersSection = document.querySelector('#panel-child-contenu-unreplaced_users-section');
+
+    // Quorum section
+    const quorumSection = document.querySelector('#panel-child-contenu-quorum-section');
 
     // On vide les champs au chargement de la page
     secretaryField.innerHTML = '';
@@ -560,6 +566,7 @@ function compteRendu() {
     function updateSecretaryField(electedUsers, id) {
         const emptyOption = document.createElement('option');
         emptyOption.textContent = "---------";
+        emptyOption.value = "";
 
         // On ajoute l'option vide
         secretaryField.appendChild(emptyOption);
@@ -591,10 +598,9 @@ function compteRendu() {
                 // Vérifie que la réponse contient les 'items'
                 if (data && data.items) {
                     // Filtre les utilisateurs pour exclure ceux qui ont "elected": "empty"
-                    const filteredUsers = data.items.filter(user => user.elected !== "empty");
+                    const filteredUsers = data.items.filter(user => user.elected);
                     
                     // Appelle la fonction callback avec la liste filtrée des utilisateurs
-                    console.log("filteredUsers", filteredUsers)
                     callback(null, filteredUsers);
                 } else {
                     // Appelle la fonction callback avec une erreur si 'items' n'est pas dans la réponse
@@ -872,30 +878,114 @@ function compteRendu() {
 
     // Mise à jour des utilisateurs de la convocation
     function updateConvocationUsers(convocationId) {
-        fetchUsers(function(err, electedUsers) {
-            console.log("electedUsers", electedUsers);
-            if (err) {
-                console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
-                return;
-            }
-
-            fetch('/api/v2/pages/' + convocationId + '/')
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.convocation_users) {
-                        const secretary = data.compte_rendu_page ? data.compte_rendu_page.secretary : false;
-                        updateSecretaryField(electedUsers, secretary);
-                        updateUsersField(document.querySelector('#id_replaced_users'), data.convocation_users, 2, electedUsers, "replaced_users");
-                        updateUsersField(document.querySelector('#id_unreplaced_users'), data.convocation_users, 3, false, "unreplaced_users");
-
-                        requestListener(1);
-                        requestListener(2);
-                        requestListener(3);
+        fetch('/api/v2/pages/' + convocationId + '/')
+            .then(response => response.json())
+            .then(data => {
+                // On récupere le type de parent si posisble, sinon null.
+                const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
+                // Pareil pour le secrétaire
+                const secretary = data.compte_rendu_page ? data.compte_rendu_page.secretary : false;
+                // pareil pour les convocation users
+                const participants = data.convocation_users ? data.convocation_users : false;
+                
+                if (data && parent) {         
+                    switch (parent) {
+                        case 'administration.ConseilsIndexPage':
+                            console.log("Compte-rendu de conseil détecté (on affiche tout)");
+                            // On affiche les quatres sections
+                            fetchUsers(function(err, electedUsers) {
+                                if (err) {
+                                    console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
+                                    return;
+                                }
+                
+                                if (data) {
+                                    updateSecretaryField(electedUsers, secretary);
+                                    if (participants) {
+                                        updateUsersField(document.querySelector('#id_replaced_users'), participants, 2, electedUsers, "replaced_users");
+                                        updateUsersField(document.querySelector('#id_unreplaced_users'), participants, 3, false, "unreplaced_users");
+    
+                                        requestListener(1);
+                                        requestListener(2);
+                                        requestListener(3);
+                                    }
+                                }
+                            });
+                            break;
+                        case 'administration.BureauxIndexPage':
+                            console.log("Compte-rendu de bureau détecté (on cache tout)");
+                            // on cache les quatres sections, pas besoin de récupérer les participants
+                            secretarySection.classList.add('cgs-hidden');
+                            replacedUsersSection.classList.add('cgs-hidden');
+                            unreplacedUsersSection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');
+                            break;
+                        case 'administration.CommissionPage':
+                            console.log("Compte-rendu de commission détecté (on n'affiche que le secrétaire de séance)");
+                            // On n'affiche que le secréatire de séance
+                            fetchUsers(function(err, electedUsers) {
+                                if (err) {
+                                    console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
+                                    return;
+                                }
+                
+                                if (data) {
+                                    updateSecretaryField(electedUsers, secretary);
+                                }
+                            });
+                            replacedUsersSection.classList.add('cgs-hidden');
+                            unreplacedUsersSection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');
+                            break;
+                        case 'administration.ConferencesIndexPage':
+                            console.log("Compte-rendu de conférence détecté (on affiche tout sauf le secrétaire de séance)");
+                            // On n'affiche tout sauf le secrétaire de séance
+                            fetchUsers(function(err, electedUsers) {
+                                if (err) {
+                                    console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
+                                    return;
+                                }
+                
+                                if (data && participants) {
+                                        updateUsersField(document.querySelector('#id_replaced_users'), participants, 2, electedUsers, "replaced_users");
+                                        updateUsersField(document.querySelector('#id_unreplaced_users'), participants, 3, false, "unreplaced_users");
+    
+                                        requestListener(1);
+                                        requestListener(2);
+                                        requestListener(3);
+                                }
+                            });
+                            secretarySection.classList.add('cgs-hidden');
+                            break;
                     }
-                })
-                .catch(error => {
-                    console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
-                });
-        });
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+        });      
+        // fetchUsers(function(err, electedUsers) {
+        //     if (err) {
+        //         console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
+        //         return;
+        //     }
+
+        //     fetch('/api/v2/pages/' + convocationId + '/')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data && data.convocation_users) {
+
+        //                 updateSecretaryField(electedUsers, secretary);
+        //                 updateUsersField(document.querySelector('#id_replaced_users'), data.convocation_users, 2, electedUsers, "replaced_users");
+        //                 updateUsersField(document.querySelector('#id_unreplaced_users'), data.convocation_users, 3, false, "unreplaced_users");
+
+        //                 requestListener(1);
+        //                 requestListener(2);
+        //                 requestListener(3);
+        //             }
+        //         })
+        //         .catch(error => {
+        //             console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+        //         });
+        // });
     }
 }

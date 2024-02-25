@@ -111,6 +111,10 @@
 	src: url("../fonts/CoreRhino65Bold.otf") format("opentype")
 }
 
+.cgs-hidden {
+    display: none;
+}
+
 .w-panel__content {
     &.disabled {
         opacity: 0.5;
