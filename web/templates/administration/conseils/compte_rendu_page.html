@@ -7,6 +7,7 @@
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">        
     {% endif %}
 {% endblock %}
 
@@ -102,7 +103,7 @@
         
     </div>     
 
-    <div class="grid-item grid-odj">
+    <div class="grid-item grid-quorum">
         <p>
             {% if page.quorum %}
                 Monsieur le président fait l'appel, constate que le quorum est atteint.
@@ -110,11 +111,12 @@
                 Monsieur le président fait l'appel, constate que le quorum n'est pas atteint.
             {% endif %}
         </p>
-        {% for block in page.body %}
-            {% include_block block %}
-        {% endfor %}
     </div>
     
+    <div class="grid-item grid-cr">
+        {% include "widgets/blocks/streamfield.html" with value=page.body %}
+    </div>
+
     <div class="grid-item grid-documents">
         <h4>Documents associés :</h4>
         <ul>
@@ -133,4 +135,8 @@
         {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
     {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/intranet.min.js' %}"></script>
 {% endblock %}

@@ -5,8 +5,8 @@ from django import forms
 from django.db import models
 
 from wagtail import blocks
-from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import (
@@ -36,8 +36,14 @@ from users.models import (
 # Tables
 from wagtail.contrib.table_block.blocks import TableBlock
 
-# Medias, PJ, MenuPage
-from home.models import MediaBlock, PiecesJointes
+# Blocks, Medias, PJ, etc.
+from home.models import (
+    CustomChartBlock as ChartBlock,
+    MediaBlock as MediaBlock,
+    CustomLinkBlock as LinkBlock,
+    CustomEmbedBlock as EmbedBlock,
+    PiecesJointes as PJBlock,
+)
 
 # Export PDF
 from wagtail_pdf_view.mixins import PdfViewPageMixin
@@ -111,7 +117,6 @@ def cv_cr_filter(page, request):
         'convocation_pages_by_year': dict(convocation_pages_by_year),
         'compterendu_pages_by_year': dict(compterendu_pages_by_year),
     }
-
 
 # La page d'accueil de la partie administration du site
 class AdministrationIndexPage(MenuPage):
@@ -350,6 +355,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
         "administration.CommissionPage",
         "administration.ConferencesIndexPage",
     ]
+    subpage_types = []
     show_in_menus_default = True
     template_name = "administration/conseils/convocation_page.html"
     admin_template_name = "administration/conseils/convocation_page.html"
@@ -444,6 +450,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         "administration.CommissionPage",
         "administration.ConferencesIndexPage",
     ]
+    subpage_types = []
     show_in_menus_default = True
     template_name = "administration/conseils/compte_rendu_page.html"
     admin_template_name = "administration/conseils/compte_rendu_page.html"
@@ -492,21 +499,20 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         default=True,
         verbose_name=_("Quorum"),
         help_text=_("Uncheck this box if the quorum isn't reached."),
-    )
+    )    
     body = StreamField(
         [
             ("heading", blocks.CharBlock(classname="title", icon="title")),
             ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
             ("media", MediaBlock(icon="media")),
             ("image", ImageChooserBlock(icon="image")),
-            ("link", blocks.URLBlock(icon="link")),
+            ("document", DocumentChooserBlock(icon="doc-full")),
+            ("link", LinkBlock(icon="link")),
             ("embed", EmbedBlock(icon="media")),
-            (
-                "list",
-                blocks.ListBlock(blocks.CharBlock(icon="list-ul"), icon="list-ul"),
-            ),
+            ("list", blocks.ListBlock(blocks.CharBlock(icon="list-ul"), icon="list-ul")),
             ("quote", blocks.BlockQuoteBlock(icon="openquote")),
             ("table", TableBlock(icon="table")),
+            ("chart", ChartBlock(icon="chart")),
         ],
         use_json_field=True,
         blank=True,
@@ -645,7 +651,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
 
         
 # Liste de documents (convoc)
-class ConvocationPieceJointe(PiecesJointes):
+class ConvocationPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la ConvocationPage."""
 
     page = ParentalKey(
@@ -656,7 +662,7 @@ class ConvocationPieceJointe(PiecesJointes):
 
 
 # Liste de documents (cr)
-class CompteRenduPieceJointe(PiecesJointes):
+class CompteRenduPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la CompteRenduPage."""
 
     page = ParentalKey(

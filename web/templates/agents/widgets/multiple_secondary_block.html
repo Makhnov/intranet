@@ -17,7 +17,7 @@
         <div class="choices-content">
             {% for item in block.choices %}
                 <div class="choice-answer cgs-answer" id="secondary-answer-{{ forloop.counter }}">
-                    {% include "agents/widgets/single_answer_block.html" with value=item.choice_answer %}
+                    {% include "widgets/blocks/streamfield.html" with value=item.choice_answer %}
                 </div>
             {% endfor %}
         </div>

@@ -64,10 +64,11 @@ body {
     height: 300px;
 }
 
-.grid-item {
+.grid-item, .grid-item * {
     align-self: center;
     font-size: 1rem;
     font-family: 'rhino';
+
 }
 
 .grid-invitation {
@@ -122,13 +123,17 @@ body {
     margin-bottom: 100px;
 }
 
-.grid-odj {
+.grid-odj, .grid-quorum {
     grid-row: 5;
     grid-column: 2 / span 3;
 
     text-align: start;
     line-height: initial;
     margin-left: 50px;
+}
+
+.grid-quorum {
+    margin-top: 50px;
 }
 
 .grid-odj ol, .grid-odj ul {
@@ -145,6 +150,16 @@ body {
     content: counter(list-counter)".";
     margin-right: 5px;
     min-width: 2em;
+}
+
+.grid-cr {
+    grid-row: 6;
+    grid-column: 2 / span 3;
+
+    text-align: start;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-left: 50px;
 }
 
 .grid-closing {
@@ -193,4 +208,8 @@ body {
 .grid-links * {
     margin:0;
     padding:0;
+}
+
+.cgs-block-chart {
+    max-width: 800px;
 }

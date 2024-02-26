@@ -21,7 +21,7 @@
                         <!-- Détermine le type de réponse et inclut le template correspondant -->
                         {% if inner_block.block_type == 'single_answer' %}
                             <div class="cgs-single cgs-answer">
-                                {% include "agents/widgets/single_answer_block.html" with value=inner_block.value %}
+                                {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
                             </div>     
                         {% elif inner_block.block_type == 'multiple_answer' %}
                                 {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}

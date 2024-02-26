@@ -28,7 +28,7 @@
                     {% for block in page.answer %}
                         {% if block.block_type == 'single_answer' %}
                             <div class="cgs-single cgs-answer">
-                                {% include "agents/widgets/single_answer_block.html" with value=block.value %}
+                                {% include "widgets/blocks/streamfield.html" with value=block.value %}
                             </div>                        
                         {% elif block.block_type == 'multiple_answer' %}
                             {% include "agents/widgets/multiple_answer_block.html" with value=block.value %}

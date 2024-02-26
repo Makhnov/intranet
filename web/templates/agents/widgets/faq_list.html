@@ -57,9 +57,7 @@
                                             </div>
                                             <div id="targetCollapse{{ forloop.counter }}" class="collapse" aria-labelledby="targetHeading{{ forloop.counter }}" data-parent="#collapse{{ faq.id }}">
                                                 <div class="card-body">
-                                                    {% for answer_block in block.value.answer_content %}
-                                                        {% include "agents/widgets/faq_answer_block_content.html" %}
-                                                    {% endfor %}
+                                                    {% include "widgets\blocks\streamfield.html" with value=block.value.answer_content %}
                                                 </div>
                                             </div>
                                         </div>
@@ -67,7 +65,7 @@
                                     {% else %}
                                         <div class="card-body">
                                             {% for answer_block in block.value.answer_content %}
-                                                {% include "agents/widgets/faq_answer_block_content.html" %}
+                                                {% include "widgets\blocks\streamfield.html" with value=block.value.answer_content %}
                                             {% endfor %}
                                         </div>
                                     {% endif %}

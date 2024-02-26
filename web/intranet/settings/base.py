@@ -77,6 +77,10 @@ INSTALLED_APPS = [
     # "wagtail_content_import.pickers.microsoft", # Requis par wagtail content import (API Microsoft)
     # "wagtail_content_import.pickers.local", # Requis par wagtail content import (API locale)
     
+    # Charts 
+    "wagtailcharts", # https://github.com/overcastsoftware/wagtailcharts?tab=readme-ov-file#wagtail-charts
+    # Charts
+    
     # Formulaires
     "wagtailstreamforms", # https://wagtailstreamforms.readthedocs.io/en/latest/ 
     "generic_chooser", # Requis par wagtailstreamforms   

@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 
 from wagtail import blocks
+from wagtail.blocks import StreamBlock
+from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.models import Page, Orderable
@@ -71,6 +73,64 @@ def generic_search(request, parent_page):
     }
         
     return grouped_subpages, search_query, page_type
+
+    # --cgs-color-primary:rgb(0, 133, 111);
+    # --cgs-color-secondary:rgb(0, 179, 189);
+    # --cgs-color-tertiary:rgb(146, 214, 0);
+    
+    # --cgs-logo-1:rgb(0, 135, 112);
+    # --cgs-logo-2:rgb(0, 179, 190);
+    # --cgs-logo-3:rgb(146, 212, 0);
+    # --cgs-logo-4:rgb(146, 139, 129);
+    # --cgs-logo-5:rgb(221, 72, 20);
+
+    # --cgs-color-menu-1:hsl(188, 58%, 61%);
+    # --cgs-color-menu-2:hsl(77, 66%, 61%);
+    # --cgs-color-menu-3:hsl(168, 56%, 39%);
+    # --cgs-color-menu-4:hsl(172, 49%, 59%);
+    # --cgs-color-menu-5:hsl(21, 95%, 63%);
+    
+COLORS = (
+    ('#ff0000', 'Rouge'),
+    ('#00ff00', 'Vert'),
+    ('#0000ff', 'Bleu'),
+    ('#ffff00', 'Jaune'),
+    ('#ff00ff', 'Magenta'),
+    ('#00ffff', 'Cyan'),
+    ('#808080', 'Gris'),
+    ('#800000', 'Marron'),
+    ('#008000', 'Vert foncé'),
+    ('#000080', 'Bleu foncé'),
+    ('#800080', 'Violet'),
+    ('#c0c0c0', 'Argent'),
+    ('#ff3399', 'Rose'),
+    ('#008080', 'Sarcelle'), # Teal
+    ('#00CED1', 'Turquoise foncé'), # DarkTurquoise
+    ('#7CFC00', 'Vert prairie'), # LawnGreen
+    ('#D2691E', 'Chocolat'), # Chocolate
+    ('#48D1CC', 'Turquoise moyen'), # MediumTurquoise
+    ('#BDB76B', 'Kaki foncé'), # DarkKhaki
+    ('#3CB371', 'Vert mer moyen'), # MediumSeaGreen
+    ('#66CDAA', 'Aquamarine moyen'), # MediumAquamarine
+    ('#FF7F50', 'Corail'), # Coral
+)
+
+CHART_TYPES = (
+    ('line', 'Graphique linéaire'),
+    ('bar', 'Graphique à barres verticales'),
+    ('bar_horizontal', 'Graphique à barres horizontales'),
+    ('area', 'Graphique en aires'),
+    ('multi', 'Graphique combiné linéaire/barres/aires'),
+    ('pie', 'Graphique en secteurs'),
+    ('doughnut', 'Graphique en anneau'),
+    ('radar', 'Graphique radar'),
+    ('polar', 'Graphique polaire'),
+    ('waterfall', 'Graphique en cascade')
+)
+
+# Charts
+class CustomChartBlock(StreamBlock):
+    chart_block = ChartBlock(colors=COLORS, chart_type=CHART_TYPES)
 
 
 # Lien personnalisé

@@ -1,0 +1,51 @@
+{% load wagtailcore_tags wagtailimages_tags embed_tags wagtailcharts_tags %}
+
+{% for block in value %}
+    {% if block.block_type == 'heading' %}
+        <h2>{{ block.value }}</h2>
+    {% elif block.block_type == 'paragraph' %}
+        <div class="cgs-block-paragraph">
+            {{ block.value|richtext }}
+        </div>
+    {% elif block.block_type == 'media' %}
+        <!-- Traiter le bloc média selon sa structure -->
+    {% elif block.block_type == 'image' %}
+        <div class="cgs-block-image">
+            {% image block.value fill-300x300 class="cgs-expandable" %}
+        </div>
+    {% elif block.block_type == 'document' %}
+        <div class="cgs-block-document">
+            <a href="{{ block.value.file.url }}">{{ block.value.title }}</a>
+        </div>        
+    {% elif block.block_type == 'link' %}
+        <div class="cgs-block-link">
+            <a href="{{ block.value }}">{{ block.value }}</a>
+        </div>
+    {% elif block.block_type == 'embed' %}
+        <div class="cgs-block-embed">
+            {% include "widgets/images/embed_block.html" with embed_block=block.value %}
+        </div>
+    {% elif block.block_type == 'list' %}    
+        <ul class="cgs-block-list">
+            {% for item in block.value %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% elif block.block_type == 'quote' %}
+        <blockquote class="cgs-block-quote">
+            {{ block.value }}
+        </blockquote>
+    {% elif block.block_type == 'table' %}
+        <div class="cgs-block-table" value="{% include_block block.value %}">
+            {% include_block block %}
+        </div>
+    {% elif block.block_type == 'chart' %}
+        <div class="cgs-block-chart">
+            {% include_block block %}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% block extra_js %}
+    {% render_charts %}
+{% endblock %}
