@@ -126,7 +126,8 @@ def after_edit_and_create(request, page):
         
     if isinstance(page_specific_administration, CompteRenduPage):
         update_presence_status(request, page)
-    
+        process_pdf(request, page)
+        
 # AFTER (CREATE ONLY)
 def after_create_only(request, page):
     page_specific_administration = page.specific
@@ -151,7 +152,7 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
     """
     # Determine la classe de page en fonction de l'opération (création ou édition)
     page_to_check = page if page else page_class
-    print(f"Starting set_defaults for: {page_to_check}")    
+    # print(f"Starting set_defaults for: {page_to_check}")    
 
     # Copie de la requête
     request.POST = request.POST.copy()
@@ -200,13 +201,13 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
 
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
-    print(colored(f"Starting title and slugs status update for: {page}", "green"))
+    # print(colored(f"Starting title and slugs status update for: {page}", "green"))
 
     # Copie de la requête
     request.POST = request.POST.copy()        
 
     user_date = request.POST.get("date")
-    # print(f'Date utilisateur : {user_date}')  # Debug print
+    # # print(f'Date utilisateur : {user_date}')  # Debug print
     if user_date:
         try:
             # Formatage de la date pour le titre et le slug
@@ -220,11 +221,11 @@ def update_convoc_and_cr_defaults(request, page):
             suffix = parent_page.label if hasattr(parent_page, 'label') and parent_page.label else parent_page.title
 
             # Construction du nouveau titre et slug
-            # print(f'Suffixe : {suffix}')  # Debug print
+            # # print(f'Suffixe : {suffix}')  # Debug print
             new_title = f"{prefix} {suffix} {formatted_date_for_title}"
-            # print(f'Nouveau titre : {new_title}')  # Debug print
+            # # print(f'Nouveau titre : {new_title}')  # Debug print
             new_slug = slugify(f"{prefix}-{suffix}-{formatted_date_for_slug}")
-            # print(f'Nouveau slug : {new_slug}')  # Debug print
+            # # print(f'Nouveau slug : {new_slug}')  # Debug print
             
             # Mise à jour du titre, slug et date de la page
             page.title = new_title
@@ -240,10 +241,10 @@ def update_convoc_and_cr_defaults(request, page):
 
 # Fonction pour récupérer les utilisateurs en fonction de la page parente
 def create_convocation_users(request, page):
-    print(colored(f"Starting convc_users status update for: {page}", "green"))
+    # print(colored(f"Starting convc_users status update for: {page}", "green"))
 
     parent_page = page.get_parent().specific
-    # print(f"Le type de parent_page est: {type(parent_page)}")
+    # # print(f"Le type de parent_page est: {type(parent_page)}")
     
     function_field_mapping = {
         'ConseilsIndexPage': 'function_council',
@@ -267,8 +268,8 @@ def create_convocation_users(request, page):
     # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
     if isinstance(parent_page, CommissionPage):
         users = users.filter(commission_id=parent_page.id)
-        # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
-        # print(colored(f'users : {users}', "white", "on_yellow"))
+        # # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
+        # # print(colored(f'users : {users}', "white", "on_yellow"))
         
     # Créer un dictionnaire pour compter les utilisateurs par fonction
     user_count_by_function = defaultdict(int)
@@ -315,11 +316,11 @@ def create_convocation_users(request, page):
             alternate=alternate, # Suppléant officiel (NULL par défaut)
             
         )
-        print(f'CU Créée : {cu}')
+        # print(f'CU Créée : {cu}')
 
 # Fonction qui met à jour les statuts de présence des utilisateurs
 def update_presence_status(request, page):
-    print(colored(f"Starting presence status update for: {page}", "green"))
+    # print(colored(f"Starting presence status update for: {page}", "green"))
     # Vérifiez si la requête est une requête POST
     if request.method == 'POST':
         # Récupérez l'ID de la convocation à partir de la requête POST
@@ -365,16 +366,16 @@ def update_presence_status(request, page):
             present_ids = list(present_temp_ids)
             
             # LOGS
-            print(f'Users : {user_ids}')
-            # print(f'Replaced : {replaced_user_ids}')
-            # print(f'Unreplaced : {unreplaced_user_ids}')
-            # print(f'Substitutes full list: {substitute_user_list}')
-            print(f'Substitutes : {substitute_user_ids}')
-            # print(f'Substitute count : {substitute_count}')
-            # print(f'Absents full list : {absent_user_list}')
-            print(f'Absent members : {absent_user_ids}')
-            print(f'Present members : {present_ids}')
-            print(f'Secretary : {secretary_id}')
+            # print(f'Users : {user_ids}')
+            # # print(f'Replaced : {replaced_user_ids}')
+            # # print(f'Unreplaced : {unreplaced_user_ids}')
+            # # print(f'Substitutes full list: {substitute_user_list}')
+            # print(f'Substitutes : {substitute_user_ids}')
+            # # print(f'Substitute count : {substitute_count}')
+            # # print(f'Absents full list : {absent_user_list}')
+            # print(f'Absent members : {absent_user_ids}')
+            # print(f'Present members : {present_ids}')
+            # print(f'Secretary : {secretary_id}')
             
             # Vérification 1 : un utilisateur ne peut pas être à la fois remplacé et non remplacé
             if set(replaced_user_ids).intersection(unreplaced_user_ids):
@@ -464,7 +465,8 @@ def update_presence_status(request, page):
                 compte_rendu_page.save()
 
         else:
-            print("ID de convocation non fourni")
+            # print("ID de convocation non fourni")
+            pass
 
 # Fonction pour formater la date en français
 def get_formatted_date(user_date):
@@ -492,3 +494,53 @@ def get_formatted_date(user_date):
 def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
+
+from pypdf import PdfReader
+from images.models import CustomImage
+from django.core.files.base import ContentFile
+from django.core.files.temp import NamedTemporaryFile
+from wagtail.blocks import StreamValue, StreamBlock, RichTextBlock, BoundBlock, StructBlock
+from administration.models import ParagraphBlock
+from wagtail.rich_text import RichText
+from uuid import uuid4
+
+# Fonction pour traiter les fichiers PDF
+def process_pdf(request, page):
+    page_specific = page.specific
+
+    if hasattr(page_specific, 'pdf_document') and page_specific.pdf_document:
+        reader = PdfReader(page_specific.pdf_document.file.path)
+
+        # Créez un nouveau bloc de paragraphe
+        new_paragraph_block = RichTextBlock()
+        new_paragraph_block.value = '<p>Nouveau paragraphe</p>'
+
+        # Créez une nouvelle instance de StreamChild à partir du bloc de paragraphe
+        new_paragraph_child = StreamValue.StreamChild(
+            block=new_paragraph_block,
+            value=RichText("Nouveau paragraphe"),
+            id=uuid4(),
+        )
+        
+        # # Récupérez la liste existante de blocs dans le StreamField
+        existing_blocks = list(page_specific.body)
+        print(colored(f'Existing blocks : {existing_blocks}', 'blue', 'on_white'))
+        
+        for block in existing_blocks:
+            if block.block_type == 'paragraph':
+                # on récupère le premier paragraphe
+                first_paragraph = block
+                break        
+            
+        print(first_paragraph.__dict__)
+        print(new_paragraph_child.__dict__)
+        
+        # Ajoutez le nouveau bloc de paragraphe à la liste existante de blocs
+        existing_blocks.append('paragraph', new_paragraph_child)        
+        print(colored(f'Existing blocks after append : {existing_blocks}', 'red', 'on_white'))
+        
+        # Mettez à jour la valeur du StreamField avec la nouvelle liste de blocs
+        page_specific.body = existing_blocks
+
+        # Enregistrez la page mise à jour dans la base de données
+        page_specific.save_revision().publish()

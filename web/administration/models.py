@@ -43,6 +43,7 @@ from home.models import (
     CustomLinkBlock as LinkBlock,
     CustomEmbedBlock as EmbedBlock,
     PiecesJointes as PJBlock,
+    CustomParagraph as ParagraphBlock,
 )
 
 # Export PDF
@@ -503,7 +504,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     body = StreamField(
         [
             ("heading", blocks.CharBlock(classname="title", icon="title")),
-            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
+            ("paragraph", ParagraphBlock(icon="pilcrow")),
             ("media", MediaBlock(icon="media")),
             ("image", ImageChooserBlock(icon="image")),
             ("document", DocumentChooserBlock(icon="doc-full")),
@@ -520,7 +521,13 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         verbose_name=_("Agenda"),
         help_text=_("This is the main content of the page."),
     )
-
+    pdf_document = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
     content_panels = custom_content_panels(["title"]) + [
         PageChooserPanel("convocation", "administration.ConvocationPage"),
         FieldPanel(
@@ -544,6 +551,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             heading=_("Attachments"),
             classname="collapsible collapsed",
         ),
+        FieldPanel("pdf_document"),
     ]
     promote_panels = custom_promote_panels(["slug"])
             

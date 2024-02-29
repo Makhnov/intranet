@@ -128,6 +128,13 @@ CHART_TYPES = (
     ('waterfall', 'Graphique en cascade')
 )
 
+# On crée un bloc de paragraphe personnalisé abstrac
+class CustomParagraph(blocks.RichTextBlock):
+    class Meta:
+        label = _("Paragraph")
+        abstract = True
+    
+
 # Charts
 class CustomChartBlock(StreamBlock):
     chart_block = ChartBlock(colors=COLORS, chart_type=CHART_TYPES)

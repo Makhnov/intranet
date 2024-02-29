@@ -7,21 +7,25 @@ register = template.Library()
 
 @register.filter(name="embedurl")
 def get_embed_url_with_parameters(embed_value):
-    url = embed_value.url  # Accédez à l'URL réelle
-    if "youtube.com" in url or "youtu.be" in url:
-        regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"  # Get video id from URL
-        embed_url = re.sub(
-            regex, r"https://www.youtube.com/embed/\1", url
-        )  # Append video id to desired URL
-        embed_url_with_parameters = embed_url + "?rel=0"  # Add additional parameters
-        return embed_url_with_parameters
-    else:
-        return None
+    if hasattr(embed_value, 'url'):
+        url = embed_value.url 
+        if "youtube.com" in url or "youtu.be" in url:
+            regex = r"(?:https:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)"
+            embed_url = re.sub(regex, r"https://www.youtube.com/embed/\1", url)
+            embed_url_with_parameters = embed_url + "?rel=0"
+            return embed_url_with_parameters
+    return None
+
 
 
 @register.filter(name="get_css_class")
 def get_css_class(value):
-    resolution = value.get("resolution")
+
+    if isinstance(value, dict):
+        resolution = value.get("resolution")
+    else:
+        resolution = None
+
     css_classes = {
         "very_small": "embed-very-small",
         "small": "embed-small",
@@ -34,4 +38,7 @@ def get_css_class(value):
 
 @register.filter(name="get_alternative_title")
 def get_alternative_title(value):
-    return value.get("alternative_title", "")
+    if isinstance(value, dict):
+        return value.get("alternative_title", "")
+    else:
+        return ""

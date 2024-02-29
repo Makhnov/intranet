@@ -2,6 +2,8 @@
 # LEGACY BUILDER MAJ WARNING DOCKER COMPOSE BUILD
 # PDF PREVIEW (CR et CONVOC)
 
+# SELECTION MEDIA BUG wagtail6 (IMAGES FONCITONNENT, package à jour si besoin)
+
 # Modifier les titres et slugs cachés ...???
     AmicalePage
     FaqPage
