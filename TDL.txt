@@ -1,6 +1,9 @@
 # AUTO menu pour les convoc et CR
 # LEGACY BUILDER MAJ WARNING DOCKER COMPOSE BUILD
 # PDF PREVIEW (CR et CONVOC)
+# pip install --use-pep517 python-poppler
+# Linux
+# Most distros ship with pdftoppm and pdftocairo. If they are not installed, refer to your package manager to install poppler-utils
 
 # SELECTION MEDIA BUG wagtail6 (IMAGES FONCITONNENT, package à jour si besoin)
 

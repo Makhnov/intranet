@@ -43,6 +43,10 @@
         <div class="cgs-block-chart">
             {% include_block block %}
         </div>
+    {% elif block.block_type == 'PDF' %}
+        <div class="cgs-block-pdf">
+            {% include "widgets/blocks/PDF_block.html" %}
+        </div>
     {% endif %}
 {% endfor %}
 

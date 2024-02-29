@@ -7,6 +7,7 @@ from wagtail.blocks import StreamBlock
 from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, InlinePanel
@@ -27,7 +28,6 @@ from modelcluster.fields import ParentalKey
 
 # API
 from wagtail.api import APIField
-
 # Traduction
 from django.utils.translation import gettext_lazy as _
 
@@ -128,12 +128,69 @@ CHART_TYPES = (
     ('waterfall', 'Graphique en cascade')
 )
 
-# On crée un bloc de paragraphe personnalisé abstrac
-class CustomParagraph(blocks.RichTextBlock):
-    class Meta:
-        label = _("Paragraph")
-        abstract = True
+
+
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from io import BytesIO
+from wagtail.models import Collection
+from images.models import CustomImage
+from pdf2image import convert_from_bytes
+from django.utils.text import slugify
+
+
+class CustomPDFBlock(blocks.StructBlock):
+
+    heading = blocks.CharBlock(required=False, blank=True, classname="full title", icon="title", label=_("Heading"))
+    document = DocumentChooserBlock(required=True, blank=False, classname="full", icon="doc-full", label=_("Document"))
+    images = blocks.ListBlock(ImageChooserBlock(required=False, null=True, blank=True, editable=False), required=False, null=True, blank=True, editable=False)
     
+    def get_pdf_images(self, document):
+                
+        pdf_data = document.file.read()
+        pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
+
+        # On slugify le titre du document pour le nom de la collection
+        collection_name = slugify(document.title)
+        root_collection = Collection.objects.get(name="PDF")
+
+        try:
+            collection = root_collection.get_children().get(name=collection_name)
+        except Collection.DoesNotExist:
+            collection = root_collection.add_child(name=collection_name)
+        
+        print(colored(collection_name.title, "green", "on_white"))
+        print(colored(root_collection, "green", "on_red"))
+
+        # Vérifiez si les images existent déjà avant de les créer
+        existing_images = CustomImage.objects.filter(collection__name=collection_name)
+        print(existing_images)
+        if existing_images.exists():
+            # Supprimez les images existantes si vous voulez les remplacer par de nouvelles
+            existing_images.delete()
+        
+        image_ids = []
+        
+        for i, image in enumerate(pdf_images):
+            # Convertir l'image PIL en bytes
+            img_bytes = BytesIO()
+            image.save(img_bytes, format='JPEG')
+            img_bytes = img_bytes.getvalue()
+
+            # Créer l'instance de CustomImage
+            wagtail_image = CustomImage(file=ContentFile(img_bytes, name=f"pdf_image_{i}.jpeg"), title=f"PDF Image {i}", collection=collection)
+            wagtail_image.save()
+            image_ids.append(wagtail_image.id)
+            
+        print(image_ids)
+        
+        return image_ids
+
+    
+    class Meta:
+        label = _("PDF")
+        template = "widgets/blocks/PDF_block.html"
+
 
 # Charts
 class CustomChartBlock(StreamBlock):

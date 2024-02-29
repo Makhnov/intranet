@@ -43,7 +43,7 @@ from home.models import (
     CustomLinkBlock as LinkBlock,
     CustomEmbedBlock as EmbedBlock,
     PiecesJointes as PJBlock,
-    CustomParagraph as ParagraphBlock,
+    CustomPDFBlock as PDFBlock,
 )
 
 # Export PDF
@@ -504,7 +504,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     body = StreamField(
         [
             ("heading", blocks.CharBlock(classname="title", icon="title")),
-            ("paragraph", ParagraphBlock(icon="pilcrow")),
+            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
             ("media", MediaBlock(icon="media")),
             ("image", ImageChooserBlock(icon="image")),
             ("document", DocumentChooserBlock(icon="doc-full")),
@@ -514,19 +514,13 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             ("quote", blocks.BlockQuoteBlock(icon="openquote")),
             ("table", TableBlock(icon="table")),
             ("chart", ChartBlock(icon="chart")),
+            ("PDF", PDFBlock(icon="doc-full")),
         ],
         use_json_field=True,
         blank=True,
         null=True,
         verbose_name=_("Agenda"),
         help_text=_("This is the main content of the page."),
-    )
-    pdf_document = models.ForeignKey(
-        'wagtaildocs.Document',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+'
     )
     content_panels = custom_content_panels(["title"]) + [
         PageChooserPanel("convocation", "administration.ConvocationPage"),
@@ -551,7 +545,6 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             heading=_("Attachments"),
             classname="collapsible collapsed",
         ),
-        FieldPanel("pdf_document"),
     ]
     promote_panels = custom_promote_panels(["slug"])
             
@@ -582,7 +575,8 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         if not self.slug:  # Si le slug n'est pas déjà défini
             self.slug = "compte-rendu"
         super().save(*args, **kwargs)
-           
+
+        
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
 

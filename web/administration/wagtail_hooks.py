@@ -126,7 +126,7 @@ def after_edit_and_create(request, page):
         
     if isinstance(page_specific_administration, CompteRenduPage):
         update_presence_status(request, page)
-        process_pdf(request, page)
+        pdf_to_img(request, page)
         
 # AFTER (CREATE ONLY)
 def after_create_only(request, page):
@@ -495,52 +495,42 @@ def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
 
-from pypdf import PdfReader
-from images.models import CustomImage
-from django.core.files.base import ContentFile
-from django.core.files.temp import NamedTemporaryFile
-from wagtail.blocks import StreamValue, StreamBlock, RichTextBlock, BoundBlock, StructBlock
-from administration.models import ParagraphBlock
-from wagtail.rich_text import RichText
-from uuid import uuid4
+# from pypdf import PdfReader
+# from images.models import CustomImage
+# from django.core.files.base import ContentFile
+# from django.core.files.temp import NamedTemporaryFile
+# from wagtail.blocks import StreamValue, StreamBlock, RichTextBlock, BoundBlock, StructBlock
+# from administration.models import ParagraphBlock
+# from wagtail.rich_text import RichText
+# from uuid import uuid4
 
 # Fonction pour traiter les fichiers PDF
-def process_pdf(request, page):
+def pdf_to_img(request, page):
     page_specific = page.specific
 
-    if hasattr(page_specific, 'pdf_document') and page_specific.pdf_document:
-        reader = PdfReader(page_specific.pdf_document.file.path)
-
-        # Créez un nouveau bloc de paragraphe
-        new_paragraph_block = RichTextBlock()
-        new_paragraph_block.value = '<p>Nouveau paragraphe</p>'
-
-        # Créez une nouvelle instance de StreamChild à partir du bloc de paragraphe
-        new_paragraph_child = StreamValue.StreamChild(
-            block=new_paragraph_block,
-            value=RichText("Nouveau paragraphe"),
-            id=uuid4(),
-        )
-        
-        # # Récupérez la liste existante de blocs dans le StreamField
-        existing_blocks = list(page_specific.body)
-        print(colored(f'Existing blocks : {existing_blocks}', 'blue', 'on_white'))
-        
-        for block in existing_blocks:
-            if block.block_type == 'paragraph':
-                # on récupère le premier paragraphe
-                first_paragraph = block
-                break        
+    # On récupere tous les blocks PDF   
+    pdf_blocks = [block for block in page_specific.body if block.block_type == 'PDF']
+    
+    print(f"PDF Blocks : {pdf_blocks}")
+    
+    # On itere sur tous les blocks PDF
+    if pdf_blocks:
+        for block in pdf_blocks:
+            print(f"Block : {block}")
             
-        print(first_paragraph.__dict__)
-        print(new_paragraph_child.__dict__)
-        
-        # Ajoutez le nouveau bloc de paragraphe à la liste existante de blocs
-        existing_blocks.append('paragraph', new_paragraph_child)        
-        print(colored(f'Existing blocks after append : {existing_blocks}', 'red', 'on_white'))
-        
-        # Mettez à jour la valeur du StreamField avec la nouvelle liste de blocs
-        page_specific.body = existing_blocks
+            document = block.value.get('document')
+            print(document.filename.split(".")[-1])
 
-        # Enregistrez la page mise à jour dans la base de données
-        page_specific.save_revision().publish()
+            # On vérifie si l'extension du document est bien .pdf
+            if document and document.filename.split(".")[-1] == 'pdf':           
+                # On appelle la méthode get_pdf_images pour obtenir les images générées à partir du PDF
+                images = block.block.get_pdf_images(document)
+                print(f"Images générées : {images}")
+                
+                # On met à jour le champ images du bloc avec les images générées
+                block.value['images'] = [{'image': img, 'caption': '', 'focal_point_key': 'center'} for img in images]
+
+                # Ici, vous devez assigner la nouvelle valeur à page_specific.body et sauvegarder la page
+                # page_specific.body = <nouvelle valeur>
+                page_specific.save()
+    

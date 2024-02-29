@@ -3,12 +3,14 @@ from wagtail.models import Page
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 
 # Téléchargement automatique des fichiers pour InstantDownloadPage
-from django.http import HttpResponse
-from .models import InstantDownloadPage
 import zipfile
 import io
+from django.http import HttpResponse
+from .models import InstantDownloadPage
 
-# Panneaux de création de page personnalisés
+
+
+# Panneaux de création de pages personnalisées
 def custom_content_panels(exclude_fields=None):
     if exclude_fields is None:
         exclude_fields = []
@@ -19,6 +21,7 @@ def custom_content_panels(exclude_fields=None):
     ]
 
 
+# Panneaux de promotion de pages personnalisées
 def custom_promote_panels(exclude_fields=None):
     if exclude_fields is None:
         exclude_fields = []
@@ -69,3 +72,5 @@ def download_document(request, page_id):
         response = HttpResponse(zip_buffer, content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename="documents.zip"'
         return response
+
+ #
