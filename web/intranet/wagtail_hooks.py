@@ -9,11 +9,11 @@ from agents.models import FaqPage
 from home.models import InstantDownloadPage
 
 # Mots-clefs :
-from utils.stop_words import STOP_WORDS
+from utils.variables import STOP_WORDS
 
 # Pages auto restreintes (Utilisateurs connectés uniquement)
 from utils.auth import login_restricted_pages
-from utils.formats import extensions
+from utils.variables import extensions
 
 #####################################################################################################################################################################################
 #                                                                                AFTER CREATE HOOKS                                                                                 #

@@ -1,6 +1,14 @@
 from termcolor import colored
+import zipfile
+import re
+import io
+from io import BytesIO
+
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
+from django.http import HttpResponse
+from django.core.files.base import ContentFile
 
 from wagtail import blocks
 from wagtail.blocks import StreamBlock
@@ -8,7 +16,7 @@ from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.models import Page, Orderable
+from wagtail.models import Page, Orderable, Collection
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, InlinePanel
 
@@ -17,6 +25,10 @@ from utils.menu_pages import MenuPage, menu_page_save
 
 # Documents
 from wagtail.documents.models import Document
+
+# Images
+from images.models import CustomImage
+from pdf2image import convert_from_bytes
 
 # Wagtail Media
 from django.forms.utils import flatatt
@@ -28,6 +40,7 @@ from modelcluster.fields import ParentalKey
 
 # API
 from wagtail.api import APIField
+
 # Traduction
 from django.utils.translation import gettext_lazy as _
 
@@ -37,11 +50,11 @@ from wagtail.search import index
 # Formulaire
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 
-# Téléchargement de documents
-from django.http import HttpResponse
-import zipfile
-import io
+# Charts
+from utils.variables import CHART_COLORS, CHART_TYPES, STOP_WORDS
 
+
+# Recherche générique (RessourcesPage, PublicPage)
 def generic_search(request, parent_page):
     search_query = request.GET.get('query', '')
     page_type = request.GET.get('type', 'all')
@@ -74,103 +87,82 @@ def generic_search(request, parent_page):
         
     return grouped_subpages, search_query, page_type
 
-    # --cgs-color-primary:rgb(0, 133, 111);
-    # --cgs-color-secondary:rgb(0, 179, 189);
-    # --cgs-color-tertiary:rgb(146, 214, 0);
-    
-    # --cgs-logo-1:rgb(0, 135, 112);
-    # --cgs-logo-2:rgb(0, 179, 190);
-    # --cgs-logo-3:rgb(146, 212, 0);
-    # --cgs-logo-4:rgb(146, 139, 129);
-    # --cgs-logo-5:rgb(221, 72, 20);
 
-    # --cgs-color-menu-1:hsl(188, 58%, 61%);
-    # --cgs-color-menu-2:hsl(77, 66%, 61%);
-    # --cgs-color-menu-3:hsl(168, 56%, 39%);
-    # --cgs-color-menu-4:hsl(172, 49%, 59%);
-    # --cgs-color-menu-5:hsl(21, 95%, 63%);
-    
-COLORS = (
-    ('#ff0000', 'Rouge'),
-    ('#00ff00', 'Vert'),
-    ('#0000ff', 'Bleu'),
-    ('#ffff00', 'Jaune'),
-    ('#ff00ff', 'Magenta'),
-    ('#00ffff', 'Cyan'),
-    ('#808080', 'Gris'),
-    ('#800000', 'Marron'),
-    ('#008000', 'Vert foncé'),
-    ('#000080', 'Bleu foncé'),
-    ('#800080', 'Violet'),
-    ('#c0c0c0', 'Argent'),
-    ('#ff3399', 'Rose'),
-    ('#008080', 'Sarcelle'), # Teal
-    ('#00CED1', 'Turquoise foncé'), # DarkTurquoise
-    ('#7CFC00', 'Vert prairie'), # LawnGreen
-    ('#D2691E', 'Chocolat'), # Chocolate
-    ('#48D1CC', 'Turquoise moyen'), # MediumTurquoise
-    ('#BDB76B', 'Kaki foncé'), # DarkKhaki
-    ('#3CB371', 'Vert mer moyen'), # MediumSeaGreen
-    ('#66CDAA', 'Aquamarine moyen'), # MediumAquamarine
-    ('#FF7F50', 'Corail'), # Coral
-)
-
-CHART_TYPES = (
-    ('line', 'Graphique linéaire'),
-    ('bar', 'Graphique à barres verticales'),
-    ('bar_horizontal', 'Graphique à barres horizontales'),
-    ('area', 'Graphique en aires'),
-    ('multi', 'Graphique combiné linéaire/barres/aires'),
-    ('pie', 'Graphique en secteurs'),
-    ('doughnut', 'Graphique en anneau'),
-    ('radar', 'Graphique radar'),
-    ('polar', 'Graphique polaire'),
-    ('waterfall', 'Graphique en cascade')
-)
-
-
-
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from io import BytesIO
-from wagtail.models import Collection
-from images.models import CustomImage
-from pdf2image import convert_from_bytes
-from django.utils.text import slugify
-
-
+# PDF => images
 class CustomPDFBlock(blocks.StructBlock):
 
-    heading = blocks.CharBlock(required=False, blank=True, classname="full title", icon="title", label=_("Heading"))
-    document = DocumentChooserBlock(required=True, blank=False, classname="full", icon="doc-full", label=_("Document"))
-    images = blocks.ListBlock(ImageChooserBlock(required=False, null=True, blank=True, editable=False), required=False, null=True, blank=True, editable=False)
+    heading = blocks.CharBlock(
+        required=False, 
+        blank=True,
+        label=_("Heading"),
+        help_text=_("Automatically generated if left blank. This is the title of the PDF."),
+    )
+    document = DocumentChooserBlock(
+        required=True,
+        label=_("Document"),
+        help_text=_("Chose a PDF wich will be converted to images and added in the flow."),
+    )
+    images = blocks.ListBlock(
+        ImageChooserBlock(
+            required=False,
+            read_only=True,
+        ), 
+        required=False,
+        label=_("Aperçu des pages"),
+        help_text=_("You can remove or replace any of the images below. If you want to restore the original images, you must delete the block and add it again."),
+    )
+    # Panneau de contenu
+    content_panels = Page.content_panels + [
+        FieldPanel("heading"),
+        FieldPanel("document"),
+        FieldPanel("images"),
+    ]
     
-    def get_pdf_images(self, document):
-                
+    # Champs pour la recherche
+    search_fields = Page.search_fields + [
+        index.SearchField("heading"),
+        index.SearchField("body"),
+        index.RelatedFields('generic_documents', [
+            index.SearchField('title'),
+        ]),
+    ]
+
+    # Champs pour l'API
+    api_fields = [
+        APIField("heading"),
+        APIField("body"),
+    ]
+    
+    def get_pdf_images(self, document):                
         pdf_data = document.file.read()
         pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
-
+        
         # On slugify le titre du document pour le nom de la collection
         collection_name = slugify(document.title)
         root_collection = Collection.objects.get(name="PDF")
 
+        # On récupère le premier mot "significatif" du document pour son titre
+        words = re.split('-|_', collection_name)
+        image_title = "PDF Image"
+        for word in words:
+            if word not in STOP_WORDS and word != "":
+                image_title = word.capitalize()
+                break
+    
+        # On crée la collection si elle n'existe pas
         try:
             collection = root_collection.get_children().get(name=collection_name)
         except Collection.DoesNotExist:
             collection = root_collection.add_child(name=collection_name)
-        
-        print(colored(collection_name.title, "green", "on_white"))
-        print(colored(root_collection, "green", "on_red"))
 
         # Vérifiez si les images existent déjà avant de les créer
         existing_images = CustomImage.objects.filter(collection__name=collection_name)
-        print(existing_images)
+        # print(existing_images)
         if existing_images.exists():
             # Supprimez les images existantes si vous voulez les remplacer par de nouvelles
             existing_images.delete()
         
         image_ids = []
-        
         for i, image in enumerate(pdf_images):
             # Convertir l'image PIL en bytes
             img_bytes = BytesIO()
@@ -178,12 +170,11 @@ class CustomPDFBlock(blocks.StructBlock):
             img_bytes = img_bytes.getvalue()
 
             # Créer l'instance de CustomImage
-            wagtail_image = CustomImage(file=ContentFile(img_bytes, name=f"pdf_image_{i}.jpeg"), title=f"PDF Image {i}", collection=collection)
+            wagtail_image = CustomImage(file=ContentFile(img_bytes, name=f"pdf_image_{i}.jpeg"), title=f"{image_title} {i}", collection=collection)
             wagtail_image.save()
             image_ids.append(wagtail_image.id)
             
-        print(image_ids)
-        
+        # print(image_ids)
         return image_ids
 
     
@@ -194,7 +185,7 @@ class CustomPDFBlock(blocks.StructBlock):
 
 # Charts
 class CustomChartBlock(StreamBlock):
-    chart_block = ChartBlock(colors=COLORS, chart_type=CHART_TYPES)
+    chart_block = ChartBlock(colors=CHART_COLORS, chart_type=CHART_TYPES)
 
 
 # Lien personnalisé

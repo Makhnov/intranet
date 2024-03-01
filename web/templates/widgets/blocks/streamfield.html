@@ -19,7 +19,7 @@
         </div>        
     {% elif block.block_type == 'link' %}
         <div class="cgs-block-link">
-            <a href="{{ block.value }}">{{ block.value }}</a>
+            <a href="{{ block.value.url }}">{{ block.value.text }}</a>
         </div>
     {% elif block.block_type == 'embed' %}
         <div class="cgs-block-embed">

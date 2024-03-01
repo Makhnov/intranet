@@ -3,11 +3,10 @@ from termcolor import colored
 from wagtail import hooks
 from collections import defaultdict
 from django.db import transaction
-from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
 # Modèles
-from .models import (
+from administration.models import (
     ConvocationPage,
     CompteRenduPage,
     CommissionPage,
@@ -18,11 +17,13 @@ from .models import (
     PresenceStatus,
 )
 
+# Images custom
+from images.models import CustomImage
+
 # Filtres
 from django.db.models import Q
 
 # Convocations en foreign key (onetoone) des Comptes-rendus
-from .models import CompteRenduPage
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.utils.safestring import mark_safe
@@ -32,6 +33,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Date en français
+from django.utils import timezone
 from datetime import datetime, date
 import calendar
 import locale
@@ -39,9 +41,13 @@ import locale
 # Slugs
 from django.utils.text import slugify
 
+
 #############
 # VARIABLES #
 ############# 
+
+# variables globales
+from utils.variables import STOP_WORDS, ROLE_TRANSLATIONS
 
 # Pages concernées pour la création automatique (titre & slug) des Convocations et des Comptes-Rendus
 valid_parent_classes = (
@@ -50,45 +56,6 @@ valid_parent_classes = (
     CommissionPage,
     ConferencesIndexPage,
 )
-
-ROLE_TRANSLATIONS = {
-    "Monsieur": {
-        "Maire": "Maire",
-        "Adjoint au maire": "Adjoint au maire",
-        "Conseiller municipal": "Conseiller municipal",
-        "Président": "Président",
-        "Vice-président": "Vice-président",
-        "Membre": "Membre",
-        "Chargé de commission": "Chargé de commission",
-    },
-    "Madame": {
-        "Maire": "Maire",
-        "Adjoint au maire": "Adjointe au maire",
-        "Conseiller municipal": "Conseillère municipale",
-        "Président": "Présidente",
-        "Vice-président": "Vice-présidente",
-        "Membre": "Membre",
-        "Chargé de commission": "Chargée de commission",
-    },
-    "Neutre": {
-        "Maire": "Maire",
-        "Adjoint au maire": "Adjoint(e) au maire",
-        "Conseiller municipal": "Conseiller(e) municipal(e)",
-        "Président": "président(e)",
-        "Vice-président": "vice-président(e)",
-        "Membre": "Membre",
-        "Chargé de commission": "Chargé(e) de commission",
-    },
-    "Pluriel": {
-        "Maire": "Maires",
-        "Adjoint au maire": "Adjoints au maire",
-        "Conseiller municipal": "Conseillers municipaux",
-        "Président": "Présidents",
-        "Vice-président": "Vice-présidents",
-        "Membre": "Membres",
-        "Chargé de commission": "Chargés de commission",
-    }
-}
 
 #############
 ### HOOKS ###
@@ -495,42 +462,56 @@ def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
 
-# from pypdf import PdfReader
-# from images.models import CustomImage
-# from django.core.files.base import ContentFile
-# from django.core.files.temp import NamedTemporaryFile
-# from wagtail.blocks import StreamValue, StreamBlock, RichTextBlock, BoundBlock, StructBlock
-# from administration.models import ParagraphBlock
-# from wagtail.rich_text import RichText
-# from uuid import uuid4
+
+from wagtail.blocks import ListBlock
+from wagtail.images.models import Image
+from wagtail.fields import StreamField
+from wagtail.images.blocks import ImageChooserBlock
 
 # Fonction pour traiter les fichiers PDF
 def pdf_to_img(request, page):
     page_specific = page.specific
 
-    # On récupere tous les blocks PDF   
-    pdf_blocks = [block for block in page_specific.body if block.block_type == 'PDF']
-    
-    print(f"PDF Blocks : {pdf_blocks}")
-    
-    # On itere sur tous les blocks PDF
-    if pdf_blocks:
-        for block in pdf_blocks:
-            print(f"Block : {block}")
-            
+    # Initialiser une nouvelle liste pour stocker les blocs mis à jour
+    new_blocks = []
+
+    # Itérer sur tous les blocs du StreamField
+    for block in page_specific.body:
+        # Vérifier si le bloc actuel est un bloc PDF
+        print(f"Block type: {block.block_type}")
+        
+        if block.block_type == 'PDF':
+            print(colored(f"PDF block detected: {block}", "green", "on_white"))
             document = block.value.get('document')
-            print(document.filename.split(".")[-1])
 
-            # On vérifie si l'extension du document est bien .pdf
-            if document and document.filename.split(".")[-1] == 'pdf':           
-                # On appelle la méthode get_pdf_images pour obtenir les images générées à partir du PDF
-                images = block.block.get_pdf_images(document)
-                print(f"Images générées : {images}")
+            # Vérifier si le document est bien un fichier PDF
+            if document and document.filename.split(".")[-1].lower() == 'pdf':
+                # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
+                image_ids = block.block.get_pdf_images(document)  # Assurez-vous que cette méthode retourne une liste d'IDs
+                print(colored(f"Image IDs: {image_ids}", "green"))                
+
+                images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
+                print(colored(f"Image list value: {images_list_value}", "green"))
                 
-                # On met à jour le champ images du bloc avec les images générées
-                block.value['images'] = [{'image': img, 'caption': '', 'focal_point_key': 'center'} for img in images]
-
-                # Ici, vous devez assigner la nouvelle valeur à page_specific.body et sauvegarder la page
-                # page_specific.body = <nouvelle valeur>
-                page_specific.save()
-    
+                # On met à jour le champ images du bloc avec la ListValue
+                block.value['images'] = images_list_value
+                print(colored(f"Block value: {block.value}", "green"))                
+                block.value['heading'] = document.filename
+                
+                # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
+                new_blocks.append((block.block_type, block.value))
+                print(colored(f"New blocks: {new_blocks}", "green"))
+            else:
+                print(colored(f"Document is not a PDF: {document}", "cyan"))                
+                # Si le document associé au bloc PDF n'est pas un PDF, ajouter le bloc tel quel
+                new_blocks.append((block.block_type, block.value))
+        else:
+            print(colored(f"Non-PDF block detected: {block}", "red", "on_white"))
+            # Pour les blocs qui ne sont pas de type PDF, les ajouter directement à la liste des nouveaux blocs
+            new_blocks.append((block.block_type, block.value))
+            print(colored(f"New blocks: {new_blocks}", "red"))
+            
+    # Mise à jour du StreamField avec les blocs mis à jour
+    page_specific.body = new_blocks
+    page_specific.save()
+    page_specific.save_revision().publish()
