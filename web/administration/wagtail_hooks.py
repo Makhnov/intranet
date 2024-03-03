@@ -471,47 +471,66 @@ from wagtail.images.blocks import ImageChooserBlock
 # Fonction pour traiter les fichiers PDF
 def pdf_to_img(request, page):
     page_specific = page.specific
+    cr_date = page_specific.date
+    collection_restrictions = page.get_view_restrictions()
 
+    if cr_date:
+        formatted_date = cr_date.strftime('%d/%m/%Y')
+        collection_date = f"CR {formatted_date}"
+    else:
+        collection_date = "CR Date unknown"
+    
     # Initialiser une nouvelle liste pour stocker les blocs mis à jour
     new_blocks = []
 
     # Itérer sur tous les blocs du StreamField
-    for block in page_specific.body:
-        # Vérifier si le bloc actuel est un bloc PDF
-        print(f"Block type: {block.block_type}")
-        
+    for block in page_specific.body:      
+                  
+        # Vérifier si le bloc est un PDF
         if block.block_type == 'PDF':
-            print(colored(f"PDF block detected: {block}", "green", "on_white"))
-            document = block.value.get('document')
-
-            # Vérifier si le document est bien un fichier PDF
-            if document and document.filename.split(".")[-1].lower() == 'pdf':
-                # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
-                image_ids = block.block.get_pdf_images(document)  # Assurez-vous que cette méthode retourne une liste d'IDs
-                print(colored(f"Image IDs: {image_ids}", "green"))                
-
-                images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
-                print(colored(f"Image list value: {images_list_value}", "green"))
+            print(colored(f"PDF BLOCK", "white", "on_green"))
+            
+            # Vérifier si l'utilisateur souhaite importer le PDF
+            if block.value.get('pdf_import'):                
+                print(colored(f"IMPORTED BLOCK:", "yellow"))
+                document = block.value.get('pdf_document')
                 
-                # On met à jour le champ images du bloc avec la ListValue
-                block.value['images'] = images_list_value
-                print(colored(f"Block value: {block.value}", "green"))                
-                block.value['heading'] = document.filename
+                # Vérifier si le document est un fichier PDF
+                if document and document.filename.split(".")[-1].lower() == 'pdf':
+                    print(colored(f"FILE IS PDF:", "green"))                                        
+                    
+                    # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
+                    image_ids = block.block.get_pdf_images(document, collection_date, collection_restrictions)  # Assurez-vous que cette méthode retourne une liste d'IDs
+                    print(colored(f"Image IDs: {image_ids}", "green"))                
+
+                    # Convertir les IDs en une ListValue pour le bloc
+                    images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
+                    print(colored(f"Image list value: {images_list_value}", "green"))
+                    
+                    # On met à jour le champ images du bloc avec la ListValue
+                    block.value['pdf_images'] = images_list_value
+                    print(colored(f"Block value: {block.value}", "green"))                
+                    
+                    # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
+                    new_blocks.append((block.block_type, block.value))
+                    print(colored(f"New blocks: {new_blocks}", "green"))                
                 
-                # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
+                else: # Le BLOC est un PDF, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un PDF
+                    print(colored(f"FILE IS NOT A PDF: {document}", "magenta", "on_white"))                
+                    new_blocks.append((block.block_type, block.value))
+                    print(colored(f"New blocks: {new_blocks}", "red"))
+            
+            else:# Le BLOC est un PDF, MAIS l'utilisateur ne souhaite PAS l'importer
+                print(colored(f"NOT IMPORTED BLOCK: {block}", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
-                print(colored(f"New blocks: {new_blocks}", "green"))
-            else:
-                print(colored(f"Document is not a PDF: {document}", "cyan"))                
-                # Si le document associé au bloc PDF n'est pas un PDF, ajouter le bloc tel quel
-                new_blocks.append((block.block_type, block.value))
-        else:
-            print(colored(f"Non-PDF block detected: {block}", "red", "on_white"))
-            # Pour les blocs qui ne sont pas de type PDF, les ajouter directement à la liste des nouveaux blocs
+                print(colored(f"New blocks: {new_blocks}", "red"))
+        
+        else:# Le BLOC n'est PAS un PDF
+            print(colored(f"NOT PDF BLOCK: {block}", "red", "on_white"))
             new_blocks.append((block.block_type, block.value))
             print(colored(f"New blocks: {new_blocks}", "red"))
             
     # Mise à jour du StreamField avec les blocs mis à jour
     page_specific.body = new_blocks
-    page_specific.save()
+    # page_specific.save()
     page_specific.save_revision().publish()

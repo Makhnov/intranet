@@ -8,6 +8,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.http import HttpResponse
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 
 from wagtail import blocks
@@ -16,7 +17,7 @@ from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.models import Page, Orderable, Collection
+from wagtail.models import Page, Orderable, Collection, CollectionViewRestriction
 from wagtail.fields import RichTextField, StreamField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, InlinePanel
 
@@ -90,94 +91,124 @@ def generic_search(request, parent_page):
 
 # PDF => images
 class CustomPDFBlock(blocks.StructBlock):
-
-    heading = blocks.CharBlock(
-        required=False, 
-        blank=True,
-        label=_("Heading"),
-        help_text=_("Automatically generated if left blank. This is the title of the PDF."),
-    )
-    document = DocumentChooserBlock(
+    pdf_document = DocumentChooserBlock(
         required=True,
         label=_("Document"),
-        help_text=_("Chose a PDF wich will be converted to images and added in the flow."),
+        help_text=_("Chose a PDF wich will be converted to images and added in the flow. Name smartly the document, it will be used to create a collection."),
     )
-    images = blocks.ListBlock(
+    pdf_import = blocks.BooleanBlock( 
+        required=False,
+        default=False,
+        label=_("Save and import"),
+        help_text=_("Use cautiously. It will override all existing images in this section."),
+    )
+    pdf_images = blocks.ListBlock(
         ImageChooserBlock(
             required=False,
-            read_only=True,
         ), 
         required=False,
+        classname="collapsible, collapsed",
         label=_("Aperçu des pages"),
-        help_text=_("You can remove or replace any of the images below. If you want to restore the original images, you must delete the block and add it again."),
+        help_text=_("You can remove or replace any of the images below. If you want to restore the original images, click again on the import button."),
     )
-    # Panneau de contenu
-    content_panels = Page.content_panels + [
-        FieldPanel("heading"),
-        FieldPanel("document"),
-        FieldPanel("images"),
-    ]
-    
+
     # Champs pour la recherche
     search_fields = Page.search_fields + [
-        index.SearchField("heading"),
-        index.SearchField("body"),
-        index.RelatedFields('generic_documents', [
-            index.SearchField('title'),
-        ]),
+        index.FilterField("pdf_document"),
+        index.FilterField("pdf_images"),
     ]
 
     # Champs pour l'API
     api_fields = [
-        APIField("heading"),
-        APIField("body"),
+        APIField("pdf_document"),
+        APIField("pdf_images"),
     ]
     
-    def get_pdf_images(self, document):                
+    def clean(self, value):
+        cleaned_data = super().clean(value)
+        pdf_document = cleaned_data.get('pdf_document')
+
+        if pdf_document:  # Vérifie s'il y a un document sélectionné
+            # Vérifie l'extension du fichier
+            if not pdf_document.filename.lower().endswith('.pdf'):
+                raise ValidationError({
+                    'pdf_document': ValidationError(
+                        _("The file '%(filename)s' is not a PDF document."),
+                        params={'filename': pdf_document.filename},
+                        code='invalid',
+                    )
+                })
+
+        return cleaned_data
+    
+    def get_pdf_images(self, document, collection_date, collection_restrictions):    
+        # Initialisation des variables
+        image_title = "PDF Image"
+        image_tags = ["pdf", "compte-rendu"]
+        image_ids = []           
+        
+        # Convertir le PDF en images 
         pdf_data = document.file.read()
         pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
-        
+
         # On slugify le titre du document pour le nom de la collection
         collection_name = slugify(document.title)
         root_collection = Collection.objects.get(name="PDF")
 
         # On récupère le premier mot "significatif" du document pour son titre
         words = re.split('-|_', collection_name)
-        image_title = "PDF Image"
         for word in words:
             if word not in STOP_WORDS and word != "":
                 image_title = word.capitalize()
+                image_tags.append(word)
                 break
-    
-        # On crée la collection si elle n'existe pas
+            
+        def apply_restrictions(collection, restrictions):
+            for restriction in restrictions:
+                view_restrictions = CollectionViewRestriction.objects.create(
+                    collection=collection,
+                    restriction_type=restriction.restriction_type,
+                    password=restriction.password,
+                )
+                # Ajout des restrictions de groupe
+                for group in restriction.groups.all():
+                    view_restrictions.groups.add(group)
+                    
         try:
-            collection = root_collection.get_children().get(name=collection_name)
+            date_collection = root_collection.get_children().get(name=collection_date)
         except Collection.DoesNotExist:
-            collection = root_collection.add_child(name=collection_name)
-
-        # Vérifiez si les images existent déjà avant de les créer
-        existing_images = CustomImage.objects.filter(collection__name=collection_name)
-        # print(existing_images)
+            date_collection = root_collection.add_child(name=collection_date)
+            apply_restrictions(date_collection, collection_restrictions)
+            
+        try:
+            document_collection = date_collection.get_children().get(name=collection_name)
+        except Collection.DoesNotExist:
+            document_collection = date_collection.add_child(name=collection_name)
+            # apply_restrictions(document_collection, collection_restrictions)
+            
+        # Vérifiez si les images existent déjà avant de les créer dans la sous-collection spécifique
+        existing_images = CustomImage.objects.filter(collection=document_collection)
         if existing_images.exists():
-            # Supprimez les images existantes si vous voulez les remplacer par de nouvelles
             existing_images.delete()
         
-        image_ids = []
         for i, image in enumerate(pdf_images):
             # Convertir l'image PIL en bytes
             img_bytes = BytesIO()
             image.save(img_bytes, format='JPEG')
             img_bytes = img_bytes.getvalue()
-
-            # Créer l'instance de CustomImage
-            wagtail_image = CustomImage(file=ContentFile(img_bytes, name=f"pdf_image_{i}.jpeg"), title=f"{image_title} {i}", collection=collection)
+            # Créer l'instance de CustomImage             
+            wagtail_image = CustomImage(
+                file=ContentFile(img_bytes, name=f"pdf_{document_collection.name}_{i}.jpeg"),
+                title=f"{image_title} {i}",
+                collection=document_collection
+            )
             wagtail_image.save()
+            wagtail_image.tags.add(*image_tags)
             image_ids.append(wagtail_image.id)
             
         # print(image_ids)
         return image_ids
 
-    
     class Meta:
         label = _("PDF")
         template = "widgets/blocks/PDF_block.html"

@@ -111,9 +111,95 @@
 	src: url("../fonts/CoreRhino65Bold.otf") format("opentype")
 }
 
+///////////////////////////////////////////////////////////////////// VARIABLES GENERALES /////////////////////////////////////////////////////////////////////
+
+// Eléments cachés
 .cgs-hidden {
     display: none;
 }
+
+// Collapsing
+.cgs-collapsible {    
+    user-select: none;
+
+    &.cgs-collapsed {
+        *:not(label) {
+            display: none;
+        }
+        label::before {
+            background-image: url(../images/show-logo.png);
+        }
+    }
+
+    &:not(.cgs-collapsed) {
+        label::before {
+            background-image: url(../images/hide-logo.png);
+        }
+    }
+
+    label {        
+        cursor: pointer;
+        position: relative!important;
+        width: fit-content!important;
+
+        &::before {
+            content: "";
+            display: block;
+            position:absolute;        
+            right: 0;
+            transform: translate(150%, 0);
+            height: 100%;
+            aspect-ratio: 1/1;
+            background-size: 100% 80%;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: brightness(0);
+        }
+    }
+}
+
+
+
+// Mise en forme des colonnes
+.cgs-colbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.cgs-col0, .cgs-col1, .cgs-col2, .cgs-col3, .cgs-col4, .cgs-col6, .cgs-col8, .cgs-col9, .cgs-col10, .cgs-col11, .cgs-col12 {
+    display: inline-block;    
+}
+
+.cgs-col12, .cgs-col11 {
+    width: 100%;   
+}
+.cgs-col10 {
+    width: 83.3333333333%;   
+}
+.cgs-col9 {
+    width: 75%;   
+}
+.cgs-col8 {
+    width: 66.6666666667%;   
+}
+.cgs-col6 {
+    width: 50%;   
+}
+.cgs-col4 {
+    width: 33.3333333333%;   
+}
+.cgs-col3 {
+    width: 25%;   
+}
+.cgs-col2 {
+    width: 16.6666666667%;   
+}
+.cgs-col0, .cgs-col1 {
+    width: 0%;   
+}
+
 
 .w-panel__content {
     &.disabled {

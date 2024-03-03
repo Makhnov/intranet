@@ -54,15 +54,26 @@ function whereAmI() {
     // Page de création/édition d'un évènmenet joyous (formulaire action contient joyous/simpleeventpage/)
     if (document.querySelector("form[action*='joyous/simpleeventpage/'][method='post']")) {
         console.log("Création/édition d'évènement détectée");
-        single_event();
+        joyous_single_event();
     }
 
     // Vérifications pour la page Compte-rendu (Récupération des users de la convocation)
     if (headerText.includes('Compte-rendu') && header.closest('header').classList.contains('w-slim-header')) {
         console.log("Page de compte-rendu détectée");
-        compteRendu();
+        cr_import_users();
+        cr_import_pdf();
     }
 }
+
+////////////////////////////////////////// FONCTIONS GLOBALES //////////////////////////////////////////////////
+
+// Contenu visible/caché
+function collapsible(element) {
+    element.classList.toggle('cgs-collapsed');
+}
+
+//////////////////////////////////////////    PAGES CHARGEES  //////////////////////////////////////////////////
+
 
 // Page de connexion
 function login() {
@@ -443,7 +454,7 @@ function edit_users_elected() {
 }
 
 // Récupération des données de la convocation lors de la création d'un évenement Joyous
-function single_event() {
+function joyous_single_event() {
     // Convocation
     const convocation = document.querySelector('#id_convocation');
 
@@ -520,7 +531,7 @@ function single_event() {
 };
 
 // Vérifications pour la page Compte-rendu (Récupération des users de la convocation)
-function compteRendu() {
+function cr_import_users() {
     // Convocation
     const convocation = document.querySelector('#id_convocation');
     
@@ -987,5 +998,124 @@ function compteRendu() {
         //             console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
         //         });
         // });
+    }
+}
+
+// On remplace les inputs (PDF et Words) par la copie du bouton pour enregistrer un brouillon
+function cr_import_pdf() {
+    // On récupère le bloc du streamfield
+    const streamBloc = document.querySelector('#panel-child-contenu-body-content [data-streamfield-stream-container]');
+
+    // Sélectionner tous les éléments du Streamfield (body) qui ont un attribut data-contentpath
+    const initialElements = streamBloc.querySelectorAll(':scope > [data-contentpath]');
+
+    // Filtrer ces éléments pour ne garder que ceux qui contiennent un input[type="hidden"] avec value="PDF" ou "DOCX"
+    const filteredElements = Array.from(initialElements).filter(e => 
+        e.querySelector('input[type="hidden"][value="PDF"]') || e.querySelector('input[type="hidden"][value="DOCX"]')
+    );
+
+    // Ajouter manuellement l'attribut data-observed="true" aux éléments filtrés
+    filteredElements.forEach(e => {
+        e.dataset.observed = true;
+    });
+
+    // Créer un observateur d'intersection
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            // Vérifier si l'élément a un attribut data-contentpath
+            const element = entry.target;
+            if (element.dataset.contentpath && (element.querySelector('input[type="hidden"][value="PDF"]') || element.querySelector('input[type="hidden"][value="DOCX"]'))) {
+                reworking_PDF_DOCX(element);
+                // Arrêter d'observer l'élément car il a déjà été traité
+                observer.unobserve(element);
+            }
+        });
+    }, {
+        // Configurer l'observateur pour qu'il détecte les nouveaux éléments
+        threshold: 0
+    });
+
+    // Observer les enfants directs de streamBloc
+    const children = streamBloc.children;
+    for (let i = 0; i < children.length; i++) {
+        observer.observe(children[i]);
+    }
+    
+    // Créer une fonction pour observer les nouveaux éléments ajoutés à streamBloc
+    const observeNewChildren = () => {
+        const newChildren = streamBloc.querySelectorAll(':scope > *:not([data-observed])');
+        for (let i = 0; i < newChildren.length; i++) {
+            newChildren[i].dataset.observed = true;
+            observer.observe(newChildren[i]);
+        }
+    };
+
+    // Observer les modifications de streamBloc pour détecter les nouveaux éléments ajoutés
+    const mutationObserver = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if (mutation.addedNodes.length) {
+                observeNewChildren();
+            }
+        });
+    });
+    mutationObserver.observe(streamBloc, { childList: true });
+
+    // Fonction générale pour modifier les blocs d'importation (PDF et DOCS)
+    function reworking_PDF_DOCX(element) {
+        const importBloc = element.querySelector('[data-contentpath="pdf_import"]');
+        const structBloc = importBloc.parentElement;
+
+        // on récupere la valeur précédent le "_" du contentpath de importBloc
+        const type = importBloc.dataset.contentpath.split('_')[0];
+
+        import_display(structBloc, type);
+        import_button(structBloc, type);
+    }
+    
+    // Mise en page des blocs
+    function import_display(bloc, type) {
+        bloc.classList.add('cgs-colbox');
+        bloc.querySelector(`[data-contentpath="${type}_document"]`).classList.add('cgs-col8');
+        bloc.querySelector(`[data-contentpath="${type}_import"]`).classList.add('cgs-col4');
+        const imagesBloc = bloc.querySelector(`[data-contentpath="${type}_images"]`);
+        imagesBloc.classList.add('cgs-col12', 'cgs-collapsible', 'cgs-collapsed');
+        imagesBloc.addEventListener('click', () => collapsible(imagesBloc));
+    }    
+
+    // Modification des inputs
+    function import_button(bloc, type) {
+        const input = bloc.querySelector('[id^="body-"][id$="-value-pdf_import"]');  
+        const submit = document.querySelector('form#page-edit-form footer nav button[type="submit"].action-save');
+        const button = submit.cloneNode(true);
+
+        if (button) {
+            button.removeChild(button.querySelector('svg.button-longrunning__icon'));
+            button.classList.add('cgs-import');        
+            button.dataset.wProgressLabelValue = "Importer le " + type;
+            button.dataset.wProgressActiveValue = "Importation…";
+
+            // On copie l'input et on le remplace dans le DOM par le bouton (auquel on attache un écouteur d'évenement).
+            const hiddenInput = input.cloneNode(true);    
+            input.replaceWith(button);
+
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Empêcher la soumission du formulaire
+
+                const form = button.closest('form');
+                if (!form) {
+                    console.log('Formulaire non trouvé');
+                    return;
+                }
+                hiddenInput.value = "on";        
+                hiddenInput.type = "hidden";   
+                form.appendChild(hiddenInput);
+
+                // Afficher les données filtrées du formulaire dans la console
+                // console.log('Données du formulaire :', data);
+
+                // Finalement on ajoute le faux formulaire au document et on le soumet
+                form.submit();
+            });
+        }
     }
 }
