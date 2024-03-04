@@ -1,25 +1,48 @@
 from termcolor import colored
-import zipfile
 import re
 import io
 from io import BytesIO
+import zipfile
+import mammoth
+from bs4 import BeautifulSoup
 
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 
 from wagtail import blocks
-from wagtail.blocks import StreamBlock
 from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.models import Page, Orderable, Collection, CollectionViewRestriction
-from wagtail.fields import RichTextField, StreamField
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, FieldRowPanel, InlinePanel
+from wagtail.contrib.table_block.blocks import TableBlock
+
+from wagtail.blocks import (
+    StreamBlock, 
+    CharBlock, 
+)
+from wagtail.models import (
+    Page, 
+    Orderable, 
+    Collection, 
+    CollectionViewRestriction,
+)
+from wagtail.fields import (
+    RichTextField, 
+    StreamField,
+    models
+)
+from wagtail.admin.panels import (
+    FieldPanel, 
+    MultiFieldPanel, 
+    FieldRowPanel, 
+    InlinePanel,
+)
 
 # Page de menu
 from utils.menu_pages import MenuPage, menu_page_save
@@ -53,7 +76,6 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 
 # Charts
 from utils.variables import CHART_COLORS, CHART_TYPES, STOP_WORDS
-
 
 # Recherche générique (RessourcesPage, PublicPage)
 def generic_search(request, parent_page):
@@ -89,7 +111,108 @@ def generic_search(request, parent_page):
     return grouped_subpages, search_query, page_type
 
 
-# PDF => images
+# Import de fichiers docx intégrée dans CompteRenduPage (package : mammoth)
+class CustomDOCXBlock(blocks.StructBlock):
+    docx_document = DocumentChooserBlock(
+        required=True,
+        label=_("Document"),
+        help_text=_("Chose a DOCX file to import in the flow."),
+    )
+    docx_import = blocks.BooleanBlock(
+        required=False,
+        default=False,
+        label=_("Save and import"),
+        help_text=_("Use cautiously. It will override all existing content in this section."),
+    )
+    docx_content = blocks.StreamBlock(
+        [
+            ("heading", blocks.CharBlock(classname="title", icon="title")),
+            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
+            ("image", ImageChooserBlock(icon="image")),
+            ("table", TableBlock(icon="table")),
+        ], 
+        required=False, 
+        classname="collapsible, collapsed", 
+        label=_("Aperçu du contenu"),
+        help_text=_("You can remove or replace any of the content below. If you want to restore the original content, click again on the import button."),
+    )
+
+    # Champs pour la recherche
+    search_fields = Page.search_fields + [
+        index.FilterField("docx_document"),
+        index.RelatedField("docx_content", [
+            index.SearchField("heading"),
+            index.SearchField("paragraph"),
+            index.FilterField("image"),
+            index.FilterField("table"),
+        ]),
+    ]
+    
+    # Champs pour l'API
+    api_fields = [
+        APIField("docx_document"),
+        APIField("docx_content"),
+    ]
+    
+    def clean(self, value):
+        cleaned_data = super().clean(value)
+        docx_document = cleaned_data.get('docx_document')
+
+        if docx_document:  # Vérifie s'il y a un document sélectionné
+            # Vérifie l'extension du fichier
+            if not docx_document.filename.lower().endswith('.docx'):
+                raise ValidationError({
+                    'docx_document': ValidationError(
+                        _("The file '%(filename)s' is not a DOCX document."),
+                        params={'filename': docx_document.filename},
+                        code='invalid',
+                    )
+                })
+                
+        return cleaned_data
+    
+    def get_content(self, document):
+        print(colored("get_content", "red"))
+        # Récupérer le contenu du document
+        # Assurez-vous que le fichier est ouvert en mode binaire ('rb')
+        with document.file.open('rb') as docx_file:
+            result = mammoth.convert_to_html(docx_file)
+            # print(colored(result, "red"))
+            content = result.value
+            print(colored(content, "green"))
+
+            # Parser le HTML avec BeautifulSoup
+            soup = BeautifulSoup(content, 'html.parser')
+            
+            # Supprimer les tableaux du document pour éviter leur décomposition
+            tables_raw = soup.find_all('table')
+            for table in tables_raw:
+                table.extract()
+
+            # Extraire les éléments <h1> à <h6>
+            headings = soup.find_all(lambda tag: tag.name.startswith('h'))
+            print(colored(headings, "white", "on_blue"))
+            
+            # Extraire les éléments <p>
+            paragraphs = ""
+            for paragraph in soup.find_all('p'):
+                paragraphs += str(paragraph)
+            print(colored(paragraphs, "white", "on_green"))
+            
+            # Extraire les éléments <img>, <svg>, <iframe>, <canvas>
+            images = soup.find_all(['img', 'svg', 'iframe', 'canvas'])
+            print(colored(images, "white", "on_magenta"))
+            
+            # Ajouter les tableaux HTML intacts au contenu
+            tables = ""
+            for table in tables_raw:
+                tables += str(table)
+            print(colored(tables, "white", "on_yellow"))
+            
+            return [headings, paragraphs, images, tables]
+
+
+# Import de PDF intégrée dans CompteRenduPage (package : pdf2image)
 class CustomPDFBlock(blocks.StructBlock):
     pdf_document = DocumentChooserBlock(
         required=True,
@@ -141,7 +264,7 @@ class CustomPDFBlock(blocks.StructBlock):
 
         return cleaned_data
     
-    def get_pdf_images(self, document, collection_date, collection_restrictions):    
+    def get_content(self, document, collection_date, collection_restrictions):    
         # Initialisation des variables
         image_title = "PDF Image"
         image_tags = ["pdf", "compte-rendu"]

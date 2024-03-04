@@ -41,6 +41,12 @@ import locale
 # Slugs
 from django.utils.text import slugify
 
+# Blocs
+from wagtail.rich_text import RichText
+from wagtail.blocks import ListBlock, RichTextBlock, StreamValue, StreamBlock
+from wagtail.images.blocks import ImageChooserBlock
+
+from home.models import CustomDOCXBlock
 
 #############
 # VARIABLES #
@@ -93,7 +99,7 @@ def after_edit_and_create(request, page):
         
     if isinstance(page_specific_administration, CompteRenduPage):
         update_presence_status(request, page)
-        pdf_to_img(request, page)
+        import_file(request, page)
         
 # AFTER (CREATE ONLY)
 def after_create_only(request, page):
@@ -119,7 +125,7 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
     """
     # Determine la classe de page en fonction de l'opération (création ou édition)
     page_to_check = page if page else page_class
-    # print(f"Starting set_defaults for: {page_to_check}")    
+    # # print(f"Starting set_defaults for: {page_to_check}")    
 
     # Copie de la requête
     request.POST = request.POST.copy()
@@ -168,13 +174,13 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
 
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
-    # print(colored(f"Starting title and slugs status update for: {page}", "green"))
+    # # print(colored(f"Starting title and slugs status update for: {page}", "green"))
 
     # Copie de la requête
     request.POST = request.POST.copy()        
 
     user_date = request.POST.get("date")
-    # # print(f'Date utilisateur : {user_date}')  # Debug print
+    # # # print(f'Date utilisateur : {user_date}')  # Debug # print
     if user_date:
         try:
             # Formatage de la date pour le titre et le slug
@@ -188,11 +194,11 @@ def update_convoc_and_cr_defaults(request, page):
             suffix = parent_page.label if hasattr(parent_page, 'label') and parent_page.label else parent_page.title
 
             # Construction du nouveau titre et slug
-            # # print(f'Suffixe : {suffix}')  # Debug print
+            # # # print(f'Suffixe : {suffix}')  # Debug # print
             new_title = f"{prefix} {suffix} {formatted_date_for_title}"
-            # # print(f'Nouveau titre : {new_title}')  # Debug print
+            # # # print(f'Nouveau titre : {new_title}')  # Debug # print
             new_slug = slugify(f"{prefix}-{suffix}-{formatted_date_for_slug}")
-            # # print(f'Nouveau slug : {new_slug}')  # Debug print
+            # # # print(f'Nouveau slug : {new_slug}')  # Debug # print
             
             # Mise à jour du titre, slug et date de la page
             page.title = new_title
@@ -208,10 +214,10 @@ def update_convoc_and_cr_defaults(request, page):
 
 # Fonction pour récupérer les utilisateurs en fonction de la page parente
 def create_convocation_users(request, page):
-    # print(colored(f"Starting convc_users status update for: {page}", "green"))
+    # # print(colored(f"Starting convc_users status update for: {page}", "green"))
 
     parent_page = page.get_parent().specific
-    # # print(f"Le type de parent_page est: {type(parent_page)}")
+    # # # print(f"Le type de parent_page est: {type(parent_page)}")
     
     function_field_mapping = {
         'ConseilsIndexPage': 'function_council',
@@ -235,8 +241,8 @@ def create_convocation_users(request, page):
     # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
     if isinstance(parent_page, CommissionPage):
         users = users.filter(commission_id=parent_page.id)
-        # # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
-        # # print(colored(f'users : {users}', "white", "on_yellow"))
+        # # # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
+        # # # print(colored(f'users : {users}', "white", "on_yellow"))
         
     # Créer un dictionnaire pour compter les utilisateurs par fonction
     user_count_by_function = defaultdict(int)
@@ -283,11 +289,11 @@ def create_convocation_users(request, page):
             alternate=alternate, # Suppléant officiel (NULL par défaut)
             
         )
-        # print(f'CU Créée : {cu}')
+        # # print(f'CU Créée : {cu}')
 
 # Fonction qui met à jour les statuts de présence des utilisateurs
 def update_presence_status(request, page):
-    # print(colored(f"Starting presence status update for: {page}", "green"))
+    # # print(colored(f"Starting presence status update for: {page}", "green"))
     # Vérifiez si la requête est une requête POST
     if request.method == 'POST':
         # Récupérez l'ID de la convocation à partir de la requête POST
@@ -333,16 +339,16 @@ def update_presence_status(request, page):
             present_ids = list(present_temp_ids)
             
             # LOGS
-            # print(f'Users : {user_ids}')
-            # # print(f'Replaced : {replaced_user_ids}')
-            # # print(f'Unreplaced : {unreplaced_user_ids}')
-            # # print(f'Substitutes full list: {substitute_user_list}')
-            # print(f'Substitutes : {substitute_user_ids}')
-            # # print(f'Substitute count : {substitute_count}')
-            # # print(f'Absents full list : {absent_user_list}')
-            # print(f'Absent members : {absent_user_ids}')
-            # print(f'Present members : {present_ids}')
-            # print(f'Secretary : {secretary_id}')
+            # # print(f'Users : {user_ids}')
+            # # # print(f'Replaced : {replaced_user_ids}')
+            # # # print(f'Unreplaced : {unreplaced_user_ids}')
+            # # # print(f'Substitutes full list: {substitute_user_list}')
+            # # print(f'Substitutes : {substitute_user_ids}')
+            # # # print(f'Substitute count : {substitute_count}')
+            # # # print(f'Absents full list : {absent_user_list}')
+            # # print(f'Absent members : {absent_user_ids}')
+            # # print(f'Present members : {present_ids}')
+            # # print(f'Secretary : {secretary_id}')
             
             # Vérification 1 : un utilisateur ne peut pas être à la fois remplacé et non remplacé
             if set(replaced_user_ids).intersection(unreplaced_user_ids):
@@ -432,7 +438,7 @@ def update_presence_status(request, page):
                 compte_rendu_page.save()
 
         else:
-            # print("ID de convocation non fourni")
+            # # print("ID de convocation non fourni")
             pass
 
 # Fonction pour formater la date en français
@@ -461,15 +467,9 @@ def get_formatted_date(user_date):
 def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
-
-
-from wagtail.blocks import ListBlock
-from wagtail.images.models import Image
-from wagtail.fields import StreamField
-from wagtail.images.blocks import ImageChooserBlock
-
+  
 # Fonction pour traiter les fichiers PDF
-def pdf_to_img(request, page):
+def import_file(request, page):
     page_specific = page.specific
     cr_date = page_specific.date
     collection_restrictions = page.get_view_restrictions()
@@ -500,35 +500,82 @@ def pdf_to_img(request, page):
                     print(colored(f"FILE IS PDF:", "green"))                                        
                     
                     # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
-                    image_ids = block.block.get_pdf_images(document, collection_date, collection_restrictions)  # Assurez-vous que cette méthode retourne une liste d'IDs
-                    print(colored(f"Image IDs: {image_ids}", "green"))                
+                    image_ids = block.block.get_content(document, collection_date, collection_restrictions)
+                    # print(colored(f"Image IDs: {image_ids}", "green"))                
 
                     # Convertir les IDs en une ListValue pour le bloc
                     images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
-                    print(colored(f"Image list value: {images_list_value}", "green"))
+                    # print(colored(f"Image list value: {images_list_value}", "green"))
                     
                     # On met à jour le champ images du bloc avec la ListValue
                     block.value['pdf_images'] = images_list_value
-                    print(colored(f"Block value: {block.value}", "green"))                
+                    # print(colored(f"Block value: {block.value}", "green"))                
                     
                     # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
                     new_blocks.append((block.block_type, block.value))
-                    print(colored(f"New blocks: {new_blocks}", "green"))                
+                    # print(colored(f"New blocks: {new_blocks}", "green"))                
                 
                 else: # Le BLOC est un PDF, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un PDF
                     print(colored(f"FILE IS NOT A PDF: {document}", "magenta", "on_white"))                
                     new_blocks.append((block.block_type, block.value))
-                    print(colored(f"New blocks: {new_blocks}", "red"))
+                    # print(colored(f"New blocks: {new_blocks}", "red"))
             
             else:# Le BLOC est un PDF, MAIS l'utilisateur ne souhaite PAS l'importer
                 print(colored(f"NOT IMPORTED BLOCK: {block}", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
-                print(colored(f"New blocks: {new_blocks}", "red"))
+                # print(colored(f"New blocks: {new_blocks}", "red"))
         
-        else:# Le BLOC n'est PAS un PDF
+        elif block.block_type == 'DOCX':
+            print(colored(f"DOCX BLOCK", "white", "on_green"))
+
+            # Vérifier si l'utilisateur souhaite importer le DOCX
+            if block.value.get('docx_import'):
+                print(colored(f"IMPORTED BLOCK:", "yellow"))
+                document = block.value.get('docx_document')
+
+                # Vérifier si le document est un fichier DOCX
+                if document and document.filename.split(".")[-1].lower() == 'docx':
+                    print(colored(f"FILE IS DOCX:", "green"))
+                    
+                    # Appeler la méthode pour obtenir le contenu HTML du DOCX et récupérer l'ID de l'image
+                    html_content = block.block.get_content(document)
+
+                    # Créer un nouveau bloc de type RichTextBlock avec le contenu HTML
+                    paragraphs = [('paragraph', RichText(html_content[1]).source)]
+                    print(colored(f"Rich text value: {paragraphs}", "green"))
+
+                    # Créer un StreamBlock avec un seul bloc RichTextBlock
+                    stream_block = StreamBlock([('paragraph', RichTextBlock())])
+
+                    # Créer un dictionnaire avec le contenu HTML
+                    rich_text_data = {'type': 'paragraph', 'value': paragraphs[0][1]}
+
+                    # Convertir le dictionnaire en un StreamValue
+                    stream_value = stream_block.to_python([rich_text_data])
+                    print(colored(f"Stream value: {stream_value}", "blue"))
+                    
+                    # Mettre à jour 'docx_content' avec le nouveau StreamValue
+                    block.value['docx_content'] = stream_value
+                    print(colored(f"DOCX CONTENT: {block.value['docx_content']}", "green"))
+
+                    print(colored(f"Block value: {block.value}", "green"))
+                    new_blocks.append((block.block_type, block.value))
+
+                
+                else: # Le BLOC est un DOCX, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un DOCX
+                    print(colored(f"FILE IS NOT A DOCX: {document}", "magenta", "on_white"))
+                    new_blocks.append((block.block_type, block.value))
+                    # print(colored(f"New blocks: {new_blocks}", "red"))
+                
+            else:# Le BLOC est un DOCX, l'utilisateur ne souhaite PAS l'importer
+                print(colored(f"NOT IMPORTED BLOCK: {block}", "yellow", "on_white"))
+                new_blocks.append((block.block_type, block.value))
+                # print(colored(f"New blocks: {new_blocks}", "red"))
+                
+        else:# Le BLOC n'est ni un PDF ni un DOCX
             print(colored(f"NOT PDF BLOCK: {block}", "red", "on_white"))
             new_blocks.append((block.block_type, block.value))
-            print(colored(f"New blocks: {new_blocks}", "red"))
+            # print(colored(f"New blocks: {new_blocks}", "red"))
             
     # Mise à jour du StreamField avec les blocs mis à jour
     page_specific.body = new_blocks

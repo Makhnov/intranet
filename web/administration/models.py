@@ -44,6 +44,7 @@ from home.models import (
     CustomEmbedBlock as EmbedBlock,
     PiecesJointes as PJBlock,
     CustomPDFBlock as PDFBlock,
+    CustomDOCXBlock as DOCXBlock,
 )
 
 # Export PDF
@@ -515,6 +516,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             ("table", TableBlock(icon="table")),
             ("chart", ChartBlock(icon="chart")),
             ("PDF", PDFBlock(icon="doc-full")),
+            ("DOCX", DOCXBlock(icon="doc-full")),
         ],
         use_json_field=True,
         blank=True,

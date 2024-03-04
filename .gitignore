@@ -37,8 +37,11 @@ static/
 # Compiled Python files
 *.pyc
 
-# Temporary files
+# Temporary files 
 *.tmp
+
+# Test and debug
+testing/
 
 # Database files
 *.sqlite3

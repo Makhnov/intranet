@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     "users",  # https://docs.wagtail.org/en/stable/advanced_topics/customisation/custom_user_models.html#custom-user-models
     "images", # https://docs.wagtail.org/en/stable/advanced_topics/images/custom_image_model.html#custom-image-models  
     # Custom
-             
+    
+    # Docx import
+    "wagtail_content_import", # https://torchbox.github.io/wagtail-content-import/
+    # "wagtail_content_import.pickers.google", # https://torchbox.github.io/wagtail-content-import/google_docs_setup/
+    # "wagtail_content_import.pickers.microsoft", # https://torchbox.github.io/wagtail-content-import/microsoft_setup/
+    # "wagtail_content_import.pickers.local", # https://torchbox.github.io/wagtail-content-import/basic_usage/
+    # Docx import
+    
     "home",
     "accompte", # Fausse page d'accompte (pour les restrictions, les icones, etc.) Pour le backend du login/logout voir le package django-allauth
     "intranet.templatetags",  # https://docs.djangoproject.com/en/dev/howto/custom-template-tags/

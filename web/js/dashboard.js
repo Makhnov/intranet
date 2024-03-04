@@ -69,7 +69,9 @@ function whereAmI() {
 
 // Contenu visible/caché
 function collapsible(element) {
-    element.classList.toggle('cgs-collapsed');
+    // On toggle collapsed sur le parent le plus proche qui possed la classe "cgs-collapsible"
+    const collapsible = element.closest('.cgs-collapsible');
+    collapsible.classList.toggle('cgs-collapsed');
 }
 
 //////////////////////////////////////////    PAGES CHARGEES  //////////////////////////////////////////////////
@@ -1062,7 +1064,7 @@ function cr_import_pdf() {
 
     // Fonction générale pour modifier les blocs d'importation (PDF et DOCS)
     function reworking_PDF_DOCX(element) {
-        const importBloc = element.querySelector('[data-contentpath="pdf_import"]');
+        const importBloc = (element.querySelector('[data-contentpath="pdf_import"]') || element.querySelector('[data-contentpath="docx_import"]'));
         const structBloc = importBloc.parentElement;
 
         // on récupere la valeur précédent le "_" du contentpath de importBloc
@@ -1077,14 +1079,16 @@ function cr_import_pdf() {
         bloc.classList.add('cgs-colbox');
         bloc.querySelector(`[data-contentpath="${type}_document"]`).classList.add('cgs-col8');
         bloc.querySelector(`[data-contentpath="${type}_import"]`).classList.add('cgs-col4');
-        const imagesBloc = bloc.querySelector(`[data-contentpath="${type}_images"]`);
-        imagesBloc.classList.add('cgs-col12', 'cgs-collapsible', 'cgs-collapsed');
-        imagesBloc.addEventListener('click', () => collapsible(imagesBloc));
+        const contentBloc = (bloc.querySelector(`[data-contentpath="pdf_images"]`) || bloc.querySelector(`[data-contentpath="docx_content"]`));
+        contentBloc.classList.add('cgs-col12', 'cgs-collapsible', 'cgs-collapsed');
+        const contentLabel = contentBloc.querySelector('label');
+        console.log(contentLabel);
+        contentLabel.addEventListener('click', () => collapsible(contentLabel));
     }    
 
     // Modification des inputs
     function import_button(bloc, type) {
-        const input = bloc.querySelector('[id^="body-"][id$="-value-pdf_import"]');  
+        const input = bloc.querySelector(`[id^="body-"][id$="-value-${type}_import"]`);  
         const submit = document.querySelector('form#page-edit-form footer nav button[type="submit"].action-save');
         const button = submit.cloneNode(true);
 
