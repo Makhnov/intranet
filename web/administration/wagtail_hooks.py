@@ -42,18 +42,19 @@ import locale
 from django.utils.text import slugify
 
 # Blocs
-from wagtail.rich_text import RichText
-from wagtail.blocks import ListBlock, RichTextBlock, StreamValue, StreamBlock
+from wagtail.blocks import ListBlock, RichTextBlock, StreamBlock, CharBlock
 from wagtail.images.blocks import ImageChooserBlock
+from wagtail.contrib.table_block.blocks import TableBlock
 
-from home.models import CustomDOCXBlock
+# Custom Blocs
+from utils.imports import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
 
 #############
 # VARIABLES #
 ############# 
 
 # variables globales
-from utils.variables import STOP_WORDS, ROLE_TRANSLATIONS
+from utils.variables import STOP_WORDS, ROLE_TRANSLATIONS, ITER_COLORS
 
 # Pages concernées pour la création automatique (titre & slug) des Convocations et des Comptes-Rendus
 valid_parent_classes = (
@@ -468,7 +469,7 @@ def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
   
-# Fonction pour traiter les fichiers PDF
+# Fonction pour traiter les fichiers PDF et DOCX
 def import_file(request, page):
     page_specific = page.specific
     cr_date = page_specific.date
@@ -492,90 +493,144 @@ def import_file(request, page):
             
             # Vérifier si l'utilisateur souhaite importer le PDF
             if block.value.get('pdf_import'):                
-                print(colored(f"IMPORTED BLOCK:", "yellow"))
+                print(colored(f"IMPORTED BLOCK", "yellow"))
                 document = block.value.get('pdf_document')
                 
                 # Vérifier si le document est un fichier PDF
                 if document and document.filename.split(".")[-1].lower() == 'pdf':
-                    print(colored(f"FILE IS PDF:", "green"))                                        
+                    print(colored(f"FILE IS PDF", "green"))                                        
                     
                     # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
                     image_ids = block.block.get_content(document, collection_date, collection_restrictions)
-                    # print(colored(f"Image IDs: {image_ids}", "green"))                
 
                     # Convertir les IDs en une ListValue pour le bloc
                     images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
-                    # print(colored(f"Image list value: {images_list_value}", "green"))
                     
                     # On met à jour le champ images du bloc avec la ListValue
                     block.value['pdf_images'] = images_list_value
-                    # print(colored(f"Block value: {block.value}", "green"))                
                     
                     # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
                     new_blocks.append((block.block_type, block.value))
-                    # print(colored(f"New blocks: {new_blocks}", "green"))                
                 
                 else: # Le BLOC est un PDF, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un PDF
-                    print(colored(f"FILE IS NOT A PDF: {document}", "magenta", "on_white"))                
+                    print(colored(f"FILE IS NOT A PDF : {document.filename}", "magenta", "on_white"))                
                     new_blocks.append((block.block_type, block.value))
-                    # print(colored(f"New blocks: {new_blocks}", "red"))
             
             else:# Le BLOC est un PDF, MAIS l'utilisateur ne souhaite PAS l'importer
-                print(colored(f"NOT IMPORTED BLOCK: {block}", "yellow", "on_white"))
+                print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
-                # print(colored(f"New blocks: {new_blocks}", "red"))
         
         elif block.block_type == 'DOCX':
             print(colored(f"DOCX BLOCK", "white", "on_green"))
 
             # Vérifier si l'utilisateur souhaite importer le DOCX
             if block.value.get('docx_import'):
-                print(colored(f"IMPORTED BLOCK:", "yellow"))
+                print(colored(f"IMPORTED BLOCK", "yellow"))
                 document = block.value.get('docx_document')
 
                 # Vérifier si le document est un fichier DOCX
                 if document and document.filename.split(".")[-1].lower() == 'docx':
-                    print(colored(f"FILE IS DOCX:", "green"))
+                    print(colored(f"FILE IS DOCX", "green"))
                     
                     # Appeler la méthode pour obtenir le contenu HTML du DOCX et récupérer l'ID de l'image
-                    html_content = block.block.get_content(document)
+                    content = block.block.get_content(document, collection_date, collection_restrictions)
 
-                    # Créer un nouveau bloc de type RichTextBlock avec le contenu HTML
-                    paragraphs = [('paragraph', RichText(html_content[1]).source)]
-                    print(colored(f"Rich text value: {paragraphs}", "green"))
-
-                    # Créer un StreamBlock avec un seul bloc RichTextBlock
-                    stream_block = StreamBlock([('paragraph', RichTextBlock())])
-
-                    # Créer un dictionnaire avec le contenu HTML
-                    rich_text_data = {'type': 'paragraph', 'value': paragraphs[0][1]}
-
-                    # Convertir le dictionnaire en un StreamValue
-                    stream_value = stream_block.to_python([rich_text_data])
-                    print(colored(f"Stream value: {stream_value}", "blue"))
+                    stream_block = StreamBlock([
+                        ('heading', HeadingDOCXBlock()),
+                        ('paragraph', ParagraphDOCXBlock()),
+                        ('image', ImageDOCXBlock()),
+                        ('table', TableDOCXBlock()),                        
+                    ])
                     
+                    # Créer une liste de dictionnaires pour chaque élément de contenu
+                    stream_data = []
+                    
+                    i = 0
+                    bg_colors = ITER_COLORS
+                    for element in content:
+                        
+                        i += 1
+                        color_index = (i - 1) % 6
+                        print(colored(f"ELEMENT {i}: {element[0]}", "white", bg_colors[color_index]))
+                        
+                        if element[0] == 'heading':
+                            stream_data.append({
+                                'type': 'heading',
+                                'value': {
+                                    'heading': element[1][1],  
+                                    'heading_level': element[1][0],
+                                }
+                            })
+                        elif element[0] == 'paragraph':
+                            stream_data.append({
+                                'type': 'paragraph',
+                                'value': {
+                                    'paragraph': element[1],  
+                                    # 'position': 'justify',  
+                                }
+                            })
+                        elif element[0] == 'image':                            
+                            stream_data.append({
+                                'type': 'image',
+                                'value': {
+                                    'image': element[1],  
+                                    # 'size': 'medium',
+                                    # 'position': 'center',
+                                }
+                            })
+                        elif element[0] == 'table':
+                            continue
+                            stream_data.append({
+                                'type': 'table',
+                                'value': {
+                                    'table': element[1], 
+                                    # 'size': 'medium',
+                                    # 'position': 'center',
+                                }
+                            })                   
+                        
+                    # print(colored(f"STREAM DATA : {stream_data}", "black", "on_cyan"))
+                          
+                    # Créer un StreamValue basé sur le StreamBlock et les données dynamiques
+                    stream_value = stream_block.to_python(stream_data)
+                    # print(colored(f"BLOCK VALUE : {stream_value}", "black", "on_cyan"))
+
                     # Mettre à jour 'docx_content' avec le nouveau StreamValue
                     block.value['docx_content'] = stream_value
-                    print(colored(f"DOCX CONTENT: {block.value['docx_content']}", "green"))
+                          
+                    # Ajouter le bloc DOCX mis à jour à la liste du streamfield
+                    # new_blocks.append((block.block_type, block.value))
+            
+                    # # Créer un nouveau bloc de type RichTextBlock avec le contenu HTML
+                    # paragraphs = [('paragraph', RichText(content[1]).source)]
 
-                    print(colored(f"Block value: {block.value}", "green"))
+                    # # Créer un StreamBlock avec un seul bloc RichTextBlock
+                    # stream_block = StreamBlock([('paragraph', RichTextBlock())])
+
+                    # # Créer un dictionnaire avec le contenu HTML
+                    # rich_text_data = {'type': 'paragraph', 'value': paragraphs[0][1]}
+
+                    # # Convertir le dictionnaire en un StreamValue
+                    # stream_value = stream_block.to_python([rich_text_data])
+                    
+                    # # Mettre à jour 'docx_content' avec le nouveau StreamValue
+                    # block.value['docx_content'] = stream_value
+
+                    # # Ajouter le bloc DOCX mis à jour à la liste du streamfield
+                    # new_blocks.append((block.block_type, block.value))
                     new_blocks.append((block.block_type, block.value))
-
                 
                 else: # Le BLOC est un DOCX, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un DOCX
-                    print(colored(f"FILE IS NOT A DOCX: {document}", "magenta", "on_white"))
+                    print(colored(f"FILE IS NOT A DOCX : {document.filename}", "magenta", "on_white"))
                     new_blocks.append((block.block_type, block.value))
-                    # print(colored(f"New blocks: {new_blocks}", "red"))
                 
             else:# Le BLOC est un DOCX, l'utilisateur ne souhaite PAS l'importer
-                print(colored(f"NOT IMPORTED BLOCK: {block}", "yellow", "on_white"))
+                print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
-                # print(colored(f"New blocks: {new_blocks}", "red"))
                 
         else:# Le BLOC n'est ni un PDF ni un DOCX
-            print(colored(f"NOT PDF BLOCK: {block}", "red", "on_white"))
+            print(colored(f"NOT PDF BLOCK", "red", "on_white"))
             new_blocks.append((block.block_type, block.value))
-            # print(colored(f"New blocks: {new_blocks}", "red"))
             
     # Mise à jour du StreamField avec les blocs mis à jour
     page_specific.body = new_blocks

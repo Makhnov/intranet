@@ -3,14 +3,11 @@ import re
 import io
 from io import BytesIO
 import zipfile
-import mammoth
-from bs4 import BeautifulSoup
 
 from django.db import models
 from django.conf import settings
-from django.utils.text import slugify
-from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+from django.utils.text import slugify
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
@@ -20,17 +17,13 @@ from wagtailcharts.blocks import ChartBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.contrib.table_block.blocks import TableBlock
 
 from wagtail.blocks import (
     StreamBlock, 
-    CharBlock, 
 )
 from wagtail.models import (
     Page, 
     Orderable, 
-    Collection, 
-    CollectionViewRestriction,
 )
 from wagtail.fields import (
     RichTextField, 
@@ -74,41 +67,16 @@ from wagtail.search import index
 # Formulaire
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 
-# Charts
+# UTILS
 from utils.variables import CHART_COLORS, CHART_TYPES, STOP_WORDS
 
-# Recherche générique (RessourcesPage, PublicPage)
-def generic_search(request, parent_page):
-    search_query = request.GET.get('query', '')
-    page_type = request.GET.get('type', 'all')
+# IMPORTS
+from utils.imports import save_wagtail_image, get_collections, get_docx_content, HeadingDOCXBlock, ParagraphDOCXBlock, TableDOCXBlock, ImageDOCXBlock
 
-    # On récupère toutes les sous-pages
-    subpages = Page.objects.child_of(parent_page).specific()
 
-    # On applique le filtrage par type
-    if page_type != 'all':
-        filtered_subpages = []
-        for subpage in subpages:
-            if page_type == 'generic' and isinstance(subpage, GenericPage):
-                filtered_subpages.append(subpage)
-            elif page_type == 'download' and isinstance(subpage, InstantDownloadPage):
-                filtered_subpages.append(subpage)
-            elif page_type == 'form' and isinstance(subpage, FormPage):
-                filtered_subpages.append(subpage)
-        subpages = filtered_subpages
-
-    # On applique la query
-    if search_query:
-        subpages = [subpage for subpage in subpages if search_query.lower() in subpage.title.lower()]
-
-    # On groupe les sous-pages par type
-    grouped_subpages = {
-        'generic': [sp for sp in subpages if isinstance(sp, GenericPage)],
-        'download': [sp for sp in subpages if isinstance(sp, InstantDownloadPage)],
-        'form': [sp for sp in subpages if isinstance(sp, FormPage)],
-    }
-        
-    return grouped_subpages, search_query, page_type
+#############
+#  CLASSES  #
+############# 
 
 
 # Import de fichiers docx intégrée dans CompteRenduPage (package : mammoth)
@@ -126,10 +94,10 @@ class CustomDOCXBlock(blocks.StructBlock):
     )
     docx_content = blocks.StreamBlock(
         [
-            ("heading", blocks.CharBlock(classname="title", icon="title")),
-            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
-            ("image", ImageChooserBlock(icon="image")),
-            ("table", TableBlock(icon="table")),
+            ("heading", HeadingDOCXBlock()),
+            ("paragraph", ParagraphDOCXBlock()),
+            ("image", ImageDOCXBlock()),
+            ("table", TableDOCXBlock()),
         ], 
         required=False, 
         classname="collapsible, collapsed", 
@@ -141,17 +109,25 @@ class CustomDOCXBlock(blocks.StructBlock):
     search_fields = Page.search_fields + [
         index.FilterField("docx_document"),
         index.RelatedField("docx_content", [
-            index.SearchField("heading"),
-            index.SearchField("paragraph"),
-            index.FilterField("image"),
-            index.FilterField("table"),
+            index.RelatedField("heading" , [
+                index.SearchField("heading"),
+            ]),
+            index.RelatedField("paragraph" , [
+                index.SearchField("paragraph"),
+            ]),
+            index.RelatedField("image" , [
+                index.FilterField("image"),
+            ]),
+            index.RelatedField("table" , [
+                index.FilterField("table"),
+            ]),
         ]),
     ]
     
     # Champs pour l'API
     api_fields = [
         APIField("docx_document"),
-        APIField("docx_content"),
+        APIField("content"),
     ]
     
     def clean(self, value):
@@ -171,46 +147,28 @@ class CustomDOCXBlock(blocks.StructBlock):
                 
         return cleaned_data
     
-    def get_content(self, document):
-        print(colored("get_content", "red"))
-        # Récupérer le contenu du document
-        # Assurez-vous que le fichier est ouvert en mode binaire ('rb')
-        with document.file.open('rb') as docx_file:
-            result = mammoth.convert_to_html(docx_file)
-            # print(colored(result, "red"))
-            content = result.value
-            print(colored(content, "green"))
-
-            # Parser le HTML avec BeautifulSoup
-            soup = BeautifulSoup(content, 'html.parser')
+    def get_content(self, document, collection_date, collection_restrictions):    
+        image_title = "DOCX Image"
+        image_tags = ["docx", "compte-rendu"]      
+        collection_name = slugify(document.title)        
+        # On récupère le premier mot "significatif" du document pour son titre et ajouter le tag
+        words = re.split('-|_', collection_name)
+        for word in words:
+            if word not in STOP_WORDS and word != "":
+                image_title = word.capitalize()
+                if word.lower() not in image_tags:
+                    image_tags.append(word)
+                break
             
-            # Supprimer les tableaux du document pour éviter leur décomposition
-            tables_raw = soup.find_all('table')
-            for table in tables_raw:
-                table.extract()
-
-            # Extraire les éléments <h1> à <h6>
-            headings = soup.find_all(lambda tag: tag.name.startswith('h'))
-            print(colored(headings, "white", "on_blue"))
+        document_collection = get_collections(collection_date, collection_name, collection_restrictions)   
+          
+        # Vérifiez si les images existent déjà avant de les créer dans la sous-collection spécifique
+        existing_images = CustomImage.objects.filter(collection=document_collection)
+        if existing_images.exists():
+            existing_images.delete()
             
-            # Extraire les éléments <p>
-            paragraphs = ""
-            for paragraph in soup.find_all('p'):
-                paragraphs += str(paragraph)
-            print(colored(paragraphs, "white", "on_green"))
-            
-            # Extraire les éléments <img>, <svg>, <iframe>, <canvas>
-            images = soup.find_all(['img', 'svg', 'iframe', 'canvas'])
-            print(colored(images, "white", "on_magenta"))
-            
-            # Ajouter les tableaux HTML intacts au contenu
-            tables = ""
-            for table in tables_raw:
-                tables += str(table)
-            print(colored(tables, "white", "on_yellow"))
-            
-            return [headings, paragraphs, images, tables]
-
+        return get_docx_content(document, image_title, image_tags, document_collection)
+    
 
 # Import de PDF intégrée dans CompteRenduPage (package : pdf2image)
 class CustomPDFBlock(blocks.StructBlock):
@@ -263,20 +221,14 @@ class CustomPDFBlock(blocks.StructBlock):
                 })
 
         return cleaned_data
-    
+            
     def get_content(self, document, collection_date, collection_restrictions):    
         # Initialisation des variables
         image_title = "PDF Image"
         image_tags = ["pdf", "compte-rendu"]
         image_ids = []           
         
-        # Convertir le PDF en images 
-        pdf_data = document.file.read()
-        pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
-
-        # On slugify le titre du document pour le nom de la collection
         collection_name = slugify(document.title)
-        root_collection = Collection.objects.get(name="PDF")
 
         # On récupère le premier mot "significatif" du document pour son titre
         words = re.split('-|_', collection_name)
@@ -284,30 +236,13 @@ class CustomPDFBlock(blocks.StructBlock):
             if word not in STOP_WORDS and word != "":
                 image_title = word.capitalize()
                 image_tags.append(word)
-                break
-            
-        def apply_restrictions(collection, restrictions):
-            for restriction in restrictions:
-                view_restrictions = CollectionViewRestriction.objects.create(
-                    collection=collection,
-                    restriction_type=restriction.restriction_type,
-                    password=restriction.password,
-                )
-                # Ajout des restrictions de groupe
-                for group in restriction.groups.all():
-                    view_restrictions.groups.add(group)
-                    
-        try:
-            date_collection = root_collection.get_children().get(name=collection_date)
-        except Collection.DoesNotExist:
-            date_collection = root_collection.add_child(name=collection_date)
-            apply_restrictions(date_collection, collection_restrictions)
-            
-        try:
-            document_collection = date_collection.get_children().get(name=collection_name)
-        except Collection.DoesNotExist:
-            document_collection = date_collection.add_child(name=collection_name)
-            # apply_restrictions(document_collection, collection_restrictions)
+                break        
+        
+        document_collection = get_collections(collection_date, collection_name, collection_restrictions)
+        
+        # Convertir le PDF en images 
+        pdf_data = document.file.read()
+        pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
             
         # Vérifiez si les images existent déjà avant de les créer dans la sous-collection spécifique
         existing_images = CustomImage.objects.filter(collection=document_collection)
@@ -315,21 +250,9 @@ class CustomPDFBlock(blocks.StructBlock):
             existing_images.delete()
         
         for i, image in enumerate(pdf_images):
-            # Convertir l'image PIL en bytes
-            img_bytes = BytesIO()
-            image.save(img_bytes, format='JPEG')
-            img_bytes = img_bytes.getvalue()
-            # Créer l'instance de CustomImage             
-            wagtail_image = CustomImage(
-                file=ContentFile(img_bytes, name=f"pdf_{document_collection.name}_{i}.jpeg"),
-                title=f"{image_title} {i}",
-                collection=document_collection
-            )
-            wagtail_image.save()
-            wagtail_image.tags.add(*image_tags)
-            image_ids.append(wagtail_image.id)
+            image_id = save_wagtail_image(image, i, "jpeg", image_title, image_tags, document_collection, "pdf")
+            image_ids.append(image_id)
             
-        # print(image_ids)
         return image_ids
 
     class Meta:
@@ -799,3 +722,40 @@ class InstantDownloadPieceJointe(PiecesJointes):
         on_delete=models.CASCADE,
         related_name="download_documents",
     )
+
+#############
+# FONCTIONS #
+############# 
+
+# Recherche générique (RessourcesPage, PublicPage)
+def generic_search(request, parent_page):
+    search_query = request.GET.get('query', '')
+    page_type = request.GET.get('type', 'all')
+
+    # On récupère toutes les sous-pages
+    subpages = Page.objects.child_of(parent_page).specific()
+
+    # On applique le filtrage par type
+    if page_type != 'all':
+        filtered_subpages = []
+        for subpage in subpages:
+            if page_type == 'generic' and isinstance(subpage, GenericPage):
+                filtered_subpages.append(subpage)
+            elif page_type == 'download' and isinstance(subpage, InstantDownloadPage):
+                filtered_subpages.append(subpage)
+            elif page_type == 'form' and isinstance(subpage, FormPage):
+                filtered_subpages.append(subpage)
+        subpages = filtered_subpages
+
+    # On applique la query
+    if search_query:
+        subpages = [subpage for subpage in subpages if search_query.lower() in subpage.title.lower()]
+
+    # On groupe les sous-pages par type
+    grouped_subpages = {
+        'generic': [sp for sp in subpages if isinstance(sp, GenericPage)],
+        'download': [sp for sp in subpages if isinstance(sp, InstantDownloadPage)],
+        'form': [sp for sp in subpages if isinstance(sp, FormPage)],
+    }
+        
+    return grouped_subpages, search_query, page_type

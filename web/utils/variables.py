@@ -1,3 +1,14 @@
+# Itération des bg_colors
+ITER_COLORS = [
+    "on_red", 
+    "on_green", 
+    "on_yellow", 
+    "on_blue", 
+    "on_magenta", 
+    "on_cyan", 
+    "on_white"
+]
+    
 # Type de graphiques
 CHART_TYPES = (
     ('line', 'Graphique linéaire'),
@@ -77,7 +88,6 @@ ROLE_TRANSLATIONS = {
         "Chargé de commission": "Chargés de commission",
     }
 }
-
 
 # Table de correspondance pour les extensions de fichier connues
 extensions = {
