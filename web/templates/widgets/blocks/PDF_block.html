@@ -1,11 +1,9 @@
 {% load wagtailimages_tags %}
 
-<div class="pdf-document-block">
-    {% if block.value.pdf_document %}
-        <h2>{{ block.value.pdf_document }}</h2>        
-        {% for image in block.value.pdf_images %}
-            {% image image original as img %}
-            <img src="{{ img.url }}" alt="{{ img.title }}" class="cgs-expandable"/>
-        {% endfor %}
-    {% endif %}
-</div>
+{% if block.value.pdf_document %}
+    <h2>{{ block.value.pdf_document }}</h2>        
+    {% for image in block.value.pdf_images %}
+        {% image image original as img %}
+        <img src="{{ img.url }}" alt="{{ img.title }}" class="cgs-expandable"/>
+    {% endfor %}
+{% endif %}

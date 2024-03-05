@@ -1,0 +1,28 @@
+{% load wagtailimages_tags %}
+
+    {% if block.value.docx_document %}
+        <h2>{{ block.value.docx_document }}</h2>  
+
+        {% for item in block.value.docx_content %}
+        {% if item.block_type == 'heading' %}
+            <{{ item.value.heading_level }} class="cgs-{{ item.value.position }}">
+                {{ item.value.heading }}
+            </{{ item.value.heading_level }}>
+        {% elif item.block_type == 'paragraph' %}
+            <div class="cgs-{{ item.value.position }}">
+                <p>{{ item.value.paragraph }}</p>
+            </div>
+        {% elif item.block_type == 'image' %}
+            <div class="cgs-{{ item.value.position }}">
+                {% image item.value.image original as img %}
+                <img src="{{ img.url }}" alt="{{ img.title }}" class="cgs-expandable cgs-{{ item.value.size }}"/>
+            </div>
+        {% elif item.block_type == 'table' %}
+            <div class="cgs-{{ item.value.position }}">
+                <!-- Implementation spécifique du block TableBlock nécessaire ici -->
+                <p>Tableau intégré ici</p>
+            </div>
+        {% endif %}
+    {% endfor %}    
+
+    {% endif %}

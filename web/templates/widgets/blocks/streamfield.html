@@ -47,6 +47,10 @@
         <div class="cgs-block-pdf">
             {% include "widgets/blocks/PDF_block.html" %}
         </div>
+    {% elif block.block_type == 'DOCX' %}
+        <div class="cgs-block-docx">
+            {% include "widgets/blocks/DOCX_block.html" %}
+        </div>
     {% endif %}
 {% endfor %}
 
