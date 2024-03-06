@@ -28,6 +28,7 @@ from modelcluster.fields import ParentalKey
 # Tables
 from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.contrib.typed_table_block.blocks import TypedTableBlock
+from utils.variables import TABLE_OPTIONS
 
 # Wagtail /home Médias, MenuPage, Panels, etc.
 from home.views import custom_content_panels, custom_promote_panels
@@ -191,7 +192,7 @@ def faq_simple_answer():
             ("embed", EmbedBlock(icon="media")),
             ("list", blocks.ListBlock(blocks.CharBlock(icon="list-ul"), icon="list-ul")),
             ("quote", blocks.BlockQuoteBlock(icon="openquote")),
-            ("table", TableBlock(icon="table")),
+            ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table")),
         ],
         icon="doc-full",
         label=_("Simple answer"),

@@ -1,3 +1,37 @@
+# OPTIONS DE TABLES
+TABLE_OPTIONS = {
+    'minSpareRows': 0,
+    'startRows': 3,
+    'startCols': 3,
+    'colHeaders': True,
+    'rowHeaders': True,
+    'contextMenu': [
+        'row_above', 
+        'row_below', 
+        '---------',
+        'col_left', 
+        'col_right', 
+        '---------',
+        'remove_row', 
+        'remove_col', 
+        '---------',
+        'undo', 
+        'redo', 
+        '---------',
+        'copy', 
+        'cut', 
+        '---------',
+        'alignment',
+        '---------',
+        'mergeCells',
+    ],
+    'height': 108,
+    'language': 'fr-FR',
+    'renderer': 'text',
+    'autoColumnSize': False,
+    'mergeCells': True,
+}
+
 # Itération des bg_colors
 ITER_COLORS = [
     "on_red", 

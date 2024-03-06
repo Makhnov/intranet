@@ -1,14 +1,19 @@
-from itertools import groupby
 import uuid
+from datetime import datetime
+from itertools import groupby
+from collections import defaultdict
 
-from django import forms
+from django.utils.timezone import make_aware
 from django.db import models
+from django import forms
 
+
+from wagtail.models import Page
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.models import Page
 from wagtail.fields import RichTextField, StreamField
+from wagtail.search.backends import get_search_backend
 from wagtail.admin.panels import (
     FieldPanel,
     InlinePanel,
@@ -20,7 +25,8 @@ from wagtail.admin.panels import (
 from modelcluster.fields import ParentalKey
 
 # Page de menu
-from utils.menu_pages import MenuPage, menu_page_save
+from utils.menu_pages import MenuPage, menu_page_save, TYPE_CHOICES
+from utils.variables import TABLE_OPTIONS
 
 # Custom panels
 from home.views import custom_content_panels, custom_promote_panels
@@ -62,18 +68,6 @@ from wagtail.search import index
 # Utilisateurs
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
-# Liste de choix pour CommissionPage
-TYPE_CHOICES = [
-    ('commission', 'Commission'),
-    ('groupe_de_travail', 'Groupe de travail'),
-]
-
-from collections import defaultdict
-
-from django.utils.timezone import make_aware
-from datetime import datetime
-from wagtail.search.backends import get_search_backend
 
 def cv_cr_filter(page, request):
     search_query = request.GET.get('query', None)
@@ -119,6 +113,7 @@ def cv_cr_filter(page, request):
         'convocation_pages_by_year': dict(convocation_pages_by_year),
         'compterendu_pages_by_year': dict(compterendu_pages_by_year),
     }
+
 
 # La page d'accueil de la partie administration du site
 class AdministrationIndexPage(MenuPage):
@@ -513,7 +508,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             ("embed", EmbedBlock(icon="media")),
             ("list", blocks.ListBlock(blocks.CharBlock(icon="list-ul"), icon="list-ul")),
             ("quote", blocks.BlockQuoteBlock(icon="openquote")),
-            ("table", TableBlock(icon="table")),
+            ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table")),
             ("chart", ChartBlock(icon="chart")),
             ("PDF", PDFBlock(icon="doc-full")),
             ("DOCX", DOCXBlock(icon="doc-full")),

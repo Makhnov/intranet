@@ -158,7 +158,14 @@
     }
 }
 
+// TABLEBLOCK 
+div.handsontable.htRowHeaders.htColumnHeaders {
+    height: auto!important;
 
+    div.handsontable div.wtHolder {
+        height: auto!important;
+    }
+}
 
 // Mise en forme des colonnes
 .cgs-colbox {

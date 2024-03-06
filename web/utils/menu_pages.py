@@ -17,6 +17,13 @@ from wagtail.search import index
 # API
 from wagtail.api import APIField
 
+
+# Liste de choix pour CommissionPage
+TYPE_CHOICES = [
+    ('commission', 'Commission'),
+    ('groupe_de_travail', 'Groupe de travail'),
+]
+
 # TITRES ET SLUGS FIXES POUR LES PAGES DE MENU UNIQUES (Page de menu non concernée : home.InstantDownloadPage)
 MENU_PAGE_TITLES = {
     # HOME

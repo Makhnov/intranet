@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-12 12:16+0200\n"
+"POT-Creation-Date: 2024-03-06 07:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,273 +18,978 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] "Veuillez soumettre au plus %(num)d item."
-msgstr[1] "Veuillez soumettre au plus %(num)d items."
-msgstr[2] "Veuillez soumettre au plus %(num)d items."
+#: .\administration\models.py:138 .\administration\models.py:176
+#: .\administration\models.py:215 .\administration\models.py:297
+msgid "Label"
+msgstr "Étiquette"
 
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] "Veuillez soumettre au moins %(num)d item."
-msgstr[1] "Veuillez soumettre au moins %(num)d items."
-msgstr[2] "Veuillez soumettre au moins %(num)d items."
+#: .\administration\models.py:139 .\administration\models.py:177
+#: .\administration\models.py:216 .\administration\models.py:298
+msgid ""
+"Le texte qui apparaîtra dans le titre des convocations et des comptes-rendus."
+msgstr "Le texte qui apparaîtra dans le titre des convocations et des comptes-rendus."
 
-#: .\administration\models.py:49 .\administration\models.py:100
-#: .\administration\models.py:141 .\administration\models.py:183
-#: .\administration\models.py:224 .\administration\models.py:265
-#: .\administration\models.py:306 .\amicale\models.py:104 .\home\models.py:131
-msgid "Introduction"
-msgstr "Introduction"
+#: .\administration\models.py:269 .\home\models.py:376 .\home\models.py:484
+#: .\utils\menu_pages.py:110
+msgid "Logo (SVG, png, jpg, etc.)"
+msgstr "Logo (SVG, png, jpg, etc.)"
 
-#: .\administration\models.py:313
-msgid "Responsable"
-msgstr "Responsable"
+#: .\administration\models.py:270 .\home\models.py:377 .\home\models.py:485
+#: .\utils\menu_pages.py:111
+msgid ""
+"𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦: Round or square (1/1). 𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦𝐚𝐭: Filled SVG. 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 "
+"𝐟𝐨𝐫𝐦𝐚𝐭: PNG with transparent background."
+msgstr "Forme conseillée: ronde ou carrée (1/1). Extension conseillée: SVG Plein. Extension secondaire: PNG avec fond transparent."
 
-#: .\administration\models.py:319
-msgid "Membres"
-msgstr "Membres"
+#: .\administration\models.py:276 .\home\models.py:383 .\home\models.py:491
+#: .\utils\imports.py:72 .\utils\menu_pages.py:117
+msgid "Heading"
+msgstr "En-tête"
 
-#: .\administration\models.py:352 .\administration\models.py:424
-#: .\amicale\models.py:136
+#: .\administration\models.py:277 .\home\models.py:384 .\home\models.py:492
+#: .\utils\menu_pages.py:118
+#, fuzzy
+#| msgid "This is the main content of the page."
+msgid "Displayed in menus, the heading is the title of the page."
+msgstr "Ceci est le contenu principal de la page."
+
+#: .\administration\models.py:283 .\agents\models.py:69 .\home\models.py:390
+#: .\home\models.py:498 .\utils\menu_pages.py:124
+msgid "Tooltip"
+msgstr "Info-bulle"
+
+#: .\administration\models.py:284 .\home\models.py:391 .\home\models.py:499
+#: .\utils\menu_pages.py:125
+msgid "Used for accessibility (alt, title) and when user mouse over the icon."
+msgstr "Utilisé pour l'accessibilité (alt, titre) et lorsque l'utilisateur survole l'icône."
+
+#: .\administration\models.py:292
+msgid "Type"
+msgstr "Type"
+
+#: .\administration\models.py:293
+msgid "Choose if this is a commission or a working group."
+msgstr "Choisissez s'il s'agit d'une commission ou d'un groupe de travail."
+
+#: .\administration\models.py:310 .\home\models.py:421 .\home\models.py:510
+#: .\utils\menu_pages.py:140
+msgid "Menu display options (click to expand)"
+msgstr "Options d'affichage du menu (cliquez pour développer)"
+
+#: .\administration\models.py:311 .\home\models.py:422 .\home\models.py:511
+#: .\utils\menu_pages.py:141
+msgid ""
+"Choose an icon and a tooltip to display on the index pages. Both optional, "
+"if none, CGS logo will be the icon and tooltip will refer as the page title"
+msgstr "Choisissez une icône et une info-bulle à afficher sur les pages d'index. "
+"Les deux sont optionnels, si aucun n'est spécifié, le logo CGS sera l'icône "
+"et l'info-bulle fera référence au titre de la page."
+
+#: .\administration\models.py:365 .\administration\models.py:519
+#: .\amicale\models.py:186 .\home\models.py:410
 msgid "Agenda"
-msgstr "Agenda"
+msgstr "Ordre du jour"
 
-#: .\administration\models.py:359 .\administration\models.py:434
-#: .\home\models.py:110
+#: .\administration\models.py:372 .\administration\models.py:541
+#: .\home\models.py:86 .\home\models.py:177 .\home\models.py:433
+#: .\home\models.py:591
 msgid "Document"
 msgstr "Document"
 
-#: .\administration\models.py:360 .\administration\models.py:435
+#: .\administration\models.py:373 .\administration\models.py:542
+#: .\home\models.py:434 .\home\models.py:592
 msgid "Attachments"
 msgstr "Pièces jointes"
 
-#: .\administration\models.py:402
+#: .\administration\models.py:464 .\administration\models.py:683
 msgid "Convocation"
 msgstr "Convocation"
 
-#: .\administration\models.py:403
+#: .\administration\models.py:465
 msgid "Sélectionnez la convocation associée."
 msgstr "Sélectionnez la convocation associée."
+#: .\administration\models.py:470
+msgid "Secrétaire"
+msgstr "Secrétaire"
 
-#: .\administration\models.py:425 .\amicale\models.py:137 .\home\models.py:144
+#: .\administration\models.py:478
+msgid "Remplaçants"
+msgstr "Remplaçants"
+
+#: .\administration\models.py:484
+msgid "Excusés et remplacés"
+msgstr "Excusés et remplacés"
+
+#: .\administration\models.py:490
+msgid "Excusés non remplacés"
+msgstr "Excusés non remplacés"
+
+#: .\administration\models.py:497
+msgid "Quorum"
+msgstr "Quorum"
+
+#: .\administration\models.py:498
+#, fuzzy
+#| msgid "Check this box if you want to use a map."
+msgid "Uncheck this box if the quorum isn't reached."
+msgstr "Cochez cette case si vous souhaitez utiliser une carte."
+
+#: .\administration\models.py:520 .\amicale\models.py:187 .\home\models.py:411
 msgid "This is the main content of the page."
 msgstr "Ceci est le contenu principal de la page."
 
-#: .\agents\models.py:56 .\home\models.py:116
+#: .\administration\models.py:676
+msgid "Présent"
+msgstr "Présent"
+
+#: .\administration\models.py:677
+msgid "Remplacé"
+msgstr "Remplacé"
+
+#: .\administration\models.py:678
+msgid "Non remplacé"
+msgstr "Non remplacé"
+
+#: .\administration\models.py:684
+msgid "User"
+msgstr "Utilisateur"
+
+#: .\administration\models.py:685
+msgid "Parent Page"
+msgstr "Page parente"
+
+#: .\administration\models.py:686
+msgid "Function Weight"
+msgstr "Poids de la fonction"
+
+#: .\administration\models.py:687
+#, fuzzy
+#| msgid "Convocation"
+msgid "Function"
+msgstr "Convocation"
+
+#: .\administration\models.py:688
+msgid "Gender"
+msgstr "Genre"
+
+#: .\administration\models.py:689
+msgid "Identity"
+msgstr "Identité"
+
+#: .\administration\models.py:690 .\templates\wagtailusers\users\list.html:35
+msgid "Municipality"
+msgstr "Municipalité"
+
+#: .\administration\models.py:691
+msgid "Presence"
+msgstr "Présence"
+
+#: .\administration\models.py:692
+msgid "Substitute"
+msgstr "Suppléant"
+
+#: .\administration\models.py:693
+msgid "Alternate"
+msgstr "Alternatif"
+
+#: .\administration\models.py:740
+#, fuzzy
+#| msgid "Convocation"
+msgid "Convocation User"
+msgstr "Convocation"
+
+#: .\administration\models.py:741
+#, fuzzy
+#| msgid "Convocation"
+msgid "Convocation Users"
+msgstr "Convocation"
+
+#: .\agents\models.py:61 .\home\models.py:687
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:12
 msgid "Title"
 msgstr "Titre"
 
-#: .\agents\models.py:72
+#: .\agents\models.py:62
+msgid "Visible title on the FAQ index page."
+msgstr "Titre visible sur la page d'index des FAQ."
+
+#: .\agents\models.py:70
+msgid ""
+"Tooltip displayed on the index pages. Visible when user mouse over the logo "
+"icon."
+msgstr ""
+"Info-bulle affichée sur les pages d'index. Visible lorsque l'utilisateur "
+"passe la souris sur l'icône du logo."
+
+#: .\agents\models.py:78 .\dashboard\models.py:68
+msgid "Logo"
+msgstr "Logo"
+
+#: .\agents\models.py:79
+msgid ""
+"Visible icon on index pages. Ideal size: 1/1 (square or round). Format :⚠️SVG⚠️"
+msgstr ""
+"Icône visible sur les pages d'index. Taille idéale : 1/1 (carré ou rond). "
+"Format :⚠️SVG⚠️"
+
+#: .\agents\models.py:97
 msgid "one category"
 msgstr "une catégorie"
 
-#: .\agents\models.py:73
+#: .\agents\models.py:98
 msgid "categories"
 msgstr "catégories"
 
-#: .\agents\models.py:92
-msgid "introduction"
-msgstr "introduction"
+#: .\agents\models.py:173
+msgid "Law text reference"
+msgstr "Référence du texte de loi"
 
-#: .\agents\models.py:124
-msgid "Target for the answer"
-msgstr "Cible pour la réponse"
+#: .\agents\models.py:174
+msgid "Law text link"
+msgstr "Lien vers le texte de loi"
 
-#: .\agents\models.py:127
+#: .\agents\models.py:198
+msgid "Simple answer"
+msgstr "Réponse simple"
+
+#: .\agents\models.py:206
+msgid "Criteria"
+msgstr "Critères"
+
+#: .\agents\models.py:208
 msgid ""
-"The target only required if the question is contingent or specific. In this "
-"case, use this field to describe the targeted group. If there are multiple "
-"targets, fill in the 𝐭𝐚𝐫𝐠𝐞𝐭 fields for each answer. Otherwise, leave this "
-"field empty."
+"User select the criteria wich fits to his situation, it will allow him to "
+"see related answer(s). Mandatory."
 msgstr ""
-"La cible est seulement requise si la question est conditionnelle ou spécifique. Dans ce cas, utilisez ce champ pour décrire le groupe ciblé. S'il y a plusieurs cibles, remplissez les champs 𝐭𝐚𝐫𝐠𝐞𝐭 pour chaque réponse. Sinon, laissez ce champ vide."
+"L'utilisateur sélectionne les critères qui correspondent à sa situation, "
+"ceci lui permettra de voir la/les réponse(s) associée(s). Obligatoire."
 
-#: .\agents\models.py:148
-msgid "Answer content"
-msgstr "Contenu de la réponse"
+#: .\agents\models.py:216
+#, fuzzy
+#| msgid "Last name"
+msgid "Step name"
+msgstr "Nom de famille"
 
-#: .\agents\models.py:150
+#: .\agents\models.py:218
 msgid ""
-"Try to be as much exhaustive as possible. If the answer is a step by sted "
-"guide, use Headings (as step's names) and paragraphs (as step's "
-"explanation), headings will create achors (clickable & linkable). Use media "
-"to add images, videos, documents, etc."
+"User click on each steps names to open it and see related answer(s). "
+"Mandatory."
 msgstr ""
-"Essayez d'être le plus exhaustif possible. Si la réponse est un guide étape par étape, utilisez des titres (comme noms d'étapes) et des paragraphes (comme explication d'étapes), les titres créeront des ancres (cliquables et liables). Utilisez les médias pour ajouter des images, vidéos, documents, etc."
+"L'utilisateur clique sur chaque nom d'étape pour l'ouvrir et voir les "
+"réponse(s) associée(s). Obligatoire."
 
-#: .\agents\models.py:169
+#: .\agents\models.py:226
+msgid "Introduction"
+msgstr "Introduction"
+
+#: .\agents\models.py:237
+#, fuzzy
+#| msgid "Answer(s)"
+msgid "Related answer(s)"
+msgstr "Réponse(s)"
+
+#: .\agents\models.py:243
+msgid "Click on the + below to add another "
+msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
+
+#: .\agents\models.py:287
 msgid "Category"
 msgstr "Catégorie"
 
-#: .\agents\models.py:172 .\agents\models.py:212
+#: .\agents\models.py:289
 msgid "Question"
 msgstr "Question"
 
-#: .\agents\models.py:176
-msgid "Target audience or choice"
-msgstr "Public cible ou choix"
+#: .\agents\models.py:293
+msgid "Conditonnal answer"
+msgstr "Réponse conditionnelle"
 
-#: .\agents\models.py:178
-msgid ""
-"If the answer is contingent or targeted, enter a sub-question here to "
-"introduce the choice list for users. Otherwise, leave this field empty."
-msgstr ""
-"Si la réponse est conditionnelle ou ciblée, saisissez ici une sous-question "
-"pour introduire la liste des choix pour les utilisateurs. Sinon, laissez ce "
-"champ vide."
+#: .\agents\models.py:294
+msgid "Step answer"
+msgstr "Réponse d'étape"
 
-#: .\agents\models.py:189
+#: .\agents\models.py:299
 msgid "Answer(s)"
 msgstr "Réponse(s)"
 
-#: .\agents\models.py:191
+#: .\agents\models.py:301
 msgid ""
-"Click on the ⊕ icon below to add an answer. If this is a multiple scenario "
-"question, add as many answers as needed."
+"Click on the ⊕ below to add an answer. You can add simple answer(s), "
+"conditional answer(s) or step answer(s). You can either imbriqued "
+"conditional answer(s) or step answer(s) inside any answer."
 msgstr ""
-"Cliquez sur l'icône ⊕ ci-dessous pour ajouter une réponse. S'il s'agit d'une "
-"question à scénarios multiples, ajoutez autant de réponses que nécessaire."
+"Cliquez sur le ⊕ ci-dessous pour ajouter une réponse. Vous pouvez ajouter "
+"des réponses simples, des réponses conditionnelles ou des réponses "
+"d'étape. Vous pouvez également imbriquer des réponses conditionnelles ou "
+"des réponses d'étape dans n'importe quelle réponse."
 
-#: .\agents\models.py:198
+#: .\agents\models.py:306
+msgid "Related FAQ"
+msgstr "FAQ associées"
+
+#: .\agents\models.py:311
+msgid "Similar themes"
+msgstr "Thèmes similaires"
+
+#: .\agents\models.py:312
+msgid ""
+"You can click on the ⊕ below to add related FAQ to this one. Users will see "
+"it in the 'Go further' section"
+msgstr ""
+"Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des FAQ associées à "
+"celle-ci. Les utilisateurs les verront dans la section 'Aller plus loin'."
+
+#: .\agents\models.py:321
+msgid "Law texts"
+msgstr "Textes de loi"
+
+#: .\agents\models.py:322
+msgid "You can click on the ⊕ below to add law texts related to this FAQ."
+msgstr ""
+"Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des textes de loi "
+"liés à cette FAQ."
+
+#: .\agents\models.py:327
 msgid "Faq Tags"
 msgstr "Balises FAQ"
 
-#: .\agents\models.py:208
-msgid "Sub-question (criteria)"
-msgstr "Sous-question (critères)"
-
-#: .\amicale\models.py:76
+#: .\amicale\models.py:66
 msgid "Author imge"
 msgstr "Image de l'auteur"
 
-#: .\amicale\models.py:88
+#: .\amicale\models.py:78
 msgid "Author"
 msgstr "Auteur"
 
-#: .\amicale\models.py:89
+#: .\amicale\models.py:79
 msgid "Authors"
 msgstr "Auteurs"
 
-#: .\amicale\models.py:95
-msgid "tagged_items"
-msgstr "Articles marqués"
+#: .\amicale\models.py:149
+msgid "Date"
+msgstr "Date"
 
-#: .\amicale\models.py:107
+#: .\amicale\models.py:150
 msgid ""
-"This is the text wich will be shown on the blog post list page. Take is as "
-"an excerpt."
+"For an event enter the event date, for an article enter the publication "
+"date(or leave it blank)."
 msgstr ""
-"C'est le texte qui sera affiché sur la page de la liste des articles de blog. "
-"Considérez-le comme un extrait."
+"Pour un événement, entrez la date de l'événement ; pour un article, entrez "
+"la date de publication (ou laissez-la vide)."
 
-#: .\amicale\models.py:111 .\home\models.py:133
-msgid "Post date"
-msgstr "Date de publication"
+#: .\amicale\models.py:157
+msgid "Auteur"
+msgstr "Auteur"
 
-#: .\amicale\models.py:116
+#: .\amicale\models.py:166
 msgid "Amicale Tags"
 msgstr "Balises Amicale"
 
-#: .\amicale\models.py:142
+#: .\amicale\models.py:191
 msgid "Use a map?"
 msgstr "Utiliser une carte ?"
 
-#: .\amicale\models.py:143
+#: .\amicale\models.py:192
 msgid "Check this box if you want to use a map."
 msgstr "Cochez cette case si vous souhaitez utiliser une carte."
 
-#: .\amicale\models.py:149 .\amicale\models.py:211
+#: .\amicale\models.py:198 .\amicale\models.py:271
 msgid "Location"
 msgstr "Emplacement"
 
-#: .\amicale\models.py:150
+#: .\amicale\models.py:199
 msgid "Select location on the map."
 msgstr "Sélectionnez l'emplacement sur la carte."
 
-#: .\amicale\models.py:156 .\amicale\models.py:205
+#: .\amicale\models.py:205 .\amicale\models.py:265
 msgid "Address"
 msgstr "Adresse"
 
-#: .\amicale\models.py:157
+#: .\amicale\models.py:206
 msgid "Address to geocode to get the location."
 msgstr "Adresse à géocoder pour obtenir l'emplacement."
 
-#: .\amicale\models.py:163
+#: .\amicale\models.py:212
 msgid "Name to display for this point on the map."
 msgstr "Nom à afficher pour ce point sur la carte."
 
-#: .\amicale\models.py:168
+#: .\amicale\models.py:217
 msgid "Link for the point on the map."
 msgstr "Lien pour le point sur la carte."
 
-#: .\amicale\models.py:191
-msgid "Blog information"
-msgstr "Informations sur le blog"
+#: .\amicale\models.py:234
+msgid "Form field"
+msgstr "Champ de formulaire"
 
-#: .\amicale\models.py:194 .\home\models.py:156
+#: .\amicale\models.py:239
+msgid "Inscription form"
+msgstr "Formulaire d'inscription"
+
+#: .\amicale\models.py:240
+msgid "Add an inscription form for this event."
+msgstr "Ajouter un formulaire d'inscription pour cet événement."
+
+#: .\amicale\models.py:251
+#, fuzzy
+#| msgid "Additional information"
+msgid "Article informations"
+msgstr "Informations supplémentaires"
+
+#: .\amicale\models.py:254 .\home\models.py:425
 msgid "Content"
 msgstr "Contenu"
 
-#: .\amicale\models.py:197
+#: .\amicale\models.py:257 .\home\models.py:428 .\utils\imports.py:114
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Image"
 
-#: .\amicale\models.py:198
+#: .\amicale\models.py:258
 msgid "Gallery images"
 msgstr "Images de la galerie"
 
-#: .\amicale\models.py:213
+#: .\amicale\models.py:273
 msgid "Name (marker)"
 msgstr "Nom (marqueur)"
 
-#: .\amicale\models.py:214
+#: .\amicale\models.py:274
 msgid "Link (marker)"
 msgstr "Lien (marqueur)"
 
-#: .\amicale\models.py:216
+#: .\amicale\models.py:276
 msgid "Map details"
 msgstr "Détails de la carte"
 
-#: .\amicale\models.py:266
+#: .\amicale\models.py:279
+msgid "inscription form"
+msgstr "formulaire d'inscription"
+
+#: .\amicale\models.py:328 .\home\models.py:665
 msgid "Caption"
 msgstr "Légende"
 
-#: .\amicale\models.py:267
+#: .\amicale\models.py:329 .\home\models.py:666
 msgid "You can add a caption to the image (optional)."
 msgstr "Vous pouvez ajouter une légende à l'image (facultatif)."
 
-#: .\dashboard\wagtail_hooks.py:36
+#: .\dashboard\models.py:76
+msgid "Footer Image"
+msgstr "Image de pied de page"
+
+#: .\dashboard\models.py:84 .\dashboard\models.py:102
+msgid "Watermark"
+msgstr "Filigrane"
+
+#: .\dashboard\models.py:89
+msgid "Locality for the letter."
+msgstr "Localité pour la lettre."
+
+#: .\dashboard\models.py:90 .\dashboard\models.py:103
+#, fuzzy
+#| msgid "Location"
+msgid "Locality"
+msgstr "Emplacement"
+
+#: .\dashboard\models.py:95
+msgid "Locality description for the letter."
+msgstr "Description de la localité pour la lettre."
+
+#: .\dashboard\models.py:96 .\dashboard\models.py:104
+msgid "Locality Description"
+msgstr "Description de la localité"
+
+#: .\dashboard\models.py:100
+msgid "Header logo"
+msgstr "Logo d'en-tête"
+
+#: .\dashboard\models.py:101
+#, fuzzy
+#| msgid "Gallery images"
+msgid "Footer image"
+msgstr "Images de la galerie"
+
+#: .\dashboard\models.py:107 .\dashboard\models.py:133
+msgid "Opening Councils"
+msgstr "Conseils"
+
+#: .\dashboard\models.py:108 .\dashboard\models.py:140
+msgid "Opening Boards"
+msgstr "Bureaux"
+
+
+#: .\dashboard\models.py:109 .\dashboard\models.py:147
+msgid "Opening Commissions"
+msgstr "Commissions"
+
+#: .\dashboard\models.py:110 .\dashboard\models.py:154
+msgid "Opening Conferences"
+msgstr "Conférences"
+
+#: .\dashboard\models.py:112
+msgid "Openings"
+msgstr "En tête des convocations"
+
+#: .\dashboard\models.py:117 .\dashboard\models.py:162
+msgid "Closing Councils"
+msgstr "Conseils"
+
+#: .\dashboard\models.py:118 .\dashboard\models.py:168
+msgid "Closing Boards"
+msgstr "Bureaux"
+
+#: .\dashboard\models.py:119 .\dashboard\models.py:174
+msgid "Closing Commissions"
+msgstr "Commissions"
+
+#: .\dashboard\models.py:120 .\dashboard\models.py:180
+msgid "Closing Conferences"
+msgstr "Conférences"
+
+#: .\dashboard\models.py:122
+#, fuzzy
+msgid "Closings"
+msgstr "Formules de politesse"
+
+#: .\dashboard\models.py:130
+msgid "Text for council openings."
+msgstr "Message d'introduction pour les convocations aux conseils communautaires"
+
+#: .\dashboard\models.py:137
+msgid "Text for board openings."
+msgstr "Message d'introduction pour les convocations aux bureaux communautaires"
+
+#: .\dashboard\models.py:144
+msgid "Text for commission openings."
+msgstr "Message d'introduction pour les convocations aux commissions et groupe de travail"
+
+#: .\dashboard\models.py:151
+msgid "Text for conference openings."
+msgstr "Message d'introduction pour les convocations aux conférences des maires"
+
+#: .\dashboard\models.py:160
+msgid "Closing text for councils."
+msgstr "Formule de politesse pour clore une convocation au conseil communautaire."
+
+#: .\dashboard\models.py:166
+msgid "Closing text for boards."
+msgstr "Formule de politesse pour clore une convocation au bureau."
+
+#: .\dashboard\models.py:172
+msgid "Closing text for commissions."
+msgstr "Formule de politesse pour clore une convocation aux commissions et aux groupes de travail."
+
+#: .\dashboard\models.py:178
+msgid "Closing text for conferences."
+msgstr "Formule de politesse pour clore une convocation aux conférences des maires."
+
+#: .\dashboard\models.py:197 .\dashboard\models.py:567
+msgid "Home"
+msgstr "Accueil"
+
+#: .\dashboard\models.py:198
+msgid ""
+"'Home' symbol to back to the index section. Related Index Pages : "
+"'Calendar', 'Amicale', 'FAQ', 'Administration'. "
+msgstr ""
+"Symbole 'Accueil' pour revenir à la section d'index. Pages d'index "
+"associées : 'Calendrier', 'Amicale', 'FAQ', 'Administration'."
+
+#: .\dashboard\models.py:206
+#, fuzzy
+#| msgid "Profile"
+msgid "User profile"
+msgstr "Profil"
+
+#: .\dashboard\models.py:207 .\dashboard\models.py:568
+#, fuzzy
+#| msgid "Profile"
+msgid "User Profile"
+msgstr "Profil"
+
+#: .\dashboard\models.py:215 .\dashboard\models.py:569
+msgid "Previous Page"
+msgstr "Page précédente"
+
+#: .\dashboard\models.py:223 .\dashboard\models.py:570
+msgid "Next Page"
+msgstr "Page suivante"
+
+#: .\dashboard\models.py:233 .\dashboard\models.py:577
+msgid "Open"
+msgstr "Ouvrir"
+
+#: .\dashboard\models.py:241 .\dashboard\models.py:578
+msgid "Close"
+msgstr "Fermer"
+
+#: .\dashboard\models.py:249 .\dashboard\models.py:579
+msgid "More"
+msgstr "Plus"
+
+#: .\dashboard\models.py:257 .\dashboard\models.py:580
+msgid "Less"
+msgstr "Moins"
+
+#: .\dashboard\models.py:265 .\dashboard\models.py:581
+msgid "More (right)"
+msgstr "Plus (droite)"
+
+#: .\dashboard\models.py:273 .\dashboard\models.py:582
+msgid "Less (left)"
+msgstr "Moins (gauche)"
+
+#: .\dashboard\models.py:281 .\dashboard\models.py:583
+msgid "Base item"
+msgstr "Élément de base"
+
+#: .\dashboard\models.py:282
+msgid "Base Item"
+msgstr "Élément de base"
+
+#: .\dashboard\models.py:290 .\dashboard\models.py:584
+msgid "Previous Item"
+msgstr "Élément précédent"
+
+#: .\dashboard\models.py:298
+msgid "Next item"
+msgstr "Élément suivant"
+
+#: .\dashboard\models.py:299 .\dashboard\models.py:585
+msgid "Next Item"
+msgstr "Élément suivant"
+
+#: .\dashboard\models.py:307 .\dashboard\models.py:308
+#: .\dashboard\models.py:586
+msgid "All FAQ"
+msgstr "Toutes les FAQ"
+
+#: .\dashboard\models.py:316 .\dashboard\models.py:317
+#: .\dashboard\models.py:587
+#, fuzzy
+#| msgid "Amicale Tags"
+msgid "Amicale news"
+msgstr "Balises Amicale"
+
+#: .\dashboard\models.py:325 .\dashboard\models.py:326
+#: .\dashboard\models.py:588
+#, fuzzy
+#| msgid "Amicale Tags"
+msgid "Amicale sorties"
+msgstr "Balises Amicale"
+
+#: .\dashboard\models.py:334 .\dashboard\models.py:335
+#: .\dashboard\models.py:589
+#, fuzzy
+#| msgid "Amicale Tags"
+msgid "Amicale divers"
+msgstr "Balises Amicale"
+
+#: .\dashboard\models.py:343 .\dashboard\models.py:344
+#: .\dashboard\models.py:590
+msgid "Amicale unknown"
+msgstr "Amicale inconnue"
+
+#: .\dashboard\models.py:354 .\dashboard\models.py:355
+#: .\dashboard\models.py:597
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:9
+#: .\venv\Lib\site-packages\generic_chooser\views.py:338
+#: .\venv\Lib\site-packages\generic_chooser\views.py:339
+msgid "Search"
+msgstr "Recherche"
+
+#: .\dashboard\models.py:363 .\dashboard\models.py:364
+#: .\dashboard\models.py:598
+msgid "Zoom in"
+msgstr "Zoomer"
+
+#: .\dashboard\models.py:372 .\dashboard\models.py:373
+#: .\dashboard\models.py:599
+msgid "Zoom out"
+msgstr "Dézoomer"
+
+#: .\dashboard\models.py:381 .\dashboard\models.py:382
+#: .\dashboard\models.py:600
+msgid "Apply filter"
+msgstr "Appliquer le filtre"
+
+#: .\dashboard\models.py:390 .\dashboard\models.py:391
+#: .\dashboard\models.py:601
+msgid "Reset filter"
+msgstr "Réinitialiser le filtre"
+
+#: .\dashboard\models.py:401 .\dashboard\models.py:402
+#: .\dashboard\models.py:608
+msgid "List view"
+msgstr "Vue en liste"
+
+#: .\dashboard\models.py:410 .\dashboard\models.py:411
+#: .\dashboard\models.py:609
+msgid "Upcoming view"
+msgstr "Vue à venir"
+
+#: .\dashboard\models.py:419 .\dashboard\models.py:420
+#: .\dashboard\models.py:610
+msgid "Past view"
+msgstr "Vue précédente"
+
+#: .\dashboard\models.py:428 .\dashboard\models.py:429
+#: .\dashboard\models.py:611
+msgid "Day view"
+msgstr "Vue journalière"
+
+#: .\dashboard\models.py:437 .\dashboard\models.py:438
+#: .\dashboard\models.py:612
+msgid "Week view"
+msgstr "Vue hebdomadaire"
+
+#: .\dashboard\models.py:446 .\dashboard\models.py:447
+#: .\dashboard\models.py:613
+msgid "Month view"
+msgstr "Vue mensuelle"
+
+#: .\dashboard\models.py:455 .\dashboard\models.py:456
+#: .\dashboard\models.py:614
+msgid "Actual view"
+msgstr "Vue actuelle"
+
+#: .\dashboard\models.py:466 .\dashboard\models.py:621
+#, fuzzy
+#| msgid "Convocation"
+msgid "Convocation page"
+msgstr "Convocation"
+
+#: .\dashboard\models.py:474 .\dashboard\models.py:622
+msgid "Compte rendu page"
+msgstr "Page de compte rendu"
+
+#: .\dashboard\models.py:482 .\dashboard\models.py:623
+msgid "Administration page"
+msgstr "Page d'administration"
+
+#: .\dashboard\models.py:483
+#, fuzzy
+#| msgid "introduction"
+msgid "Administration"
+msgstr "introduction"
+
+#: .\dashboard\models.py:491 .\dashboard\models.py:624
+#, fuzzy
+#| msgid "Amicale Tags"
+msgid "Amicale page"
+msgstr "Balises Amicale"
+
+#: .\dashboard\models.py:492
+#, fuzzy
+#| msgid "Amicale Tags"
+msgid "Amicale"
+msgstr "Balises Amicale"
+
+#: .\dashboard\models.py:500 .\dashboard\models.py:625
+msgid "FAQ page"
+msgstr "Page FAQ"
+
+#: .\dashboard\models.py:501
+msgid "FAQ"
+msgstr "FAQ"
+
+#: .\dashboard\models.py:509 .\dashboard\models.py:626
+msgid "Ressources page"
+msgstr "Page Ressources"
+
+#: .\dashboard\models.py:510
+msgid "Ressources"
+msgstr "Ressources"
+
+#: .\dashboard\models.py:518 .\dashboard\models.py:519
+#: .\dashboard\models.py:627
+msgid "Web page"
+msgstr "Page Web"
+
+#: .\dashboard\models.py:527 .\dashboard\models.py:628
+msgid "Documents (InstantDownload)"
+msgstr "Documents (Téléchargement instantané)"
+
+#: .\dashboard\models.py:528
+msgid "Download"
+msgstr "Télécharger"
+
+#: .\dashboard\models.py:536 .\dashboard\models.py:537
+#: .\dashboard\models.py:629
+msgid "Form"
+msgstr "Formulaire"
+
+#: .\dashboard\models.py:545 .\dashboard\models.py:630
+msgid "Site web officiel"
+msgstr "Site web officiel"
+
+#: .\dashboard\models.py:553 .\dashboard\models.py:631
+msgid "Office de tourisme"
+msgstr "Office de tourisme"
+
+#: .\dashboard\models.py:561 .\dashboard\models.py:632
+msgid "Facebook"
+msgstr "Facebook"
+
+#: .\dashboard\models.py:572
+msgid "Navigation"
+msgstr "Navigation"
+
+#: .\dashboard\models.py:592
+#, fuzzy
+#| msgid "Display name"
+msgid "Display"
+msgstr "Nom d'affichage"
+
+#: .\dashboard\models.py:603
+#, fuzzy
+#| msgid "Location"
+msgid "Actions"
+msgstr "Emplacement"
+
+#: .\dashboard\models.py:616
+msgid "Calendar"
+msgstr "Calendrier"
+
+#: .\dashboard\models.py:634
+msgid "Pages"
+msgstr "Pages"
+
+#: .\dashboard\wagtail_hooks.py:31
 msgid "Custom settings"
 msgstr "Paramètres personnalisés"
 
-#: .\dashboard\wagtail_hooks.py:43
+#: .\dashboard\wagtail_hooks.py:38
 msgid "My custom settings"
 msgstr "Mes paramètres personnalisés"
 
-#: .\home\models.py:53
+#: .\home\models.py:87
+msgid "Chose a DOCX file to import in the flow."
+msgstr "Choisissez un fichier DOCX à importer dans le flux."
+
+#: .\home\models.py:92 .\home\models.py:183
+msgid "Save and import"
+msgstr "Enregistrer et importer"
+
+#: .\home\models.py:93
+msgid "Use cautiously. It will override all existing content in this section."
+msgstr "Utilisez avec prudence. Cela remplacera tout le contenu existant dans cette section."
+
+#: .\home\models.py:104
+#, fuzzy
+#| msgid "Answer content"
+msgid "Aperçu du contenu"
+msgstr "Contenu de la réponse"
+
+#: .\home\models.py:105
+msgid ""
+"You can remove or replace any of the content below. If you want to restore "
+"the original content, click again on the import button."
+msgstr ""
+"Vous pouvez supprimer ou remplacer n'importe lequel du contenu ci-dessous. "
+"Si vous souhaitez restaurer le contenu original, cliquez à nouveau sur le "
+"bouton d'importation."
+
+#: .\home\models.py:142
+#, python-format
+msgid "The file '%(filename)s' is not a DOCX document."
+msgstr "Le fichier '%(filename)s' n'est pas un document DOCX."
+
+#: .\home\models.py:178
+msgid ""
+"Chose a PDF wich will be converted to images and added in the flow. Name "
+"smartly the document, it will be used to create a collection."
+msgstr ""
+"Choisissez un PDF qui sera converti en images et ajouté dans le flux. Nommez "
+"intelligemment le document, il sera utilisé pour créer une collection."
+
+#: .\home\models.py:184
+msgid "Use cautiously. It will override all existing images in this section."
+msgstr "Utilisez avec prudence. Cela remplacera toutes les images existantes dans cette section."
+
+#: .\home\models.py:192
+msgid "Aperçu des pages"
+msgstr "Aperçu des pages"
+
+#: .\home\models.py:193
+msgid ""
+"You can remove or replace any of the images below. If you want to restore "
+"the original images, click again on the import button."
+msgstr ""
+"Vous pouvez supprimer ou remplacer n'importe laquelle des images ci-dessous. "
+"Si vous souhaitez restaurer les images originales, cliquez à nouveau sur le "
+"bouton d'importation."
+
+#: .\home\models.py:217
+#, python-format
+msgid "The file '%(filename)s' is not a PDF document."
+msgstr "Le fichier '%(filename)s' n'est pas un document PDF."
+
+#: .\home\models.py:259
+msgid "PDF"
+msgstr "PDF"
+
+#: .\home\models.py:270
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2623
 msgid "URL"
 msgstr "URL"
 
-#: .\home\models.py:53
+#: .\home\models.py:270
 msgid "Enter the URL."
 msgstr "Entrez l'URL."
 
-#: .\home\models.py:56
+#: .\home\models.py:273
 msgid "Replacement Text"
 msgstr "Texte de remplacement"
 
-#: .\home\models.py:57
+#: .\home\models.py:274
 msgid "Enter the visible text for this link (optional)."
 msgstr "Entrez le texte visible pour ce lien (facultatif)."
 
-#: .\home\models.py:62
+#: .\home\models.py:279
 msgid "Link"
 msgstr "Lien"
 
-#: .\home\models.py:73
+#: .\home\models.py:284
+msgid "URL a intégrer"
+msgstr "URL à intégrer"
+
+#: .\home\models.py:287
+msgid "Very small"
+msgstr "Très petit"
+
+#: .\home\models.py:288 .\utils\imports.py:103
+msgid "Small"
+msgstr "Petit"
+
+#: .\home\models.py:289 .\utils\imports.py:104
+msgid "Medium"
+msgstr "Moyen"
+
+#: .\home\models.py:290 .\utils\imports.py:105
+msgid "Large"
+msgstr "Grand"
+
+#: .\home\models.py:291
+msgid "Very large"
+msgstr "Très grand"
+
+#: .\home\models.py:294
+msgid "Size of the frame"
+msgstr "Taille du cadre"
+
+#: .\home\models.py:299
+msgid "Alternative title"
+msgstr "Titre alternatif"
+
+#: .\home\models.py:300
+msgid "Alternative title for users accessibility."
+msgstr "Titre alternatif pour l'accessibilité des utilisateurs."
+
+#: .\home\models.py:306
+msgid "Intégration vidéo"
+msgstr "Intégration vidéo"
+
+#: .\home\models.py:317
 #, python-brace-format
 msgid ""
 "\n"
@@ -296,8 +1001,16 @@ msgid ""
 "            </div>\n"
 "            "
 msgstr ""
+"\n"
+"            <div>\n"
+"                <video width=\"{1}\" height=\"{2}\" controls>\n"
+"                    {0}\n"
+"                    Votre navigateur ne prend pas en charge la balise vidéo.\n"
+"                </video>\n"
+"            </div>\n"
+"            "
 
-#: .\home\models.py:84
+#: .\home\models.py:328
 #, python-brace-format
 msgid ""
 "\n"
@@ -309,193 +1022,2179 @@ msgid ""
 "            </div>\n"
 "            "
 msgstr ""
+"\n"
+"            <div>\n"
+"                <audio controls>\n"
+"                    {0}\n"
+"                    Votre navigateur ne prend pas en charge l'élément audio.\n"
+"                </audio>\n"
+"            </div>\n"
+"            "
 
-#: .\home\models.py:153
-msgid "Page informations"
-msgstr "Informations sur la page"
+#: .\home\models.py:429
+#, fuzzy
+#| msgid "Gallery images"
+msgid "Gallery"
+msgstr "Images de la galerie"
 
-#: .\intranet\settings\base.py:289
+#: .\home\models.py:593
+msgid ""
+"Add one or more documents to download. If multiple documents are added, they "
+"will be downloaded as a zip file. Icon and Tooltip are optional, if none, "
+"icon will be generic image and tooltip will be the page title."
+msgstr ""
+"Ajoutez un ou plusieurs documents à télécharger. Si plusieurs documents sont ajoutés, ils "
+"seront téléchargés sous forme de fichier zip. L'icône et l'info-bulle sont facultatives, "
+"si aucune n'est spécifiée, l'icône sera une image générique et l'info-bulle sera le titre de la page."
+
+#: .\home\models.py:645
+msgid "Instant download page"
+msgstr "Page de téléchargement instantané"
+
+#: .\home\models.py:646
+msgid "Instant download pages"
+msgstr "Pages de téléchargement instantané"
+
+#: .\home\models.py:681
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
+msgid "File"
+msgstr "Fichier"
+
+
+#: .\intranet\settings\base.py:310
 msgid "French"
 msgstr "Français"
 
-#: .\intranet\settings\base.py:290
+#: .\intranet\settings\base.py:311
 msgid "English"
 msgstr "Anglais"
 
-#: .\intranet\settings\base.py:291
+#: .\intranet\settings\base.py:312
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: .\templates\account\login.html:6 .\templates\account\login.html:9
-#: .\templates\account\login.html:44
-msgid "Sign In"
+#: .\templates\account\login.html:4 .\templates\account\login.html:14
+#: .\templates\wagtailadmin\login.html:4
+#, fuzzy
+#| msgid "Sign In"
+msgid "Sign in"
 msgstr "Se connecter"
 
-#: .\templates\account\login.html:16
-#, python-format
-msgid ""
-"\n"
-"  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
-"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte %(site_name)s et "
-"connectez-vous ci-dessous:\n"
-"  "
-msgstr ""
+#: .\templates\account\login.html:32 .\templates\account\signup.html:32
+#: .\templates\wagtailadmin\login.html:35
+msgid "Welcome !"
+msgstr "Bienvenue !"
 
-#: .\templates\account\login.html:25
-msgid "or"
-msgstr "ou"
+#: .\templates\account\login.html:36 .\templates\account\signup.html:36
+msgid "Please log in to access this page."
+msgstr "Veuillez vous connecter pour accéder à cette page."
 
-#: .\templates\account\login.html:29
-#, python-format
-msgid ""
-"\n"
-"  Si vous n'avez pas encore créé de compte, veuillez <a "
-"href=\"%(signup_url)s\">vous inscrire</a> d'abord.\n"
-"  "
-msgstr ""
+#: .\templates\account\login.html:50 .\templates\account\signup.html:60
+#: .\templates\wagtailusers\users\list.html:20
+#: .\templates\wagtailusers\users\list.html:24
+msgid "Username"
+msgstr "Nom d'utilisateur"
 
-#: .\templates\account\login.html:42
-msgid "Forgot Password?"
+#: .\templates\account\login.html:61 .\templates\account\signup.html:70
+#, fuzzy
+#| msgid "Forgot Password?"
+msgid "Password"
 msgstr "Mot de passe oublié ?"
 
-#: .\templates\account\logout.html:5 .\templates\account\logout.html:8
-#: .\templates\account\logout.html:17 .\templates\account\profile.html:93
+#: .\templates\account\login.html:72 .\templates\wagtailadmin\login.html:49
+#, fuzzy
+#| msgid "Forgot Password?"
+msgid "Forgotten password?"
+msgstr "Mot de passe oublié ?"
+
+#: .\templates\account\login.html:74 .\templates\wagtailadmin\login.html:51
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+#: .\templates\account\login.html:79 .\templates\account\login.html:90
+#: .\templates\wagtailadmin\login.html:56
+#: .\templates\wagtailadmin\login.html:66
+msgid "Connexion"
+msgstr "Connexion"
+
+#: .\templates\account\login.html:87 .\templates\wagtailadmin\login.html:63
+msgid "Connexion…"
+msgstr "Connexion…"
+
+#: .\templates\account\login.html:96
+#, python-format
+msgid ""
+"\n"
+"                        <span>If you do not have an account yet, please</"
+"span>\n"
+"                        <span><a href=\"%(signup_url)s\">sign up</a></span>\n"
+"                        <span>before login in.</span>\n"
+"                    "
+msgstr ""
+"\n"
+"                        <span>Si vous n'avez pas encore de compte, veuillez</span>\n"
+"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></span>\n"
+"                        <span>avant de vous connecter.</span>\n"
+"                    "
+
+#: .\templates\account\logout.html:4 .\templates\account\logout.html:7
+#: .\templates\account\logout.html:16 .\templates\account\profile.html:92
 msgid "Sign Out"
 msgstr "Se déconnecter"
 
-#: .\templates\account\logout.html:13
+#: .\templates\account\logout.html:12
 msgid "Are you sure you want to sign out?"
 msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
-#: .\templates\account\logout.html:21
+#: .\templates\account\logout.html:20
 msgid "No, stay logged in"
 msgstr "Non, rester connecté"
 
-#: .\templates\account\logout.html:22
+#: .\templates\account\logout.html:21
 msgid "Return to site"
 msgstr "Revenir au site"
 
-#: .\templates\account\profile.html:6
-msgid "Profile"
-msgstr "Profil"
+#: .\templates\account\oldlogin.html:5 .\templates\account\oldlogin.html:8
+#: .\templates\account\oldlogin.html:43
+msgid "Sign In"
+msgstr "Se connecter"
 
-#: .\templates\account\profile.html:10
-msgid "Account profile"
-msgstr "Profil du compte"
-
-#: .\templates\account\profile.html:19
-msgid "First name"
-msgstr "Prénom"
-
-#: .\templates\account\profile.html:25
-msgid "Last name"
-msgstr "Nom de famille"
-
-#: .\templates\account\profile.html:34 .\users\models.py:77
-msgid "Display name"
-msgstr "Nom d'affichage"
-
-#: .\templates\account\profile.html:40 .\users\models.py:83
-msgid "Date of birth"
-msgstr "Date de naissance"
-
-#: .\templates\account\profile.html:46 .\users\models.py:86
-msgid "Address line 1"
-msgstr "Adresse ligne 1"
-
-#: .\templates\account\profile.html:52 .\users\models.py:89
-msgid "Address line 2"
-msgstr "Adresse ligne 2"
-
-#: .\templates\account\profile.html:58 .\users\models.py:92
-msgid "Postal Code"
-msgstr "Code postal"
-
-#: .\templates\account\profile.html:64 .\users\models.py:95
-#: .\users\models.py:112
-msgid "City"
-msgstr "Ville"
-
-#: .\templates\account\profile.html:70
-msgid "Country"
-msgstr "Pays"
-
-#: .\templates\account\profile.html:76 .\users\models.py:106
-msgid "Mobile phone"
-msgstr "Téléphone mobile"
-
-#: .\templates\account\profile.html:82
-msgid "Additional information"
-msgstr "Informations supplémentaires"
-
-#: .\templates\account\profile.html:99
-msgid "Admin"
-msgstr "Admin"
-
-#: .\templates\account\signup.html:5
-msgid "Signup"
-msgstr "Inscription"
-
-#: .\templates\account\signup.html:8 .\templates\account\signup.html:23
-msgid "Sign Up"
-msgstr "S'inscrire"
-
-#: .\templates\account\signup.html:12
+#: .\templates\account\oldlogin.html:15
 #, python-format
 msgid ""
 "\n"
-"  Vous avez déjà un compte ? Alors veuillez <a href=\"%(login_url)s\">vous connecter</"
-"a>.\n"
+"  Please sign in with one of your existing third-party accounts.\n"
+"  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
+"sign in below:\n"
 "  "
 msgstr ""
+"\n"
+"  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
+"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte %(site_name)s "
+"et connectez-vous ci-dessous :\n"
+"  "
 
-#: .\templates\agents\faq_category_index_page.html:13
-msgid "Showing FAQ pages in category"
-msgstr "Affichage des pages FAQ dans la catégorie"
+#: .\templates\account\oldlogin.html:24
+#: .\venv\Lib\site-packages\django\utils\text.py:270
+msgid "or"
+msgstr "ou"
 
-#: .\templates\agents\faq_category_index_page.html:23
-#: .\templates\agents\faq_tag_index_page.html:21
-#: .\templates\amicale\amicale_author_index_page.html:19
-#: .\templates\amicale\amicale_tag_index_page.html:19
-msgid "Revised:"
-msgstr "Révisé :"
+#: .\templates\account\oldlogin.html:28
+#, python-format
+msgid ""
+"\n"
+"  If you have not created an account yet, then please <a "
+"href=\"%(signup_url)s\">sign up</a> first.\n"
+"  "
+msgstr ""
+"\n"
+"  Si vous n'avez pas encore créé de compte, veuillez d'abord <a "
+"href=\"%(signup_url)s\">vous inscrire</a>.\n"
+"  "
 
-#: .\templates\agents\faq_category_index_page.html:26
-msgid "No FAQ pages found for this category."
-msgstr "Aucune page FAQ trouvée pour cette catégorie."
+#: .\templates\account\oldlogin.html:41
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié ?"
 
-#: .\templates\agents\faq_tag_index_page.html:13
-#: .\templates\amicale\amicale_tag_index_page.html:12
-msgid "Showing pages tagged with"
-msgstr "Affichage des pages taguées avec"
+#: .\templates\account\profile.html:7
+msgid "Profile"
+msgstr "Profil"
 
-#: .\templates\agents\faq_tag_index_page.html:24
-#: .\templates\amicale\amicale_tag_index_page.html:22
-msgid "No pages found for this tag."
-msgstr "Aucune page trouvée pour ce tag."
+#: .\templates\account\profile.html:13
+msgid "Account profile"
+msgstr "Profil du compte"
 
-#: .\templates\amicale\amicale_author_index_page.html:12
-msgid "Showing pages authored by"
-msgstr "Affichage des pages rédigées par"
+#: .\templates\account\profile.html:18
+msgid "First name"
+msgstr "Prénom"
 
-#: .\templates\amicale\amicale_author_index_page.html:22
-msgid "No pages found for this author."
-msgstr "Aucune page trouvée pour cet auteur."
+#: .\templates\account\profile.html:24
+msgid "Last name"
+msgstr "Nom de famille"
 
-#: .\users\forms.py:14 .\users\forms.py:31 .\users\forms.py:45
-msgid "Commune"
-msgstr "Commune"
+#: .\templates\account\profile.html:30
+msgid "Display name"
+msgstr "Nom d'affichage"
 
-#: .\users\models.py:79
-msgid "Will be shown e.g. when commenting"
-msgstr "Sera affiché, par exemple, lors de la rédaction de commentaires"
+#: .\templates\account\profile.html:38 .\users\models.py:111
+msgid "Address line 1"
+msgstr "Adresse ligne 1"
 
-#: .\users\models.py:100
+#: .\templates\account\profile.html:44 .\users\models.py:114
+msgid "Address line 2"
+msgstr "Adresse ligne 2"
+
+#: .\templates\account\profile.html:50 .\users\models.py:117
+msgid "Postal Code"
+msgstr "Code postal"
+
+#: .\templates\account\profile.html:56 .\users\models.py:120
+msgid "City"
+msgstr "Ville"
+
+#: .\templates\account\profile.html:62
+msgid "Country"
+msgstr "Pays"
+
+#: .\templates\account\profile.html:70 .\users\models.py:131
+msgid "Mobile phone"
+msgstr "Téléphone mobile"
+
+#: .\templates\account\profile.html:76
+msgid "Additional information"
+msgstr "Informations supplémentaires"
+
+#: .\templates\account\profile.html:82 .\users\models.py:108
+msgid "Date of birth"
+msgstr "Date de naissance"
+
+#: .\templates\account\profile.html:98
+#: .\templates\wagtailusers\users\list.html:79
+msgid "Admin"
+msgstr "Admin"
+
+#: .\templates\account\signup.html:4 .\templates\account\signup.html:14
+#: .\templates\account\signup.html:93 .\templates\account\signup.html:104
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\templates\account\signup.html:50
+msgid "Email"
+msgstr "E-mail"
+
+#: .\templates\account\signup.html:81
+msgid "Password (again)"
+msgstr "Mot de passe (à nouveau)"
+
+#: .\templates\account\signup.html:101
+#, fuzzy
+msgid "Signing Up…"
+msgstr "S'inscrire"
+
+#: .\templates\account\signup.html:110
+#, python-format
+msgid ""
+"\n"
+"                        <span>Already have an account? Please</span>\n"
+"                        <span><a href=\"%(login_url)s\">sign in.</a><span>\n"
+"                    "
+msgstr ""
+
+#: .\templates\amicale\widgets\amicale_list.html:53
+msgid "on"
+msgstr "sur"
+
+#: .\templates\amicale\widgets\amicale_list.html:56
+msgid "Edited by"
+msgstr "Édité par"
+
+#: .\templates\joyous\calendar_base.html:24
+#: .\templates\joyous\calendar_list_upcoming.html:18
+#: .\templates\joyous\event_base.html:44
+msgid "Export iCal"
+msgstr "Exporter au format iCal"
+
+#: .\templates\joyous\calendar_list_day.html:15
+#, python-format
+msgid "Events on %(day)s"
+msgstr "Événements du %(day)s"
+
+#: .\templates\joyous\calendar_list_day.html:17
+#, python-format
+msgid "Aujourd'hui %(day)s"
+msgstr ""
+
+#: .\templates\joyous\calendar_list_past.html:5
+#: .\templates\joyous\calendar_list_upcoming.html:12
+msgid "Upcoming Events"
+msgstr "Événements à venir"
+
+#: .\templates\joyous\calendar_list_past.html:12
+#: .\templates\joyous\calendar_list_upcoming.html:5
+msgid "Past Events"
+msgstr "Événements passés"
+
+#: .\templates\joyous\calendar_list_upcoming.html:20
+msgid "RSS Feed"
+msgstr "Flux RSS"
+
+#: .\templates\joyous\calendar_month.html:14
+msgid "Previous month"
+msgstr "Mois précédent"
+
+#: .\templates\joyous\calendar_month.html:16
+msgid "Next month"
+msgstr "Mois suivant"
+
+#: .\templates\joyous\calendar_month.html:19
+#: .\templates\joyous\calendar_week.html:19
+msgid "Previous year"
+msgstr "Année précédente"
+
+#: .\templates\joyous\calendar_month.html:21
+#: .\templates\joyous\calendar_week.html:21
+msgid "Next year"
+msgstr "Année suivante"
+
+#: .\templates\joyous\calendar_table_base.html:28
+msgid "cont."
+msgstr "suite"
+
+#: .\templates\joyous\calendar_week.html:14
+msgid "Previous week"
+msgstr "Semaine précédente"
+
+#: .\templates\joyous\calendar_week.html:16
+msgid "Next week"
+msgstr "Semaine suivante"
+
+#: .\templates\joyous\event_base.html:42
+msgid "Google Calendar"
+msgstr "Calendrier Google"
+
+#: .\templates\streamforms\advanced_settings.html:3
+#, python-format
+msgid "Advanced form settings for %(form_title)s"
+msgstr "Paramètres avancés du formulaire pour %(form_title)s"
+
+#: .\templates\streamforms\advanced_settings.html:7
+#, fuzzy
+msgid "Advanced form settings"
+msgstr "Mes paramètres personnalisés"
+
+#: .\templates\streamforms\advanced_settings.html:20
+msgid "Save"
+msgstr "Enregistrer"
+
+#: .\templates\streamforms\confirm_copy.html:3
+#, python-format
+msgid "Copy of %(form_title)s"
+msgstr "Copie de %(form_title)s"
+
+#: .\templates\streamforms\confirm_copy.html:7
+#: .\templates\streamforms\confirm_copy.html:21
+msgid "Copy"
+msgstr "Copier"
+
+#: .\templates\streamforms\confirm_copy.html:11
+#, fuzzy
+msgid "Are you sure you want to copy this form?"
+msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
+
+#: .\templates\streamforms\confirm_delete.html:3
+#: .\templates\streamforms\index_submissions.html:3
+#, python-format
+msgid "Submissions of %(form_title)s"
+msgstr "Soumissions de %(form_title)s"
+
+#: .\templates\streamforms\confirm_delete.html:7
+msgid "Delete form data"
+msgstr "Supprimer les données du formulaire"
+
+#: .\templates\streamforms\confirm_delete.html:12
+msgid ""
+"\n"
+"                Are you sure you want to delete this form submission?\n"
+"            "
+msgid_plural ""
+"\n"
+"                Are you sure you want to delete these form submissions?\n"
+"            "
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\templates\streamforms\confirm_delete.html:20
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\templates\streamforms\index_submissions.html:74
+#, python-format
+msgid "Form data <span>%(form_title)s</span>"
+msgstr "Données du formulaire <span>%(form_title)s</span>"
+
+#: .\templates\streamforms\index_submissions.html:83
+msgid "Filter"
+msgstr "Filtrer"
+
+#: .\templates\streamforms\index_submissions.html:89
+msgid "Download CSV"
+msgstr "Télécharger CSV"
+
+#: .\templates\streamforms\index_submissions.html:90
+msgid "Download XLSX"
+msgstr "Télécharger XLSX"
+
+#: .\templates\streamforms\index_submissions.html:102
+#, python-format
+msgid "There have been no submissions of the '%(title)s' form."
+msgstr "Il n'y a pas eu de soumissions du formulaire '%(title)s'."
+
+#: .\templates\streamforms\list_submissions.html:11
+msgid "Delete selected submissions"
+msgstr "Supprimer les soumissions sélectionnées"
+
+#: .\templates\streamforms\list_submissions.html:41
+msgid "Files"
+msgstr "Fichiers"
+
+#: .\templates\streamforms\non_existent_form.html:2
+msgid "Sorry, this form has been deleted."
+msgstr "Désolé, ce formulaire a été supprimé."
+
+#: .\templates\streamforms\partials\pagination_nav.html:4
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_ajax_pagination_nav.html:5
+#, python-format
+msgid "Page %(page_num)s of %(total_pages)s."
+msgstr "Page %(page_num)s sur %(total_pages)s."
+
+#: .\templates\streamforms\partials\pagination_nav.html:8
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_ajax_pagination_nav.html:9
+msgid "Previous"
+msgstr "Précédent"
+
+#: .\templates\streamforms\partials\pagination_nav.html:13
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_ajax_pagination_nav.html:14
+msgid "Next"
+msgstr "Suivant"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:6
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr "Janvier"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:7
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr "Février"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:8
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr "Mars"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:9
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr "Avril"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:10
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr "Mai"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:11
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr "Juin"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:12
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr "Juillet"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:13
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr "Août"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:14
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr "Septembre"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:15
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr "Octobre"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:16
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr "Novembre"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:17
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr "Décembre"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:20
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:21
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr "Lundi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:22
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:23
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:24
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:25
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr "Vendredi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:26
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr "Samedi"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:29
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr "Dim"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:30
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr "Lun"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:31
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr "Mar"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:32
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr "Mer"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:33
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr "Jeu"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:34
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr "Ven"
+
+#: .\templates\streamforms\wagtailadmin\shared\datetimepicker_translations.html:35
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr "Sam"
+
+#: .\templates\wagtailadmin\login.html:15
+msgid "Intranet Dashboard"
+msgstr "Tableau de bord de l'intranet"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:5
+#, python-format
+msgid "Create a page in %(title)s"
+msgstr "Créer une page dans %(title)s"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:8
+msgid "Create a page in"
+msgstr "Créer une page dans"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:13
+msgid "Choose which type of page you'd like to create."
+msgstr "Choisissez le type de page que vous souhaitez créer."
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:15
+msgid "Sorry, you cannot create a page at this location."
+msgstr "Désolé, vous ne pouvez pas créer de page à cet emplacement."
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:18
+msgid ""
+"If you need generic information on how to use Wagtail CMS, check for the"
+msgstr "Si vous avez besoin d'informations génériques sur l'utilisation de Wagtail CMS, veuillez vérifier le"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:20
+msgid "Wagtail user guide"
+msgstr "Guide de l'utilisateur Wagtail"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:25
+msgid ""
+"If you need more specific details you should find it in the Intranet content "
+"creator's guide at the"
+msgstr "Si vous avez besoin de détails plus spécifiques, vous devriez les trouver dans le guide du créateur de contenu de l'intranet à"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:27
+msgid "How to create a page"
+msgstr "Comment créer une page"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:29
+#, fuzzy
+#| msgid "Question"
+msgid "section."
+msgstr "Question"
+
+#: .\templates\wagtailadmin\pages\add_subpage.html:49
+#, python-format
+msgid "Pages using %(page_type)s"
+msgstr "Pages utilisant %(page_type)s"
+
+#: .\templates\wagtailadmin\shared\_field.html:78
+msgid "Add comment"
+msgstr "Ajouter un commentaire"
+
+#: .\templates\wagtailusers\users\list.html:9
+#: .\templates\wagtailusers\users\list.html:13
+msgid "Name"
+msgstr "Nom"
+
+#: .\templates\wagtailusers\users\list.html:31 .\users\forms.py:32
+#: .\users\models.py:142
+msgid "municipality"
+msgstr "Municipalité"
+
+#: .\templates\wagtailusers\users\list.html:42
+#: .\templates\wagtailusers\users\list.html:46
+msgid "Access level"
+msgstr "Niveau d'accès"
+
+#: .\templates\wagtailusers\users\list.html:53
+#: .\templates\wagtailusers\users\list.html:57
+msgid "status"
+msgstr "statuts"
+
+#: .\templates\wagtailusers\users\list.html:61
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Login"
+msgstr "Dernière connexion"
+
+#: .\templates\wagtailusers\users\list.html:79
+msgid ", Staff"
+msgstr ", Personnel"
+
+#: .\templates\wagtailusers\users\list.html:82
+msgid "Active"
+msgstr "Actif"
+
+#: .\templates\wagtailusers\users\list.html:85
+msgid "Inactive"
+msgstr "Inactif"
+
+#: .\templates\wagtailusers\users\result.html:5
+#, python-format
+msgid "There is %(counter)s match"
+msgid_plural "There are %(counter)s matches"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\templates\wagtailusers\users\result.html:21
+#, python-format
+msgid "Sorry, no users match \"<em>%(query_string)s</em>\""
+msgstr "Désolé, aucun utilisateur ne correspond à \"<em>%(query_string)s</em>\""
+
+#: .\templates\wagtailusers\users\result.html:27
+#, python-format
+msgid ""
+"The %(group_name)s group has no users configured. Why not <a "
+"href=\"%(wagtailusers_add_url)s\">add some</a>?"
+msgstr "%(group_name)s n'a aucun utilisateur configuré. Pourquoi ne pas <a href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
+
+#: .\templates\wagtailusers\users\result.html:30
+#, python-format
+msgid ""
+"There are no users configured. Why not <a "
+"href=\"%(wagtailusers_add_url)s\">add some</a>?"
+msgstr "Il n'y a aucun utilisateur configuré. Pourquoi ne pas <a href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
+
+#: .\users\forms.py:27
+msgid "Civility"
+msgstr "Civilité"
+
+#: .\users\forms.py:37 .\users\models.py:149
+msgid "municipal council function"
+msgstr "fonction au conseil municipal"
+
+#: .\users\forms.py:42 .\users\models.py:156
+msgid "communautary council function"
+msgstr "fonction au conseil communautaire"
+
+#: .\users\forms.py:47 .\users\models.py:163
+msgid "commission"
+msgstr "commission"
+
+#: .\users\forms.py:52 .\users\models.py:170
+msgid "commission function"
+msgstr "fonction de commission"
+
+#: .\users\forms.py:57 .\users\models.py:177
+msgid "bureau function"
+msgstr "fonction de bureau"
+
+#: .\users\forms.py:62 .\users\models.py:184
+msgid "mayor conference function"
+msgstr "fonction de conférence du maire"
+
+#: .\users\forms.py:100
+#, python-brace-format
+msgid ""
+"They are already {council_members} council members and {substitutes} "
+"substitute(s) in {verbose_municipality}, therefore, you cannot add a "
+"substitute."
+msgstr "Il y a déjà {council_members} membres du conseil et {substitutes} remplaçant(s) à {verbose_municipality}, vous ne pouvez donc pas en ajouter un autre."
+
+#: .\users\forms.py:106
+#, python-brace-format
+msgid ""
+"They are already {substitutes} substitute and {council_members} council "
+"member(s) in {verbose_municipality}, you cannot add any more council members "
+"or substitutes."
+msgstr "Il y a déjà {substitutes} remplaçant et {council_members} membre(s) du conseil à {verbose_municipality}, vous ne pouvez donc pas ajouter d'autres membres du conseil ou de remplaçants."
+
+#: .\users\forms.py:114
+msgid ""
+"This user is not associated with a municipality. If you wish to add them to "
+"a municipal council, first choose the relevant municipality."
+msgstr "Cet utilisateur n'est pas associé à une municipalité. Si vous souhaitez l'ajouter à un conseil municipal, choisissez d'abord la municipalité concernée."
+
+#: .\users\forms.py:119
+msgid "If there's no commission chosen, there can't be a commission role."
+msgstr "S'il n'y a pas de commission choisie, il ne peut pas y avoir de rôle de commission."
+
+#: .\users\forms.py:124
+msgid ""
+"Only elected officials can serve. Choose both a municipality and a position "
+"within the municipal council before selecting a commission."
+msgstr "Seuls les élus peuvent siéger. Choisissez à la fois une municipalité et un poste au sein du conseil municipal avant de sélectionner une commission."
+
+#: .\users\forms.py:129
+msgid ""
+"Only elected officials can serve. Choose a municipality before selecting a "
+"commission."
+msgstr "Seuls les élus peuvent siéger. Choisissez d'abord une municipalité avant de sélectionner une commission."
+
+#: .\users\forms.py:134
+msgid ""
+"Only elected officials can serve. Choose a function within the municipal "
+"council before selecting a commission."
+msgstr "Seuls les élus peuvent siéger. Choisissez d'abord une fonction au sein du conseil municipal avant de sélectionner une commission."
+
+#: .\users\forms.py:139
+msgid ""
+"A municipality and a municipal council role must be selected before choosing "
+"a community council role."
+msgstr "Une municipalité et un rôle au conseil municipal doivent être sélectionnés avant de choisir un rôle au conseil communautaire."
+
+#: .\users\forms.py:144
+msgid ""
+"A municipality must be selected before choosing a community council role."
+msgstr "Une municipalité doit être sélectionnée avant de choisir un rôle au conseil communautaire."
+
+#: .\users\forms.py:149
+msgid ""
+"A municipal council role must be selected before choosing a community "
+"council role."
+msgstr "Un rôle au conseil municipal doit être sélectionné avant de choisir un rôle au conseil communautaire."
+
+#: .\users\forms.py:154
+msgid ""
+"Only the Vice-President or President of the community council can have a "
+"bureau role."
+msgstr "Seul le Vice-Président ou le Président du conseil communautaire peut avoir un rôle au bureau."
+
+#: .\users\forms.py:159
+msgid ""
+"Only the Mayor, Vice-President, or President of the community council can "
+"have a role in the Mayors' conference."
+msgstr "Seul le Maire, le Vice-Président ou le Président du conseil communautaire peut avoir un rôle dans la conférence des maires."
+
+#: .\users\forms.py:164
+msgid "There can only be one President of the council."
+msgstr "Il ne peut y avoir qu'un seul Président du conseil."
+
+#: .\users\forms.py:168
+msgid "There can only be one Mayor for each municipality."
+msgstr "Il ne peut y avoir qu'un seul Maire pour chaque municipalité."
+
+#: .\users\forms.py:172
+msgid "There can only be one President for each commission."
+msgstr "Il ne peut y avoir qu'un seul Président pour chaque commission."
+
+#: .\users\forms.py:176
+msgid "There can only be one person in charge for each commission."
+msgstr "Il ne peut y avoir qu'une seule personne responsable pour chaque commission."
+
+#: .\users\forms.py:180
+msgid ""
+"The person in charge of the commission must be a Vice President of the "
+"council."
+msgstr "La personne responsable de la commission doit être un Vice-Président du conseil."
+
+#: .\users\models.py:12
+msgid "Monsieur"
+msgstr "Monsieur"
+
+#: .\users\models.py:13
+msgid "Madame"
+msgstr "Madame"
+
+#: .\users\models.py:14
+msgid "Neutre"
+msgstr "Neutre"
+
+#: .\users\models.py:101
+msgid "civility"
+msgstr "civilité"
+
+#: .\users\models.py:125
 msgid ""
 "Enter a valid international mobile phone number starting with +(country code)"
-msgstr ""
-"Entrez un numéro de téléphone mobile international valide commençant par +(code pays)"
+msgstr "Entrez un numéro de téléphone mobile international valide commençant par +(code pays)"
 
-#: .\users\models.py:105
+#: .\users\models.py:130
 msgid "With country code and no spaces"
 msgstr "Avec le code pays et sans espaces"
+
+#: .\utils\imports.py:38
+msgid "Left"
+msgstr "Gauche"
+
+#: .\utils\imports.py:39
+msgid "Center"
+msgstr "Centre"
+
+#: .\utils\imports.py:40
+msgid "Right"
+msgstr "Droite"
+
+#: .\utils\imports.py:41
+msgid "Justify"
+msgstr "Justifier"
+
+#: .\utils\imports.py:43
+msgid "alignement"
+msgstr "alignement"
+
+#: .\utils\imports.py:55
+msgid "Heading 1"
+msgstr "Titre 1"
+
+#: .\utils\imports.py:56
+msgid "Heading 2"
+msgstr "Titre 2"
+
+#: .\utils\imports.py:57
+msgid "Heading 3"
+msgstr "Titre 3"
+
+#: .\utils\imports.py:58
+msgid "Heading 4"
+msgstr "Titre 4"
+
+#: .\utils\imports.py:59
+msgid "Heading 5"
+msgstr "Titre 5"
+
+#: .\utils\imports.py:60
+msgid "Heading 6"
+msgstr "Titre 6"
+
+#: .\utils\imports.py:64
+msgid "level"
+msgstr "niveau"
+
+#: .\utils\imports.py:87
+msgid "Paragraph"
+msgstr "Paragraphe"
+
+#: .\utils\imports.py:102
+msgid "Icon"
+msgstr "Icône"
+
+#: .\utils\imports.py:106
+msgid "Full"
+msgstr "Complet"
+
+#: .\utils\imports.py:110
+msgid "size"
+msgstr "taille"
+
+#: .\utils\imports.py:130
+msgid "Table"
+msgstr "Tableau"
+
+#: .\utils\menu_pages.py:133
+msgid "Title of the page, automatically generated, cannot be changed."
+msgstr "Titre de la page, généré automatiquement, ne peut pas être modifié."
+
+#: .\utils\menu_pages.py:151
+msgid "Slug of the page, automatically generated, cannot be changed."
+msgstr "Slug de la page, généré automatiquement, ne peut pas être modifié."
+
+#: .\utils\menu_pages.py:155
+msgid "Uncheck to hide this page from the menus."
+msgstr "Décochez pour masquer cette page des menus."
+
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr "Messages"
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr "Plans du site"
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr "Fichiers statiques"
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr "Syndication"
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr "…"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr "Ce numéro de page n'est pas un entier"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr "Ce numéro de page est inférieur à 1"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr "Cette page ne contient aucun résultat"
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr "Veuillez entrer une valeur valide."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:104
+#: .\venv\Lib\site-packages\django\forms\fields.py:760
+#, fuzzy
+#| msgid "Enter the URL."
+msgid "Enter a valid URL."
+msgstr "Entrez l'URL."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:165
+msgid "Enter a valid integer."
+msgstr "Entrez un entier valide."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:176
+msgid "Enter a valid email address."
+msgstr "Entrez une adresse e-mail valide."
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:259
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr "Entrez un « slug » valide composé de lettres, de chiffres, de traits de soulignement ou de tirets."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:267
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr "Entrez un « slug » valide composé de lettres Unicode, de chiffres, de traits de soulignement ou de tirets."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:279
+#: .\venv\Lib\site-packages\django\core\validators.py:306
+msgid "Enter a valid IPv4 address."
+msgstr "Entrez une adresse IPv4 valide."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:286
+#: .\venv\Lib\site-packages\django\core\validators.py:307
+msgid "Enter a valid IPv6 address."
+msgstr "Entrez une adresse IPv6 valide."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:298
+#: .\venv\Lib\site-packages\django\core\validators.py:305
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr "Entrez une adresse IPv4 ou IPv6 valide."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:341
+msgid "Enter only digits separated by commas."
+msgstr "Entrez uniquement des chiffres séparés par des virgules."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:347
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr "Assurez-vous que cette valeur est %(limit_value)s (elle est %(show_value)s)."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:382
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr "Assurez-vous que cette valeur est inférieure ou égale à %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:391
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr "Assurez-vous que cette valeur est supérieure ou égale à %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:400
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr "Assurez-vous que cette valeur est un multiple du pas %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:407
+#, python-format
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr "Assurez-vous que cette valeur est un multiple du pas %(limit_value)s, en commençant par %(offset)s, par exemple %(offset)s, %(valid_value1)s, %(valid_value2)s, et ainsi de suite."
+
+
+#: .\venv\Lib\site-packages\django\core\validators.py:439
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:457
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:480
+#: .\venv\Lib\site-packages\django\forms\fields.py:355
+#: .\venv\Lib\site-packages\django\forms\fields.py:394
+msgid "Enter a number."
+msgstr "Entrez un nombre."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:482
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffre au total."
+msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffres au total."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:487
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s décimale."
+msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s décimales."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:492
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffre avant le point décimal."
+msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffres avant le point décimal."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:563
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\core\validators.py:624
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1465
+#: .\venv\Lib\site-packages\django\forms\models.py:902
+msgid "and"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1467
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:20
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:133
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:140
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:179
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1150
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1151
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1153
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1203
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1205
+msgid "String (unlimited)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1309
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1410
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1414
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1549
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1418
+msgid "Date (without time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1545
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1553
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1558
+msgid "Date (with time)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1685
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1687
+msgid "Decimal number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1848
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1852
+#, fuzzy
+#| msgid "Caption"
+msgid "Duration"
+msgstr "Légende"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1904
+#, fuzzy
+#| msgid "Address"
+msgid "Email address"
+msgstr "Adresse"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1929
+msgid "File path"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2007
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2009
+msgid "Floating point number"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2049
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2051
+msgid "Integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2147
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2164
+msgid "Small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
+#, fuzzy
+#| msgid "Address"
+msgid "IPv4 address"
+msgstr "Adresse"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2203
+#, fuzzy
+#| msgid "Address"
+msgid "IP address"
+msgstr "Adresse"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2296
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2297
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2299
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2350
+msgid "Positive big integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2365
+msgid "Positive integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2380
+msgid "Positive small integer"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2396
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2432
+msgid "Text"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2507
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2511
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2515
+msgid "Time"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2647
+msgid "Raw binary data"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2712
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2714
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "A JSON object"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:28
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:939
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:941
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1235
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1292
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1294
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1342
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:304
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:475
+#: .\venv\Lib\site-packages\django\forms\fields.py:1252
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:498
+#: .\venv\Lib\site-packages\django\forms\fields.py:1253
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:525
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:559
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:560
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:629
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:630
+msgid "No file was submitted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:631
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:633
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:638
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:702
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:874
+#: .\venv\Lib\site-packages\django\forms\fields.py:960
+#: .\venv\Lib\site-packages\django\forms\models.py:1581
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:962
+#: .\venv\Lib\site-packages\django\forms\fields.py:1081
+#: .\venv\Lib\site-packages\django\forms\models.py:1579
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1082
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1321
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1351
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:94
+msgid ":"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:231
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] "Veuillez soumettre au plus %(num)d item."
+msgstr[1] "Veuillez soumettre au plus %(num)d items."
+msgstr[2] "Veuillez soumettre au plus %(num)d items."
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] "Veuillez soumettre au moins %(num)d item."
+msgstr[1] "Veuillez soumettre au moins %(num)d items."
+msgstr[2] "Veuillez soumettre au moins %(num)d items."
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:895
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:900
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:907
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:916
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1353
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1444
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1583
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:227
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:457
+msgid "Clear"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:458
+msgid "Currently"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:459
+msgid "Change"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:796
+msgid "Unknown"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:797
+#: .\venv\Lib\site-packages\telepath\tests.py:243
+msgid "Yes"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:798
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:875
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:905
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:932
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:73
+msgid "p.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "a.m."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:79
+msgid "PM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+msgid "AM"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:152
+msgid "midnight"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:154
+msgid "noon"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\text.py:70
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:289
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+#, fuzzy
+#| msgid "Date of birth"
+msgid "Date out of range"
+msgstr "Date de naissance"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:349
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:48
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:50
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\static.py:67
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:220
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
+msgid "Django Documentation"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:230
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:238
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:239
+msgid "Get started with Django"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:247
+msgid "Django Community"
+msgstr ""
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:248
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:19
+msgid "Confirm selection"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:10
+msgid "Select"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:20
+#, python-format
+msgid "Select %(title)s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\views.py:419
+#: .\venv\Lib\site-packages\generic_chooser\views.py:421
+msgid "Create"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\views.py:423
+msgid "Uploading…"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\views.py:489
+#, python-format
+msgid "Add %s"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\views.py:513
+msgid "Choose"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\widgets.py:17
+msgid "Choose an item"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\widgets.py:18
+msgid "Choose another item"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\widgets.py:19
+msgid "Clear choice"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\widgets.py:20
+msgid "Edit this item"
+msgstr ""
+
+#: .\venv\Lib\site-packages\generic_chooser\widgets.py:21
+msgid "Create an item"
+msgstr ""
+
+#: .\venv\Lib\site-packages\timezone_field\rest_framework.py:10
+msgid "A valid timezone is required."
+msgstr ""
+
+#~ msgid "Responsable"
+#~ msgstr "Responsable"
+
+#~ msgid "Membres"
+#~ msgstr "Membres"
+
+#~ msgid "Target for the answer"
+#~ msgstr "Cible pour la réponse"
+
+#~ msgid ""
+#~ "The target only required if the question is contingent or specific. In "
+#~ "this case, use this field to describe the targeted group. If there are "
+#~ "multiple targets, fill in the 𝐭𝐚𝐫𝐠𝐞𝐭 fields for each answer. Otherwise, "
+#~ "leave this field empty."
+#~ msgstr ""
+#~ "La cible est seulement requise si la question est conditionnelle ou "
+#~ "spécifique. Dans ce cas, utilisez ce champ pour décrire le groupe ciblé. "
+#~ "S'il y a plusieurs cibles, remplissez les champs 𝐭𝐚𝐫𝐠𝐞𝐭 pour chaque "
+#~ "réponse. Sinon, laissez ce champ vide."
+
+#~ msgid ""
+#~ "Try to be as much exhaustive as possible. If the answer is a step by sted "
+#~ "guide, use Headings (as step's names) and paragraphs (as step's "
+#~ "explanation), headings will create achors (clickable & linkable). Use "
+#~ "media to add images, videos, documents, etc."
+#~ msgstr ""
+#~ "Essayez d'être le plus exhaustif possible. Si la réponse est un guide "
+#~ "étape par étape, utilisez des titres (comme noms d'étapes) et des "
+#~ "paragraphes (comme explication d'étapes), les titres créeront des ancres "
+#~ "(cliquables et liables). Utilisez les médias pour ajouter des images, "
+#~ "vidéos, documents, etc."
+
+#~ msgid "Target audience or choice"
+#~ msgstr "Public cible ou choix"
+
+#~ msgid ""
+#~ "If the answer is contingent or targeted, enter a sub-question here to "
+#~ "introduce the choice list for users. Otherwise, leave this field empty."
+#~ msgstr ""
+#~ "Si la réponse est conditionnelle ou ciblée, saisissez ici une sous-"
+#~ "question pour introduire la liste des choix pour les utilisateurs. Sinon, "
+#~ "laissez ce champ vide."
+
+#~ msgid ""
+#~ "Click on the ⊕ icon below to add an answer. If this is a multiple "
+#~ "scenario question, add as many answers as needed."
+#~ msgstr ""
+#~ "Cliquez sur l'icône ⊕ ci-dessous pour ajouter une réponse. S'il s'agit "
+#~ "d'une question à scénarios multiples, ajoutez autant de réponses que "
+#~ "nécessaire."
+
+#~ msgid "Sub-question (criteria)"
+#~ msgstr "Sous-question (critères)"
+
+#~ msgid "tagged_items"
+#~ msgstr "Articles marqués"
+
+#~ msgid ""
+#~ "This is the text wich will be shown on the blog post list page. Take is "
+#~ "as an excerpt."
+#~ msgstr ""
+#~ "C'est le texte qui sera affiché sur la page de la liste des articles de "
+#~ "blog. Considérez-le comme un extrait."
+
+#~ msgid "Post date"
+#~ msgstr "Date de publication"
+
+#~ msgid "Blog information"
+#~ msgstr "Informations sur le blog"
+
+#~ msgid "Page informations"
+#~ msgstr "Informations sur la page"
+
+#~ msgid "Signup"
+#~ msgstr "Inscription"
+
+#~ msgid "Showing FAQ pages in category"
+#~ msgstr "Affichage des pages FAQ dans la catégorie"
+
+#~ msgid "Revised:"
+#~ msgstr "Révisé :"
+
+#~ msgid "No FAQ pages found for this category."
+#~ msgstr "Aucune page FAQ trouvée pour cette catégorie."
+
+#~ msgid "Showing pages tagged with"
+#~ msgstr "Affichage des pages taguées avec"
+
+#~ msgid "No pages found for this tag."
+#~ msgstr "Aucune page trouvée pour ce tag."
+
+#~ msgid "Showing pages authored by"
+#~ msgstr "Affichage des pages rédigées par"
+
+#~ msgid "No pages found for this author."
+#~ msgstr "Aucune page trouvée pour cet auteur."
+
+#~ msgid "Commune"
+#~ msgstr "Commune"
+
+#~ msgid "Will be shown e.g. when commenting"
+#~ msgstr "Sera affiché, par exemple, lors de la rédaction de commentaires"

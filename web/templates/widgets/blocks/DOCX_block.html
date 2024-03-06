@@ -2,7 +2,6 @@
 
     {% if block.value.docx_document %}
         <h2>{{ block.value.docx_document }}</h2>  
-
         {% for item in block.value.docx_content %}
         {% if item.block_type == 'heading' %}
             <{{ item.value.heading_level }} class="cgs-{{ item.value.position }}">
@@ -18,10 +17,25 @@
                 <img src="{{ img.url }}" alt="{{ img.title }}" class="cgs-expandable cgs-{{ item.value.size }}"/>
             </div>
         {% elif item.block_type == 'table' %}
-            <div class="cgs-{{ item.value.position }}">
-                <!-- Implementation spécifique du block TableBlock nécessaire ici -->
-                <p>Tableau intégré ici</p>
-            </div>
+            {% with table=item.value.table %}
+                <div class="cgs-table-container cgs-table cgs-{{ item.value.position }}">
+                    <table 
+                        {% if table.table_caption %}data-caption="{{ table.table_caption }}"{% endif %}
+                        {% if table.table_header_choice %}data-header="{{ table.table_header_choice }}"{% endif %}
+                        {% if table.mergeCells %}data-merge="{{ table.mergeCells }}"{% endif %}
+                        {% if table.data|length %}data-rows="{{ table.data|length }}"{% endif %}
+                        {% if table.data.0|length %}data-cols="{{ table.data.0|length }}"{% endif %}
+                    >
+                        {% for row in table.data %}
+                        <tr>
+                            {% for cell in row %}
+                                <td>{{ cell }}</td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            {% endwith %}
         {% endif %}
     {% endfor %}    
 

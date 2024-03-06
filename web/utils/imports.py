@@ -20,7 +20,7 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.contrib.table_block.blocks import TableBlock
 
 from images.models import CustomImage
-from utils.variables import STOP_WORDS
+from utils.variables import STOP_WORDS, TABLE_OPTIONS
 from wagtail.models import (
     Collection, 
     CollectionViewRestriction,
@@ -43,7 +43,7 @@ class PositionBlock(blocks.ChoiceBlock):
     label = _("alignement")
     class Meta:
         icon = "placeholder"
-  
+
 # Les titres de niveau 1 à 6      
 class HeadingDOCXBlock(blocks.StructBlock):
     heading = CharBlock(
@@ -119,6 +119,7 @@ class TableDOCXBlock(blocks.StructBlock):
     table = TableBlock(
         required=True,
         label=_("content"),
+        table_options=TABLE_OPTIONS,
     )
     position = PositionBlock(
         required=False,
@@ -214,7 +215,8 @@ def get_soup_content(soup, image_title, image_tags, document_collection, parent_
                         paragraph_buffer.append(str(child))
             elif child.name == 'table':
                 flush_paragraph_buffer()
-                blocks.append(('table', str(child)))
+                table = convert_table(table_html=str(child))
+                blocks.append(('table', table))
             elif child.name in ['img', 'svg', 'iframe', 'canvas'] and not parent_type:
                 flush_paragraph_buffer()
                 wagtail_child_image = convert_image(image, image_index, image_title, image_tags, document_collection)
@@ -229,6 +231,60 @@ def get_soup_content(soup, image_title, image_tags, document_collection, parent_
 
     flush_paragraph_buffer()  # On vide le buffer à la fin
     return blocks
+
+# Gestion des tables
+def convert_table(table_html):
+    soup = BeautifulSoup(table_html, 'html.parser')
+    rows = soup.find_all('tr')
+    data = []
+    first_row_is_table_header = False
+    first_col_is_header = False
+
+    # Parcourir chaque ligne pour extraire les données
+    for row_index, row in enumerate(rows):
+        row_data = []
+        cells = row.find_all(['td', 'th'])
+
+        for cell_index, cell in enumerate(cells):
+            cell_text = ' '.join(cell.stripped_strings)
+            # Ignorer la cellule en haut à gauche pour cette évaluation
+            if row_index == 0 and cell_index == 0:
+                caption = cell_text
+                row_data.append(cell_text)
+                continue
+
+            # Déterminer les en-têtes de ligne et de colonne
+            if cell.find('strong') is not None:
+                if cell_index == 0:
+                    first_col_is_header = True
+                if row_index == 0:
+                    first_row_is_table_header = True
+
+            row_data.append(cell_text)
+
+        data.append(row_data)
+
+    # Déduire table_header_choice
+    if first_col_is_header and first_row_is_table_header:
+        table_header_choice = 'both'
+    elif first_col_is_header:
+        table_header_choice = 'column'
+    elif first_row_is_table_header:
+        table_header_choice = 'row'
+    else:
+        table_header_choice = 'neither'
+
+    # Créer la structure de données finale pour Wagtail
+    table_structure = {
+        'cell': [],  # Informations sur les cellules, si nécessaire
+        'data': data,
+        'mergeCells': [],  # Gérer les cellules fusionnées, si nécessaire
+        'table_caption': caption,  # Ajouter une légende si nécessaire
+        'first_col_is_header': first_col_is_header,
+        'first_row_is_table_header': first_row_is_table_header,
+        'table_header_choice': table_header_choice,
+    }
+    return table_structure
 
 # Gestion des images
 def convert_image(image, image_index, image_title, image_tags, document_collection):

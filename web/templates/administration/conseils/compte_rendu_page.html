@@ -1,6 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
 
 {% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
     {% if is_pdf %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_pdf.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil_pdf.min.css' %}">
@@ -139,4 +140,5 @@
 
 {% block extra_js %}
     <script type="module" src="{% static 'js/intranet.min.js' %}"></script>
+    <script type="module" src="{% static 'js/compte_rendu.min.js' %}"></script>
 {% endblock %}

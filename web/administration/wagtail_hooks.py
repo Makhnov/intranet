@@ -579,7 +579,6 @@ def import_file(request, page):
                                 }
                             })
                         elif element[0] == 'table':
-                            continue
                             stream_data.append({
                                 'type': 'table',
                                 'value': {
@@ -588,36 +587,14 @@ def import_file(request, page):
                                     # 'position': 'center',
                                 }
                             })                   
-                        
-                    # print(colored(f"STREAM DATA : {stream_data}", "black", "on_cyan"))
-                          
+                                                  
                     # Créer un StreamValue basé sur le StreamBlock et les données dynamiques
                     stream_value = stream_block.to_python(stream_data)
-                    # print(colored(f"BLOCK VALUE : {stream_value}", "black", "on_cyan"))
 
                     # Mettre à jour 'docx_content' avec le nouveau StreamValue
                     block.value['docx_content'] = stream_value
-                          
-                    # Ajouter le bloc DOCX mis à jour à la liste du streamfield
-                    # new_blocks.append((block.block_type, block.value))
-            
-                    # # Créer un nouveau bloc de type RichTextBlock avec le contenu HTML
-                    # paragraphs = [('paragraph', RichText(content[1]).source)]
-
-                    # # Créer un StreamBlock avec un seul bloc RichTextBlock
-                    # stream_block = StreamBlock([('paragraph', RichTextBlock())])
-
-                    # # Créer un dictionnaire avec le contenu HTML
-                    # rich_text_data = {'type': 'paragraph', 'value': paragraphs[0][1]}
-
-                    # # Convertir le dictionnaire en un StreamValue
-                    # stream_value = stream_block.to_python([rich_text_data])
-                    
-                    # # Mettre à jour 'docx_content' avec le nouveau StreamValue
-                    # block.value['docx_content'] = stream_value
 
                     # # Ajouter le bloc DOCX mis à jour à la liste du streamfield
-                    # new_blocks.append((block.block_type, block.value))
                     new_blocks.append((block.block_type, block.value))
                 
                 else: # Le BLOC est un DOCX, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un DOCX
