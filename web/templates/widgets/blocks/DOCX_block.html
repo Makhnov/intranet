@@ -1,8 +1,8 @@
 {% load wagtailimages_tags %}
 
-    {% if block.value.docx_document %}
-        <h2>{{ block.value.docx_document }}</h2>  
-        {% for item in block.value.docx_content %}
+{% if block.value.docx_document %}
+    <h2>{{ block.value.docx_document }}</h2>  
+    {% for item in block.value.docx_content %}
         {% if item.block_type == 'heading' %}
             <{{ item.value.heading_level }} class="cgs-{{ item.value.position }}">
                 {{ item.value.heading }}
@@ -38,5 +38,4 @@
             {% endwith %}
         {% endif %}
     {% endfor %}    
-
-    {% endif %}
+{% endif %}

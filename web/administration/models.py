@@ -411,6 +411,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
     
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
+        context['is_pdf'] = 'pdf' in request.path
 
         # Récupération et tri des utilisateurs par poids de fonction puis par fonction
         convocation_users = ConvocationUser.objects.filter(
@@ -437,8 +438,8 @@ class ConvocationPage(PdfViewPageMixin, Page):
     class Meta:
         verbose_name = "convocation"
         verbose_name_plural = "convocations"
+    
 
-       
 # Page de compte-rendu
 class CompteRenduPage(PdfViewPageMixin, Page):
     parent_page_types = [
@@ -521,20 +522,31 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     )
     content_panels = custom_content_panels(["title"]) + [
         PageChooserPanel("convocation", "administration.ConvocationPage"),
-        FieldPanel(
-            "secretary",
-            widget=forms.Select,
+        MultiFieldPanel(
+            [
+                FieldPanel("secretary", widget=forms.Select, classname="col4"),
+                FieldPanel("date", read_only=True, classname="col4"),
+                FieldPanel("quorum", classname="col4"),
+            ],
+            heading=_("Instance management"),
+            classname="collapsible",
         ),
-        FieldPanel(
-            "replaced_users", 
-            widget=forms.CheckboxSelectMultiple,
+        MultiFieldPanel(
+            [
+                FieldPanel(
+                    "replaced_users", 
+                    widget=forms.CheckboxSelectMultiple,
+                    classname="col6",
+                ),
+                FieldPanel(
+                    "unreplaced_users", 
+                    widget=forms.CheckboxSelectMultiple,
+                    classname="col6",
+                ),
+            ],
+            heading=_("Absence management"),
+            classname="collapsible collapsed",
         ),
-        FieldPanel(
-            "unreplaced_users", 
-            widget=forms.CheckboxSelectMultiple,
-        ),
-        FieldPanel("date", read_only=True),
-        FieldPanel("quorum"),
         FieldPanel("body"),
         InlinePanel(
             "compterendu_documents",
@@ -576,7 +588,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
-
+        context['is_pdf'] = 'pdf' in request.path
         # Assurez-vous que la page a une convocation associée
         if self.convocation is not None:
             convocation_users = ConvocationUser.objects.filter(

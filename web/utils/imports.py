@@ -330,3 +330,29 @@ def save_wagtail_image(image, image_index, image_format, image_title, image_tags
     except Exception as e:
         logger.error(f"Erreur lors de l'enregistrement de l'image {image_index}: {e}")
         return None
+
+# Transformation du chart en image
+def chart_to_img(document, image_title, image_tags, document_collection):
+    print(colored("Conversion du chart en image", "green"))
+    print(document)
+    print(image_title)
+    print(image_tags)
+    print(document_collection)
+    # try:
+    #     # Convertir le chart en image
+    #     img_bytes = BytesIO()
+    #     document.save(img_bytes, format="PNG")
+    #     img_bytes = img_bytes.getvalue()
+
+    #     # Créer l'instance de CustomImage   
+    #     wagtail_image = CustomImage(
+    #         file=ContentFile(img_bytes, name=f"{document_collection.name}.png"),
+    #         title=f"{image_title}",
+    #         collection=document_collection
+    #     )
+    #     wagtail_image.save()
+    #     wagtail_image.tags.add(*image_tags)
+    #     return wagtail_image.id
+    # except Exception as e:
+    #     logger.error(f"Erreur lors de la transformation du chart en image: {e}")
+    #     return None

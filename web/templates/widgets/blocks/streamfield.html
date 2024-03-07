@@ -42,6 +42,8 @@
     {% elif block.block_type == 'chart' %}
         <div class="cgs-block-chart">
             {% include_block block %}
+            <button class="chartButton">Afficher le graphique sous forme de png</button>
+            <img class="chartPNG" />
         </div>
     {% elif block.block_type == 'PDF' %}
         <div class="cgs-block-pdf">

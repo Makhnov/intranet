@@ -478,11 +478,9 @@ function joyous_single_event() {
     });
 
     function updateEventFields(ID) {
-        // console.log("update ID", ID);
         fetch('/api/v2/pages/' + ID) 
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
                 // Mise à jour du titre et du slug
                 const TempTitle = data.title.replace('Convocation ', '');
                 const EventTitle = TempTitle.charAt(0).toUpperCase() + TempTitle.slice(1);   
@@ -610,9 +608,9 @@ function cr_import_users() {
             .then(data => {
                 // Vérifie que la réponse contient les 'items'
                 if (data && data.items) {
-                    // Filtre les utilisateurs pour exclure ceux qui ont "elected": "empty"
-                    const filteredUsers = data.items.filter(user => user.elected);
-                    
+                    // Filtre les utilisateurs pour ne récupérer que les élus. (tous ceux qui n'ont pas "elected": "null"). 
+                    // Nom de la variable dans le reste du code : electedUsers
+                    const filteredUsers = data.items.filter(user => user.elected);                    
                     // Appelle la fonction callback avec la liste filtrée des utilisateurs
                     callback(null, filteredUsers);
                 } else {
@@ -627,26 +625,27 @@ function cr_import_users() {
     }
 
     // Fonction qui met à jour les champs [absents remplacés], [absents non remplacés] et [remplaçants]
-    function updateUsersField(field, users, presenceValue, electedUsers, fieldName) {
+    function updateUsersField(field, participants, presenceValue, electedUsers, fieldName) {
         // Déclare les variables pour les utilisateurs absents et les remplaçants
         let userIsAbsent;
         let substitutes = []; 
         let absents = [];
 
         // Boucle sur tous les participants liés à la Convocation
-        users.forEach((user, index) => {
+        participants.forEach((participant, index) => {
+            // console.log(participant);
             const div = document.createElement('div');
             const labelUser = document.createElement('label');
             labelUser.setAttribute('for', field.id + '_' + index); 
             const inputUser = document.createElement('input');
             inputUser.setAttribute('type', 'checkbox');
             inputUser.setAttribute('name', fieldName);
-            inputUser.setAttribute('value', user.id);
-            inputUser.setAttribute('sub-value', user.user);
+            inputUser.setAttribute('value', participant.id);
+            inputUser.setAttribute('sub-value', participant.user);
             inputUser.setAttribute('id', field.id + '_' + index);
 
             userIsAbsent = false;
-            if (user.presence === presenceValue) {
+            if (participant.presence === presenceValue) {
                 inputUser.checked = true;
                 absents.push(inputUser);
                 if (electedUsers) {
@@ -656,13 +655,13 @@ function cr_import_users() {
             }
 
             labelUser.appendChild(inputUser);
-            labelUser.appendChild(document.createTextNode(' ' + user.identity));
+            labelUser.appendChild(document.createTextNode(' ' + participant.identity));
             div.appendChild(labelUser);
 
             if (electedUsers) {
                 let userHasAlternate = false;
                 let userHasSubstitute = false;              
-                let tabID = [user.id, user.user, false]
+                let tabID = [participant.id, participant.user, false]
                 const emptyOption = document.createElement('option');
                 emptyOption.value = tabID;
 
@@ -678,7 +677,7 @@ function cr_import_users() {
                     option.textContent = substitute.name;
                     option.setAttribute('sub-value', substitute.id);
 
-                    if (user.substitute === substitute.id) {
+                    if (participant.substitute === substitute.id) {
                         if (userHasAlternate) {
                             selectSubstitute.querySelector('option:selected').removeAttribute('selected');
                             substitutes = substitutes.filter(opt => opt !== selectSubstitute.querySelector('option:selected'));
@@ -687,7 +686,7 @@ function cr_import_users() {
                         substitutes.push(option);
                         userHasSubstitute = true;
                     }
-                    if ((!userHasSubstitute) && (user.alternate === substitute.id)) {
+                    if ((!userHasSubstitute) && (participant.alternate === substitute.id)) {
                         option.setAttribute('selected', 'selected');
                         substitutes.push(option);
                         userHasAlternate = true;
@@ -894,6 +893,7 @@ function cr_import_users() {
         fetch('/api/v2/pages/' + convocationId + '/')
             .then(response => response.json())
             .then(data => {
+
                 // On récupere le type de parent si posisble, sinon null.
                 const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
                 // Pareil pour le secrétaire
@@ -901,8 +901,10 @@ function cr_import_users() {
                 // pareil pour les convocation users
                 const participants = data.convocation_users ? data.convocation_users : false;
                 
-                if (data && parent) {         
-                    switch (parent) {
+                console.log(data.convocation_users);
+
+                if (data && parent) {                            
+                    switch (parent) {                    
                         case 'administration.ConseilsIndexPage':
                             console.log("Compte-rendu de conseil détecté (on affiche tout)");
                             // On affiche les quatres sections
@@ -911,7 +913,6 @@ function cr_import_users() {
                                     console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
                                     return;
                                 }
-                
                                 if (data) {
                                     updateSecretaryField(electedUsers, secretary);
                                     if (participants) {
@@ -976,30 +977,6 @@ function cr_import_users() {
             .catch(error => {
                 console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
         });      
-        // fetchUsers(function(err, electedUsers) {
-        //     if (err) {
-        //         console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
-        //         return;
-        //     }
-
-        //     fetch('/api/v2/pages/' + convocationId + '/')
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             if (data && data.convocation_users) {
-
-        //                 updateSecretaryField(electedUsers, secretary);
-        //                 updateUsersField(document.querySelector('#id_replaced_users'), data.convocation_users, 2, electedUsers, "replaced_users");
-        //                 updateUsersField(document.querySelector('#id_unreplaced_users'), data.convocation_users, 3, false, "unreplaced_users");
-
-        //                 requestListener(1);
-        //                 requestListener(2);
-        //                 requestListener(3);
-        //             }
-        //         })
-        //         .catch(error => {
-        //             console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
-        //         });
-        // });
     }
 }
 
@@ -1113,9 +1090,6 @@ function cr_import_pdf() {
                 hiddenInput.value = "on";        
                 hiddenInput.type = "hidden";   
                 form.appendChild(hiddenInput);
-
-                // Afficher les données filtrées du formulaire dans la console
-                // console.log('Données du formulaire :', data);
 
                 // Finalement on ajoute le faux formulaire au document et on le soumet
                 form.submit();

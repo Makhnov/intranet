@@ -20,16 +20,13 @@ from django.utils.translation import gettext_lazy as _
 def global_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static("css/dashboard.min.css"))
 
-
 # JS Panneau admin
 @hooks.register("insert_global_admin_js")
 def global_admin_js():
     return format_html('<script type="module" src="{}"></script>', static("js/dashboard.min.js"))
 
-
 # "Editer son profil de Compte"
 custom_tab = SettingsTab("custom",_("Custom settings"), order=300)
-
 
 # "Editer son profil de Compte"
 @hooks.register("register_account_settings_panel")

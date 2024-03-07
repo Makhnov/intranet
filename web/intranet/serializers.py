@@ -148,14 +148,13 @@ class CustomPageSerializer(PageSerializer):
             groups = restriction_instance.groups.all().values_list("id", flat=True)
             restriction["groups"] = list(groups)
 
-        print(f"Restrictions: {restrictions}")
         return list(restrictions)
 
     def get_convocation_users(self, obj):
         if not isinstance(obj, ConvocationPage):
             return None
         
-        queryset = ConvocationUser.objects.filter(convocation__page_ptr=obj).order_by('function_weight')
+        queryset = ConvocationUser.objects.filter(convocation__page_ptr=obj).order_by('user__last_name', 'user__first_name')
         serializer = SimplifiedConvocationUserSerializer(instance=queryset, many=True, context=self.context)
         return serializer.data
 

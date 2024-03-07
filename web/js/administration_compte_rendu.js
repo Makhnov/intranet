@@ -5,7 +5,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Récupération du bloc DOCX
     const DOCX = document.querySelectorAll('.cgs-block-docx');
-    if (DOCX) {
+    
+    //Récupération d'un bouton chart
+    const chartButtons = document.querySelectorAll('button.chartButton');
+    const canvas = document.querySelectorAll('.block-chart_block > canvas');
+    const img = document.querySelectorAll('.chartpng');
+
+    if (chartButtons) {
+        console.log(canvas);
+        console.log(chartButtons);
+        for (let i = 0; i < chartButtons.length; i++) {
+            chartButtons[i].addEventListener('click', function() {
+                const id = canvas[i].id;
+                const element = img[i];
+                chartToPng(id, element);
+            });
+        }
+    }
+    
+    if (DOCX.length > 0) {
         getTableData(DOCX);
     }
     
@@ -13,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function getTableData(DOCX) {        
         const tableaux = document.querySelectorAll('.cgs-block-docx table'); 
         const containerWidth = DOCX[0].offsetWidth;
-        console.log(containerWidth);
+        // console.log(containerWidth);
 
         if (tableaux) {
             for (let i = 0; i < tableaux.length; i++) {
@@ -38,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function merge_cells(tab) {
-            console.log(tab);
+            // console.log(tab);
             const mergeRaw = tab.getAttribute('data-merge');            
             if (mergeRaw) {
                 const merge = JSON.parse(mergeRaw.replace(/'/g, '"'));
@@ -88,9 +106,9 @@ document.addEventListener('DOMContentLoaded', function () {
             let emptyCells = 0;
             for (let i = 0; i < tab.rows.length; i++) {
                 for (let j = 0; j < tab.rows[i].cells.length; j++) {
-                    console.log('row:', i, 'col', j)
+                    // console.log('row:', i, 'col', j)
                     if (tab.rows[i].cells[j].innerHTML === "None") {
-                        console.log("Cellule vide")
+                        // console.log("Cellule vide")
                         tab.rows[i].cells[j].innerHTML = "";
                         if (merge) {
                             emptyCells++;
@@ -98,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (emptyCells > 0) {
-                    console.log("ON SUPPRIME LES DERNIERES CELLULES")
+                    // console.log("ON SUPPRIME LES DERNIERES CELLULES")
                     // on supprime les X dernieres cellules.
                     for (let k = 0; k < emptyCells; k++) {
                         tab.rows[i].deleteCell(-1);
@@ -106,6 +124,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     emptyCells = 0;
                 }
             }
+        }
+    }
+    
+    // CHART TO PNG
+    function chartToPng(id, element) {
+        const chartInstance = Chart.getChart(id); // Disponible dans Chart.js 3.x et plus récent
+        
+        if (chartInstance) {
+            const url = chartInstance.toBase64Image();
+            element.src = url; // Assurez-vous que c'est l'ID correct de votre balise <img>
+        } else {
+            alert("Instance de graphique non trouvée.");
         }
     }
 });

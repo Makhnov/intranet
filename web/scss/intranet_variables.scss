@@ -40,28 +40,96 @@
     --content-color-list: var(--cgs-theme-light-1);
 }
 
-
 @font-face {
-	font-family: 'rhino';
-	font-weight: 100;
-	src: url("../fonts/CoreRhino25Thin.otf") format("opentype")
+    font-family: 'rhino';
+    font-weight: 100;
+    font-style: normal;
+    src: url("../fonts/CoreRhino25Thin.woff2") format("woff2");
 }
 @font-face {
-	font-family: 'rhino';
-	font-weight: 300;
-	src: url("../fonts/CoreRhino35Light.otf") format("opentype")
-}
-@font-face {
-	font-family: 'rhino';
-	font-weight: 400;
-	src: url("../fonts/CoreRhino45Regular.otf") format("opentype")
-}
-@font-face {
-	font-family: 'rhino';
-	font-weight: 700;
-	src: url("../fonts/CoreRhino65Bold.otf") format("opentype")
+    font-family: 'rhino';
+    font-weight: 100;
+    font-style: italic;
+    src: url("../fonts/CoreRhino25Thin-Italic.woff2") format("woff2");
 }
 
+@font-face {
+    font-family: 'rhino';
+    font-weight: 300;
+    font-style: normal;
+    src: url("../fonts/CoreRhino35Light.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 300;
+    font-style: italic;
+    src: url("../fonts/CoreRhino35Light-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'rhino';
+    font-weight: 400;
+    font-style: normal;
+    src: url("../fonts/CoreRhino45Regular.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 400;
+    font-style: italic;
+    src: url("../fonts/CoreRhino45Regular-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'rhino';
+    font-weight: 500;
+    font-style: normal;
+    src: url("../fonts/CoreRhino55Medium.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 500;
+    font-style: italic;
+    src: url("../fonts/CoreRhino55Medium-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'rhino';
+    font-weight: 700;
+    font-style: normal;
+    src: url("../fonts/CoreRhino65Bold.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 700;
+    font-style: italic;
+    src: url("../fonts/CoreRhino65Bold-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'rhino';
+    font-weight: 800;
+    font-style: normal;
+    src: url("../fonts/CoreRhino75Heavy.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 800;
+    font-style: italic;
+    src: url("../fonts/CoreRhino75Heavy-Italic.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'rhino';
+    font-weight: 900;
+    font-style: normal;
+    src: url("../fonts/CoreRhino85Black.woff2") format("woff2");
+}
+@font-face {
+    font-family: 'rhino';
+    font-weight: 900;
+    font-style: italic;
+    src: url("../fonts/CoreRhino85Black-Italic.woff2") format("woff2");
+}
 
 // TOUTES TAILLES D'ECRANS
 @media screen {

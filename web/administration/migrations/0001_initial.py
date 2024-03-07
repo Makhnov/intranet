@@ -19,8 +19,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('images', '0001_initial'),
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
         ('wagtaildocs', '0012_uploadeddocument'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]

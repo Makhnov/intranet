@@ -1,14 +1,14 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
     {% if is_pdf %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_pdf.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil_pdf.min.css' %}">
+        <link rel="icon" type="image/png" href="{% static 'images/cgs-logo.ico' %}"/>
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conseil.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">        
+        <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
     {% endif %}
 {% endblock %}
 
@@ -23,18 +23,20 @@
     {% if settings.dashboard.PDFSettings.logo %}
         {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
     {% endif %}
-  
+    
+    <div class="grid-item grid-title">
+        <h1>Compte-rendu du conseil communautaire du {{ page.date|date:"l d F Y" }}</h1>
+    </div>
+    
     <div class="grid-item grid-invitation">
         <div class="grid-invitation-content">
             <p>Date de la convocation : {{ page.date|date:"l d F Y" }}</p>
-            <p>Lieu de la réunion : {{ settings.dashboard.PDFSettings.locality }} (Hôtel communautaire)</p>
+            <p>Lieu de la réunion : {{ settings.dashboard.PDFSettings.locality }}</p>
             {% if titular %}
                 <p> {{ titular.0.civility }} {{ titular.0.identity }}, {{ titular.0.function }} de la communauté de communes.</p>
             {% endif %}
         </div>
     </div>
-    
-
 
     <div class="grid-item grid-membres">
         <div class="row">

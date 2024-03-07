@@ -1,7 +1,7 @@
 import json
 import os
 from django.conf import settings
-from users.models import User, CiviliteListe
+from users.models import User, CiviliteListe, FonctionsConseilListe
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         file_path = os.path.join(settings.BASE_DIR, '../files/ignore/users_credentials.json')
 
-        with open(file_path, 'r') as file:
+        with open(file_path, 'r', encoding='utf-8') as file:
             users_data = json.load(file)
 
         for user_info in users_data:
@@ -30,6 +30,7 @@ class Command(BaseCommand):
                     'last_name': user_info['nom'],
                     'email': user_info['mail'],
                     'civility': civility,
+                    'function_council': FonctionsConseilListe.MEMBRE,
                     'is_superuser': False,
                     'is_staff': False,
                     'is_active': False

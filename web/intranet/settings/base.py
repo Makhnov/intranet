@@ -361,7 +361,8 @@ TAG_SPACES_ALLOWED = False
 
 WAGTAIL_WORKFLOW_ENABLED = False
 WAGTAIL_ENABLE_UPDATE_CHECK = False
-
+WAGTAILADMIN_COMMENTS_ENABLED = False
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 5000
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

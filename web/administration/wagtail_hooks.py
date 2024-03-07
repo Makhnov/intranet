@@ -17,9 +17,6 @@ from administration.models import (
     PresenceStatus,
 )
 
-# Images custom
-from images.models import CustomImage
-
 # Filtres
 from django.db.models import Q
 
@@ -33,7 +30,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 # Date en français
-from django.utils import timezone
 from datetime import datetime, date
 import calendar
 import locale
@@ -42,9 +38,8 @@ import locale
 from django.utils.text import slugify
 
 # Blocs
-from wagtail.blocks import ListBlock, RichTextBlock, StreamBlock, CharBlock
+from wagtail.blocks import ListBlock, StreamBlock
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.contrib.table_block.blocks import TableBlock
 
 # Custom Blocs
 from utils.imports import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
@@ -487,7 +482,7 @@ def import_file(request, page):
     # Itérer sur tous les blocs du StreamField
     for block in page_specific.body:      
                   
-        # Vérifier si le bloc est un PDF
+        # Le bloc est un type de bloc PDF
         if block.block_type == 'PDF':
             print(colored(f"PDF BLOCK", "white", "on_green"))
             
@@ -520,6 +515,7 @@ def import_file(request, page):
                 print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
         
+        # Le bloc est un bloc de type DOCX
         elif block.block_type == 'DOCX':
             print(colored(f"DOCX BLOCK", "white", "on_green"))
 
@@ -605,6 +601,52 @@ def import_file(request, page):
                 print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
                 new_blocks.append((block.block_type, block.value))
                 
+        # Le bloc est un bloc de type CHART
+        elif block.block_type == 'chart':
+            print(colored(f"CHART BLOCK", "white", "on_green"))
+            print(colored(f"BLOCK VALUE: {block.value[0]}", "white", "on_green"))
+            
+            from bs4 import BeautifulSoup
+            import json
+
+            # Votre chaîne HTML du bloc 'chart', obtenue de block.value
+            html_content = str(block.value)
+
+            # Analyser le HTML avec BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+
+            # Trouver l'élément canvas et extraire l'attribut 'data-datasets'
+            canvas = soup.find('canvas')
+            data_datasets = canvas['data-datasets'] if canvas else '{}'
+
+            # Assurez-vous que data_datasets est une chaîne avant de l'analyser avec json.loads()
+            if isinstance(data_datasets, str):
+                data_json = json.loads(data_datasets)
+                print("DATAJSON", data_json)
+            else:
+                # Si data_datasets est déjà un dictionnaire (ou tout objet non chaîne), pas besoin de json.loads()
+                print("DATASET", data_datasets)
+
+
+            # if block.value.get('docx_import'):
+            #     print(colored(f"IMPORTED BLOCK", "yellow"))
+            #     document = block.value.get('docx_document')
+                
+                # # Vérifier si l'utilisateur souhaite importer le CHART
+                # # if block.value.get('chart_import'):
+                # #     print(colored(f"IMPORTED BLOCK", "yellow"))
+                # #     document = block.value.get('chart_document')
+
+                # # Appeler la méthode pour obtenir le contenu HTML du CHART et récupérer l'ID de l'image
+                # content = block.block.get_content(document, collection_date, collection_restrictions)
+
+                # # Mettre à jour 'chart_content' avec le contenu HTML
+                # block.value['chart_content'] = content
+                # print(colored(f"CONTENT: {content}", "white", "on_green"))
+                
+                # # # Ajouter le bloc CHART mis à jour à la liste du streamfield
+            new_blocks.append((block.block_type, block.value))
+            
         else:# Le BLOC n'est ni un PDF ni un DOCX
             print(colored(f"NOT PDF BLOCK", "red", "on_white"))
             new_blocks.append((block.block_type, block.value))

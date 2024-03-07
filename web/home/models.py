@@ -71,13 +71,11 @@ from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from utils.variables import CHART_COLORS, CHART_TYPES, STOP_WORDS
 
 # IMPORTS
-from utils.imports import save_wagtail_image, get_collections, get_docx_content, HeadingDOCXBlock, ParagraphDOCXBlock, TableDOCXBlock, ImageDOCXBlock
-
+from utils.imports import chart_to_img, save_wagtail_image, get_collections, get_docx_content, HeadingDOCXBlock, ParagraphDOCXBlock, TableDOCXBlock, ImageDOCXBlock
 
 #############
 #  CLASSES  #
 ############# 
-
 
 # Import de fichiers docx intégrée dans CompteRenduPage (package : mammoth)
 class CustomDOCXBlock(blocks.StructBlock):
@@ -264,7 +262,29 @@ class CustomPDFBlock(blocks.StructBlock):
 class CustomChartBlock(StreamBlock):
     chart_block = ChartBlock(colors=CHART_COLORS, chart_type=CHART_TYPES)
 
-
+    def get_content(self, document, collection_date, collection_restrictions):    
+        image_title = "Chart Image"
+        image_tags = ["chart", "compte-rendu"]      
+        collection_name = slugify(document.title)    
+            
+        # On récupère le premier mot "significatif" du document pour son titre et ajouter le tag
+        words = re.split('-|_', collection_name)
+        for word in words:
+            if word not in STOP_WORDS and word != "":
+                image_title = word.capitalize()
+                if word.lower() not in image_tags:
+                    image_tags.append(word)
+                break
+            
+        document_collection = get_collections(collection_date, collection_name, collection_restrictions)   
+          
+        # Vérifiez si les images existent déjà avant de les créer dans la sous-collection spécifique
+        # existing_images = CustomImage.objects.filter(collection=document_collection)
+        # if existing_images.exists():
+        #     existing_images.delete()
+            
+        return chart_to_img(document, image_title, image_tags, document_collection)
+    
 # Lien personnalisé
 class CustomLinkBlock(blocks.StructBlock):
     url = blocks.URLBlock(label=_("URL"), help_text=_("Enter the URL."))
