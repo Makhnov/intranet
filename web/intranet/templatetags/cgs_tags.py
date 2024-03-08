@@ -1,12 +1,11 @@
-from termcolor import colored
+from taggit.models import Tag
 from django import template
 from django.utils.timezone import now
 
 from utils.auth import check_page_access
 from agents.models import (
     FaqIndexPage, 
-    FaqCategory, 
-    Tag
+    FaqCategory
 )
 from administration.models import (
     AdministrationIndexPage, 

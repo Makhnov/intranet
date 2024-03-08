@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     # "wagtail_content_import.pickers.local", # Requis par wagtail content import (API locale)
     
     # Charts 
-    "wagtailcharts", # https://github.com/overcastsoftware/wagtailcharts?tab=readme-ov-file#wagtail-charts
+    # "wagtailcharts", # https://github.com/overcastsoftware/wagtailcharts?tab=readme-ov-file#wagtail-charts
     # Charts
     
     # Formulaires

@@ -43,46 +43,6 @@ ITER_COLORS = [
     "on_white"
 ]
     
-# Type de graphiques
-CHART_TYPES = (
-    ('line', 'Graphique linéaire'),
-    ('bar', 'Graphique à barres verticales'),
-    ('bar_horizontal', 'Graphique à barres horizontales'),
-    ('area', 'Graphique en aires'),
-    ('multi', 'Graphique combiné linéaire/barres/aires'),
-    ('pie', 'Graphique en secteurs'),
-    ('doughnut', 'Graphique en anneau'),
-    ('radar', 'Graphique radar'),
-    ('polar', 'Graphique polaire'),
-    ('waterfall', 'Graphique en cascade')
-)
-
-# Couleurs pour les graphiques
-CHART_COLORS = (
-    ('#ff0000', 'Rouge'),
-    ('#00ff00', 'Vert'),
-    ('#0000ff', 'Bleu'),
-    ('#ffff00', 'Jaune'),
-    ('#ff00ff', 'Magenta'),
-    ('#00ffff', 'Cyan'),
-    ('#808080', 'Gris'),
-    ('#800000', 'Marron'),
-    ('#008000', 'Vert foncé'),
-    ('#000080', 'Bleu foncé'),
-    ('#800080', 'Violet'),
-    ('#c0c0c0', 'Argent'),
-    ('#ff3399', 'Rose'),
-    ('#008080', 'Sarcelle'), # Teal
-    ('#00CED1', 'Turquoise foncé'), # DarkTurquoise
-    ('#7CFC00', 'Vert prairie'), # LawnGreen
-    ('#D2691E', 'Chocolat'), # Chocolate
-    ('#48D1CC', 'Turquoise moyen'), # MediumTurquoise
-    ('#BDB76B', 'Kaki foncé'), # DarkKhaki
-    ('#3CB371', 'Vert mer moyen'), # MediumSeaGreen
-    ('#66CDAA', 'Aquamarine moyen'), # MediumAquamarine
-    ('#FF7F50', 'Corail'), # Coral
-)
-
 # Genre et rôle pour les titres des membres du conseil
 ROLE_TRANSLATIONS = {
     "Monsieur": {
@@ -564,3 +524,48 @@ STOP_WORDS = set(
         "zut",
     ]
 )
+
+
+#######################
+## OBSOLETES(CHARTS) ##
+####################### 
+
+# # Type de graphiques
+# CHART_TYPES = (
+#     ('line', 'Graphique linéaire'),
+#     ('bar', 'Graphique à barres verticales'),
+#     ('bar_horizontal', 'Graphique à barres horizontales'),
+#     ('area', 'Graphique en aires'),
+#     ('multi', 'Graphique combiné linéaire/barres/aires'),
+#     ('pie', 'Graphique en secteurs'),
+#     ('doughnut', 'Graphique en anneau'),
+#     ('radar', 'Graphique radar'),
+#     ('polar', 'Graphique polaire'),
+#     ('waterfall', 'Graphique en cascade')
+# )
+
+# # Couleurs pour les graphiques
+# CHART_COLORS = (
+#     ('#ff0000', 'Rouge'),
+#     ('#00ff00', 'Vert'),
+#     ('#0000ff', 'Bleu'),
+#     ('#ffff00', 'Jaune'),
+#     ('#ff00ff', 'Magenta'),
+#     ('#00ffff', 'Cyan'),
+#     ('#808080', 'Gris'),
+#     ('#800000', 'Marron'),
+#     ('#008000', 'Vert foncé'),
+#     ('#000080', 'Bleu foncé'),
+#     ('#800080', 'Violet'),
+#     ('#c0c0c0', 'Argent'),
+#     ('#ff3399', 'Rose'),
+#     ('#008080', 'Sarcelle'), # Teal
+#     ('#00CED1', 'Turquoise foncé'), # DarkTurquoise
+#     ('#7CFC00', 'Vert prairie'), # LawnGreen
+#     ('#D2691E', 'Chocolat'), # Chocolate
+#     ('#48D1CC', 'Turquoise moyen'), # MediumTurquoise
+#     ('#BDB76B', 'Kaki foncé'), # DarkKhaki
+#     ('#3CB371', 'Vert mer moyen'), # MediumSeaGreen
+#     ('#66CDAA', 'Aquamarine moyen'), # MediumAquamarine
+#     ('#FF7F50', 'Corail'), # Coral
+# )

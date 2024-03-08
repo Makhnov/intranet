@@ -1,17 +1,25 @@
-#DOCKER Python 3.10.12
-termcolor==2.4.0
-gunicorn==21.2.0
-gevent==24.2.1
-psycopg2-binary==2.9.9
-Django==5.0
+####################
+##  INTRANET CGS  ##
+#################### 
+
+Django==5.0 # Framework
+wagtail==6.0.1 # CMS
+
+####################
+##  Base.py apps  ##
+#################### 
+
 django-redis==5.4.0 
 django-allauth==0.60.1
 django-countries==7.5.1
 django-cors-headers==4.2.0
 django-weasyprint==2.2.2
 dj-rest-auth==5.0.1
-wagtail==6.0.1
 wagtail-generic-chooser==0.6.1
+
+####################
+##  dubious apps  ##
+#################### 
 
 git+https://github.com/Makhnov/wagtailguide.git#egg=wagtail-guide
 git+https://github.com/Makhnov/wagtailgeowidget.git#egg=wagtailgeowidget
@@ -22,8 +30,17 @@ git+https://github.com/Makhnov/wagtailquickcreate.git#egg=wagtail-quick-create
 git+https://github.com/Makhnov/wagtailpdf#egg=wagtail-pdf-view
 git+https://github.com/Makhnov/wagtailjoyous.git#egg=ls.joyous
 git+https://github.com/Makhnov/wagtailforms.git#egg=wagtailstreamforms
+# git+https://github.com/fourdigits/wagtail_textract
 
-wagtailcharts==0.4.0
-pdf2image==1.17.0
-mammoth==1.7.0
-kaleido==0.2.1
+####################
+## 3rd party apps ##
+#################### 
+
+# DOCKER Python 3.10.12
+gunicorn==21.2.0 # WSGI server
+gevent==24.2.1 # Asynchronous worker
+psycopg2-binary==2.9.9 # PostgreSQL adapter
+pdf2image==1.17.0 # Import des pdf pour les comptes-rendus
+mammoth==1.7.0 # Import des docx pour les comptes-rendus
+# plotly (charts) # Import des charts pour les comptes-rendus
+termcolor==2.4.0 # debug

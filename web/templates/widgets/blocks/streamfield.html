@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags embed_tags wagtailcharts_tags %}
+{% load wagtailcore_tags wagtailimages_tags embed_tags %}
 
 {% for block in value %}
     {% if block.block_type == 'heading' %}
@@ -55,7 +55,3 @@
         </div>
     {% endif %}
 {% endfor %}
-
-{% block extra_js %}
-    {% render_charts %}
-{% endblock %}

@@ -7,11 +7,9 @@ from django.utils.timezone import make_aware
 from django.db import models
 from django import forms
 
-
 from wagtail.models import Page
-from wagtail import blocks
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail.documents.blocks import DocumentChooserBlock
+
+# Fields
 from wagtail.fields import RichTextField, StreamField
 from wagtail.search.backends import get_search_backend
 from wagtail.admin.panels import (
@@ -20,6 +18,16 @@ from wagtail.admin.panels import (
     PageChooserPanel,
     MultiFieldPanel,
 )
+
+# Blocks
+from wagtail.blocks import (
+    CharBlock,
+    RichTextBlock,
+    ListBlock,
+    BlockQuoteBlock,
+)
+from wagtail.images.blocks import ImageChooserBlock
+from wagtail.documents.blocks import DocumentChooserBlock
 
 # Parentalkey 
 from modelcluster.fields import ParentalKey
@@ -43,12 +51,11 @@ from users.models import (
 from wagtail.contrib.table_block.blocks import TableBlock
 
 # Blocks, Medias, PJ, etc.
-from home.models import (
-    CustomChartBlock as ChartBlock,
-    MediaBlock as MediaBlock,
+from utils.widgets import GalleryImage, PiecesJointes as PJBlock
+from utils.streamfield import (
+    CustomMediaBlock as MediaBlock,
     CustomLinkBlock as LinkBlock,
     CustomEmbedBlock as EmbedBlock,
-    PiecesJointes as PJBlock,
     CustomPDFBlock as PDFBlock,
     CustomDOCXBlock as DOCXBlock,
 )
@@ -69,53 +76,11 @@ from wagtail.search import index
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-def cv_cr_filter(page, request):
-    search_query = request.GET.get('query', None)
-    start_date = request.GET.get('start_date', None)
-    end_date = request.GET.get('end_date', None)
-    type_filter = request.GET.get('type', 'all')
-    
-    convocations = ConvocationPage.objects.none()
-    comptes_rendus = CompteRenduPage.objects.none()
+####################
+## PAGES DE MENUS ##
+#################### 
 
-    # Filtre conditionnel en fonction du type sélectionné
-    if type_filter in ['all', 'convocations']:
-        convocations = ConvocationPage.objects.live().descendant_of(page).order_by('date')
-    if type_filter in ['all', 'comptes_rendus']:
-        comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('date')
-
-    # Filtre conditionnel en fonction de la date sélectionnée
-    if start_date:
-        start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
-        convocations = convocations.filter(date__gte=start_date)
-        comptes_rendus = comptes_rendus.filter(date__gte=start_date)
-    if end_date:
-        end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
-        convocations = convocations.filter(date__lte=end_date)
-        comptes_rendus = comptes_rendus.filter(date__lte=end_date)
-
-    # Filtre conditionnel en fonction de la recherche
-    if search_query:
-        search_backend = get_search_backend()
-        convocations = search_backend.search(search_query, convocations)
-        comptes_rendus = search_backend.search(search_query, comptes_rendus)
-
-    # Regroupez et triez les pages par année
-    convocation_pages_by_year = defaultdict(list)
-    compterendu_pages_by_year = defaultdict(list)
-    for convocation in convocations:
-        convocation_pages_by_year[convocation.date.year].append(convocation)
-    for compte_rendu in comptes_rendus:
-        compterendu_pages_by_year[compte_rendu.date.year].append(compte_rendu)
-
-    # Retourne les données triées et filtrées
-    return {
-        'convocation_pages_by_year': dict(convocation_pages_by_year),
-        'compterendu_pages_by_year': dict(compterendu_pages_by_year),
-    }
-
-
-# La page d'accueil de la partie administration du site
+# Accueil de la section administration du site
 class AdministrationIndexPage(MenuPage):
     parent_page_types = ["home.HomePage"]
     subpage_types = [
@@ -126,8 +91,7 @@ class AdministrationIndexPage(MenuPage):
     ]
     save = menu_page_save('administration')
 
-
-# La page d'index des conseils
+# Index des conseils
 class ConseilsIndexPage(MenuPage):
     parent_page_types = ["administration.AdministrationIndexPage"]
     subpage_types = ["administration.ConvocationPage", "administration.CompteRenduPage"]
@@ -164,8 +128,7 @@ class ConseilsIndexPage(MenuPage):
         verbose_name = "conseil"
         verbose_name_plural = "conseils"
 
-
-# La page d'index des bureaux
+# Index des bureaux
 class BureauxIndexPage(MenuPage):
     parent_page_types = ["administration.AdministrationIndexPage"]
     subpage_types = ["administration.ConvocationPage", "administration.CompteRenduPage"]
@@ -203,8 +166,7 @@ class BureauxIndexPage(MenuPage):
         verbose_name = "bureau"
         verbose_name_plural = "bureaux"
 
-
-# La page d'index des commissions
+# Index des commissions
 class ConferencesIndexPage(MenuPage):
     parent_page_types = ["administration.AdministrationIndexPage"]
     subpage_types = ["administration.ConvocationPage", "administration.CompteRenduPage"]
@@ -242,8 +204,7 @@ class ConferencesIndexPage(MenuPage):
         verbose_name = "conférence"
         verbose_name_plural = "conférences"
 
-
-# La liste de toutes les commissions
+# Index des commissions et groupes de travail
 class CommissionsIndexPage(MenuPage):
     parent_page_types = ["administration.AdministrationIndexPage"]
     subpage_types = ["administration.CommissionPage"]
@@ -252,8 +213,7 @@ class CommissionsIndexPage(MenuPage):
     class Meta:
         verbose_name = "Commissions (Index)"
 
-
-# La page d'index d'une commission ou d'un groupe de travail
+# Index d'une commission ou d'un groupe de travail
 class CommissionPage(Page):
     parent_page_types = ["administration.CommissionsIndexPage"]
     subpage_types = ["administration.ConvocationPage", "administration.CompteRenduPage"]
@@ -343,8 +303,11 @@ class CommissionPage(Page):
         verbose_name = "commission ou groupe de travail"
         verbose_name_plural = "commissions ou groupes de travail"
 
- 
-# Page de convocation
+####################################
+## CONVOCATIONS ET COMPTES-RENDUS ##
+####################################  
+
+# Convocation aux instances
 class ConvocationPage(PdfViewPageMixin, Page):
     parent_page_types = [
         "administration.ConseilsIndexPage",
@@ -439,8 +402,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
         verbose_name = "convocation"
         verbose_name_plural = "convocations"
     
-
-# Page de compte-rendu
+# Compte-rendu des instances
 class CompteRenduPage(PdfViewPageMixin, Page):
     parent_page_types = [
         "administration.ConseilsIndexPage",
@@ -500,17 +462,16 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     )    
     body = StreamField(
         [
-            ("heading", blocks.CharBlock(classname="title", icon="title")),
-            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
+            ("heading", CharBlock(classname="title", icon="title")),
+            ("paragraph", RichTextBlock(icon="pilcrow")),
             ("media", MediaBlock(icon="media")),
             ("image", ImageChooserBlock(icon="image")),
             ("document", DocumentChooserBlock(icon="doc-full")),
             ("link", LinkBlock(icon="link")),
             ("embed", EmbedBlock(icon="media")),
-            ("list", blocks.ListBlock(blocks.CharBlock(icon="list-ul"), icon="list-ul")),
-            ("quote", blocks.BlockQuoteBlock(icon="openquote")),
+            ("list", ListBlock(CharBlock(icon="list-ul"), icon="list-ul")),
+            ("quote", BlockQuoteBlock(icon="openquote")),
             ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table")),
-            ("chart", ChartBlock(icon="chart")),
             ("PDF", PDFBlock(icon="doc-full")),
             ("DOCX", DOCXBlock(icon="doc-full")),
         ],
@@ -660,6 +621,9 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         verbose_name = "compte-rendu"
         verbose_name_plural = "comptes-rendus"
 
+###############
+##  WIDGETS  ##
+############### 
         
 # Liste de documents (convoc)
 class ConvocationPieceJointe(PJBlock):
@@ -671,7 +635,6 @@ class ConvocationPieceJointe(PJBlock):
         related_name="convocation_documents",
     )
 
-
 # Liste de documents (cr)
 class CompteRenduPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la CompteRenduPage."""
@@ -682,15 +645,13 @@ class CompteRenduPieceJointe(PJBlock):
         related_name="compterendu_documents",
     )
 
-
-# Lien entre une convocation et ses utilisateurs # Etat de présence
+# Etat de présence
 class PresenceStatus(models.IntegerChoices):
     PRESENT = 1, _('Présent')
     REPLACED = 2, _('Remplacé')
     UNREPLACED = 3, _('Non remplacé')
 
-
-# La table de lien
+# Participations à une instance (Lié à une convocation puis, indirectement, à un compte-rendu)
 class ConvocationUser(models.Model):
     convocation = models.ForeignKey('administration.ConvocationPage', on_delete=models.CASCADE, verbose_name=_("Convocation"), related_name='convocation_users')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("User"))
@@ -754,3 +715,52 @@ class ConvocationUser(models.Model):
 
     def __str__(self):
         return f"{self.identity} - {self.function}"
+
+###############
+## FONCTIONS ##
+############### 
+
+def cv_cr_filter(page, request):
+    search_query = request.GET.get('query', None)
+    start_date = request.GET.get('start_date', None)
+    end_date = request.GET.get('end_date', None)
+    type_filter = request.GET.get('type', 'all')
+    
+    convocations = ConvocationPage.objects.none()
+    comptes_rendus = CompteRenduPage.objects.none()
+
+    # Filtre conditionnel en fonction du type sélectionné
+    if type_filter in ['all', 'convocations']:
+        convocations = ConvocationPage.objects.live().descendant_of(page).order_by('date')
+    if type_filter in ['all', 'comptes_rendus']:
+        comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('date')
+
+    # Filtre conditionnel en fonction de la date sélectionnée
+    if start_date:
+        start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
+        convocations = convocations.filter(date__gte=start_date)
+        comptes_rendus = comptes_rendus.filter(date__gte=start_date)
+    if end_date:
+        end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
+        convocations = convocations.filter(date__lte=end_date)
+        comptes_rendus = comptes_rendus.filter(date__lte=end_date)
+
+    # Filtre conditionnel en fonction de la recherche
+    if search_query:
+        search_backend = get_search_backend()
+        convocations = search_backend.search(search_query, convocations)
+        comptes_rendus = search_backend.search(search_query, comptes_rendus)
+
+    # Regroupez et triez les pages par année
+    convocation_pages_by_year = defaultdict(list)
+    compterendu_pages_by_year = defaultdict(list)
+    for convocation in convocations:
+        convocation_pages_by_year[convocation.date.year].append(convocation)
+    for compte_rendu in comptes_rendus:
+        compterendu_pages_by_year[compte_rendu.date.year].append(compte_rendu)
+
+    # Retourne les données triées et filtrées
+    return {
+        'convocation_pages_by_year': dict(convocation_pages_by_year),
+        'compterendu_pages_by_year': dict(compterendu_pages_by_year),
+    }
