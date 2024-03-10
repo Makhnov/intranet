@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # Custom
     
     # Docx import
-    "wagtail_content_import", # https://torchbox.github.io/wagtail-content-import/
+    # "wagtail_content_import", # https://torchbox.github.io/wagtail-content-import/
     # "wagtail_content_import.pickers.google", # https://torchbox.github.io/wagtail-content-import/google_docs_setup/
     # "wagtail_content_import.pickers.microsoft", # https://torchbox.github.io/wagtail-content-import/microsoft_setup/
     # "wagtail_content_import.pickers.local", # https://torchbox.github.io/wagtail-content-import/basic_usage/
