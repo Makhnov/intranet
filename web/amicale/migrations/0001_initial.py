@@ -18,12 +18,6 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('images', '0001_initial'),
-        ('taggit', '0006_rename_taggeditem_content_type_object_id_taggit_tagg_content_8fc721_idx'),
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
-    ]
-
     operations = [
         migrations.CreateModel(
             name='AmicalePage',
