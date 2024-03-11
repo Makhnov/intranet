@@ -1,4 +1,5 @@
 import re
+from django.conf import settings
 from django.utils.html import format_html
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
@@ -214,10 +215,11 @@ class CustomPDFBlock(StructBlock):
                 break        
         
         document_collection = get_collections(collection_date, collection_name, collection_restrictions)
-        
+                        
         # Convertir le PDF en images 
+        poppler_path = settings.POPPLER_PATH
         pdf_data = document.file.read()
-        pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
+        pdf_images = convert_from_bytes(pdf_data, fmt="jpeg", poppler_path=poppler_path)
             
         # Vérifiez si les images existent déjà avant de les créer dans la sous-collection spécifique
         existing_images = CustomImage.objects.filter(collection=document_collection)

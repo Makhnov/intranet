@@ -131,10 +131,19 @@ class TableDOCXBlock(blocks.StructBlock):
         abstract = True
 
 # Gestion des collections 
-def get_collections(collection_date, collection_name, collection_restrictions):    
-    # On slugify le titre du document pour le nom de la collection
-    root_collection = Collection.objects.get(name="PDF")
-
+def get_collections(collection_date, collection_name, collection_restrictions):   
+    
+    # On récupère la collection racine ("ROOT") 
+    root_collection = Collection.objects.get(name="Root")    
+    print(root_collection)
+    
+    # On récupère, ou on créé la collection "PDF"
+    try:
+        pdf_collection = root_collection.get_children().get(name="PDF")
+    except Collection.DoesNotExist:
+        pdf_collection = root_collection.add_child(name="PDF")
+    print(pdf_collection)
+    
     def apply_restrictions(collection, restrictions):
         for restriction in restrictions:
             view_restrictions = CollectionViewRestriction.objects.create(
@@ -145,17 +154,20 @@ def get_collections(collection_date, collection_name, collection_restrictions):
             # Ajout des restrictions de groupe
             for group in restriction.groups.all():
                 view_restrictions.groups.add(group)
-                
+          
+    # On récupère, ou on créé la collection qui regroupe tous les documents associé au compte-rendu en cours      
     try:
-        date_collection = root_collection.get_children().get(name=collection_date)
+        cr_collection = pdf_collection.get_children().get(name=collection_date)
     except Collection.DoesNotExist:
-        date_collection = root_collection.add_child(name=collection_date)
-        apply_restrictions(date_collection, collection_restrictions)
-        
+        cr_collection = pdf_collection.add_child(name=collection_date)
+        apply_restrictions(cr_collection, collection_restrictions)
+    print(cr_collection)
+      
+    # On récupère, ou on créé la collection qui regroupe toutes les images du document en cours  
     try:
-        document_collection = date_collection.get_children().get(name=collection_name)
+        document_collection = cr_collection.get_children().get(name=collection_name)
     except Collection.DoesNotExist:
-        document_collection = date_collection.add_child(name=collection_name)
+        document_collection = cr_collection.add_child(name=collection_name)
         # apply_restrictions(document_collection, collection_restrictions)
         
     return document_collection

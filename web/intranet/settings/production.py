@@ -1,13 +1,13 @@
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Wagtail settings
+SITE_ID = 1
 INTERNAL_IPS = '127.0.0.1:8000'
 WAGTAIL_SITE_NAME="intranet 3cgs"
-SITE_ID = 1
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', 'intranet.cagiregaronnesalat.fr', '[::1]']
 
 CSRF_TRUSTED_ORIGINS = ['https://intranet.cagiregaronnesalat.fr', 'https://www.intranet.cagiregaronnesalat.fr', 'https://cagiregaronnesalat.fr', 'https://www.cagiregaronnesalat.fr']
@@ -38,6 +38,10 @@ CACHES = {
         }
     }
 }
+
+POPPLER_PATH = None
+
+print(DEBUG)
 
 try:
     from .local import *

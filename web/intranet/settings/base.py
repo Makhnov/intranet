@@ -274,7 +274,6 @@ WAGTAILAPI_SEARCH_ENABLED = True # Debug ??
 WAGTAILAPI_LIMIT_MAX = None
 
 # CI-DESSOUS INUTILE ATM
-
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -347,6 +346,7 @@ DEFAULT_AUTO_FIELD = (
 # Wagtail settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = "secretariat@cagiregaronnesalat.fr"
+POPPLER_PATH = os.getenv("POPPLER_PATH", r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
 
 WAGTAIL_GUIDE_SETTINGS = {
     "ADD_WAGTAIL_GUIDE_TO_HELP_MENU": True,
