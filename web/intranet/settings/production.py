@@ -41,8 +41,6 @@ CACHES = {
 
 POPPLER_PATH = None
 
-print(DEBUG)
-
 try:
     from .local import *
 except ImportError:
