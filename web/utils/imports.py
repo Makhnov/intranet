@@ -135,14 +135,14 @@ def get_collections(collection_date, collection_name, collection_restrictions):
     
     # On récupère la collection racine ("ROOT") 
     root_collection = Collection.objects.get(name="Root")    
-    print(root_collection)
+    # print(root_collection)
     
     # On récupère, ou on créé la collection "PDF"
     try:
         pdf_collection = root_collection.get_children().get(name="PDF")
     except Collection.DoesNotExist:
         pdf_collection = root_collection.add_child(name="PDF")
-    print(pdf_collection)
+    # print(pdf_collection)
     
     def apply_restrictions(collection, restrictions):
         for restriction in restrictions:
@@ -161,7 +161,7 @@ def get_collections(collection_date, collection_name, collection_restrictions):
     except Collection.DoesNotExist:
         cr_collection = pdf_collection.add_child(name=collection_date)
         apply_restrictions(cr_collection, collection_restrictions)
-    print(cr_collection)
+    # print(cr_collection)
       
     # On récupère, ou on créé la collection qui regroupe toutes les images du document en cours  
     try:
@@ -346,10 +346,6 @@ def save_wagtail_image(image, image_index, image_format, image_title, image_tags
 # Transformation du chart en image
 def chart_to_img(document, image_title, image_tags, document_collection):
     print(colored("Conversion du chart en image", "green"))
-    print(document)
-    print(image_title)
-    print(image_tags)
-    print(document_collection)
     # try:
     #     # Convertir le chart en image
     #     img_bytes = BytesIO()

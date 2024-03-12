@@ -65,10 +65,10 @@ class AmicaleIndexPage(MenuPage):
         end_date = request.GET.get('end_date', None)
         article_type = request.GET.get('type', None)
         
-        print(colored(article_type, 'green'))
-        print(colored(start_date, 'green'))
-        print(colored(end_date, 'green'))
-        print(colored(query, 'green'))
+        # print(colored(article_type, 'green'))
+        # print(colored(start_date, 'green'))
+        # print(colored(end_date, 'green'))
+        # print(colored(query, 'green'))
                               
                       
         if query:

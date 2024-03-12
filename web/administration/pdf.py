@@ -11,9 +11,9 @@ class ConvocationPDFView(WeasyTemplateResponseMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('request.path', self.request.path)
+        # print('request.path', self.request.path)
         context['is_pdf'] = 'pdf' in self.request.path
-        print('context', context)
+        # print('context', context)
         
         return context
 
@@ -25,7 +25,7 @@ class CompteRenduPDFView(WeasyTemplateResponseMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('request.path', self.request.path)
+        # print('request.path', self.request.path)
         context['is_pdf'] = 'pdf' in self.request.path
-        print('context', context)
+        # print('context', context)
         return context

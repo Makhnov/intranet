@@ -8,8 +8,8 @@ from wagtail.contrib.search_promotions.models import Query
 def search(request):
     search_query = request.GET.get("query", None)
     page = request.GET.get("page", 1)
-    print(colored(page, "red", "on_light_cyan"))
-    print(colored(search_query, "red", "on_light_cyan"))
+    # print(colored(page, "red", "on_light_cyan"))
+    # print(colored(search_query, "red", "on_light_cyan"))
 
     # Search
     if search_query:

@@ -19,7 +19,7 @@ def faq_filter(request):
         for tag in tags:
             faqs = faqs.filter(tags__name=tag)
 
-    print(str(faqs.query))
+    # print(str(faqs.query))
 
     return render(request, "agents/widgets/faq_list.html", {"faqs": faqs})
 

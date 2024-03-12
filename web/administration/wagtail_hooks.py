@@ -121,7 +121,7 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
     """
     # Determine la classe de page en fonction de l'opération (création ou édition)
     page_to_check = page if page else page_class
-    # # print(f"Starting set_defaults for: {page_to_check}")    
+    # print(f"Starting set_defaults for: {page_to_check}")    
 
     # Copie de la requête
     request.POST = request.POST.copy()
@@ -170,13 +170,13 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
 
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
-    # # print(colored(f"Starting title and slugs status update for: {page}", "green"))
+    # print(colored(f"Starting title and slugs status update for: {page}", "green"))
 
     # Copie de la requête
     request.POST = request.POST.copy()        
 
     user_date = request.POST.get("date")
-    # # # print(f'Date utilisateur : {user_date}')  # Debug # print
+    # print(f'Date utilisateur : {user_date}')  # Debug # print
     if user_date:
         try:
             # Formatage de la date pour le titre et le slug
@@ -190,11 +190,11 @@ def update_convoc_and_cr_defaults(request, page):
             suffix = parent_page.label if hasattr(parent_page, 'label') and parent_page.label else parent_page.title
 
             # Construction du nouveau titre et slug
-            # # # print(f'Suffixe : {suffix}')  # Debug # print
+            # print(f'Suffixe : {suffix}')  # Debug # print
             new_title = f"{prefix} {suffix} {formatted_date_for_title}"
-            # # # print(f'Nouveau titre : {new_title}')  # Debug # print
+            # print(f'Nouveau titre : {new_title}')  # Debug # print
             new_slug = slugify(f"{prefix}-{suffix}-{formatted_date_for_slug}")
-            # # # print(f'Nouveau slug : {new_slug}')  # Debug # print
+            # print(f'Nouveau slug : {new_slug}')  # Debug # print
             
             # Mise à jour du titre, slug et date de la page
             page.title = new_title
@@ -210,10 +210,10 @@ def update_convoc_and_cr_defaults(request, page):
 
 # Fonction pour récupérer les utilisateurs en fonction de la page parente
 def create_convocation_users(request, page):
-    # # print(colored(f"Starting convc_users status update for: {page}", "green"))
+    # print(colored(f"Starting convc_users status update for: {page}", "green"))
 
     parent_page = page.get_parent().specific
-    # # # print(f"Le type de parent_page est: {type(parent_page)}")
+    # print(f"Le type de parent_page est: {type(parent_page)}")
     
     function_field_mapping = {
         'ConseilsIndexPage': 'function_council',
@@ -237,8 +237,8 @@ def create_convocation_users(request, page):
     # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
     if isinstance(parent_page, CommissionPage):
         users = users.filter(commission_id=parent_page.id)
-        # # # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
-        # # # print(colored(f'users : {users}', "white", "on_yellow"))
+        # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
+        # print(colored(f'users : {users}', "white", "on_yellow"))
         
     # Créer un dictionnaire pour compter les utilisateurs par fonction
     user_count_by_function = defaultdict(int)
@@ -285,11 +285,11 @@ def create_convocation_users(request, page):
             alternate=alternate, # Suppléant officiel (NULL par défaut)
             
         )
-        # # print(f'CU Créée : {cu}')
+        # print(f'CU Créée : {cu}')
 
 # Fonction qui met à jour les statuts de présence des utilisateurs
 def update_presence_status(request, page):
-    # # print(colored(f"Starting presence status update for: {page}", "green"))
+    # print(colored(f"Starting presence status update for: {page}", "green"))
     # Vérifiez si la requête est une requête POST
     if request.method == 'POST':
         # Récupérez l'ID de la convocation à partir de la requête POST
@@ -335,16 +335,16 @@ def update_presence_status(request, page):
             present_ids = list(present_temp_ids)
             
             # LOGS
-            # # print(f'Users : {user_ids}')
-            # # # print(f'Replaced : {replaced_user_ids}')
-            # # # print(f'Unreplaced : {unreplaced_user_ids}')
-            # # # print(f'Substitutes full list: {substitute_user_list}')
-            # # print(f'Substitutes : {substitute_user_ids}')
-            # # # print(f'Substitute count : {substitute_count}')
-            # # # print(f'Absents full list : {absent_user_list}')
-            # # print(f'Absent members : {absent_user_ids}')
-            # # print(f'Present members : {present_ids}')
-            # # print(f'Secretary : {secretary_id}')
+            # print(f'Users : {user_ids}')
+            # print(f'Replaced : {replaced_user_ids}')
+            # print(f'Unreplaced : {unreplaced_user_ids}')
+            # print(f'Substitutes full list: {substitute_user_list}')
+            # print(f'Substitutes : {substitute_user_ids}')
+            # print(f'Substitute count : {substitute_count}')
+            # print(f'Absents full list : {absent_user_list}')
+            # print(f'Absent members : {absent_user_ids}')
+            # print(f'Present members : {present_ids}')
+            # print(f'Secretary : {secretary_id}')
             
             # Vérification 1 : un utilisateur ne peut pas être à la fois remplacé et non remplacé
             if set(replaced_user_ids).intersection(unreplaced_user_ids):
@@ -434,7 +434,7 @@ def update_presence_status(request, page):
                 compte_rendu_page.save()
 
         else:
-            # # print("ID de convocation non fourni")
+            # print("ID de convocation non fourni")
             pass
 
 # Fonction pour formater la date en français
@@ -547,7 +547,7 @@ def import_file(request, page):
                         
                         i += 1
                         color_index = (i - 1) % 6
-                        print(colored(f"ELEMENT {i}: {element[0]}", "white", bg_colors[color_index]))
+                        # print(colored(f"ELEMENT {i}: {element[0]}", "white", bg_colors[color_index]))
                         
                         if element[0] == 'heading':
                             stream_data.append({
@@ -604,7 +604,7 @@ def import_file(request, page):
         # Le bloc est un bloc de type CHART
         elif block.block_type == 'chart':
             print(colored(f"CHART BLOCK", "white", "on_green"))
-            print(colored(f"BLOCK VALUE: {block.value[0]}", "white", "on_green"))
+            # print(colored(f"BLOCK VALUE: {block.value[0]}", "white", "on_green"))
             
             from bs4 import BeautifulSoup
             import json
@@ -627,15 +627,11 @@ def import_file(request, page):
                 # Si data_datasets est déjà un dictionnaire (ou tout objet non chaîne), pas besoin de json.loads()
                 print("DATASET", data_datasets)
 
-
-            # if block.value.get('docx_import'):
-            #     print(colored(f"IMPORTED BLOCK", "yellow"))
-            #     document = block.value.get('docx_document')
                 
                 # # Vérifier si l'utilisateur souhaite importer le CHART
-                # # if block.value.get('chart_import'):
-                # #     print(colored(f"IMPORTED BLOCK", "yellow"))
-                # #     document = block.value.get('chart_document')
+                # if block.value.get('chart_import'):
+                #     print(colored(f"IMPORTED BLOCK", "yellow"))
+                #     document = block.value.get('chart_document')
 
                 # # Appeler la méthode pour obtenir le contenu HTML du CHART et récupérer l'ID de l'image
                 # content = block.block.get_content(document, collection_date, collection_restrictions)
@@ -644,7 +640,7 @@ def import_file(request, page):
                 # block.value['chart_content'] = content
                 # print(colored(f"CONTENT: {content}", "white", "on_green"))
                 
-                # # # Ajouter le bloc CHART mis à jour à la liste du streamfield
+                # # Ajouter le bloc CHART mis à jour à la liste du streamfield
             new_blocks.append((block.block_type, block.value))
             
         else:# Le BLOC n'est ni un PDF ni un DOCX

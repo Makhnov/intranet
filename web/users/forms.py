@@ -66,11 +66,11 @@ class BaseUserForm:
     def validate_elected_function(self):
         municipality = self.cleaned_data.get("municipality")
         verbose_municipality = self.instance.get_municipality_display() if self.instance and self.instance.pk else None
-        print("Commune :", verbose_municipality)
+        # print("Commune :", verbose_municipality)
         commission = self.cleaned_data.get("commission")
         function_municipality = self.cleaned_data.get("function_municipality")
         function_council = self.cleaned_data.get("function_council")
-        print("function_council :", function_council)
+        # print("function_council :", function_council)
         function_commission = self.cleaned_data.get("function_commission")
         function_bureau = self.cleaned_data.get("function_bureau")
         function_conference = self.cleaned_data.get("function_conference")
@@ -81,28 +81,28 @@ class BaseUserForm:
         # Récupération de tous les utilisateurs associés à la même municipalité
         users_same_municipality = User.objects.filter(municipality=municipality).exclude(pk=self.instance.pk).exclude(function_council__isnull=True) 
         
-        print("Commune :", municipality)
+        # print("Commune :", municipality)
         # Calcul des nombres de conseillers.
         council_members = users_same_municipality.filter(function_council__in=[1, 2, 3]).count()
-        print("Conseillers :", council_members)
+        # print("Conseillers :", council_members)
         # Calcul des nombres de suppléants.
         substitutes = users_same_municipality.filter(function_council=4).count()
-        print("Substituts :", substitutes)
+        # print("Substituts :", substitutes)
         
-        print(type(function_council))
-        print(type(substitutes))
-        print(type(council_members))
+        # print(type(function_council))
+        # print(type(substitutes))
+        # print(type(council_members))
 
         # Vérifier si il y a plus d'un délégué communautaire ou déjà un suppléant
         # On ne peut plus rajouter de suppléant.
         if function_council == '4' and (council_members > 1 or substitutes > 0):
-            print("Erreur 1")
+            # print("Erreur 1")
             self.add_error('function_council', _(f"They are already {council_members} council members and {substitutes} substitute(s) in {verbose_municipality}, therefore, you cannot add a substitute."))
 
         # Vérifier si il y a déjà un délégué suppléant et un conseiller communautaire
         # On ne peut rajouter ni de conseiller communautaire ni de suppléant.
         if function_council is not None and (substitutes == 1 and council_members == 1):
-            print("Erreur 2")
+            # print("Erreur 2")
             self.add_error('function_council', _(f"They are already {substitutes} substitute and {council_members} council member(s) in {verbose_municipality}, you cannot add any more council members or substitutes."))
 
         # Si le formulaire est associé à une instance existante, excluez cette instance des validations

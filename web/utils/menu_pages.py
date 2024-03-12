@@ -177,7 +177,6 @@ class MenuPage(Page):
         context['commissions_menu'] = commissions_index_page.get_children().live()
         context['children'] = self.get_children().live()
         
-        print(context)
         return context
     
     class Meta:
