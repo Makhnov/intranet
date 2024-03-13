@@ -261,12 +261,12 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 0
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGOUT_ON_GET = True  # Debug
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True  # Debug
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "3CGS"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "3CGS - "
 
 # Rest Framework & APIv2
 
@@ -343,17 +343,29 @@ DEFAULT_AUTO_FIELD = (
     "django.db.models.BigAutoField"  # Certains package utilise encore ce paramètre (ex: guide, wagtailstreamforms)
 )
 
-# Wagtail settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = "secretariat@cagiregaronnesalat.fr"
+# WAGTAIL SETTINGS
+
+# Mailing
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_HOST = os.getenv("WAGTAIL_EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = os.getenv("WAGTAIL_EMAIL_PORT", 587)
+EMAIL_HOST_USER = os.getenv("WAGTAIL_EMAIL_HOST_USER", "wagtail_example.com")
+EMAIL_HOST_PASSWORD = os.getenv("WAGTAIL_EMAIL_HOST_PASSWORD", "password")
+EMAIL_USE_TLS = os.getenv("WAGTAIL_EMAIL_USE_TLS", True)
+EMAIL_USE_SSL = os.getenv("WAGTAIL_EMAIL_USE_SSL", True)
+DEFAULT_FROM_EMAIL = os.getenv("WAGTAIL_DEFAULT_FROM_EMAIL", "wagtail_example.com")
+
+# PDF2Images
 POPPLER_PATH = os.getenv("POPPLER_PATH", r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
 
+# Guide
 WAGTAIL_GUIDE_SETTINGS = {
     "ADD_WAGTAIL_GUIDE_TO_HELP_MENU": True,
     "WAGTAIL_GUIDE_MENU_LABEL": "Comment utiliser l'Intranet",
     "HIDE_WAGTAIL_CORE_EDITOR_GUIDE": False,
 }
 
+# Divers
 WAGTAILADMIN_GLOBAL_EDIT_LOCK = (True,)
 
 TAGGIT_CASE_INSENSITIVE = True
