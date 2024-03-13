@@ -11,72 +11,71 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-    <!-- Watermark -->
-    {% if settings.dashboard.PDFSettings.watermark %}
-        {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
-    {% endif %}
+    <div class="container-fluid">
+        <!-- Watermark -->
+        {% if settings.dashboard.PDFSettings.watermark %}
+            {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
+        {% endif %}
 
-    <!-- Logo -->
-    {% if settings.dashboard.PDFSettings.logo %}
-        {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
-    {% endif %}
-  
-    <div class="grid-item grid-invitation">
-        <div class="grid-invitation-content">
+        <!-- Logo -->
+        {% if settings.dashboard.PDFSettings.logo %}
+            {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+        {% endif %}
+    
+        <div class="grid-item grid-invitation">
+            <div class="grid-invitation-content">
+                {% for function, users in grouped_convocation_users.items %}
+                    {% if forloop.first %}
+                        {% for user in users %}
+                            <p>{{ user.gender }} {{ user.identity }}</p>
+                        {% endfor %}
+                        <p>{{ function }}</p>
+                        <p>A</p>
+                        <p>Mesdames, Messieurs les</p>
+                        <p>délégués communautaires et</p>
+                        <p>délégués suppléants</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="grid-item grid-informations">
+            <p>{{ settings.dashboard.PDFSettings.locality }}</p>
+            <p>Le {{ page.latest_revision_created_at|date:"l d F Y" }}</p>
+        </div>
+
+        <div class="grid-item grid-opening">
+            <p>{{ settings.dashboard.PDFSettings.opening_councils|linebreaksbr }}</p>
+        </div>
+
+        <div class="grid-item grid-rdv">
+            <p>
+                {{ page.date|date:"l d F Y" }} à {{ page.date|date:"H" }} heure{% if page.date|date:"H"|add:"0" > 1 %}s{% endif %} {{ page.date|date:"i" }}
+                
+            </p>        
+            <p>{{ settings.dashboard.PDFSettings.locality_description }}</p>
+        </div>
+
+        <div class="grid-item grid-odj">
+            <p>A l’ordre du jour sont inscrits les points suivants :</p>
+            <p>{{ page.body|richtext }}</p>
+        </div>
+        
+        <div class="grid-item grid-closing">
+            <p>{{ settings.dashboard.PDFSettings.closing_councils }}</p>
+        </div>
+
+        <div class="grid-item grid-signature">
             {% for function, users in grouped_convocation_users.items %}
                 {% if forloop.first %}
                     {% for user in users %}
-                        <p>{{ user.gender }} {{ user.identity }}</p>
+                        <p>{{ user.identity }},</p>
                     {% endfor %}
-                    <p>{{ function }}</p>
-                    <p>A</p>
-                    <p>Mesdames, Messieurs les</p>
-                    <p>délégués communautaires et</p>
-                    <p>délégués suppléants</p>
+                    <p>{{ function }},</p>
                 {% endif %}
             {% endfor %}
         </div>
-    </div>
-    
-    <div class="grid-item grid-informations">
-        <p>{{ settings.dashboard.PDFSettings.locality }}</p>
-        <p>Le {{ page.latest_revision_created_at|date:"l d F Y" }}</p>
-    </div>
 
-    <div class="grid-item grid-opening">
-        <p>{{ settings.dashboard.PDFSettings.opening_councils|linebreaksbr }}</p>
-    </div>
-
-    <div class="grid-item grid-rdv">
-        <p>
-            {{ page.date|date:"l d F Y" }} à {{ page.date|date:"H" }} heure{% if page.date|date:"H"|add:"0" > 1 %}s{% endif %} {{ page.date|date:"i" }}
-            
-        </p>        
-        <p>{{ settings.dashboard.PDFSettings.locality_description }}</p>
-    </div>
-
-    <div class="grid-item grid-odj">
-        <p>A l’ordre du jour sont inscrits les points suivants :</p>
-        <p>{{ page.body|richtext }}</p>
-    </div>
-    
-    <div class="grid-item grid-closing">
-        <p>{{ settings.dashboard.PDFSettings.closing_councils }}</p>
-    </div>
-
-    <div class="grid-item grid-signature">
-        {% for function, users in grouped_convocation_users.items %}
-            {% if forloop.first %}
-                {% for user in users %}
-                    <p>{{ user.identity }},</p>
-                {% endfor %}
-                <p>{{ function }},</p>
-            {% endif %}
-        {% endfor %}
-    </div>
-
-    {% else %}
         <div class="grid-item grid-documents">
             <h4>Documents associés :</h4>
             <ul>
@@ -89,11 +88,10 @@
             {% endfor %}
             </ul>
         </div>
-    {% endif %}
 
-    <!-- Image de pied de page -->
-    {% if settings.dashboard.PDFSettings.footer_image %}
-        {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
-    {% endif %}
-</div>
+        <!-- Image de pied de page -->
+        {% if settings.dashboard.PDFSettings.footer_image %}
+            {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+        {% endif %}
+    </div>
 {% endblock %}
