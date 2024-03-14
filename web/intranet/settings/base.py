@@ -400,8 +400,8 @@ WAGTAIL_USER_CUSTOM_FIELDS = [
     "municipality",
     "function_municipality",
     "function_council",
-    "commission",
-    "function_commission",
+    "commissions",
+    "functions_commissions",
     "function_bureau",
     "function_conference"
 ]

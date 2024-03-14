@@ -284,6 +284,23 @@ div.handsontable.htRowHeaders.htColumnHeaders {
     width: 0%;   
 }
 
+// EDITION DES USERS
+#id_functions_commissions_list {
+    select.cgs-selector {
+        line-height: normal;
+        margin-bottom: .375rem;
+        height: 1.75rem;
+        min-height: initial;
+        font-size: .9rem;
+        visibility: hidden;
+
+        &.cgs-checked {
+            visibility: visible;
+        }
+    }
+}
+
+// GENERAL 
 
 .w-panel__content {
     &.disabled {
@@ -312,7 +329,7 @@ div.handsontable.htRowHeaders.htColumnHeaders {
     display: none;
 }
 
-select.cgs-panel-disabled {
+select.cgs-panel-disabled, section.cgs-panel-disabled {
     border: 1px solid var(--w-color-border-field-inactive);
     background-color: var(--w-color-surface-field-inactive);
     pointer-events: none;

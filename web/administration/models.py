@@ -276,14 +276,30 @@ class CommissionPage(Page):
     ]
     
     def get_members(self):
-        members = User.objects.filter(commission=self)
-
-        members_sorted = {}
-        for choice in FonctionsCommissionListe.choices:
-            code, label = choice
-            members_sorted[label] = members.filter(function_commission=code)
+        # Initialisation du dictionnaire pour trier les membres
+        members_sorted = {label: [] for _, label in FonctionsCommissionListe.choices}
         
+        # Filtrer les utilisateurs liés à cette commission
+        users = User.objects.filter(commissions=self)
+        
+        for user in users:
+            # Supposons que l'ordre des fonctions dans `functions_commissions` correspond aux `commissions`
+            commission_ids = user.commissions.values_list('id', flat=True)
+            
+            # Trouver l'index de cette commission dans la liste des commissions de l'utilisateur
+            if self.id in commission_ids:
+                index = list(commission_ids).index(self.id)
+                # Trouver la fonction correspondante dans `functions_commissions`
+                if index < len(user.functions_commissions):
+                    function = user.functions_commissions[index]
+                    # Ajouter l'utilisateur dans la catégorie de fonction correspondante
+                    for _, label in FonctionsCommissionListe.choices:
+                        if function == _:
+                            members_sorted[label].append(user)
+                            break
+
         return members_sorted
+
 
 
     def get_context(self, request):

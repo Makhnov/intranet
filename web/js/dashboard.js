@@ -45,10 +45,13 @@ function whereAmI() {
         list_users();
     }
 
-    // Page de création/édition d'utilisateur, vérification du formulaire des élus
+    // Page de création/édition d'utilisateur
     if (document.querySelector("form[action^='/admin/users/'][method='post']")) {
         console.log("Création/édition d'utilisateur détectée");
-        edit_users_elected();
+        // Mise en forme de la section des commissions
+        commissions_update();
+        // vérification du formulaire des élus
+        edit_users_elected(); 
     }
 
     // Page de création/édition d'un évènmenet joyous (formulaire action contient joyous/simpleeventpage/)
@@ -343,10 +346,162 @@ function list_users() {
     }
 }
 
+// Page de création/édition d'utilisateur, mise en forme de la section des commissions
+function commissions_update() {    
+    // On récupère la liste des options que l'on trie par ordre alphabétique on créee une nouvelle liste avec la même id
+    const commissions = document.getElementById('id_commissions');
+    const fonctions = document.getElementById('id_functions_commissions');
+    const FVALUES =JSON.parse(fonctions.value);
+    console.log(FVALUES);
+    const tableau = Array.from(commissions.options).sort((a, b) => a.textContent.localeCompare(b.textContent));
+    const newCommissions = document.createElement('div');
+    newCommissions.setAttribute('id', 'id_commissions');
+    const newFonctions = document.createElement('div');
+    newFonctions.setAttribute('id', 'id_functions_commissions_list');
+
+    // On récupère tous les Cwrappers
+    const CdataField = commissions.parentElement; // Le parent direct de la liste auquel on ajoute la nouvelle liste
+    const CmodelField = CdataField.parentElement; // Le grand-parent de la liste dont on modifie les classes
+    const Cwrapper = CmodelField.parentElement; // l'arriere grand-parent de la liste dont on supprime le label
+    const FdataField = fonctions.parentElement;
+    const FmodelField = FdataField.parentElement;
+    const Fwrapper = FmodelField.parentElement;
+
+    tableau.forEach((option, i) => {
+        const { function: FONCTION } = FVALUES.find(({ commission }) => commission === option.value) || {};    
+        // On remplace l'option par une div/label/input
+        const CDIV = document.createElement('div');
+        const FDIV = document.createElement('div');
+        const CLABEL = document.createElement('label');
+        const FSELECT = function_selector(option.textContent, option.value, FONCTION);
+        const CINPUT = document.createElement('input');
+
+        // On itere le label dans l'ordre des options
+        CLABEL.setAttribute('for', `id_commissions_${i}`);
+
+        // On donne à l'input l'id équivalente au for. Si option selected => input checked
+        CINPUT.setAttribute('id', `id_commissions_${i}`);
+        CINPUT.setAttribute('type', 'checkbox');
+        CINPUT.setAttribute('name', 'commissions');        
+        CINPUT.setAttribute('value', option.value);
+        if (option.selected) {
+            CINPUT.setAttribute('checked', 'checked');
+        }
+        // Ecouteur d'évenement sur l'input
+        CINPUT.addEventListener('change', function() {
+            // Sélection du select correspondant via data-id
+            const select = document.querySelector(`select[data-id="${this.value}"]`);
+    
+            // Si l'input est coché, ajoute la classe 'cgs-checked', sinon la retire
+            if (this.checked) {
+                select.classList.add('cgs-checked');
+                if (select.value === "") {
+                    select.value = "3";
+                }
+            } else {
+                select.classList.remove('cgs-checked');                
+            }
+        });
+        // On ajoute l'input au label, le label à la div et la div à la nouvelle liste
+        CLABEL.appendChild(CINPUT);
+        CLABEL.appendChild(document.createTextNode(option.textContent));
+        CDIV.appendChild(CLABEL);
+        FDIV.appendChild(FSELECT);
+
+        newCommissions.appendChild(CDIV);
+        newCommissions.addEventListener('change', function_update);
+        newFonctions.appendChild(FDIV);
+        newFonctions.addEventListener('change', function_update);
+    });
+
+    // On remplace la liste dans le parent direct
+    CdataField.replaceChild(newCommissions, commissions);
+    FdataField.replaceChild(newFonctions, fonctions);
+    // On ajoute l'input caché pour la liste des fonctions relative aux commissions
+    function_input(newFonctions);
+
+    // On modifie les classes du grand-parent
+    CmodelField.className = 'w-field w-field--model_multiple_choice_field w-field--checkbox_select_multiple';
+    FmodelField.className = 'w-field w-field--model_multiple_choice_field w-field--checkbox_select_multiple';
+
+    // On supprime le label de l'arriere grand-parent
+    Cwrapper.removeChild(Cwrapper.querySelector('label'));
+    Fwrapper.removeChild(Fwrapper.querySelector('label'));
+
+    function_update();
+
+    // Création du <select> pour la liste des fonctions relative aux commissions
+    function function_selector(commission, value, fonction) {
+        const FSELECT = document.createElement('select');
+        FSELECT.classList.add("cgs-selector");
+        FSELECT.setAttribute('title', commission);
+        FSELECT.setAttribute('data-id', value);
+        const FLABEL = document.createElement('option');
+        FLABEL.value = "";
+        FLABEL.selected = true;
+        FLABEL.disabled = true;
+        FLABEL.textContent = "---------";
+        FSELECT.appendChild(FLABEL);
+        const FMEMBRE = document.createElement('option');
+        FMEMBRE.value = "3";
+        FMEMBRE.textContent = "Membre";
+        FSELECT.appendChild(FMEMBRE);    
+        const FPRES = document.createElement('option');
+        FPRES.value = "1";
+        FPRES.textContent = "Président";   
+        FSELECT.appendChild(FPRES); 
+        const FCHARGE = document.createElement('option');
+        FCHARGE.value = "2";
+        FCHARGE.textContent = "Chargé de commission";
+        FSELECT.appendChild(FCHARGE);
+        if (fonction !== undefined) {
+            FSELECT.classList.add("cgs-checked");
+            FSELECT.value = fonction;   
+        }
+        return FSELECT;
+    }
+    // Création de l'input pour la liste des fonctions relative aux commissions
+    function function_input(element) {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', 'functions_commissions');
+        input.setAttribute('id', 'id_functions_commissions');
+        element.appendChild(input);
+    }
+    // Mise à jour de l'input pour la liste des fonctions relative aux commissions
+    function function_update() {
+        console.log("Mise à jour de l'input pour la liste des fonctions relative aux commissions");
+
+        const inputs = document.querySelectorAll('input[name="commissions"]:checked');
+        const functionsData = [];
+    
+        inputs.forEach((input) => {
+            // On récupère le select dont la value est égale à celle de l'input
+            const select = document.querySelector(`select[data-id="${input.value}"]`);
+
+            if (select) {
+                functionsData.push({ "commission": input.value, "function": select.value });
+            }
+        });
+    
+        // Met à jour la valeur de l'input caché avec le JSON des données
+        document.getElementById('id_functions_commissions').value = JSON.stringify(functionsData);
+    }    
+}
+
 // Page de création/édition d'utilisateur, vérification du formulaire des élus
 function edit_users_elected() {
+    const MUN = document.querySelector("#id_municipality");
+    const FMUN = document.querySelector("#id_function_municipality");
+    const CONS = document.querySelector("#id_function_council");
+    const FCONS = document.querySelector("#id_functions_councils");
+    const COMM = document.querySelector("#commissions-section");
+    const FCOMM = document.querySelector("#id_functions_commissions");
+    const BUR = document.querySelector("#id_function_bureau");
+    const CONF = document.querySelector("#id_function_conference");
+    
     // Liste des identifiants des panels à gérer
-    const CGSPanels = ["conference", "commission", "council"];
+    const CGSPanels = ["conference", "council"];
 
     // Désactive les sélections dans les panels spécifiés
     function disableSelects() {
@@ -356,103 +511,72 @@ function edit_users_elected() {
     }
 
     // Bloque de manière permanente certaines sélections spécifiques
-    function permanentLockedSelects() {
-        document.querySelector("#id_function_conference").classList.add("cgs-panel-disabled");
-        document.querySelector("#id_function_bureau").classList.add("cgs-panel-disabled");
-    }
-
-    // Réinitialise les valeurs des sélections en fonction des valeurs des autres sélections
-    function resetSelectsValues() {
-        const municipalityValue = document.querySelector("#id_function_municipality").value;
-        const councilValue = document.querySelector("#id_function_council").value;
-
-        if (municipalityValue === "") {
-            document.querySelector("#id_function_council").value = "";
-            // Réinitialise les sélections suivantes si la valeur de la municipalité est vide
-            document.querySelector("#id_commission").value = "";
-            document.querySelector("#id_function_commission").value = "";
-            document.querySelector("#id_function_bureau").value = "";
-            document.querySelector("#id_function_conference").value = "";
-        }
-        
-        if (councilValue === "") {
-            // Réinitialise les sélections de la commission si la valeur du conseil est vide
-            document.querySelector("#id_commission").value = "";
-            document.querySelector("#id_function_commission").value = "";
-        }
+    function permanentLockedSelects() {        
+        FMUN.classList.add("cgs-panel-disabled");
+        BUR.classList.add("cgs-panel-disabled");
+        CONF.classList.add("cgs-panel-disabled");
     }
 
     // Met à jour l'état des sélections en fonction des valeurs actuelles
     function updateSelects() {
-        // Récupère les valeurs actuelles des sélections principales
-        const municipalityValue = document.querySelector("#id_function_municipality").value;
-        const councilValue = document.querySelector("#id_function_council").value;
-        const commissionValue = document.querySelector("#id_commission").value;
 
-        // Gère la désactivation des options spécifiques de la commission
-        const functionCommissionOptions = document.querySelector("#id_function_commission").options;
-        if (councilValue !== "2") {
-            functionCommissionOptions[2].disabled = true;
+        // Gère l'activation de la fonction au conseil municipal quand une municipalité est sélectionnée
+        if (MUN.value) {            
+            FMUN.classList.remove("cgs-panel-disabled");
         } else {
-            functionCommissionOptions[2].disabled = false;
+            FMUN.classList.add("cgs-panel-disabled");
+            FMUN.value = "";
         }
 
-        // Gère l'activation ou la désactivation de la sélection de la commission
-        const idCommission = document.querySelector("#id_commission");
-        if (["1", "2", "3"].includes(councilValue)) {
-            idCommission.classList.remove("cgs-panel-disabled");
+        // Gère activation et désactivation du bloc conseil et commission
+        if (FMUN.value) {
+            CONS.classList.remove("cgs-panel-disabled");
+            COMM.classList.remove("cgs-panel-disabled");            
         } else {
-            idCommission.classList.add("cgs-panel-disabled");
+            CONS.classList.add("cgs-panel-disabled");
+            COMM.classList.add("cgs-panel-disabled");
+            CONS.value = "";
+            BUR.value = "";
+            CONF.value = "";
         }
 
-        // Gère l'état de la sélection de la fonction de la commission
-        const idFunctionCommission = document.querySelector("#id_function_commission");
-        if (commissionValue === "") {
-            idFunctionCommission.classList.add("cgs-panel-disabled");
+        if (CONS.value === "1") {
+            CONF.value = "1";
+            BUR.value = "1";
+        } else if (CONS.value === "2") {
+            CONF.value = "2";
+            BUR.value = "2";
         } else {
-            idFunctionCommission.classList.remove("cgs-panel-disabled");
-        }
-
-        // Ajuste les valeurs des sélections bureau et conférence en fonction des autres sélections
-        const idFunctionBureau = document.querySelector("#id_function_bureau");
-        idFunctionBureau.value = councilValue === "1" ? "1" : (councilValue === "2" ? "2" : "");
-
-        const idFunctionConference = document.querySelector("#id_function_conference");
-        if (councilValue === "1") {
-            idFunctionConference.value = "1";
-        } else if (councilValue === "2") {
-            idFunctionConference.value = "2";
-        } else {
-            idFunctionConference.value = municipalityValue === "1" ? "3" : "";
+            CONF.value = "";
+            BUR.value = "";
         }
 
         // Gère l'affichage des panels en fonction des valeurs de municipalité et de conseil
-        if (municipalityValue === "") {
+        if (FMUN.value === "") {
             disableSelects();
-        } else if (["1", "2", "3"].includes(municipalityValue)) {
-            const conferenceContentHidden = document.querySelector("#conference-content-hidden");
-            const conferenceContent = document.querySelector("#conference-content");
-            if (["1", "2"].includes(councilValue) || municipalityValue === "1") {
-                conferenceContentHidden.classList.add("cgs-panel-hidden");
-                conferenceContent.classList.remove("cgs-panel-hidden");
+        } else if (["1", "2", "3"].includes(FMUN.value)) {
+            const HCONF = document.querySelector("#conference-content-hidden");
+            const CCONF = document.querySelector("#conference-content");
+            console.log(HCONF);
+            console.log(CCONF);
+            if (["1", "2"].includes(CONS.value) || FMUN.value === "1") {
+                HCONF.classList.add("cgs-panel-hidden");
+                CCONF.classList.remove("cgs-panel-hidden");
             } else {
-                conferenceContentHidden.classList.remove("cgs-panel-hidden");
-                conferenceContent.classList.add("cgs-panel-hidden");
+                HCONF.classList.remove("cgs-panel-hidden");
+                CCONF.classList.add("cgs-panel-hidden");
             }
-            document.querySelector("#id_function_council").classList.remove("cgs-panel-disabled");
         }
-        
-        resetSelectsValues();
     }
 
     // Ajoute des écouteurs d'événements aux sélections pour déclencher la mise à jour
-    document.querySelectorAll("#id_function_municipality, #id_function_council, #id_commission").forEach(select => {
+    document.querySelectorAll("#id_municipality, #id_function_municipality, #id_function_council, #id_commissions").forEach(select => {
         select.addEventListener("change", updateSelects);
     });
 
     // Initialise l'état des sélections et applique le blocage permanent
-    updateSelects();
     permanentLockedSelects();
+    updateSelects();
 }
 
 // Récupération des données de la convocation lors de la création d'un évenement Joyous

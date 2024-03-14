@@ -42,14 +42,16 @@ class BaseUserForm:
         label=_("communautary council function"),
         required=False,
     )
-    commission = forms.ModelChoiceField(
+    commissions = forms.ModelMultipleChoiceField(
         queryset=get_commission_queryset(),
-        label=_("commission"),
+        widget=forms.CheckboxSelectMultiple,
+        label=_("commissions"),
         required=False,
     )
-    function_commission = forms.ChoiceField(
+    functions_commissions = forms.MultipleChoiceField(
         choices=FonctionsCommissionListe.choices,
-        label=_("commission function"),
+        widget=forms.CheckboxSelectMultiple,
+        label=_("Functions in Commissions"),
         required=False,
     )
     function_bureau = forms.ChoiceField(
@@ -67,11 +69,11 @@ class BaseUserForm:
         municipality = self.cleaned_data.get("municipality")
         verbose_municipality = self.instance.get_municipality_display() if self.instance and self.instance.pk else None
         # print("Commune :", verbose_municipality)
-        commission = self.cleaned_data.get("commission")
+        commissions = self.cleaned_data.get("commissions")
         function_municipality = self.cleaned_data.get("function_municipality")
         function_council = self.cleaned_data.get("function_council")
         # print("function_council :", function_council)
-        function_commission = self.cleaned_data.get("function_commission")
+        # function_commission = self.cleaned_data.get("function_commission")
         function_bureau = self.cleaned_data.get("function_bureau")
         function_conference = self.cleaned_data.get("function_conference")
 
@@ -114,25 +116,25 @@ class BaseUserForm:
             self.add_error('function_municipality', _("This user is not associated with a municipality. If you wish to add them to a municipal council, first choose the relevant municipality."))
             # Cet utilisateur n'est pas relié à une commune. Si vous souhaitez l'ajouter à un conseil municipal choisissez d'abord la commune concernée.
 
-        # Si pas de commission => pas de fonction en commission possible
-        if not commission and function_commission:
-            self.add_error('function_commission', _("If there's no commission chosen, there can't be a commission role."))
-            # Si pas de commission choisie, il ne peut pas y avoir de rôle au sein de la commission.
+        # # Si pas de commission => pas de fonction en commission possible
+        # if not commission and function_commission:
+        #     self.add_error('function_commission', _("If there's no commission chosen, there can't be a commission role."))
+        #     # Si pas de commission choisie, il ne peut pas y avoir de rôle au sein de la commission.
 
-        # Si pas de commune ni de fonction => pas de commission possible
-        if not function_municipality and not municipality and commission:
-            self.add_error('commission', _("Only elected officials can serve. Choose both a municipality and a position within the municipal council before selecting a commission."))
-            # Seuls les élus peuvent siéger. Choisissez une commune ET un poste au sein du conseil municipal avant de choisir une commission.
+        # # Si pas de commune ni de fonction => pas de commission possible
+        # if not function_municipality and not municipality and commission:
+        #     self.add_error('commission', _("Only elected officials can serve. Choose both a municipality and a position within the municipal council before selecting a commission."))
+        #     # Seuls les élus peuvent siéger. Choisissez une commune ET un poste au sein du conseil municipal avant de choisir une commission.
 
-        # Si pas de commune mais une fonction => pas de commission possible
-        elif not municipality and commission:
-            self.add_error('commission', _("Only elected officials can serve. Choose a municipality before selecting a commission."))
-            # Seuls les élus peuvent siéger. Choisissez une commune avant de choisir une commission.
+        # # Si pas de commune mais une fonction => pas de commission possible
+        # elif not municipality and commission:
+        #     self.add_error('commission', _("Only elected officials can serve. Choose a municipality before selecting a commission."))
+        #     # Seuls les élus peuvent siéger. Choisissez une commune avant de choisir une commission.
 
-        # Si pas de fonction mais une commune => pas de commission possible
-        elif not function_municipality and commission:
-            self.add_error('commission', _("Only elected officials can serve. Choose a function within the municipal council before selecting a commission."))
-            # Seuls les élus peuvent siéger. Choisissez une fonction au conseil municipal avant de choisir une commission.
+        # # Si pas de fonction mais une commune => pas de commission possible
+        # elif not function_municipality and commission:
+        #     self.add_error('commission', _("Only elected officials can serve. Choose a function within the municipal council before selecting a commission."))
+        #     # Seuls les élus peuvent siéger. Choisissez une fonction au conseil municipal avant de choisir une commission.
 
         # Si pas de commune ni de fonction => pas de fonction au conseil possible
         if not municipality and not function_municipality and function_council:
@@ -167,17 +169,17 @@ class BaseUserForm:
         if function_municipality == FonctionsMairieListe.MAIRE and users.filter(municipality=municipality, function_municipality=FonctionsMairieListe.MAIRE).exists():
             self.add_error('function_municipality', _("There can only be one Mayor for each municipality."))
 
-        # Vérifier si la fonction est Président de commission et s'il y a déjà un président pour cette commission dans la base de données
-        if function_commission == FonctionsCommissionListe.PRESIDENT and users.filter(commission=commission, function_commission=FonctionsCommissionListe.PRESIDENT).exists():
-            self.add_error('function_commission', _("There can only be one President for each commission."))
+        # # Vérifier si la fonction est Président de commission et s'il y a déjà un président pour cette commission dans la base de données
+        # if function_commission == FonctionsCommissionListe.PRESIDENT and users.filter(commission=commission, function_commission=FonctionsCommissionListe.PRESIDENT).exists():
+        #     self.add_error('function_commission', _("There can only be one President for each commission."))
 
-        # Vérifier si la fonction est Chargé de commission et s'il y a déjà un chargé pour cette commission dans la base de données
-        if function_commission == FonctionsCommissionListe.CHARGE and users.filter(commission=commission, function_commission=FonctionsCommissionListe.CHARGE).exists():
-            self.add_error('function_commission', _("There can only be one person in charge for each commission."))
+        # # Vérifier si la fonction est Chargé de commission et s'il y a déjà un chargé pour cette commission dans la base de données
+        # if function_commission == FonctionsCommissionListe.CHARGE and users.filter(commission=commission, function_commission=FonctionsCommissionListe.CHARGE).exists():
+        #     self.add_error('function_commission', _("There can only be one person in charge for each commission."))
 
-        # Vérifier si le chargé de commission est obligatoirement un Vice Président du conseil
-        if function_commission == FonctionsCommissionListe.CHARGE and function_council != FonctionsConseilListe.VICEPRESIDENT:
-            self.add_error('function_commission', _("The person in charge of the commission must be a Vice President of the council."))
+        # # Vérifier si le chargé de commission est obligatoirement un Vice Président du conseil
+        # if function_commission == FonctionsCommissionListe.CHARGE and function_council != FonctionsConseilListe.VICEPRESIDENT:
+        #     self.add_error('function_commission', _("The person in charge of the commission must be a Vice President of the council."))
      
      
     def clean(self):
@@ -194,8 +196,8 @@ class CustomUserCreationForm(BaseUserForm, UserCreationForm):
             "municipality",
             "function_municipality",
             "function_council",
-            "commission",
-            "function_commission",
+            "commissions",
+            "functions_commissions",
             "function_bureau",
             "function_conference"
         ]
@@ -213,8 +215,8 @@ class CustomUserEditForm(BaseUserForm, UserEditForm):
             "municipality",
             "function_municipality",
             "function_council",
-            "commission",
-            "function_commission",
+            "commissions",
+            "functions_commissions",
             "function_bureau",
             "function_conference"
         ]

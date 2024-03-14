@@ -94,7 +94,7 @@ class FonctionsMairieListe(models.TextChoices):
     MAIRE = '1', "Maire"
     ADJOINT = '2', "Adjoint"
     CONSEILLER = '3', "Conseiller municipal"
-             
+        
 class User(AbstractUser):
     # Ajout de la civilité pour les champs obligatoires
     civility = models.CharField(
@@ -155,19 +155,15 @@ class User(AbstractUser):
         # default=FonctionsConseilListe.NULL,
         verbose_name=_("communautary council function"),
     )
-    commission = models.ForeignKey(
-        'administration.CommissionPage', 
-        on_delete=models.SET_NULL, 
-        blank=True, 
-        null=True,
-        verbose_name=_("commission"),
+    commissions = models.ManyToManyField(
+        'administration.CommissionPage',
+        verbose_name=_("commissions"),
+        blank=True,
     )
-    function_commission = models.TextField(
-        blank=True, 
-        null=True,
-        choices=FonctionsCommissionListe.choices,
-        # default=FonctionsCommissionListe.NULL,
-        verbose_name=_("commission function"),
+    functions_commissions = models.JSONField(
+        default=list, 
+        verbose_name=_("Functions in Commissions"),
+        blank=True,
     )
     function_bureau = models.TextField(
         blank=True, 
@@ -208,8 +204,8 @@ class User(AbstractUser):
         APIField('municipality'),
         APIField('function_municipality'),
         APIField('function_council'),
-        APIField('commission'),
-        APIField('function_commission'),
+        APIField('commissions'),
+        APIField('functions_commissions'),
         APIField('function_bureau'),
         APIField('function_conference'),
     ]
@@ -228,10 +224,10 @@ class User(AbstractUser):
         index.SearchField('municipality'),
         index.SearchField('function_municipality'),
         index.SearchField('function_council'),
-        index.RelatedFields('commission', [
+        index.RelatedFields('commissions', [
             index.SearchField('title'),
         ]),
-        index.SearchField('function_commission'),
+        index.SearchField('functions_commissions'),
         index.SearchField('function_bureau'),
         index.SearchField('function_conference'),
     ]
