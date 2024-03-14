@@ -285,7 +285,7 @@ def create_convocation_users(request, page):
             alternate=alternate, # Suppléant officiel (NULL par défaut)
             
         )
-        # print(f'CU Créée : {cu}')
+        print(f'CU Créée : {cu}')
 
 # Fonction qui met à jour les statuts de présence des utilisateurs
 def update_presence_status(request, page):
