@@ -40,7 +40,7 @@ from utils.variables import TABLE_OPTIONS
 from home.views import custom_content_panels, custom_promote_panels
 
 # Tables de fonctions utilisateurs
-from users.models import (
+from utils.widgets import (
     FonctionsConseilListe, 
     FonctionsBureauListe, 
     FonctionsConferenceListe, 
@@ -301,7 +301,6 @@ class CommissionPage(Page):
         return members_sorted
 
 
-
     def get_context(self, request):
         context = super().get_context(request)
         commissions_index_page = Page.objects.get(slug="commissions")
@@ -501,28 +500,28 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         PageChooserPanel("convocation", "administration.ConvocationPage"),
         MultiFieldPanel(
             [
-                FieldPanel("secretary", widget=forms.Select, classname="col4"),
-                FieldPanel("date", read_only=True, classname="col4"),
-                FieldPanel("quorum", classname="col4"),
+                FieldPanel("secretary", widget=forms.Select, classname="instance_secretary col4"),
+                FieldPanel("date", read_only=True, classname="instance_date col4"),
+                FieldPanel("quorum", classname="instance_quorum col4"),
             ],
             heading=_("Instance management"),
-            classname="collapsible",
+            classname="collapsible col12",
         ),
         MultiFieldPanel(
             [
                 FieldPanel(
                     "replaced_users", 
                     widget=forms.CheckboxSelectMultiple,
-                    classname="col6",
+                    classname="instance_replaced col6",
                 ),
                 FieldPanel(
                     "unreplaced_users", 
                     widget=forms.CheckboxSelectMultiple,
-                    classname="col6",
+                    classname="instance_unreplaced col6",
                 ),
             ],
             heading=_("Absence management"),
-            classname="collapsible collapsed",
+            classname="collapsible collapsed col12",
         ),
         FieldPanel("body"),
         InlinePanel(

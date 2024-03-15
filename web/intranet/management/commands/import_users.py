@@ -1,7 +1,8 @@
 import json
 import os
 from django.conf import settings
-from users.models import User, CiviliteListe, FonctionsConseilListe
+from users.models import User
+from utils.widgets import CiviliteListe, FonctionsConseilListe
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):

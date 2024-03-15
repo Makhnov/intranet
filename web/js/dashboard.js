@@ -48,9 +48,7 @@ function whereAmI() {
     // Page de création/édition d'utilisateur
     if (document.querySelector("form[action^='/admin/users/'][method='post']")) {
         console.log("Création/édition d'utilisateur détectée");
-        // Mise en forme de la section des commissions
         commissions_update();
-        // vérification du formulaire des élus
         edit_users_elected(); 
     }
 
@@ -76,6 +74,26 @@ function collapsible(element) {
     const collapsible = element.closest('.cgs-collapsible');
     collapsible.classList.toggle('cgs-collapsed');
 }
+
+// Mise à jour de l'input pour la liste des fonctions relative aux commissions lors de la création/édition d'utilisateur
+function function_update() {
+    console.log("Mise à jour de l'input pour la liste des fonctions relative aux commissions");
+
+    const inputs = document.querySelectorAll('input[name="commissions"]:checked');
+    const functionsData = [];
+
+    inputs.forEach((input) => {
+        // On récupère le select dont la value est égale à celle de l'input
+        const select = document.querySelector(`select[data-id="${input.value}"]`);
+
+        if (select) {
+            functionsData.push({ "commission": input.value, "function": select.value });
+        }
+    });
+
+    // Met à jour la valeur de l'input caché avec le JSON des données
+    document.getElementById('id_functions_commissions').value = JSON.stringify(functionsData);
+}   
 
 //////////////////////////////////////////    PAGES CHARGEES  //////////////////////////////////////////////////
 
@@ -352,7 +370,6 @@ function commissions_update() {
     const commissions = document.getElementById('id_commissions');
     const fonctions = document.getElementById('id_functions_commissions');
     const FVALUES =JSON.parse(fonctions.value);
-    console.log(FVALUES);
     const tableau = Array.from(commissions.options).sort((a, b) => a.textContent.localeCompare(b.textContent));
     const newCommissions = document.createElement('div');
     newCommissions.setAttribute('id', 'id_commissions');
@@ -366,6 +383,16 @@ function commissions_update() {
     const FdataField = fonctions.parentElement;
     const FmodelField = FdataField.parentElement;
     const Fwrapper = FmodelField.parentElement;
+    // Gestion des blocs d'erreurs
+    const Ccontent = document.getElementById('commissions-content');    
+    // on récupère les <div class="w-field__errors" data-field-errors=""> qui contiennent des enfants
+    const Cerrors = Ccontent.querySelectorAll('.w-field__errors[data-field-errors]');
+    for (const err of Cerrors) {
+        if (err.children.length > 0) {
+            console.log("ERREUR TROUVEE");
+            Ccontent.insertBefore(err, Ccontent.firstChild);
+        }
+    }
 
     tableau.forEach((option, i) => {
         const { function: FONCTION } = FVALUES.find(({ commission }) => commission === option.value) || {};    
@@ -387,11 +414,11 @@ function commissions_update() {
         if (option.selected) {
             CINPUT.setAttribute('checked', 'checked');
         }
+
         // Ecouteur d'évenement sur l'input
         CINPUT.addEventListener('change', function() {
             // Sélection du select correspondant via data-id
-            const select = document.querySelector(`select[data-id="${this.value}"]`);
-    
+            const select = document.querySelector(`select[data-id="${this.value}"]`);    
             // Si l'input est coché, ajoute la classe 'cgs-checked', sinon la retire
             if (this.checked) {
                 select.classList.add('cgs-checked');
@@ -399,9 +426,11 @@ function commissions_update() {
                     select.value = "3";
                 }
             } else {
-                select.classList.remove('cgs-checked');                
+                select.classList.remove('cgs-checked');  
+                select.value = "";              
             }
         });
+
         // On ajoute l'input au label, le label à la div et la div à la nouvelle liste
         CLABEL.appendChild(CINPUT);
         CLABEL.appendChild(document.createTextNode(option.textContent));
@@ -417,6 +446,7 @@ function commissions_update() {
     // On remplace la liste dans le parent direct
     CdataField.replaceChild(newCommissions, commissions);
     FdataField.replaceChild(newFonctions, fonctions);
+
     // On ajoute l'input caché pour la liste des fonctions relative aux commissions
     function_input(newFonctions);
 
@@ -428,6 +458,7 @@ function commissions_update() {
     Cwrapper.removeChild(Cwrapper.querySelector('label'));
     Fwrapper.removeChild(Fwrapper.querySelector('label'));
 
+    // On lance la fonction de mise à jour au chargement de la page
     function_update();
 
     // Création du <select> pour la liste des fonctions relative aux commissions
@@ -439,7 +470,6 @@ function commissions_update() {
         const FLABEL = document.createElement('option');
         FLABEL.value = "";
         FLABEL.selected = true;
-        FLABEL.disabled = true;
         FLABEL.textContent = "---------";
         FSELECT.appendChild(FLABEL);
         const FMEMBRE = document.createElement('option');
@@ -460,6 +490,7 @@ function commissions_update() {
         }
         return FSELECT;
     }
+
     // Création de l'input pour la liste des fonctions relative aux commissions
     function function_input(element) {
         const input = document.createElement('input');
@@ -467,26 +498,7 @@ function commissions_update() {
         input.setAttribute('name', 'functions_commissions');
         input.setAttribute('id', 'id_functions_commissions');
         element.appendChild(input);
-    }
-    // Mise à jour de l'input pour la liste des fonctions relative aux commissions
-    function function_update() {
-        console.log("Mise à jour de l'input pour la liste des fonctions relative aux commissions");
-
-        const inputs = document.querySelectorAll('input[name="commissions"]:checked');
-        const functionsData = [];
-    
-        inputs.forEach((input) => {
-            // On récupère le select dont la value est égale à celle de l'input
-            const select = document.querySelector(`select[data-id="${input.value}"]`);
-
-            if (select) {
-                functionsData.push({ "commission": input.value, "function": select.value });
-            }
-        });
-    
-        // Met à jour la valeur de l'input caché avec le JSON des données
-        document.getElementById('id_functions_commissions').value = JSON.stringify(functionsData);
-    }    
+    } 
 }
 
 // Page de création/édition d'utilisateur, vérification du formulaire des élus
@@ -494,33 +506,26 @@ function edit_users_elected() {
     const MUN = document.querySelector("#id_municipality");
     const FMUN = document.querySelector("#id_function_municipality");
     const CONS = document.querySelector("#id_function_council");
-    const FCONS = document.querySelector("#id_functions_councils");
     const COMM = document.querySelector("#commissions-section");
-    const FCOMM = document.querySelector("#id_functions_commissions");
     const BUR = document.querySelector("#id_function_bureau");
     const CONF = document.querySelector("#id_function_conference");
-    
-    // Liste des identifiants des panels à gérer
-    const CGSPanels = ["conference", "council"];
+    const COMM_INPUTS = document.querySelectorAll("#id_commissions input[type='checkbox']");
+    const COMM_SELECTS = document.querySelectorAll("#id_functions_commissions_list select");
+    const CHARGES = document.querySelectorAll("#id_functions_commissions_list option[value='2']");
 
     // Désactive les sélections dans les panels spécifiés
-    function disableSelects() {
-        CGSPanels.forEach(name => {
-            document.querySelectorAll(`#${name}-content select`).forEach(select => select.classList.add("cgs-panel-disabled"));
-        });
-    }
-
-    // Bloque de manière permanente certaines sélections spécifiques
-    function permanentLockedSelects() {        
+    function initialsSelects() {        
         FMUN.classList.add("cgs-panel-disabled");
+        CONS.classList.add("cgs-panel-disabled");
         BUR.classList.add("cgs-panel-disabled");
+        COMM.classList.add("cgs-panel-disabled");
         CONF.classList.add("cgs-panel-disabled");
     }
 
     // Met à jour l'état des sélections en fonction des valeurs actuelles
     function updateSelects() {
 
-        // Gère l'activation de la fonction au conseil municipal quand une municipalité est sélectionnée
+        // Valeur "municipalité" 
         if (MUN.value) {            
             FMUN.classList.remove("cgs-panel-disabled");
         } else {
@@ -528,44 +533,53 @@ function edit_users_elected() {
             FMUN.value = "";
         }
 
-        // Gère activation et désactivation du bloc conseil et commission
+        // Valeur "fonction municipalité" 
         if (FMUN.value) {
             CONS.classList.remove("cgs-panel-disabled");
-            COMM.classList.remove("cgs-panel-disabled");            
+            COMM.classList.remove("cgs-panel-disabled");
         } else {
             CONS.classList.add("cgs-panel-disabled");
             COMM.classList.add("cgs-panel-disabled");
             CONS.value = "";
             BUR.value = "";
             CONF.value = "";
+            resetComm();
         }
 
+        // Valeur "fonction conseil"
         if (CONS.value === "1") {
             CONF.value = "1";
             BUR.value = "1";
+            allowCharges(false);
         } else if (CONS.value === "2") {
             CONF.value = "2";
             BUR.value = "2";
+            allowCharges(true);            
         } else {
-            CONF.value = "";
+            CONF.value = (FMUN.value === "1") ? "3" : "";
             BUR.value = "";
+            allowCharges(false);
         }
 
-        // Gère l'affichage des panels en fonction des valeurs de municipalité et de conseil
-        if (FMUN.value === "") {
-            disableSelects();
-        } else if (["1", "2", "3"].includes(FMUN.value)) {
-            const HCONF = document.querySelector("#conference-content-hidden");
-            const CCONF = document.querySelector("#conference-content");
-            console.log(HCONF);
-            console.log(CCONF);
-            if (["1", "2"].includes(CONS.value) || FMUN.value === "1") {
-                HCONF.classList.add("cgs-panel-hidden");
-                CCONF.classList.remove("cgs-panel-hidden");
-            } else {
-                HCONF.classList.remove("cgs-panel-hidden");
-                CCONF.classList.add("cgs-panel-hidden");
-            }
+        function allowCharges(allow) {
+            CHARGES.forEach(charge => {
+                charge.disabled = !allow;
+                if (!allow) {
+                    charge.selected = false;
+                }
+            });
+        }
+        function resetComm() {
+            COMM_INPUTS.forEach(input => {
+                input.checked = false;
+            });
+            COMM_SELECTS.forEach(select => {
+                console.log(select);
+                // on remet la valeur par défaut
+                select.value = "";
+                select.classList.remove("cgs-checked");
+            });
+            function_update();
         }
     }
 
@@ -575,7 +589,7 @@ function edit_users_elected() {
     });
 
     // Initialise l'état des sélections et applique le blocage permanent
-    permanentLockedSelects();
+    initialsSelects();
     updateSelects();
 }
 
@@ -663,16 +677,17 @@ function cr_import_users() {
     const secretaryField = document.querySelector('#id_secretary');
     const secretarySection = document.querySelector('#panel-child-contenu-secretary-section');
 
+    // Section des absences
+    const absencesSection = document.querySelector('#panel-child-contenu-absence_management-section');
+
     // Absents remplacés
     const replacedUsersField = document.querySelector('#id_replaced_users');
-    const replacedUsersSection = document.querySelector('#panel-child-contenu-replaced_users-section');
 
     // Absents non remplacés
     const unreplacedUsersField = document.querySelector('#id_unreplaced_users');
-    const unreplacedUsersSection = document.querySelector('#panel-child-contenu-unreplaced_users-section');
 
     // Quorum section
-    const quorumSection = document.querySelector('#panel-child-contenu-quorum-section');
+    const quorumSection = document.querySelector('div.instance_quorum');
 
     // On vide les champs au chargement de la page
     secretaryField.innerHTML = '';
@@ -734,7 +749,7 @@ function cr_import_users() {
                 if (data && data.items) {
                     // Filtre les utilisateurs pour ne récupérer que les élus. (tous ceux qui n'ont pas "elected": "null"). 
                     // Nom de la variable dans le reste du code : electedUsers
-                    const filteredUsers = data.items.filter(user => user.elected);                    
+                    const filteredUsers = data.items.filter(user => user.elected);    
                     // Appelle la fonction callback avec la liste filtrée des utilisateurs
                     callback(null, filteredUsers);
                 } else {
@@ -1017,7 +1032,6 @@ function cr_import_users() {
         fetch('/api/v2/pages/' + convocationId + '/')
             .then(response => response.json())
             .then(data => {
-
                 // On récupere le type de parent si posisble, sinon null.
                 const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
                 // Pareil pour le secrétaire
@@ -1025,8 +1039,6 @@ function cr_import_users() {
                 // pareil pour les convocation users
                 const participants = data.convocation_users ? data.convocation_users : false;
                 
-                console.log(data.convocation_users);
-
                 if (data && parent) {                            
                     switch (parent) {                    
                         case 'administration.ConseilsIndexPage':
@@ -1054,8 +1066,7 @@ function cr_import_users() {
                             console.log("Compte-rendu de bureau détecté (on cache tout)");
                             // on cache les quatres sections, pas besoin de récupérer les participants
                             secretarySection.classList.add('cgs-hidden');
-                            replacedUsersSection.classList.add('cgs-hidden');
-                            unreplacedUsersSection.classList.add('cgs-hidden');
+                            absencesSection.classList.add('cgs-hidden');
                             quorumSection.classList.add('cgs-hidden');
                             break;
                         case 'administration.CommissionPage':
@@ -1071,9 +1082,8 @@ function cr_import_users() {
                                     updateSecretaryField(electedUsers, secretary);
                                 }
                             });
-                            replacedUsersSection.classList.add('cgs-hidden');
-                            unreplacedUsersSection.classList.add('cgs-hidden');
-                            quorumSection.classList.add('cgs-hidden');
+                            absencesSection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');    
                             break;
                         case 'administration.ConferencesIndexPage':
                             console.log("Compte-rendu de conférence détecté (on affiche tout sauf le secrétaire de séance)");

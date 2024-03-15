@@ -259,6 +259,10 @@ div.handsontable.htRowHeaders.htColumnHeaders {
 .cgs-col12, .cgs-col11 {
     width: 100%;   
 }
+.col12 {
+    padding-inline-end: 0!important;
+    padding-inline-start: 0!important;
+}
 .cgs-col10 {
     width: 83.3333333333%;   
 }

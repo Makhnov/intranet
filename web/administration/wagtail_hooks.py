@@ -27,6 +27,7 @@ from django.utils.safestring import mark_safe
 
 # Utilisateurs 
 from django.contrib.auth import get_user_model
+from utils.widgets import FonctionsCommissionListe
 User = get_user_model()
 
 # Date en français
@@ -218,42 +219,62 @@ def create_convocation_users(request, page):
     function_field_mapping = {
         'ConseilsIndexPage': 'function_council',
         'BureauxIndexPage': 'function_bureau',
-        'CommissionPage': 'function_commission',
+        'CommissionPage': 'functions_commissions',
         'ConferencesIndexPage': 'function_conference',
     }
     function_field = function_field_mapping.get(parent_page.__class__.__name__)
     
-    #Filtre de base pour récupérer les utilisateurs associés à la page parent
-    users = User.objects.filter(
-        ~Q(**{function_field: 'empty'}), # Aucune fonction
-        ~Q(**{function_field: ''}),  # ""
-        ~Q(**{function_field: None}), # ""
-        ~Q(**{function_field: '4'})  # Suppléants exclus       
-    )
-
-    # On stocke les remplaçants
-    substitutes = User.objects.filter(**{function_field: '4'})
-    
+    users = User.objects.all()    
+    substitutes = User.objects.all()
+        
     # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
     if isinstance(parent_page, CommissionPage):
-        users = users.filter(commission_id=parent_page.id)
-        # print(colored(f"CommissionPage détectée : {parent_page}", "green", "on_white"))
-        # print(colored(f'users : {users}', "white", "on_yellow"))
-        
+        print(parent_page)
+        users = users.filter(commissions=parent_page)
+        print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))
+    
+    else:
+        #Filtre de base pour récupérer les utilisateurs associés à la page parent
+        users = User.objects.filter(
+            ~Q(**{function_field: 'empty'}), # Aucune fonction
+            ~Q(**{function_field: ''}),  # ""
+            ~Q(**{function_field: None}), # ""
+            ~Q(**{function_field: '4'})  # Suppléants exclus       
+        )
+
+        # On stocke les remplaçants
+        substitutes = User.objects.filter(**{function_field: '4'})
+    
     # Créer un dictionnaire pour compter les utilisateurs par fonction
     user_count_by_function = defaultdict(int)
     
     # Première boucle pour compter les utilisateurs par fonction
     for user in users:
-        function_value = getattr(user, f"get_{function_field}_display")()
-        user_count_by_function[function_value] += 1
-    
-    # Deuxième boucle pour créer les objets ConvocationUser
+        # Traitez chaque utilisateur différemment si nous sommes dans une commission
+        if function_field == 'functions_commissions':
+            user_functions = user.functions_commissions
+            for uf in user_functions:
+                if str(uf['commission']) == str(parent_page.id):  # Assurez-vous que les IDs correspondent
+                    # Convertissez l'ID de fonction en sa représentation "display"
+                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]
+                    user_count_by_function[function_value] += 1
+        else:
+            # Pour les autres pages, la logique reste inchangée
+            function_value = getattr(user, f"get_{function_field}_display")()
+            user_count_by_function[function_value] += 1
+
     for user in users:
-        function_value = getattr(user, f"get_{function_field}_display")()
-        function_weight = getattr(user, function_field)
+        if function_field == 'functions_commissions':
+            user_functions = user.functions_commissions
+            for uf in user_functions:
+                if str(uf['commission']) == str(parent_page.id):  # Assurez-vous que les IDs correspondent
+                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]
+        else:
+            function_value = getattr(user, f"get_{function_field}_display")()
+            function_weight = getattr(user, function_field)
+
         gender_value = user.get_civility_display()
-        
+
         if user_count_by_function[function_value] > 1:
             gender_key = "Pluriel"
         else:
@@ -265,10 +286,9 @@ def create_convocation_users(request, page):
             gender_value = "Monsieur/Madame"
 
         identity_value = f"{user.first_name} {user.last_name.upper()}"
-        
+
         municipality_value = user.get_municipality_display()
-        
-        # On récupère le remplaçant associé à la commune de l'utilisateur
+
         alternate = substitutes.filter(municipality=user.municipality).first()
 
         cu = ConvocationUser.objects.create(
@@ -276,14 +296,11 @@ def create_convocation_users(request, page):
             user=user,
             parent=parent_page,
             function=function_value,
-            function_weight=function_weight,
+            function_weight=function_weight if function_field != 'functions_commissions' else uf['function'],
             gender=gender_value,
             identity=identity_value,
             municipality=municipality_value,
-            # "presence" à une valeur PRESENT (1) par défaut (integer)
-            # "substitute" à une valeur NULL par défaut (foreign key)
-            alternate=alternate, # Suppléant officiel (NULL par défaut)
-            
+            alternate=alternate,
         )
         print(f'CU Créée : {cu}')
 

@@ -40,7 +40,7 @@
                 <h5 class="text-dark"><u>Secrétaire de séance</u></h5>
                 <p>
                     {{ page.secretary.civility }} {{ page.secretary.first_name }} {{ page.secretary.last_name.upper }} - {{ page.secretary.get_function_council_display }} 
-                    {% if page.secretary.function_commission == '2' %}
+                    {% if page.secretary.functions_commissions == '2' %}
                         en charge de la commission
                     {% else %}
                         de la commission
