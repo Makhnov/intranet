@@ -51,7 +51,7 @@ from utils.widgets import (
 from wagtail.contrib.table_block.blocks import TableBlock
 
 # Blocks, Medias, PJ, etc.
-from utils.widgets import GalleryImage, PiecesJointes as PJBlock
+from utils.widgets import PiecesJointes as PJBlock
 from utils.streamfield import (
     CustomMediaBlock as MediaBlock,
     CustomLinkBlock as LinkBlock,

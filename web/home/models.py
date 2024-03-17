@@ -354,7 +354,7 @@ class FormPage(AbstractEmailForm):
 ##  WIDGETS  ##
 ############### 
 
-class GernericGallery(GalleryImage):
+class GenericGallery(GalleryImage):
     """Modèle de carrousel d'images spécifique à la GenericPage."""
     page = ParentalKey(
         GenericPage,
