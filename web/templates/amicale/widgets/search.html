@@ -2,7 +2,7 @@
 
 <div class="cgs-search cgs-swap-visible" id="searchColumn">    
     <form action="{{ request.path }}" method="get">
-
+        {% include "widgets/header/vague.html" with vertical=True %}
         <fieldset>
             <legend>Recherche</legend>
             <input type="text" name="query" placeholder="Rechercher..." value="{{ search_query }}">

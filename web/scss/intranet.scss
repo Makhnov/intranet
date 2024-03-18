@@ -29,6 +29,10 @@ html {// INITIALISATIONS
         main > p, main > div, main > div > ul, main > div > ul > li, p {
             all:initial;
         }
+        
+        .cgs-actions a, .cgs-actions button {
+            all:initial;
+        }
     }
 
     body {
@@ -87,7 +91,7 @@ html {// INITIALISATIONS
 
 .cgs-height-none {// OBJETS INVISIBLES (HAUTEUR 0.3s)
     transform: scaleY(0)!important;    
-    height: 0% !important;
+    height: 0!important;
 }
 
 html {// IMAGES EN PLEIN ECRAN
@@ -148,6 +152,40 @@ html {// IMAGES EN PLEIN ECRAN
       }
 }
 
+#actions-buttons {// Boutons d'actions (Copie, téléchargement, etc.
+    align-self: flex-end;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    column-gap: 1em;
+    margin: 1em 2em 1em 0;
+    padding: 1em 0;
+
+    a, button {
+        padding: .25em;
+        background-color: whitesmoke;
+        border-radius:50%;
+        aspect-ratio: 1/1;
+
+
+    }
+
+    img, svg {
+        cursor: pointer;
+        height: var(--mid-icon-size);
+        width: var(--mid-icon-size);
+        aspect-ratio: 1/1;
+
+        &:hover {
+            fill: var(--cgs-logo-5)!important;
+            * {
+                fill: var(--cgs-logo-5)!important;
+            }
+        }
+    }
+
+}
+
 /***************************************************************************************************************************************************************
  * STRUCTURE GENERALE
  **************************************************************************************************************************************************************/
@@ -191,6 +229,14 @@ header.cgs {
     #courbure {
         filter: drop-shadow(0 .1em .25em rgba(0, 0, 0, 0.75));
     }
+}
+
+#vertical_courbure {
+    position: absolute;
+    transform-origin: top left;
+    transform: rotate(-90deg) scale(var(--courbure-scaling-x), var(--courbure-scaling-y)) translate(-100%, 0);
+    fill: var(--wrapper-color-list);
+    z-index: -1;
 }
 
 /***********************************************   MAIN                                                   *****************************************************/

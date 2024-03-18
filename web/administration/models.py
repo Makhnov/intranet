@@ -1,3 +1,4 @@
+from termcolor import colored
 import uuid
 from datetime import datetime
 from itertools import groupby
@@ -279,22 +280,29 @@ class CommissionPage(Page):
         # Initialisation du dictionnaire pour trier les membres
         members_sorted = {label: [] for _, label in FonctionsCommissionListe.choices}
         
+        print(colored("members_sorted", "green", "on_white"), members_sorted)
+        
         # Filtrer les utilisateurs liés à cette commission
         users = User.objects.filter(commissions=self)
         
+        print(colored(users, "green"))
+        
         for user in users:
-            # Supposons que l'ordre des fonctions dans `functions_commissions` correspond aux `commissions`
             commission_ids = user.commissions.values_list('id', flat=True)
-            
+
             # Trouver l'index de cette commission dans la liste des commissions de l'utilisateur
             if self.id in commission_ids:
                 index = list(commission_ids).index(self.id)
+
                 # Trouver la fonction correspondante dans `functions_commissions`
                 if index < len(user.functions_commissions):
                     function = user.functions_commissions[index]
+                    
                     # Ajouter l'utilisateur dans la catégorie de fonction correspondante
-                    for _, label in FonctionsCommissionListe.choices:
-                        if function == _:
+                    for func_id, label in FonctionsCommissionListe.choices:
+
+                        # Comparaison de l'identifiant de fonction avec celui de la liste des choix
+                        if function['function'] == func_id:
                             members_sorted[label].append(user)
                             break
 

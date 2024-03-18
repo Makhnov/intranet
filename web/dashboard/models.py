@@ -272,15 +272,6 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Less (left)")
     )
-    base_item = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Base item"),
-        verbose_name=_("Base Item")
-    )      
     previous_item = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -390,7 +381,33 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Reset filter"),
         verbose_name=_("Reset filter")
     )
-    
+    copy = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Copy to clipboard"),
+        verbose_name=_("Copy to clipboard")
+    )
+    download = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Download"),
+        verbose_name=_("Download")
+    )
+    print = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Print"),
+        verbose_name=_("Print")
+    )
     # CALENDRIER
     list_view = models.ForeignKey(
         get_image_model_string(),
@@ -472,43 +489,7 @@ class IntranetIcons(BaseSiteSetting):
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name=_("Compte rendu page")
-    )
-    administration = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Administration page"),
-        verbose_name=_("Administration")
-    )
-    amicale = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Amicale page"),
-        verbose_name=_("Amicale")
-    )
-    faq = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("FAQ page"),
-        verbose_name=_("FAQ")
-    )
-    ressources = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Ressources page"),
-        verbose_name=_("Ressources")
-    )            
+    )         
     generic = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -518,7 +499,7 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Web page"),
         verbose_name=_("Web page")
     )
-    download = models.ForeignKey(
+    instant_download = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -580,7 +561,6 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('less', heading=_("Less")),
                 FieldPanel('more_right', heading=_("More (right)")),
                 FieldPanel('less_left', heading=_("Less (left)")),
-                FieldPanel('base_item', heading=_("Base item")),
                 FieldPanel('previous_item', heading=_("Previous Item")),
                 FieldPanel('next_item', heading=_("Next Item")),
                 FieldPanel('all_faq', heading=_("All FAQ")),
@@ -599,6 +579,9 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('zoom_out', heading=_("Zoom out")),
                 FieldPanel('apply_filter', heading=_("Apply filter")),
                 FieldPanel('reset_filter', heading=_("Reset filter")),
+                FieldPanel('copy', heading=_("Copy to clipboard")),
+                FieldPanel('download', heading=_("Download")),
+                FieldPanel('print', heading=_("Print")),
             ],
             heading=_("Actions"),
             classname="collapsible"
@@ -620,12 +603,8 @@ class IntranetIcons(BaseSiteSetting):
             [
                 FieldPanel('convocation', heading=_("Convocation page")),
                 FieldPanel('compte_rendu', heading=_("Compte rendu page")),
-                FieldPanel('administration', heading=_("Administration page")),
-                FieldPanel('amicale', heading=_("Amicale page")),
-                FieldPanel('faq', heading=_("FAQ page")),
-                FieldPanel('ressources', heading=_("Ressources page")),
                 FieldPanel('generic', heading=_("Web page")),
-                FieldPanel('download', heading=_("Documents (InstantDownload)")),
+                FieldPanel('instant_download', heading=_("Documents (InstantDownload)")),
                 FieldPanel('form', heading=_("Form")),
                 FieldPanel('site_web', heading=_("Site web officiel")),
                 FieldPanel('office_tourisme', heading=_("Office de tourisme")),

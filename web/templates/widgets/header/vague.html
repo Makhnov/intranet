@@ -1,3 +1,22 @@
+{% if vertical %}
+<svg 
+    width="800" 
+    height="160" 
+    viewBox="800 160 800 160" 
+    id="vertical_courbure" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    >
+    <title id="courbure_title">Courbure verticale</title>
+    <g id="vertical_courbure_layer">
+        <path 
+        id="vertical_courbure_path" 
+        style="stroke-width:1 " 
+        d="m 800,160 h 800 v 134 c -155.3474,24.34748 -268.2644,26 -400,26 -225.16758,0 -312.47669,-12.28254 -400,-26 z" 
+        />
+    </g>    
+</svg>
+{% else %}
 <svg 
     width="800" 
     height="160" 
@@ -16,3 +35,4 @@
     </g>    
 </svg>
 <div id="courbure_cache"></div>
+{% endif %}

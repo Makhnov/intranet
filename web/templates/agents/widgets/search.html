@@ -2,6 +2,7 @@
 
 <div class="cgs-search cgs-swap-visible" id="searchColumn">           
     <form id="faqFilterForm" action="{% pageurl page %}" method="get"> 
+        {% include "widgets/header/vague.html" with vertical=True %}
         <fieldset class="active">
             <legend>Filtres actifs :</legend>
             <div id="activeQuery"></div>

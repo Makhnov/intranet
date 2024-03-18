@@ -3,8 +3,9 @@
         {% if not is_menu %}
             <div class="cgs-page">  
                 {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
-                <div class="cgs-search cgs-swap-visible" id="searchColumn">           
+                <div class="cgs-search cgs-swap-visible" id="searchColumn"> 
                     <form action="{{ request.path }}" method="get">
+                        {% include "widgets/header/vague.html" with vertical=True %}
                         <fieldset>
                             <legend>Recherche</legend>
                             <input type="text" name="query" placeholder="Rechercher..." value="{% if search_query %}{{ search_query }}{% endif %}">
@@ -41,6 +42,24 @@
             {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
             <section class="cgs-members cgs-swap-hidden">
                 {% if members %}
+                <div id="actions-buttons" class="cgs-actions">
+                    <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
+                    </button>
+                    <button id="cgs-download" alt="Téléchargement des données" title="Télécharger la liste des membres">
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill" %}
+                    </button>
+                    <button id="cgs-print" alt="Imrimer les données" title="Imprimer la liste des membres">
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-nofill" %}
+                    </button>
+                    <span id="emailsToCopy" style="display: none;">
+                        {% for _, members_group in members.items %}
+                            {% for member in members_group %}
+                                {{ member.email }}{% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                    </span>
+                </div>
                     {% for function, members in members.items %}
                         <h2>{{ function }}</h2>
                         <ul>

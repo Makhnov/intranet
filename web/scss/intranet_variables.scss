@@ -34,10 +34,13 @@
     --cgs-theme-dark-2: #000;
     --cgs-theme-primary: #00b3be;
 
-    --wraper-color-menu: var(--cgs-theme-light-1);
+    --wrapper-color-menu: var(--cgs-theme-light-1);
     --content-color-menu: var(--cgs-theme-light-2);
-    --wraper-color-list: var(--cgs-theme-light-2-bis);
+    --wrapper-color-list: var(--cgs-theme-light-2-bis);
     --content-color-list: var(--cgs-theme-light-1);
+
+    --courbure-scaling-x:2;
+    --courbure-scaling-y:0.7;
 }
 
 @font-face {
@@ -156,16 +159,16 @@
     body {
         &.menu {
             #courbure {
-                fill:var(--wraper-color-menu); 
+                fill:var(--wrapper-color-menu); 
             }
             #courbure_cache {
-                background-color:var(--wraper-color-menu);
+                background-color:var(--wrapper-color-menu);
             }
             div.cgs-content {
                 background: var(--content-color-menu);
             }
             footer nav {
-                background: var(--wraper-color-menu);
+                background: var(--wrapper-color-menu);
             }
         }
         
@@ -173,16 +176,16 @@
             background:whitesmoke;
 
             #courbure {
-                fill:var(--wraper-color-list); 
+                fill:var(--wrapper-color-list); 
             }
             #courbure_cache {
-                background:var(--wraper-color-list);
+                background:var(--wrapper-color-list);
             }
             div.cgs-content {
                 background: var(--content-color-list);
             }
             footer nav {
-                background: var(--wraper-color-list);
+                background: var(--wrapper-color-list);
             }
             header {
                 .logo-pochoir {
@@ -217,27 +220,27 @@
                 }        
                 li:nth-of-type(2)  {
                     span, p {
-                        color:var(--wraper-color-menu);
+                        color:var(--wrapper-color-menu);
                     }
                 }
                 nav.profile span.cache {
-                    background: var(--wraper-color-list)!important;
+                    background: var(--wrapper-color-list)!important;
                 }   
             }
             footer {
                 nav.footer {
                     cgs-search {
                         input {
-                            color:var(--wraper-color-menu);
-                            border-bottom: 2px solid var(--wraper-color-menu);
+                            color:var(--wrapper-color-menu);
+                            border-bottom: 2px solid var(--wrapper-color-menu);
                         }
                     }
                     li.nav-item {
                         &.cgs-selected::after {
-                            background: var(--wraper-color-menu)!important;
+                            background: var(--wrapper-color-menu)!important;
                         }
                         svg:not(.cgs-nofill), svg:not(.cgs-nofill) * {
-                            fill: var(--wraper-color-menu)!important;  
+                            fill: var(--wrapper-color-menu)!important;  
                             stroke-width: 0!important;
                         }
                     }
