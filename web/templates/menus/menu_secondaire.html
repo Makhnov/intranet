@@ -19,7 +19,7 @@
                         alt="{{ item.link_page.title|default_if_none:'' }}"
                     >
                     {% if logo_settings %}
-                        {% if show_menu_heading %}
+                        {% if show_menu_heading and not home %}
                             {% with intranet_icon=settings.dashboard.IntranetIcons|get_dynamic_attr:item.link_page.slug %}
                                 {% include 'widgets/images/logo.html' with intranet_icon=intranet_icon class_type="cgs-nofill" %}
                             {% endwith %}

@@ -11,14 +11,6 @@
   <script type="module" src="{% static 'js/agents.min.js' %}"></script>
 {% endblock %}
 
-{% block header %}
-    <nav class="cgs-nav header">
-        {% with class_type="nav" %}
-            {% flat_menu 'home' show_menu_heading="True" max_levels=1 %}
-        {% endwith %}
-    </nav>
-{% endblock %}
-
 {% block footer_left %}
   {% include 'widgets/search/faq_search.html' %}
 {% endblock %}

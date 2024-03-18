@@ -64,7 +64,7 @@
                 <span class="header-user">Intranet de</span> 
                 <span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
                 <nav class="cgs-nav header">
-                    {% with class_type="nav" logo_settings=True %}
+                    {% with class_type="nav" logo_settings=True home=True %}
                         {% flat_menu 'home' show_menu_heading=True max_levels=1 %}
                     {% endwith %}
                 </nav>

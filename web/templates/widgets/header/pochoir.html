@@ -1,4 +1,5 @@
-{% load static %}
+{% load static wagtailcore_tags %}
+{% wagtail_site as intranet %}
 
 <li class="header-item">                
     <a href="/" class="header-link" title="{{ intranet.root_page.specific.tooltip }}">

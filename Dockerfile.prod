@@ -48,7 +48,7 @@ RUN pip install -r requirements.txt
 # Copie du code source dans le conteneur
 COPY ./web /app
 
-# Réinitialisation des permissions pour le répertoire /migrations
+# Attribution des permissions à wagtail pour le répertoire /migrations
 RUN chown -R wagtail:wagtail /usr/local/lib/python3.12/site-packages/wagtail/migrations/
 
 # Ajout de la commande pour attendre que la base de données soit prête
@@ -60,7 +60,7 @@ COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # On utilise l'utilisateur non-root pour exécuter l'application
-ENTRYPOINT ["/entrypoint.sh"]
+# ENTRYPOINT ["/entrypoint.sh"]
 
 # Réinitialisation des permissions pour le répertoire /migrations 
 # RUN chown -R root:root /usr/local/lib/python3.12/site-packages/wagtail/migrations/ \

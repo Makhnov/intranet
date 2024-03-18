@@ -7,14 +7,6 @@
 
 {% block body_class %}cgs-{{ item_type }} {{ class_type }}{% endblock %}
 
-{% block header %}
-    <nav class="cgs-nav header">
-        {% with class_type="nav" %}
-            {% flat_menu 'home' show_menu_heading="True" max_levels=1 %}
-        {% endwith %}
-    </nav>
-{% endblock %}
-
 {% block content %}
 <main class="main-content">          
     <div class="cgs-container cgs-{{ item_type }}">
