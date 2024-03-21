@@ -40,11 +40,11 @@
 
                 {% url 'wagtailadmin_home' as home_url %}
                 <input type="hidden" name="next" value="{{ next|default:home_url }}" />
-
+                
                 {% with username_value=form.username.value|default_if_none:'' %}
                     {% formattedfield field=form.username classname="cgs-form-block" label_text="Identifiant" rendered_field='<input id="id_username" type="text" name="username" maxlength="150" value="'|add:username_value|add:'" required="">'|safe %}
                 {% endwith %}
-                {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required=""><span class="cgs-eye cgs-hidden"></span>' %}
+                {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required=""><span class="cgs-eye showpass"></span>' %}
 
                 <a class="reset-password cgs-form-block" href="{% url 'wagtailadmin_password_reset' %}">{% trans "Forgotten password?" %}</a>
 

@@ -112,8 +112,8 @@ function login() {
     // Ecouteur d'évenement sur l'oeil
     eye.addEventListener('click', function() {
         // Changement d'état
-        this.classList.toggle('cgs-hidden');
-        if (this.classList.contains('cgs-hidden')) {
+        this.classList.toggle('showpass');
+        if (this.classList.contains('showpass')) {
             passwordInput.setAttribute('type', 'password');
         } else {
             passwordInput.setAttribute('type', 'text');

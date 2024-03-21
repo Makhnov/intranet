@@ -1,6 +1,13 @@
-body.login, body.signup {    
-    font-family: rhino, sans-serif;
+body.login, body.signup {     
     background: none;
+
+    input:not([name='remember']) {
+        all:initial;
+    }   
+    
+    * {
+        font-family: rhino, sans-serif!important;
+    }
 
     *:not(em) {
         color: white;
@@ -135,7 +142,6 @@ body.login #main, body.signup #main {
                 }
 
                 input:not([name='remember']) {
-                    all:initial;    
                     width: 100%;                    
                     color:white;
                     font-size: 1.15rem;
@@ -167,21 +173,23 @@ body.login #main, body.signup #main {
         width: 1.125rem;
         transform: translateX(-1.125rem);
 
-        background-image: url(../images/hide-logo.png);
         background-size: 100% auto;
         background-repeat: no-repeat;
         background-position: bottom;
         filter: brightness(0) invert(1);
-    }
-
-    .cgs-eye.cgs-hidden {
-        background-image: url(../images/show-logo.png);
 
         &:hover {
             animation: blink 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        }    
+        } 
     }
-   
+
+    .cgs-eye:not(.showpass) {
+        background-image: url(../images/show-logo.png);
+    }
+    .cgs-eye.showpass {
+        background-image: url(../images/hide-logo.png);
+    }
+       
     //ANIMATION DES LABELS
     .cgs-form-block.cgs-focus:not(.cgs-input), .cgs-form-block.cgs-input {
         label {
@@ -198,6 +206,20 @@ body.login #main, body.signup #main {
         cursor: pointer;
     }
 
+    // .button.button-longrunning svg.icon-spinner {
+    //     display: inline-block;
+    //     position: absolute;
+    //     left: .75em;
+    //     top: .7em;
+    //     height: 1em;
+    //     padding: 0;
+    //     width: 1em;
+
+    //     use {
+    //         color:var(--w-color-grey-100);
+    //     }
+    // }
+
     footer.form-actions {// Bloc submit
         height: 2.5rem;
         display: flex;
@@ -205,22 +227,46 @@ body.login #main, body.signup #main {
     }
     
     footer.form-actions .button, footer.form-actions div.fake, section.signup-option button.signup {
+        display: flex;
+        width:10rem;
         margin-inline-start:0;
         height: 2.5em;
-        width: fit-content;
         padding: 0 2em;
         border-radius: 2rem;
         background-color: white;
         color: var(--w-color-primary);
         line-height: normal;
-        display: grid;
-        place-content: center;
-        
+        align-items: center;
+        justify-content: center;
+
         &.fake {
             position:absolute;
             z-index: 2;
             cursor: pointer;
         }
+
+        &.button-longrunning-active {
+            background-color: var(--w-color-grey-400);
+            border-color: var(--w-color-grey-500);
+            color:var(--w-color-grey-100);
+
+            em {
+                padding-left: 1em;
+            }
+            svg.icon-spinner {
+                display: inline-block;
+                position: absolute;
+                left: .75em;
+                height: 1em;
+                padding: 0;
+                width: 1em;
+
+                use {
+                    color:var(--w-color-grey-100);
+                }
+            }
+        }
+        
     }
 
     section.signup-option {
