@@ -13,8 +13,6 @@
 
 @page {
     size: A4;
-    // height: auto;
-    // width: 100%;
     margin: 50px 50px 175px 50px; 
 }
 
@@ -69,6 +67,8 @@ body {
 
     height: 150px;
     width: auto;
+
+    transform: rotate(180deg) scale(1.5);
 }
 
 .footer-image {
@@ -154,15 +154,15 @@ body {
 }
 
 .grid-quorum {
-    display:none;
+    //display:none;
 
     grid-row: 5;
     grid-column: 2 / span 3;
 
-    text-align: start;
+    text-align: center;
     line-height: initial;
 
-    margin-top: 10px;
+    margin-top: 50px;
 }
 
 //////////////////////////////// FIN ABSENCES ///////////////////////////////

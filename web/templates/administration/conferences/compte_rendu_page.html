@@ -6,14 +6,14 @@
         <link rel="icon" type="image/png" href="{% static 'images/cgs-logo.ico' %}"/>
     {% else %}
         <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_bureau.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/compte_rendu_conference.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">        
         <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
     {% endif %}
 {% endblock %}
 
 {% block content %}
-    {% include "administration/widgets/compte_rendu_page.html" with class_type="bureau" %}
+    {% include "administration/widgets/compte_rendu_page.html" with class_type="conference" %}
 {% endblock %}
 
 {% block extra_js %}

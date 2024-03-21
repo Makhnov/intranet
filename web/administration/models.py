@@ -569,7 +569,32 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             self.slug = "compte-rendu"
         super().save(*args, **kwargs)
 
-        
+    
+    def sort_users(self, users, parent_type):
+        if parent_type in ["ConseilsIndexPage", "BureauxIndexPage"]:
+            print(colored("parent_type conseil ou bureau", "green"), parent_type)
+            # Trier en premier par fonction (président), ensuite par municipalité
+            president = users.filter(function_council=1)
+            others = users.exclude(function_council=1).order_by('municipality')
+            sorted_users = list(president) + list(others)
+        elif parent_type == "CommissionPage":
+            print(colored("parent_type commission", "green"), parent_type)
+            # Trier d'abord par chargé de commission, ensuite par municipalité
+            commission_charge = users.filter(functions_commissions__contains='charge')
+            members = users.exclude(functions_commissions__contains='charge').order_by('municipality')
+            sorted_users = list(commission_charge) + list(members)
+        elif parent_type == "ConferencesIndexPage":
+            print(colored("parent_type conference", "green"), parent_type)
+            # Président, maires, puis les autres par municipalité
+            president = users.filter(function_conference=1)
+            mayors = users.filter(function_municipality=1).exclude(function_conference=1).order_by('municipality')
+            others = users.exclude(function_municipality=1).exclude(function_conference=1).order_by('municipality')
+            sorted_users = list(president) + list(mayors) + list(others)
+        else:
+            # Par défaut, on retourne la liste telle quelle si le type ne correspond pas
+            sorted_users = users
+        return sorted_users
+      
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
@@ -580,11 +605,11 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             ).select_related('user', 'substitute', 'alternate').order_by('function_weight')
 
             # Initialisation des listes pour les différentes catégories
-            titulaires_presents = []
-            suppléants_presents = []
-            absents_excusés_avec_procuration = []
-            absents_excusés = []
-
+            titulars = []
+            alternates = []
+            replaced = []
+            excused = []
+            
             # Parcourir tous les utilisateurs de la convocation
             for cu in convocation_users:
                 user_info = {
@@ -597,33 +622,43 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                 
                 if cu.presence == PresenceStatus.PRESENT:
                     # 1/ Les Titulaires présents
-                    titulaires_presents.append(user_info)
+                    titulars.append(user_info)
                 elif cu.alternate and cu.alternate == cu.substitute:
                     # 2/ Les suppléants présents
-                    suppléants_presents.append({
+                    alternates.append({
                         "identity": cu.alternate.get_full_name(),
                         "municipality": cu.alternate.get_municipality_display(),
                     })
                     # Ajoute également le titulaire à la liste des absents excusés
-                    absents_excusés.append(user_info)
+                    excused.append(user_info)
                 elif cu.presence == PresenceStatus.REPLACED and cu.alternate != cu.substitute:
                     # 3/ Les absents excusés ayant donné procuration
-                    absents_excusés_avec_procuration.append({
+                    replaced.append({
                         "absent_identity": cu.identity,
                         "absent_municipality": cu.municipality,
                         "substitute_identity": cu.substitute.get_full_name(),
                     })
                 elif (cu.presence == PresenceStatus.REPLACED and cu.alternate == cu.substitute) or cu.presence == PresenceStatus.UNREPLACED:
                     # 4/ Les absents excusés
-                    absents_excusés.append(user_info)
+                    excused.append(user_info)
 
-            # Tri des titulaires par leur fonction
-            titulaires_presents.sort(key=lambda x: x['function_weight'])
+            print(colored("titulaires présents", "green"), colored(titulars, "white", "on_green"))
+            print(colored("suppléants présents", "green"), colored(alternates, "white", "on_green"))
+            print(colored("absents excusés avec procuration", "green"), colored(replaced, "white", "on_green"))
+            print(colored("absents excusés", "green"), colored(excused, "white", "on_green"))
+            
+            # On récupère la page parente
+            parent = self.get_parent().specific.__class__.__name__
+            
+            # Tri des titulaires en fonction de la page parente
+            titulaires = self.sort_users(titulars, parent)
+            print(colored("titulaires triés", "green"), colored(titulaires, "white", "on_green"))
+            
             # Ajouter les listes au contexte
-            context['titular'] = titulaires_presents
-            context['alternate'] = suppléants_presents
-            context['replaced'] = absents_excusés_avec_procuration
-            context['unreplaced'] = absents_excusés
+            context['titulars'] = titulaires
+            context['alternates'] = alternates
+            context['replaced'] = replaced
+            context['unreplaced'] = excused
 
         return context
 
