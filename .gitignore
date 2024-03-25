@@ -32,6 +32,8 @@ media/
 
 # Compiled assets
 static/
+!web/dashboard/static/
+
 /frontend/build/
 
 # Compiled Python files
