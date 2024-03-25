@@ -335,33 +335,29 @@ class CommissionPage(Page):
                 
         for user in users:
             commission_ids = user.commissions.values_list('id', flat=True)
-            print("commission_ids", commission_ids)
+            print(f'{user.get_full_name()} est membre des commissions {commission_ids}')
 
-            # Trouver l'index de cette commission dans la liste des commissions de l'utilisateur
-            if self.id in commission_ids:
-                index = list(commission_ids).index(self.id)
-                print(index)
-
-                # Trouver la fonction correspondante dans `functions_commissions`
-                if index < len(user.functions_commissions):
-                    function = user.functions_commissions[index]
-                    print("function", function)
-                    # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
-                    if function['function'] == '1':
-                        print("function 1")
-                        if user.civility == 'Madame':
-                            members_sorted["Présidente"].append(user)
-                        else:
-                            members_sorted["Président"].append(user)
-                    elif function['function'] == '2':
-                        print("function 2")
-                        if user.civility == 'Madame':
-                            members_sorted["Chargée de commission"].append(user)
-                        else:
-                            members_sorted["Chargé de commission"].append(user)
-                    elif function['function'] == '3':
-                        print("function 3")
-                        members_sorted["Membres"].append(user)
+            # Trouver la fonction correspondante dans `functions_commissions` pour cette commission
+            function_entry = next((entry for entry in user.functions_commissions if entry['commission'] == str(self.id)), None)
+            
+            if function_entry:
+                print("function_entry", function_entry)
+                function = function_entry['function']                
+                print("function", function)
+                
+                # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
+                if function['function'] == '1':
+                    if user.civility == 'Madame':
+                        members_sorted["Présidente"].append(user)
+                    else:
+                        members_sorted["Président"].append(user)
+                elif function['function'] == '2':
+                    if user.civility == 'Madame':
+                        members_sorted["Chargée de commission"].append(user)
+                    else:
+                        members_sorted["Chargé de commission"].append(user)
+                elif function['function'] == '3':
+                    members_sorted["Membres"].append(user)
                         
         print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
