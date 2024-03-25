@@ -29,6 +29,8 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth import get_user_model
 from utils.widgets import FonctionsCommissionListe
 User = get_user_model()
+def get_active_users():
+    return User.objects.filter(is_active=True)
 
 # Date en français
 from datetime import datetime, date
@@ -225,18 +227,14 @@ def create_convocation_users(request, page):
     function_field = function_field_mapping.get(parent_page.__class__.__name__)
     # print(colored(f"Function Field : {function_field}", "green"))
     
-    users = User.objects.all()    
-    substitutes = User.objects.all()
-        
     # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
     if isinstance(parent_page, CommissionPage):
-        print(parent_page)
-        users = users.filter(commissions=parent_page)
+        users = get_active_users().filter(commissions=parent_page)
         print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))
     
     else:
         #Filtre de base pour récupérer les utilisateurs associés à la page parent
-        users = User.objects.filter(
+        users = get_active_users().filter(
             ~Q(**{function_field: 'empty'}), # Aucune fonction
             ~Q(**{function_field: ''}),  # ""
             ~Q(**{function_field: None}), # ""
@@ -244,22 +242,26 @@ def create_convocation_users(request, page):
         )
 
         # On stocke les remplaçants
-        substitutes = User.objects.filter(**{function_field: '4'})
+        substitutes = get_active_users().filter(**{function_field: '4'})
 
     for user in users:
+        
         # COMMISIONS ET GROUPE DE TRAVAIL (1 - Chargé de commission, 2 - Président, 3 - Membre)
         if function_field == 'functions_commissions':
+            # On boucle sur toutes les commissions auxquelles l'utilisateur est associé
             user_functions = user.functions_commissions
             for uf in user_functions:
+                # On vérifie si l'ID de la commission est le même que l'ID de la page parente
                 if str(uf['commission']) == str(parent_page.id):
-                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]  
-                if function_value == 'Chargé de commission':                    
-                    function_weight = '1'
-                elif function_value == 'Président':
-                    function_weight = '2'
-                else:
-                    function_weight = '3'
+                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]                      
+                    if function_value == 'Chargé de commission':                    
+                        function_weight = '1'
+                    elif function_value == 'Président':
+                        function_weight = '2'
+                    else:
+                        function_weight = '3'                        
             print(f'Fonction (commission) : {function_value} - Poids : {function_weight}')
+            
         # CONFERENCES DES MAIRES (1 - Président, 2 - Maire, 3 - Vice-président)
         elif function_field == 'function_conference':
             if user.function_council == '1':
@@ -275,6 +277,7 @@ def create_convocation_users(request, page):
                 function_value = getattr(user, f"get_{function_field}_display")()
                 function_weight = getattr(user, function_field)    
             print(f'Fonction (commission) : {function_value} - Poids : {function_weight}')
+            
         # CONSEILS ET BUREAUX (1 - Président, 2 - Autres)
         else:
             function_value = getattr(user, f"get_{function_field}_display")()

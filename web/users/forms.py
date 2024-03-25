@@ -3,7 +3,6 @@ from django import forms
 from django.apps import apps
 from django.utils.translation import gettext_lazy as _
 from wagtail.users.forms import UserEditForm, UserCreationForm
-from users.models import User
 from utils.widgets import (
     CiviliteListe,
     CommunesListe, 
@@ -14,6 +13,9 @@ from utils.widgets import (
     FonctionsConferenceListe,
 )
 from django.contrib.auth import get_user_model
+User = get_user_model()
+def get_active_users():
+    return User.objects.filter(is_active=True)
 
 def get_commission_queryset():
     CommissionPage = apps.get_model('administration', 'CommissionPage')
@@ -80,11 +82,9 @@ class BaseUserForm:
         function_bureau = self.cleaned_data.get("function_bureau")
         function_conference = self.cleaned_data.get("function_conference")
 
-        # Initialisation d'une variable queryset pour la validation
-        users = User.objects.all()
         
         # Récupération de tous les utilisateurs associés à la même municipalité
-        users_same_municipality = User.objects.filter(municipality=municipality).exclude(pk=self.instance.pk).exclude(function_council__isnull=True) 
+        users_same_municipality = get_active_users().filter(municipality=municipality).exclude(pk=self.instance.pk).exclude(function_council__isnull=True) 
         
         # print("Commune :", municipality)
         # Calcul des nombres de conseillers.

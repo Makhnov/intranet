@@ -40,7 +40,7 @@ class UsersAPIViewSet(BaseAPIViewSet):
     paginate_by = None
 
     def get_queryset(self):
-        return User.objects.all()
+        return User.objects.all().filter(is_active=True)
     
 class ConvocationUsersAPIViewSet(BaseAPIViewSet):
     base_serializer_class = ConvocationUserSerializer

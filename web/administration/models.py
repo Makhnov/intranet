@@ -76,6 +76,8 @@ from wagtail.search import index
 # Utilisateurs
 from django.contrib.auth import get_user_model
 User = get_user_model()
+def get_active_users():
+    return User.objects.filter(is_active=True)
 
 ####################
 ## PAGES DE MENUS ##
@@ -112,11 +114,28 @@ class ConseilsIndexPage(MenuPage):
     ]
     
     def get_members(self):
-        members = User.objects.filter(function_council__isnull=False)
-        members_sorted = {}
-        for choice in FonctionsConseilListe.choices:
-            code, label = choice
-            members_sorted[label] = members.filter(function_council=code)
+        members = get_active_users().filter(function_council__isnull=False)
+        members_sorted = {
+            "Président": [],
+            "Présidente": [],
+            "Vice-présidents": [],
+            "Délégués communautaires (titulaires)": [],
+            "Délégués communautaires (suppléants)": [],
+        }        
+        for member in members:
+            function = member.function_council
+            if function == "1":
+                if member.civility == "Madame":
+                    members_sorted['Présidente'].append(member)
+                else:
+                    members_sorted['Président'].append(member)
+            elif function == "2":
+                members_sorted['Vice-présidents'].append(member)
+            elif function == "3":
+                members_sorted['Délégués communautaires (titulaires)'].append(member)
+            elif function == "4":
+                members_sorted['Délégués communautaires (suppléants)'].append(member)                                
+        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
     
     def get_context(self, request):
@@ -149,11 +168,22 @@ class BureauxIndexPage(MenuPage):
     ]
     
     def get_members(self):
-        members = User.objects.filter(function_council__isnull=False)
-        members_sorted = {}
-        for choice in FonctionsBureauListe.choices:
-            code, label = choice
-            members_sorted[label] = members.filter(function_council=code)
+        members = get_active_users().filter(function_bureau__isnull=False)
+        members_sorted = {
+            "Président": [],
+            "Présidente": [],
+            "Vice-présidents": [],
+        }
+        for member in members:
+            function = member.function_bureau
+            if function == "1":
+                if member.civility == "Madame":
+                    members_sorted['Présidente'].append(member)
+                else:
+                    members_sorted['Président'].append(member)
+            elif function == "2":
+                members_sorted['Vice-présidents'].append(member)
+        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
 
 
@@ -187,11 +217,25 @@ class ConferencesIndexPage(MenuPage):
     ]
 
     def get_members(self):
-        members = User.objects.filter(function_council__isnull=False)
-        members_sorted = {}
-        for choice in FonctionsConferenceListe.choices:
-            code, label = choice
-            members_sorted[label] = members.filter(function_council=code)
+        members = get_active_users().filter(function_conference__isnull=False)
+        members_sorted = {
+            "Président": [],
+            "Présidente": [],
+            "Maires": [],
+            "Vice-présidents": [],
+        }        
+        for member in members:
+            function = member.function_conference
+            if function == "1":
+                if member.civility == "Madame":
+                    members_sorted['Présidente'].append(member)
+                else:
+                    members_sorted['Président'].append(member)
+            elif member.function_municipality == "1":
+                members_sorted['Maires'].append(member)
+            elif function == "2":
+                members_sorted['Vice-présidents'].append(member)                
+        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
         
     
@@ -278,34 +322,45 @@ class CommissionPage(Page):
     
     def get_members(self):
         # Initialisation du dictionnaire pour trier les membres
-        members_sorted = {label: [] for _, label in FonctionsCommissionListe.choices}
-        
-        print(colored("members_sorted", "green", "on_white"), members_sorted)
-        
+        members_sorted = {
+            "Chargé de commission": [],
+            "Chargée de commission": [],            
+            "Président": [],
+            "Présidente": [],
+            "Membres": [],
+        }
+                
         # Filtrer les utilisateurs liés à cette commission
-        users = User.objects.filter(commissions=self)
-        
-        print(colored(users, "green"))
-        
+        users = get_active_users().filter(commissions=self)
+                
         for user in users:
             commission_ids = user.commissions.values_list('id', flat=True)
+            print("commission_ids", commission_ids)
 
             # Trouver l'index de cette commission dans la liste des commissions de l'utilisateur
             if self.id in commission_ids:
                 index = list(commission_ids).index(self.id)
+                print(index)
 
                 # Trouver la fonction correspondante dans `functions_commissions`
                 if index < len(user.functions_commissions):
                     function = user.functions_commissions[index]
                     
-                    # Ajouter l'utilisateur dans la catégorie de fonction correspondante
-                    for func_id, label in FonctionsCommissionListe.choices:
-
-                        # Comparaison de l'identifiant de fonction avec celui de la liste des choix
-                        if function['function'] == func_id:
-                            members_sorted[label].append(user)
-                            break
-
+                    # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
+                    if function['function'] == '1':
+                        if user.civility == 'Madame':
+                            members_sorted["Présidente"].append(user)
+                        else:
+                            members_sorted["Président"].append(user)
+                    elif function['function'] == '2':
+                        if user.civility == 'Madame':
+                            members_sorted["Chargée de commission"].append(user)
+                        else:
+                            members_sorted["Chargé de commission"].append(user)
+                    elif function['function'] == '3':
+                        members_sorted["Membres"].append(user)
+                        
+        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
 
 

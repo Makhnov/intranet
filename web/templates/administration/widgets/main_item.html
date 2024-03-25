@@ -38,10 +38,9 @@
                 </div>
                 <div class="cgs-list">
         {% endif %}
-        {% if children.members_pages or children.convocation_pages_by_year or children.compterendu_pages_by_year %}
+        {% if members %}
             {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
             <section class="cgs-members cgs-swap-hidden">
-                {% if members %}
                 <div id="actions-buttons" class="cgs-actions">
                     <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
                         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
@@ -60,16 +59,21 @@
                         {% endfor %}
                     </span>
                 </div>
-                    {% for function, members in members.items %}
-                        <h2>{{ function }}</h2>
-                        <ul>
-                            {% for member in members %}
-                                <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
-                            {% endfor %}
-                        </ul>
+                    {% for function, members in members.items %}       
+                        {% if members %}                 
+                            <h2>{{ function }}</h2>
+                            <ul>
+                                {% for member in members %}
+                                    <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                     {% endfor %}
-                {% endif %}
             </section>
+        {% endif %}
+
+        {% if children.members_pages or children.convocation_pages_by_year or children.compterendu_pages_by_year %}
+
             <ul class="{{ class_type }}-box {{ item_type }}">
                 {% for year, convocations in children.convocation_pages_by_year.items %}
                         <h2>Convocations {{ year }}</h2>
