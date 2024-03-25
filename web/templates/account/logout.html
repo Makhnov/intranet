@@ -1,23 +1,56 @@
 {% extends "wagtailadmin/admin_base.html" %}
-{% load i18n %}
+{% load i18n static wagtailadmin_tags account socialaccount %}
 
-{% block title %}{% trans "Sign Out" %}{% endblock %}
+{% block titletag %}{% trans "Sign Out" %}{% endblock %}
+{% block bodyclass %}logout{% endblock %}
 
-{% block card-header %}
-<h3>{% trans "Sign Out" %}</h3>
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_logout.min.css' %}">
 {% endblock %}
 
-{% block card-body %}
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+        <div class="header-bar cgs-content-block">
+            <h1>{% trans "Deconnexion" %}</h1>
+        </div>
 
-<p>{% trans "Are you sure you want to sign out?" %}Bonjour</p>
+        <div class="messages" role="status">
+            <!-- Place for any messages if needed -->
+        </div>
 
-<form method="POST" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-outline-primary btn-sm">{% trans "Sign Out" %}</button>
-</form>
+        <div class="logout-logo cgs-content-block">
+            <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
+            <h1>{% trans "Goodbye!" %}</h1>
+        </div>
 
-<br>
-<p>{% trans "No, stay logged in" %}</p>
-<a href="/" class="btn btn-outline-primary">{% trans "Return to site" %}</a>
+        <form class="logout-form cgs-content-block" action="{% url 'account_logout' %}" method="post" autocomplete="off">
+          {% csrf_token %}
+          <div class="w-field__wrapper cgs-form-block confirm" data-field-wrapper=""> 
+              <p>{% trans "Are you sure you want to sign out?" %}</p>
+          </div>
 
+          <footer class="form-actions cgs-form-block">
+              <button
+                  type="submit"
+                  class="button button-longrunning"
+                  data-controller="w-progress"
+                  data-action="w-progress#activate"
+                  data-w-progress-active-value="{% trans 'Deconnexion…' %}"
+              >
+                  {% icon name="spinner" %}
+                  <em data-w-progress-target="label">{% trans 'Sign Out' %}</em>
+              </button>
+          </footer>
+
+          <section class="logout-option cgs-option-block">
+              <p>
+                  <span>{% trans "No, stay logged in" %}.&nbsp</span>
+                  <span>
+                      <a href="/" class="btn btn-outline-primary">{% trans "Return to site" %}</a>  
+                  </span>
+              <p>
+        </section>
+        
+      </form>
+    </main>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block bodyclass %}login signup{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/login.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_logout.min.css' %}">
 {% endblock %}
 
 {% block furniture %}
@@ -33,7 +33,14 @@
         </div>
 
         {% if next and not request.user.is_authenticated %}
-        <p>{% trans "Please log in to access this page." %}</p>
+            <section class="redirect-option cgs-option-block">
+                <p>
+                    {% blocktrans %}
+                        <span>You are not allowed to view this page, please sign in with an authorized account or<br></span>
+                        <span><a href="/">return to site</a></span>
+                    {% endblocktrans %}
+                </p>
+            </section>
         {% endif %}   
 
         <form class="login-form cgs-content-block" action="{% url 'account_signup' %}" method="post" autocomplete="off" novalidate>

@@ -574,26 +574,27 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         if parent_type in ["ConseilsIndexPage", "BureauxIndexPage"]:
             print(colored("parent_type conseil ou bureau", "green"), parent_type)
             # Trier en premier par fonction (président), ensuite par municipalité
-            president = users.filter(function_council=1)
-            others = users.exclude(function_council=1).order_by('municipality')
-            sorted_users = list(president) + list(others)
+            president = [user for user in users if user.get('function') == 'Président']
+            others = sorted([user for user in users if user.get('function') != 'Président'], key=lambda x: x.get('municipality', ''))
+            sorted_users = president + others
         elif parent_type == "CommissionPage":
             print(colored("parent_type commission", "green"), parent_type)
             # Trier d'abord par chargé de commission, ensuite par municipalité
-            commission_charge = users.filter(functions_commissions__contains='charge')
-            members = users.exclude(functions_commissions__contains='charge').order_by('municipality')
-            sorted_users = list(commission_charge) + list(members)
+            commission_charge = [user for user in users if 'charge' in user.get('function', '')]
+            members = sorted([user for user in users if 'charge' not in user.get('function', '')], key=lambda x: x.get('municipality', ''))
+            sorted_users = commission_charge + members
         elif parent_type == "ConferencesIndexPage":
             print(colored("parent_type conference", "green"), parent_type)
             # Président, maires, puis les autres par municipalité
-            president = users.filter(function_conference=1)
-            mayors = users.filter(function_municipality=1).exclude(function_conference=1).order_by('municipality')
-            others = users.exclude(function_municipality=1).exclude(function_conference=1).order_by('municipality')
-            sorted_users = list(president) + list(mayors) + list(others)
+            president = [user for user in users if user.get('function') == 'Président']
+            mayors = sorted([user for user in users if user.get('function') == 'Maire' and user.get('function') != 'Président'], key=lambda x: x.get('municipality', ''))
+            others = sorted([user for user in users if user.get('function') not in ['Président', 'Maire']], key=lambda x: x.get('municipality', ''))
+            sorted_users = president + mayors + others
         else:
             # Par défaut, on retourne la liste telle quelle si le type ne correspond pas
             sorted_users = users
         return sorted_users
+
       
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)

@@ -3,8 +3,12 @@
 {% if menu %}
     <ul class="{{ class_type }}-box {{ item_type }}">
         {% for item in menu %}
-            {% include 'administration/widgets/li_item.html' %}
+            {% authorized_user item as visible %}
+            {% if visible %}
+                {% include 'administration/widgets/li_item.html' %}
+            {% endif %}
         {% endfor %}
+
         {% if index %}
             <li class="nav-item {{ child_type }} index{% if page.slug == item_type %} cgs-selected{% endif %}">
                 <a 
