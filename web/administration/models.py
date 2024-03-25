@@ -341,22 +341,22 @@ class CommissionPage(Page):
             function_entry = next((entry for entry in user.functions_commissions if entry['commission'] == str(self.id)), None)
             
             if function_entry:
-                print("function_entry", function_entry)
+                print("function_entry :", function_entry)
                 function = function_entry['function']                
-                print("function", function)
+                print("function :", function)
                 
                 # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
-                if function['function'] == '1':
+                if function == '1':
                     if user.civility == 'Madame':
                         members_sorted["Présidente"].append(user)
                     else:
                         members_sorted["Président"].append(user)
-                elif function['function'] == '2':
+                elif function == '2':
                     if user.civility == 'Madame':
                         members_sorted["Chargée de commission"].append(user)
                     else:
                         members_sorted["Chargé de commission"].append(user)
-                elif function['function'] == '3':
+                elif function == '3':
                     members_sorted["Membres"].append(user)
                         
         print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
