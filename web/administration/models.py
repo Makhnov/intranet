@@ -569,33 +569,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             self.slug = "compte-rendu"
         super().save(*args, **kwargs)
 
-    
-    def sort_users(self, users, parent_type):
-        if parent_type in ["ConseilsIndexPage", "BureauxIndexPage"]:
-            print(colored("parent_type conseil ou bureau", "green"), parent_type)
-            # Trier en premier par fonction (président), ensuite par municipalité
-            president = [user for user in users if user.get('function') == 'Président']
-            others = sorted([user for user in users if user.get('function') != 'Président'], key=lambda x: x.get('municipality', ''))
-            sorted_users = president + others
-        elif parent_type == "CommissionPage":
-            print(colored("parent_type commission", "green"), parent_type)
-            # Trier d'abord par chargé de commission, ensuite par municipalité
-            commission_charge = [user for user in users if 'charge' in user.get('function', '')]
-            members = sorted([user for user in users if 'charge' not in user.get('function', '')], key=lambda x: x.get('municipality', ''))
-            sorted_users = commission_charge + members
-        elif parent_type == "ConferencesIndexPage":
-            print(colored("parent_type conference", "green"), parent_type)
-            # Président, maires, puis les autres par municipalité
-            president = [user for user in users if user.get('function') == 'Président']
-            mayors = sorted([user for user in users if user.get('function') == 'Maire' and user.get('function') != 'Président'], key=lambda x: x.get('municipality', ''))
-            others = sorted([user for user in users if user.get('function') not in ['Président', 'Maire']], key=lambda x: x.get('municipality', ''))
-            sorted_users = president + mayors + others
-        else:
-            # Par défaut, on retourne la liste telle quelle si le type ne correspond pas
-            sorted_users = users
-        return sorted_users
 
-      
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
@@ -603,7 +577,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         if self.convocation is not None:
             convocation_users = ConvocationUser.objects.filter(
                 convocation=self.convocation
-            ).select_related('user', 'substitute', 'alternate').order_by('function_weight')
+            ).select_related('user', 'substitute', 'alternate').order_by('function_weight', 'user__municipality')
 
             # Initialisation des listes pour les différentes catégories
             titulars = []
@@ -624,6 +598,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                 if cu.presence == PresenceStatus.PRESENT:
                     # 1/ Les Titulaires présents
                     titulars.append(user_info)
+                    
                 elif cu.alternate and cu.alternate == cu.substitute:
                     # 2/ Les suppléants présents
                     alternates.append({
@@ -644,19 +619,12 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                     excused.append(user_info)
 
             print(colored("titulaires présents", "green"), colored(titulars, "white", "on_green"))
-            print(colored("suppléants présents", "green"), colored(alternates, "white", "on_green"))
-            print(colored("absents excusés avec procuration", "green"), colored(replaced, "white", "on_green"))
-            print(colored("absents excusés", "green"), colored(excused, "white", "on_green"))
-            
-            # On récupère la page parente
-            parent = self.get_parent().specific.__class__.__name__
-            
-            # Tri des titulaires en fonction de la page parente
-            titulaires = self.sort_users(titulars, parent)
-            print(colored("titulaires triés", "green"), colored(titulaires, "white", "on_green"))
+            # print(colored("suppléants présents", "green"), colored(alternates, "white", "on_green"))
+            # print(colored("absents excusés avec procuration", "green"), colored(replaced, "white", "on_green"))
+            # print(colored("absents excusés", "green"), colored(excused, "white", "on_green"))
             
             # Ajouter les listes au contexte
-            context['titulars'] = titulaires
+            context['titulars'] = titulars
             context['alternates'] = alternates
             context['replaced'] = replaced
             context['unreplaced'] = excused

@@ -223,6 +223,7 @@ def create_convocation_users(request, page):
         'ConferencesIndexPage': 'function_conference',
     }
     function_field = function_field_mapping.get(parent_page.__class__.__name__)
+    # print(colored(f"Function Field : {function_field}", "green"))
     
     users = User.objects.all()    
     substitutes = User.objects.all()
@@ -244,43 +245,48 @@ def create_convocation_users(request, page):
 
         # On stocke les remplaçants
         substitutes = User.objects.filter(**{function_field: '4'})
-    
-    # Créer un dictionnaire pour compter les utilisateurs par fonction
-    user_count_by_function = defaultdict(int)
-    
-    # Première boucle pour compter les utilisateurs par fonction
+
     for user in users:
-        # Traitez chaque utilisateur différemment si nous sommes dans une commission
+        # COMMISIONS ET GROUPE DE TRAVAIL (1 - Chargé de commission, 2 - Président, 3 - Membre)
         if function_field == 'functions_commissions':
             user_functions = user.functions_commissions
             for uf in user_functions:
-                if str(uf['commission']) == str(parent_page.id):  # Assurez-vous que les IDs correspondent
-                    # Convertissez l'ID de fonction en sa représentation "display"
-                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]
-                    user_count_by_function[function_value] += 1
+                if str(uf['commission']) == str(parent_page.id):
+                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]  
+                if function_value == 'Chargé de commission':                    
+                    function_weight = '1'
+                elif function_value == 'Président':
+                    function_weight = '2'
+                else:
+                    function_weight = '3'
+            print(f'Fonction (commission) : {function_value} - Poids : {function_weight}')
+        # CONFERENCES DES MAIRES (1 - Président, 2 - Maire, 3 - Vice-président)
+        elif function_field == 'function_conference':
+            if user.function_council == '1':
+                function_value = 'Président'
+                function_weight = '1'
+            elif user.function_municipality == '1':
+                function_value = 'Maire'
+                function_weight = '2'
+            elif user.function_council == '2':
+                function_value = 'Vice-président'
+                function_weight = '3'
+            else:
+                function_value = getattr(user, f"get_{function_field}_display")()
+                function_weight = getattr(user, function_field)    
+            print(f'Fonction (commission) : {function_value} - Poids : {function_weight}')
+        # CONSEILS ET BUREAUX (1 - Président, 2 - Autres)
         else:
-            # Pour les autres pages, la logique reste inchangée
             function_value = getattr(user, f"get_{function_field}_display")()
-            user_count_by_function[function_value] += 1
-
-    for user in users:
-        if function_field == 'functions_commissions':
-            user_functions = user.functions_commissions
-            for uf in user_functions:
-                if str(uf['commission']) == str(parent_page.id):  # Assurez-vous que les IDs correspondent
-                    function_value = dict(FonctionsCommissionListe.choices)[uf['function']]
-        else:
-            function_value = getattr(user, f"get_{function_field}_display")()
-            function_weight = getattr(user, function_field)
-
+            if function_value == 'Président':
+                function_weight = '1'
+            else:
+                function_weight = '2'
+            print(f'Fonction (conseil ou bureau): {function_value} - Poids : {function_weight}')
+            
         gender_value = user.get_civility_display()
 
-        if user_count_by_function[function_value] > 1:
-            gender_key = "Pluriel"
-        else:
-            gender_key = gender_value
-
-        function_value = ROLE_TRANSLATIONS.get(gender_key, {}).get(function_value, function_value)
+        function_value = ROLE_TRANSLATIONS.get(gender_value, {}).get(function_value, function_value)
 
         if gender_value == "Neutre":
             gender_value = "Monsieur/Madame"
@@ -296,7 +302,7 @@ def create_convocation_users(request, page):
             user=user,
             parent=parent_page,
             function=function_value,
-            function_weight=function_weight if function_field != 'functions_commissions' else uf['function'],
+            function_weight=function_weight,
             gender=gender_value,
             identity=identity_value,
             municipality=municipality_value,
@@ -306,7 +312,7 @@ def create_convocation_users(request, page):
 
 # Fonction qui met à jour les statuts de présence des utilisateurs
 def update_presence_status(request, page):
-    # print(colored(f"Starting presence status update for: {page}", "green"))
+    print(colored(f"Starting presence status update for: {page}", "green"))
     # Vérifiez si la requête est une requête POST
     if request.method == 'POST':
         # Récupérez l'ID de la convocation à partir de la requête POST
@@ -340,14 +346,17 @@ def update_presence_status(request, page):
             
             # Récupère tous les ConvocationUser associés à la convocation
             convocation_users = ConvocationUser.objects.filter(convocation=convocation)            
-
+            print(f'Convocation Users : {convocation_users}')
+            
             # Récupère tous les ID d'utilisateurs associés à la convocation
             user_ids = [str(user.user.id) for user in convocation_users]
             
             # Récupère tous les ID des utilisateurs présents
-            present_titular_ids = [user_id for user_id in user_ids if user_id not in absent_user_ids]   
+            present_titular_ids = [user_id for user_id in user_ids if user_id not in absent_user_ids]
+            
             # Conversion des listes en ensembles pour supprimer les doublons et fusionner
             present_temp_ids = set(present_titular_ids) | set(substitute_user_ids)
+            
             # Conversion de l'ensemble combiné en liste pour le résultat final
             present_ids = list(present_temp_ids)
             
@@ -402,7 +411,6 @@ def update_presence_status(request, page):
                 )
                 return
             
-
             # Vérification 5 : le secrétaire doit être parmi les membres présents
             if secretary_id and secretary_id not in present_ids:
                 messages.error(
@@ -410,14 +418,12 @@ def update_presence_status(request, page):
                     mark_safe("The selected secretary must be present. Please check your selection and try again.")
                 )
                 return
-
-             
+           
             with transaction.atomic():  # Début d'une transaction pour assurer l'intégrité des données
                 
                 # Mise à jour des présences
                 for convocation_user in convocation_users:
                     user_id_str = str(convocation_user.id)  # Convertir l'ID en chaîne pour la comparaison
-
                     if user_id_str in replaced_user_ids:
                         convocation_user.presence = PresenceStatus.REPLACED
                         convocation_user.save()
