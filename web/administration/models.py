@@ -345,19 +345,22 @@ class CommissionPage(Page):
                 # Trouver la fonction correspondante dans `functions_commissions`
                 if index < len(user.functions_commissions):
                     function = user.functions_commissions[index]
-                    
+                    print("function", function)
                     # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
                     if function['function'] == '1':
+                        print("function 1")
                         if user.civility == 'Madame':
                             members_sorted["Présidente"].append(user)
                         else:
                             members_sorted["Président"].append(user)
                     elif function['function'] == '2':
+                        print("function 2")
                         if user.civility == 'Madame':
                             members_sorted["Chargée de commission"].append(user)
                         else:
                             members_sorted["Chargé de commission"].append(user)
                     elif function['function'] == '3':
+                        print("function 3")
                         members_sorted["Membres"].append(user)
                         
         print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
