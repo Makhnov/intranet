@@ -23,12 +23,6 @@ RUN apt-get update && apt-get install -y \
 RUN python -m pip install --upgrade pip
 
 # Configuration des variables d'environnement pour le langage et l'encodage
-# ENV PYTHONUNBUFFERED=1 \
-#     PORT=8000 \
-#     LANG=fr_FR.UTF-8 \
-#     LANGUAGE=fr_FR:fr \
-#     LC_ALL=fr_FR.UTF-8
-
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8000
 ENV LANG fr_FR.UTF-8
