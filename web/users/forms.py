@@ -82,6 +82,8 @@ class BaseUserForm:
         function_bureau = self.cleaned_data.get("function_bureau")
         function_conference = self.cleaned_data.get("function_conference")
 
+        # Initialisation d'une variable queryset pour la validation
+        users = get_active_users()
         
         # Récupération de tous les utilisateurs associés à la même municipalité
         users_same_municipality = get_active_users().filter(municipality=municipality).exclude(pk=self.instance.pk).exclude(function_council__isnull=True) 
