@@ -135,7 +135,7 @@ class ConseilsIndexPage(MenuPage):
                 members_sorted['Délégués communautaires (titulaires)'].append(member)
             elif function == "4":
                 members_sorted['Délégués communautaires (suppléants)'].append(member)                                
-        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
+        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
     
     def get_context(self, request):
@@ -183,7 +183,7 @@ class BureauxIndexPage(MenuPage):
                     members_sorted['Président'].append(member)
             elif function == "2":
                 members_sorted['Vice-présidents'].append(member)
-        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
+        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
 
 
@@ -235,7 +235,7 @@ class ConferencesIndexPage(MenuPage):
                 members_sorted['Maires'].append(member)
             elif function == "2":
                 members_sorted['Vice-présidents'].append(member)                
-        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
+        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
         
     
@@ -335,15 +335,15 @@ class CommissionPage(Page):
                 
         for user in users:
             commission_ids = user.commissions.values_list('id', flat=True)
-            print(f'{user.get_full_name()} est membre des commissions {commission_ids}')
+            # print(f'{user.get_full_name()} est membre des commissions {commission_ids}')
 
             # Trouver la fonction correspondante dans `functions_commissions` pour cette commission
             function_entry = next((entry for entry in user.functions_commissions if entry['commission'] == str(self.id)), None)
             
             if function_entry:
-                print("function_entry :", function_entry)
+                # print("function_entry :", function_entry)
                 function = function_entry['function']                
-                print("function :", function)
+                # print("function :", function)
                 
                 # Identifier la fonction de l'utilisateur et ajouter à la catégorie correspondante
                 if function == '1':
@@ -359,7 +359,7 @@ class CommissionPage(Page):
                 elif function == '3':
                     members_sorted["Membres"].append(user)
                         
-        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
+        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
 
 

@@ -675,7 +675,7 @@ function cr_import_users() {
     
     // Secrétaire de séance
     const secretaryField = document.querySelector('#id_secretary');
-    const secretarySection = document.querySelector('#panel-child-contenu-secretary-section');
+    const secretarySection = document.querySelector('div.instance_secretary');
 
     // Section des absences
     const absencesSection = document.querySelector('#panel-child-contenu-absence_management-section');
@@ -688,6 +688,12 @@ function cr_import_users() {
 
     // Quorum section
     const quorumSection = document.querySelector('div.instance_quorum');
+
+    // Ordre du jour
+    const agendaSection = document.querySelector('#panel-child-contenu-body-section');    
+
+    // PJ
+    const PJSection = document.querySelector('#panel-child-contenu-pieces_jointes-section');
 
     // On vide les champs au chargement de la page
     secretaryField.innerHTML = '';
@@ -992,6 +998,17 @@ function cr_import_users() {
         }
     }
 
+    // Fonction qui crée un bloc info (look erreur pour les ancienne convocations)
+    function createInfoBlock(message) {
+        const div = document.createElement('div');
+        div.classList.add('cgs-warning');        
+        const p = document.createElement('p');
+        p.classList.add('warning-message');
+        p.textContent = message;
+        div.appendChild(p);
+        return div;
+    }
+
     // Écouteurs d'événements en fonction des champs
     function requestListener(field) {
         switch (field) {
@@ -1032,12 +1049,20 @@ function cr_import_users() {
         fetch('/api/v2/pages/' + convocationId + '/')
             .then(response => response.json())
             .then(data => {
-                // On récupere le type de parent si posisble, sinon null.
-                const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
-                // Pareil pour le secrétaire
-                const secretary = data.compte_rendu_page ? data.compte_rendu_page.secretary : false;
-                // pareil pour les convocation users
+                console.log(data)
+
+                // On récupère les participants de la convocation
                 const participants = data.convocation_users ? data.convocation_users : false;
+
+                // On vérifie si il s'agit d'une ancienne convocation (un seul user avec l'ID 2)
+                if (participants && participants[0]['user'] === 2) {
+                    throw new Error("Ancienne convocation détectée");
+                }
+
+                // On récupere le type de parent si possible
+                const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
+                // On récupère le secrétaire de séance si il existe
+                const secretary = data.compte_rendu_page ? data.compte_rendu_page.secretary : false;
                 
                 if (data && parent) {                            
                     switch (parent) {                    
@@ -1065,9 +1090,6 @@ function cr_import_users() {
                         case 'administration.BureauxIndexPage':
                             console.log("Compte-rendu de bureau détecté (on cache tout)");
                             // on cache les quatres sections, pas besoin de récupérer les participants
-                            secretarySection.classList.add('cgs-hidden');
-                            absencesSection.classList.add('cgs-hidden');
-                            quorumSection.classList.add('cgs-hidden');
                             break;
                         case 'administration.CommissionPage':
                             console.log("Compte-rendu de commission détecté (on n'affiche que le secrétaire de séance)");
@@ -1109,8 +1131,23 @@ function cr_import_users() {
                 }
             })
             .catch(error => {
-                console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
-        });      
+                if (error.message === "Ancienne convocation détectée") {                    
+                    console.log(error.message);
+                    secretarySection.classList.add('cgs-hidden');
+                    absencesSection.classList.add('cgs-hidden');
+                    quorumSection.classList.add('cgs-hidden');
+                    agendaSection.classList.add('cgs-hidden');
+                    // Message
+                    const infoBlock = createInfoBlock("Cette page est liée à une ancienne convocation. Ajoutez simplement le compte-rendu en pièce jointe 🔗 (format PDF).");
+                    // On l'ajoute apres le premier enfant de PJSection                   
+                    console.log(PJSection.firstChild.nextSibling); 
+                    PJSection.insertBefore(infoBlock, PJSection.firstChild.nextSibling);
+
+                } else {
+                    // Gérez ici les autres types d'erreurs
+                    console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+                }
+            });   
     }
 }
 
