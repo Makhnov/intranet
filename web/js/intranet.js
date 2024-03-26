@@ -37,8 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Ajout de la classe cgs-open lors du click sur le profil (si l'utilisateur est connecté)
     const profile = document.querySelector('ul.profile > .avatar');
+    console.log(profile);
     if (profile) {
         profile.addEventListener('click', function (event) {
+            console.log('click')
             profile.closest('ul').classList.toggle('cgs-open');
         });
     }

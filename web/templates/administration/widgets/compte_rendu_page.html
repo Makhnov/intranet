@@ -1,193 +1,210 @@
 {% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
 
 <div class="container-fluid">
-    <!-- Watermark -->
+    {% comment %} Watermark {% endcomment %}
     {% if settings.dashboard.PDFSettings.watermark %}
         {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
     {% endif %}
 
-    <!-- Logo -->
+    {% comment %} Logo {% endcomment %}
     {% if settings.dashboard.PDFSettings.logo %}
         {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
     {% endif %}
     
-    <div class="grid-item grid-title">
-        <h1>Compte-rendu du conseil communautaire du {{ page.date|date:"l d F Y" }}</h1>
-    </div>
-    
-    <div class="grid-item grid-invitation">
-        <div class="grid-invitation-content">
-            <p>Date de la convocation : {{ page.date|date:"l d F Y" }}</p>
-            <p>Lieu de la réunion : {{ settings.dashboard.PDFSettings.locality }}</p>
-            {% if titulars %}
-                <p> {{ titulars.0.civility }} {{ titulars.0.identity }}, {{ titulars.0.function }} de la communauté de communes.</p>
-            {% endif %}
-        </div>
-    </div>
+        {% comment %} Convocation pre-intranet (Pièces-jointes uniquement) {% endcomment %}
+        {% if old %}
+            <div id="viewer" style="width: 600px; height: 500px;">
+                
+            </div>
+            <div class="grid-item grid-documents">
+                <ul>
+                    {% for document in page.compterendu_documents.all %}
+                        {% if document.document %}
 
-    <div class="grid-item grid-presence">
-        <div class="row">
-            <div class="col-md-12">
-                {% with secretaire=page.secretary %}
-                    <h5 class="text-dark"><u>Secrétaire de séance</u></h5>
-                    <p>
-                        {{ secretaire.civility }} {{ secretaire.first_name }} {{ secretaire.last_name.upper }} - 
-                        {% if secretaire.function_council == '1' %}
-                            {% if secretaire.civility == "Monsieur" %}
-                                Président du conseil communautaire
-                            {% elif secretaire.civility == "Madame" %}
-                                Présidente du conseil communautaire
-                            {% else %}
-                                Président(e) du conseil communautaire
-                            {% endif %}
-                        {% elif secretaire.function_council == '2' %}
-                            {% if secretaire.civility == "Monsieur" %}
-                                Vice-président du conseil communautaire
-                            {% elif secretaire.civility == "Madame" %}
-                                Vice-présidente du conseil communautaire
-                            {% else %}
-                                Vice-président(e) du conseil communautaire
-                            {% endif %}
-                        {% else %}
-                            {% if secretaire.function_municipality == '1' %}
-                                {% if secretaire.civility == "Monsieur" %}
-                                    Maire
-                                {% elif secretaire.civility == "Madame" %}
-                                    Maire
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% comment %} Convocation post-intranet (Document au complet) {% endcomment %}
+        {% else %}
+            <div class="grid-item grid-title">
+                <h1>Compte-rendu du conseil communautaire du {{ page.date|date:"l d F Y" }}</h1>
+            </div>
+            
+            <div class="grid-item grid-invitation">
+                <div class="grid-invitation-content">
+                    <p>Date de la convocation : {{ page.date|date:"l d F Y" }}</p>
+                    <p>Lieu de la réunion : {{ settings.dashboard.PDFSettings.locality }}</p>
+                    {% if titulars %}
+                        <p> {{ titulars.0.civility }} {{ titulars.0.identity }}, {{ titulars.0.function }} de la communauté de communes.</p>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="grid-item grid-presence">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% with secretaire=page.secretary %}
+                            <h5 class="text-dark"><u>Secrétaire de séance</u></h5>
+                            <p>
+                                {{ secretaire.civility }} {{ secretaire.first_name }} {{ secretaire.last_name.upper }} - 
+                                {% if secretaire.function_council == '1' %}
+                                    {% if secretaire.civility == "Monsieur" %}
+                                        Président du conseil communautaire
+                                    {% elif secretaire.civility == "Madame" %}
+                                        Présidente du conseil communautaire
+                                    {% else %}
+                                        Président(e) du conseil communautaire
+                                    {% endif %}
+                                {% elif secretaire.function_council == '2' %}
+                                    {% if secretaire.civility == "Monsieur" %}
+                                        Vice-président du conseil communautaire
+                                    {% elif secretaire.civility == "Madame" %}
+                                        Vice-présidente du conseil communautaire
+                                    {% else %}
+                                        Vice-président(e) du conseil communautaire
+                                    {% endif %}
                                 {% else %}
-                                    Maire
+                                    {% if secretaire.function_municipality == '1' %}
+                                        {% if secretaire.civility == "Monsieur" %}
+                                            Maire
+                                        {% elif secretaire.civility == "Madame" %}
+                                            Maire
+                                        {% else %}
+                                            Maire
+                                        {% endif %}
+                                        de {{ secretaire.municipality }}
+                                    {% else %}
+                                        Conseiller communautaire
+                                    {% endif %}
                                 {% endif %}
-                                de {{ secretaire.municipality }}
+                                {% comment %} 
+                                    {% if secretaire.functions_commissions == '2' %}
+                                        en charge de la commission
+                                    {% else %}
+                                        de la commission
+                                    {% endif %}
+                                    {{ secretaire.commission }} 
+                                {% endcomment %}
+                            </p>
+                        {% endwith %}          
+                    </div>            
+                </div>
+        
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="text-dark"><u>Titulaires Présents :</u></h5>
+                        <p>
+                            {% for user in titulars %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>          
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="text-dark">
+                            <u>
+                            {% if alternates|length == 1 %}
+                                Suppléant présent :
                             {% else %}
-                                Conseiller communautaire
+                                Suppléants présents :
                             {% endif %}
+                            </u>
+                        </h5>
+                        <p>
+                            {% for user in alternates %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="text-dark">
+                            <u>
+                            {% if replaced|length == 1 %}
+                                Absent excusé ayant donné procuration :
+                            {% else %}
+                                Absents excusés ayant donné procuration :
+                            {% endif %}
+                            </u>
+                        </h5>
+                        <p>
+                            {% for user in replaced %}
+                                {{ user.absent_identity }} ({{ user.absent_municipality }}) a donné procuration à {{ user.substitute_identity }} {% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="text-dark">
+                            <u>
+                            {% if unreplaced|length == 1 %}
+                                Absent excusé :
+                            {% else %}
+                                Absents excusés :
+                            {% endif %}
+                            </u>
+                        </h5>
+                        <p>
+                            {% for user in unreplaced %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+        
+                <div class="grid-item grid-quorum">
+                    <p>
+                        {% if titulars %}
+                                {% if titulars.0.civility == "Monsieur" %}
+                                    {% if page.quorum %}
+                                        Monsieur le président fait l'appel, constate que le quorum est atteint.
+                                    {% else %}
+                                        Monsieur le président fait l'appel, constate que le quorum n'est pas atteint.
+                                    {% endif %}
+                                {% elif titulars.0.civility == "Madame" %}
+                                    {% if page.quorum %}
+                                        Madame la présidente fait l'appel, constate que le quorum est atteint.
+                                    {% else %}
+                                        Madame la présidente fait l'appel, constate que le quorum n'est pas atteint.
+                                    {% endif %}
+                                {% else %}
+                                    {% if page.quorum %}
+                                        Monsieur/Madame le(a) président(e) fait l'appel, constate que le quorum est atteint.
+                                    {% else %}
+                                        Monsieur/Madame le(a) président(e), constate que le quorum n'est pas atteint.
+                                    {% endif %}
+                                {% endif %}
                         {% endif %}
-                        {% comment %} 
-                            {% if secretaire.functions_commissions == '2' %}
-                                en charge de la commission
-                            {% else %}
-                                de la commission
-                            {% endif %}
-                            {{ secretaire.commission }} 
-                        {% endcomment %}
                     </p>
-                {% endwith %}          
-            </div>            
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="text-dark"><u>Titulaires Présents :</u></h5>
-                <p>
-                    {% for user in titulars %}
-                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
-                    {% endfor %}
-                </p>          
+                </div>
+            </div>     
+        
+            <div class="grid-item grid-cr">
+                {% include "widgets/blocks/streamfield.html" with value=page.body %}
             </div>
-        </div>
-    
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="text-dark">
-                    <u>
-                    {% if alternates|length == 1 %}
-                        Suppléant présent :
-                    {% else %}
-                        Suppléants présents :
+        
+            <div class="grid-item grid-documents">
+                <h4>Documents associés :</h4>
+                <ul>
+                {% for document in page.compterendu_documents.all %}
+                    {% if document.document %}
+                        <span>
+                            <a href="{{ document.document.url }}" target="_blank">{{ document.title }} |</a>
+                        </span>
                     {% endif %}
-                    </u>
-                </h5>
-                <p>
-                    {% for user in alternates %}
-                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
-                    {% endfor %}
-                </p>
+                {% endfor %}
+                </ul>
             </div>
-        </div>
-    
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="text-dark">
-                    <u>
-                    {% if replaced|length == 1 %}
-                        Absent excusé ayant donné procuration :
-                    {% else %}
-                        Absents excusés ayant donné procuration :
-                    {% endif %}
-                    </u>
-                </h5>
-                <p>
-                    {% for user in replaced %}
-                        {{ user.absent_identity }} ({{ user.absent_municipality }}) a donné procuration à {{ user.substitute_identity }} {% if not forloop.last %}, {% else %}.{% endif %}
-                    {% endfor %}
-                </p>
-            </div>
-        </div>
-    
-        <div class="row">
-            <div class="col-md-12">
-                <h5 class="text-dark">
-                    <u>
-                    {% if unreplaced|length == 1 %}
-                        Absent excusé :
-                    {% else %}
-                        Absents excusés :
-                    {% endif %}
-                    </u>
-                </h5>
-                <p>
-                    {% for user in unreplaced %}
-                        {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
-                    {% endfor %}
-                </p>
-            </div>
-        </div>
+        {% endif %}
 
-        <div class="grid-item grid-quorum">
-            <p>
-                {% if titulars %}
-                        {% if titulars.0.civility == "Monsieur" %}
-                            {% if page.quorum %}
-                                Monsieur le président fait l'appel, constate que le quorum est atteint.
-                            {% else %}
-                                Monsieur le président fait l'appel, constate que le quorum n'est pas atteint.
-                            {% endif %}
-                        {% elif titulars.0.civility == "Madame" %}
-                            {% if page.quorum %}
-                                Madame la présidente fait l'appel, constate que le quorum est atteint.
-                            {% else %}
-                                Madame la présidente fait l'appel, constate que le quorum n'est pas atteint.
-                            {% endif %}
-                        {% else %}
-                            {% if page.quorum %}
-                                Monsieur/Madame le(a) président(e) fait l'appel, constate que le quorum est atteint.
-                            {% else %}
-                                Monsieur/Madame le(a) président(e), constate que le quorum n'est pas atteint.
-                            {% endif %}
-                        {% endif %}
-                {% endif %}
-            </p>
-        </div>
-    </div>     
-
-    <div class="grid-item grid-cr">
-        {% include "widgets/blocks/streamfield.html" with value=page.body %}
-    </div>
-
-    <div class="grid-item grid-documents">
-        <h4>Documents associés :</h4>
-        <ul>
-        {% for document in page.compterendu_documents.all %}
-            {% if document.document %}
-                <span>
-                    <a href="{{ document.document.url }}" target="_blank">{{ document.title }} |</a>
-                </span>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    </div>
-
-    <!-- Image de pied de page -->
+    {% comment %} Image de pied de page {% endcomment %}
     {% if settings.dashboard.PDFSettings.footer_image %}
         {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
     {% endif %}

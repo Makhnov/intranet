@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags static %}
+{% load static %}
 
 {% block extra_css %}
     {% if is_pdf %}
@@ -8,8 +8,21 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/convocation.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_bureau.min.css' %}">
     {% endif %}
+    {% if old %}
+        <link rel="stylesheet" type="text/css" href="{% static 'pdfjs/css/viewer.css' %}">
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     {% include "administration/widgets/convocation_page.html" with class_type="bureau" %}
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/intranet.min.js' %}"></script>
+    <script type="module" src="{% static 'js/convocation.min.js' %}"></script>
+    {% if old %}
+        <script type="module" src="{% static 'pdfjs/js/pdf.js' %}"></script>
+        <script type="module" src="{% static 'pdfjs/js/viewer.js' %}"></script>
+        <script type="module" src="{% static 'pdfjs/js/pdf.worker.js' %}"></script>
+    {% endif %}
 {% endblock %}

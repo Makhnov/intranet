@@ -102,9 +102,10 @@ class CustomPageSerializer(PageSerializer):
     
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['meta']['date'] = getattr(instance, 'date', None)
+        data['meta']['date'] = getattr(instance, 'date', None)        
         data['compte_rendu_page'] = self.get_compte_rendu_page(instance)        
         data["convocation_users"] = self.get_convocation_users(instance)
+        data['old'] = getattr(instance, 'old', None)
         
         media_id = getattr(instance, 'media_id', None)        
         if media_id:
@@ -152,23 +153,24 @@ class CustomPageSerializer(PageSerializer):
 
     def get_convocation_users(self, obj):
         if not isinstance(obj, ConvocationPage):
+            return None        
+        try:            
+            queryset = ConvocationUser.objects.filter(convocation__page_ptr=obj).order_by('user__last_name', 'user__first_name')
+            serializer = SimplifiedConvocationUserSerializer(instance=queryset, many=True, context=self.context)
+            return serializer.data
+        except ConvocationUser.DoesNotExist:
             return None
-        
-        queryset = ConvocationUser.objects.filter(convocation__page_ptr=obj).order_by('user__last_name', 'user__first_name')
-        serializer = SimplifiedConvocationUserSerializer(instance=queryset, many=True, context=self.context)
-        return serializer.data
 
     def get_compte_rendu_page(self, obj):
         if not isinstance(obj, ConvocationPage):
-            return None
-        
+            return None        
         try:
             compte_rendu_page = CompteRenduPage.objects.get(convocation=obj)
             serializer = SimplifiedCompteRenduSerializer(compte_rendu_page, context=self.context)
             return serializer.data
         except CompteRenduPage.DoesNotExist:
             return None
-
+        
     
 class UserSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()

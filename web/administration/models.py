@@ -402,6 +402,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
     ]
     
     date = models.DateTimeField(verbose_name="Date")
+    old = models.BooleanField(verbose_name=_("Old"), default=False, blank=True, null=True)
     body = RichTextField(blank=True, verbose_name=_("Agenda"))
 
     content_panels = custom_content_panels(["title"]) + [
@@ -417,6 +418,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
     promote_panels = custom_promote_panels(["slug"])
         
     api_fields = [   
+        APIField('old'),
         APIField('date'),
         APIField('body'),
         APIField('convocation_users'),
@@ -452,7 +454,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
-
+        context['old'] = self.old
         # Récupération et tri des utilisateurs par poids de fonction puis par fonction
         convocation_users = ConvocationUser.objects.filter(
             convocation=self
@@ -627,8 +629,14 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
-        # Assurez-vous que la page a une convocation associée
+
+        # On s'assure que la page a une convocation associée
         if self.convocation is not None:
+            
+            # On ajoute au contexte le statut 'old' de la convocation
+            context['old'] = self.convocation.old
+            # print(colored("old", "green"), colored(context['old'], "white", "on_green"))
+            
             convocation_users = ConvocationUser.objects.filter(
                 convocation=self.convocation
             ).select_related('user', 'substitute', 'alternate').order_by('function_weight', 'user__municipality')
@@ -752,8 +760,8 @@ class ConvocationUser(models.Model):
         APIField('user'),
         APIField('parent'),
         APIField('parent_url'),
-        APIField('function'),
         APIField('function_weight'),
+        APIField('function'),
         APIField('gender'),
         APIField('identity'),
         APIField('municipality'),

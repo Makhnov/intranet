@@ -10,6 +10,9 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">        
         <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
     {% endif %}
+    {% if old %}
+        <link rel="stylesheet" type="text/css" href="{% static 'pdfjs/css/viewer.css' %}">
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -19,4 +22,9 @@
 {% block extra_js %}
     <script type="module" src="{% static 'js/intranet.min.js' %}"></script>
     <script type="module" src="{% static 'js/compte_rendu.min.js' %}"></script>
+    {% if old %}
+        <script type="module" src="{% static 'pdfjs/js/pdf.js' %}"></script>
+        <script type="module" src="{% static 'pdfjs/js/viewer.js' %}"></script>
+        <script type="module" src="{% static 'pdfjs/js/pdf.worker.js' %}"></script>
+    {% endif %}
 {% endblock %}
