@@ -2,18 +2,18 @@ import gulp from 'gulp';
 import gulpSass from 'gulp-sass';
 import * as sass from 'sass';
 import rename from 'gulp-rename';
-import uglify from 'gulp-uglify';
 import cssnano from 'gulp-cssnano';
+import terser from 'gulp-terser';
 
 const sassCompiler = gulpSass(sass);
 
 function getPath(path) {
     const parts = path.basename.split('_');
     if (parts.length > 1) {
-      path.dirname = parts[0] + '/static/' + (path.extname === '.js' ? 'js' : 'css');
-      path.basename = parts.slice(1).join('_');
+        path.dirname = parts[0] + '/static/' + (path.extname === '.js' || path.extname === '.mjs' ? 'js' : 'css');
+        path.basename = parts.slice(1).join('_');
     } else {
-      path.dirname = path.basename + '/static/' + (path.extname === '.js' ? 'js' : 'css');
+        path.dirname = path.basename + '/static/' + (path.extname === '.js' || path.extname === '.mjs' ? 'js' : 'css');
     }
 }
   
@@ -35,28 +35,28 @@ function compileScss() {
         .pipe(gulp.dest('.'));
 }
   
-// Compilation et minification JS
+// Compilation et minification JS et MJS
 function compileJs() {
-    return gulp.src('js/**/*.js')
-        .pipe(uglify())  // Minification JS
+    return gulp.src(['js/**/*.js', 'js/**/*.mjs']) // Inclure les fichiers .js et .mjs
+        .pipe(terser()) // Utiliser terser pour la minification
         .pipe(rename(path => {
             getPath(path);
-            path.extname = '.min.js';  // Ajout de '.min' au nom du fichier
+            path.extname = '.min.js'; // Notez que l'extension .mjs est renommée en .js pour la sortie minifiée
         }))
         .pipe(gulp.dest('.'));
 }
 
 // Surveillance des modifications des fichiers SCSS
 function watchScss() {
-  gulp.watch('scss/**/*.scss', compileScss);
+    gulp.watch('scss/**/*.scss', compileScss);
 }
 
 // Surveillance des modifications des fichiers JS
 function watchJs() {
-  gulp.watch('js/**/*.js', compileJs);
+    gulp.watch(['js/**/*.js', 'js/**/*.mjs'], compileJs);
 }
 
 export default gulp.series(
-  gulp.parallel(compileScss, compileJs),
-  gulp.parallel(watchScss, watchJs)
+    gulp.parallel(compileScss, compileJs),
+    gulp.parallel(watchScss, watchJs)
 );

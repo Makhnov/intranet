@@ -1,23 +1,64 @@
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Page d'administration chargée");
+    // On récupère le type de menu
+    const bodyClass = document.body ? document.body.getAttribute('class') : '';
+    console.log(bodyClass);
 
-    // Gestion de l'affichage des contenus des menus déroulants
-    document.querySelectorAll('.accordion-title').forEach(function(title) {
-        title.addEventListener('click', function() {
-            // Trouver le contenu de l'accordéon associé
-            const content = this.nextElementSibling;
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
-        });
-    });
+    // Page de menu
+    if (bodyClass.includes('menu')) {
+        cgsMenu();
+    }
 
-    // Gestion de la copie des emails
-    document.getElementById("cgs-copy").addEventListener('click', copyEmailsToClipboard);
+    // Page de listing et de recherche des convocations et des comptes-rendus
+    if (bodyClass.includes('list')) {
+        cgsList();
+    }
 
-    function copyEmailsToClipboard() {
+    // Page de visualisation des convocations et des comptes-rendus
+    if (bodyClass.includes('doc')) {
+        cgsDoc();
+        const container = document.getElementById('viewer');
+        if (container) {
+            cgsViewer(container);
+        }
+    }
+});
+
+// Gestion du menu
+function cgsMenu() {
+    console.log("Menu chargé");
+}
+
+// Gestion de la copie des emails
+function cgsList() {
+    console.log("Liste chargée");
+    
+    // Container des boutons
+    const sectionAction = document.getElementById("action-buttons");
+    if (sectionAction) {
+        actionButtons();
+    }
+
+    // Gestion de la courbure du formulaire de recherche
+    const recherche = document.getElementById('searchColumn');
+    if (recherche) {
+        const resizeObserver = new ResizeObserver(VerticalWave);
+        resizeObserver.observe(recherche);        
+    }
+
+    // Gestion des boutons d'actions
+    function actionButtons() {
+        const copy = document.getElementById("cgs-copy");
+        const download = document.getElementById("cgs-download");
+        const print = document.getElementById("cgs-print");
+
+        if (copy) {
+            copy.addEventListener("click", copyMails);
+        }
+    }
+
+    // Copie des emails
+    function copyMails() {
         const emailText = document.getElementById("emailsToCopy").textContent;
         navigator.clipboard.writeText(emailText).then(function() {
             console.log('Copie réussie');
@@ -26,15 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Gestion de la courbure du formulaire de recherche
-    const recherche = document.getElementById('searchColumn');
-
-    if (recherche != null) {
-        //on lance un listener sur la taille du container 
-        const resizeObserver = new ResizeObserver(VerticalWave);
-        resizeObserver.observe(recherche);        
-    }
-
+    // Mise en forme de la vague du formulaire de recherche
     function VerticalWave() {
         const width = recherche.offsetWidth;
         const height = recherche.offsetHeight;
@@ -45,4 +78,74 @@ document.addEventListener("DOMContentLoaded", function() {
         document.documentElement.style.setProperty('--courbure-scaling-x', Xscale);
         document.documentElement.style.setProperty('--courbure-scaling-y', Yscale);        
     }
-});
+}
+
+// Gestion des documents
+function cgsDoc() {
+    console.log("Document chargé");
+}
+
+// Gestion de la visualisation des documents
+function cgsViewer(container) {    
+    const url = container.getAttribute('data-url');
+    if (!url) {
+        console.error('URL du PDF non définie');
+        return;
+    }
+    console.log('URL du PDF : ' + url);
+
+    // Initialiser la barre de progression
+    const progressBar = document.querySelector('header ul.header-menu');
+
+    // on set --progress-viewer à 0
+    let progress = 0;
+    updateProgress(progress);
+
+    // Charger le document PDF
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+        console.log('PDF chargé');
+
+        // Valeur d'une page en %
+        const progressPage = 100 / pdf.numPages;
+
+        let lastRenderedPagePromise = Promise.resolve(); // Promesse pour chaîner les rendus
+
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            // Créez un élément canvas pour chaque page dans l'ordre
+            let canvas = document.createElement('canvas');
+            canvas.id = 'page-' + pageNum;
+            container.appendChild(canvas);
+
+            // Chaîner le rendu des pages pour maintenir l'ordre
+            lastRenderedPagePromise = lastRenderedPagePromise.then(() => {
+                return pdf.getPage(pageNum).then(page => {
+                    console.log('Page ' + pageNum + ' chargée');
+                    const viewport = page.getViewport({scale: 1});
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+    
+                    const renderContext = {
+                        canvasContext: canvas.getContext('2d'),
+                        viewport: viewport
+                    };
+                    return page.render(renderContext).promise.then(() => {
+                        console.log('Page ' + pageNum + ' rendue');
+                        progress += progressPage; 
+                        console.log('Progression : ' + progress);
+                        updateProgress(progress);
+
+                        if(pageNum === pdf.numPages) {
+                            progressBar.style.background = 'var(--wrapper-color-menu);'
+                        }
+                    });
+                });
+            });
+        }
+    }, reason => {
+        console.error(reason);
+    });
+
+    function updateProgress(progress) {
+        document.documentElement.style.setProperty('--progress-viewer', `${progress}%`);
+    }
+}

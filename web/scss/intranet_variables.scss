@@ -38,9 +38,6 @@
     --content-color-menu: var(--cgs-theme-light-2);
     --wrapper-color-list: var(--cgs-theme-light-2-bis);
     --content-color-list: var(--cgs-theme-light-1);
-
-    --courbure-scaling-x:2;
-    --courbure-scaling-y:0.7;
 }
 
 @font-face {
@@ -137,6 +134,13 @@
 // TOUTES TAILLES D'ECRANS
 @media screen {
     :root { 
+        // PROGRESSION
+        --progress: 0%;
+
+        // VAGUE VERTICALE
+        --courbure-scaling-x:2;
+        --courbure-scaling-y:0.7;
+
         // Epaisseur du trait des icones
         --cgs-stroke-width: .6px;
 
@@ -145,6 +149,9 @@
 
         //FOOTER
         --footer-height: 3.5em;
+        
+        // HEADER
+        --header-padding:1em;
 
         // ZONE DE RECHERCHE
         --searchbox-width: 300px;
@@ -157,7 +164,12 @@
     }
 
     body {
-        &.menu {
+        &.viewer {            
+            // HEADER (Général)
+            --header-height:var(--footer-height)!important;
+            --header-padding:.5em;
+        }
+        &.menu, &.doc {
             #courbure {
                 fill:var(--wrapper-color-menu); 
             }

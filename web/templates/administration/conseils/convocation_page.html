@@ -1,27 +1,6 @@
-{% load static %}
+{% if old %}
+    {% include "widgets/viewer/pdf.html" with doc="convocation" main_dir="administration" sub_dir="conseils" %}
+{% else %}
+    {% include "widgets/viewer/html.html" with doc="convocation" main_dir="administration" sub_dir="conseils" %}
+{% endif %}
 
-{% block extra_css %}
-    {% if is_pdf %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_pdf.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_conseil_pdf.min.css' %}">
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/convocation_conseil.min.css' %}">
-        {% endif %}
-    {% if old %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/viewer.css' %}">
-    {% endif %}
-{% endblock %}
-
-{% block content %}
-    {% include "administration/widgets/convocation_page.html" with class_type="conseil" %}
-{% endblock %}
-
-{% block extra_js %}
-    <script type="module" src="{% static 'js/convocation.min.js' %}"></script>
-    {% if old %}
-        <script type="module" src="{% static 'js/pdf.mjs' %}"></script>
-        <script type="module" src="{% static 'js/viewer.mjs' %}"></script>
-        <script type="module" src="{% static 'js/pdf.worker.mjs' %}"></script>
-    {% endif %}
-{% endblock %}

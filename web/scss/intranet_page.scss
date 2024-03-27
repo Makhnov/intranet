@@ -27,7 +27,7 @@ div.cgs-container > div.cgs-page {
     width: 100%;
 }
 
-body.list div.cgs-page {
+body.list div.cgs-page, body.doc div.cgs-page {
     display: flex;
 }
 

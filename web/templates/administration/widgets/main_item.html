@@ -41,7 +41,7 @@
         {% if members %}
             {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
             <section class="cgs-members cgs-swap-hidden">
-                <div id="actions-buttons" class="cgs-actions">
+                <div id="action-buttons" class="cgs-action">
                     <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
                         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
                     </button>

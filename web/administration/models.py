@@ -589,7 +589,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         ),
         FieldPanel("body"),
         InlinePanel(
-            "compterendu_documents",
+            "compte_rendu_documents",
             label=_("Document"),
             heading=_("Attachments"),
             classname="collapsible collapsed",
@@ -634,8 +634,8 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         if self.convocation is not None:
             
             # On ajoute au contexte le statut 'old' de la convocation
-            context['old'] = self.convocation.old
-            # print(colored("old", "green"), colored(context['old'], "white", "on_green"))
+            context['old'] = self.convocation.old            
+            print(colored("old", "green"), colored(context['old'], "white", "on_green"))
             
             convocation_users = ConvocationUser.objects.filter(
                 convocation=self.convocation
@@ -731,7 +731,7 @@ class CompteRenduPieceJointe(PJBlock):
     page = ParentalKey(
         CompteRenduPage,
         on_delete=models.CASCADE,
-        related_name="compterendu_documents",
+        related_name="compte_rendu_documents",
     )
 
 # Etat de présence

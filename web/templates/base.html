@@ -56,27 +56,28 @@
   {% endif %}
 
     {# Header #}
-    <header class="cgs">
-      <ul class="header-menu">
-          {% include "widgets/header/pochoir.html" %}{# Logo CGS #}
-          {% if user.is_authenticated %}{# utilisateurs connectés #}
-            <li class="header-item">
-                <span class="header-user">Intranet de</span> 
-                <span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
-                <nav class="cgs-nav header">
-                    {% with class_type="nav" logo_settings=True home=True %}
-                        {% flat_menu 'home' show_menu_heading=True max_levels=1 %}
-                    {% endwith %}
-                </nav>
-            </li>   
-            {% include "widgets/header/user_menu_logged_in.html" %}{# Menu (icone user) #}
-          {% else %}{# utilisateurs non-connectés #}   
-            {% include "widgets/header/user_menu_logged_out.html" %}{# Menu (icone user) #}
-          {% endif %}
-      </ul>
-      {% include "widgets/header/vague.html" %}{# Arrière plan du header #}    
-    </header> 
-
+    {% block header %}
+      <header class="cgs">
+        <ul class="header-menu">
+            {% include "widgets/header/pochoir.html" %}{# Logo CGS #}
+            {% if user.is_authenticated %}{# utilisateurs connectés #}
+              <li class="header-item">
+                  <span class="header-user">Intranet de</span> 
+                  <span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
+                  <nav class="cgs-nav header">
+                      {% with class_type="nav" logo_settings=True home=True %}
+                          {% flat_menu 'home' show_menu_heading=True max_levels=1 %}
+                      {% endwith %}
+                  </nav>
+              </li>   
+              {% include "widgets/header/user_menu_logged_in.html" %}{# Menu (icone user) #}
+            {% else %}{# utilisateurs non-connectés #}   
+              {% include "widgets/header/user_menu_logged_out.html" %}{# Menu (icone user) #}
+            {% endif %}
+        </ul>
+        {% include "widgets/header/vague.html" %}{# Arrière plan du header #}    
+      </header> 
+    {% endblock %}
 
     {# Contenu principal #}
     {% block content %}{% endblock %}

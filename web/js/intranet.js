@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // Ajout de la classe cgs-open lors du click sur le profil (si l'utilisateur est connecté)
     const profile = document.querySelector('ul.profile > .avatar');
-    console.log(profile);
     if (profile) {
         profile.addEventListener('click', function (event) {
             console.log('click')
@@ -68,14 +67,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideSwapable(smooth=false, direction=false, element) {
         if (smooth) {
             if (direction) {        
-                console.log('cgs-width-none')        
                 element.classList.toggle('cgs-width-none');
             } else {
-                console.log('cgs-height-none');
                 element.classList.toggle('cgs-height-none');
             }
         } else {
-            console.log('cgs-hidden');
             element.classList.toggle('cgs-hidden');
         }
     }

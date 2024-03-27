@@ -32,7 +32,7 @@ media/
 
 # Compiled assets
 static/
-!web/dashboard/static/
+!web/*/static/
 
 /frontend/build/
 

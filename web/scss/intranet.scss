@@ -30,7 +30,7 @@ html {// INITIALISATIONS
             all:initial;
         }
         
-        .cgs-actions a, .cgs-actions button {
+        .cgs-action a, .cgs-action button {
             all:initial;
         }
     }
@@ -152,7 +152,7 @@ html {// IMAGES EN PLEIN ECRAN
       }
 }
 
-#actions-buttons {// Boutons d'actions (Copie, téléchargement, etc.
+#action-buttons {// Boutons d'actions (Copie, téléchargement, etc.
     align-self: flex-end;
     display: flex;
     justify-content: space-evenly;
@@ -224,7 +224,7 @@ header.cgs {
 
     width: var(--container-width);
     height: var(--header-height);
-    padding-bottom: 16px;
+    padding-bottom: var(--header-padding);
 
     #courbure {
         filter: drop-shadow(0 .1em .25em rgba(0, 0, 0, 0.75));
@@ -246,7 +246,7 @@ main {
 
     height: fit-content;
     min-height: var(--container-height);
-    padding: calc(var(--header-height) + 16px) 0 64px 0;
+    padding: calc(var(--header-height) + var(--header-padding)) 0 64px 0;
 
     display: flex;
     flex-direction: column;
@@ -275,6 +275,7 @@ div.cgs-content {//footer
             bottom:0;
             left:0;
             width: 100%;
+            height: calc(100% - .5em);
             box-shadow: 0 .25em .75em rgba(0, 0, 0, 0.75);
         }
     }
