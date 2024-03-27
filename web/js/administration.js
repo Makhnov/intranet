@@ -95,9 +95,10 @@ function cgsViewer(container) {
     console.log('URL du PDF : ' + url);
 
     // Initialiser la barre de progression
-    const progressBar = document.querySelector('header ul.header-menu');
+    const progressBox = document.querySelector('div.cgs-progress');
+    const progressValue = progressBox.querySelector('p.progress-value');
 
-    // on set --progress-viewer à 0
+    // on set --progress à 0
     let progress = 0;
     updateProgress(progress);
 
@@ -133,9 +134,9 @@ function cgsViewer(container) {
                         progress += progressPage; 
                         console.log('Progression : ' + progress);
                         updateProgress(progress);
-
                         if(pageNum === pdf.numPages) {
-                            progressBar.style.background = 'var(--wrapper-color-menu);'
+                            console.log('Progression terminée');
+                            progressBox.style.display = 'none';
                         }
                     });
                 });
@@ -146,6 +147,7 @@ function cgsViewer(container) {
     });
 
     function updateProgress(progress) {
-        document.documentElement.style.setProperty('--progress-viewer', `${progress}%`);
+        document.documentElement.style.setProperty('--progress', `${progress}%`);
+        progressValue.textContent = `${Math.floor(progress)}%`;
     }
 }

@@ -14,7 +14,11 @@
         <ul class="header-menu">
             <a href="/" class="header-link" title="{{ intranet.root_page.specific.tooltip }}">
                 <img src="{% static 'images/cgs-logo.png' %}" alt="Custom Project" />
-            </a>        
+            </a>
+            <div class="cgs-progress">
+                <p class="doc">Chargement {{doc}} du {{ page.date|date:"d F Y" }}</p>
+                <p class="progress-value"></p>
+            </div>
         </ul>
     </header> 
 {% endblock %}

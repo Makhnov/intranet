@@ -5,7 +5,6 @@ body.cgs-administration div.cgs-content {
 
 header {
 	overflow: hidden!important;
-
 	&::before {
 		content: "";
 		display: block;
@@ -20,27 +19,85 @@ header {
 
 	ul.header-menu {
 		justify-content: center!important;
-		background: linear-gradient(to right, var(--wrapper-color-menu) var(--progress-viewer), var(--wrapper-color-menu) var(--progress-viewer), transparent 0%, transparent 100%);
+		background-color: var(--wrapper-color-menu);
 
 		a.header-link {
 			position: absolute;
 			top: 0;
 			left: 0;
+			height: var(--header-height);
+			width: 5em;
 
 			img, svg {
-				margin: 5% 0 5% 1em;
-				height: calc(var(--header-height) * 0.9);
+				margin: .25em 0 .25em 1em;
+				height: 3em;
 				aspect-ratio: 1/1;
 			}
-
 		}
 		
+		div.cgs-progress {
+			position: absolute;	
+			align-self: center;		
+			height: .5em;
+			left: 5em;
+			width: calc(100% - 10em);
+
+			border-radius: .25em;
+			box-sizing: border-box;
+			border:1px solid var(--progress-color);
+			background: 
+				linear-gradient(
+					to right,
+					var(--wrapper-color-menu) var(--progress), 
+					var(--wrapper-color-menu) var(--progress), 
+					transparent var(--progress),
+					transparent 100%
+				),
+				var(--content-color-menu);
+
+			display: flex;
+  			justify-content: flex-end;
+
+			p {
+				position: relative;
+				display: flex;
+				align-items: center;				
+				
+				font-weight: bold;
+				white-space: nowrap;
+				overflow: visible;
+			  
+				&.progress-value {
+					flex:none;
+					align-self: center;
+					transform: translateX(calc(100% + .5em));
+					height: 56px;
+					width: 62px;
+
+					font-size: calc(var(--header-font-size) + .5em);
+					justify-content: flex-start;
+					color: var(--progress-color);
+				}
+				&.doc {
+					flex:none;					
+					width: 100%;
+					height: fit-content;
+					left: 62px;
+					align-self: end;
+					top:-10px;
+
+					font-size: calc(var(--header-font-size) + .25em);
+					justify-content: center;
+					color: var(--wrapper-color-list);
+				}
+			}
+		}
 
 		nav.viewer {
 			width: fit-content!important;
 			height: 100%;			
 			margin:0;
-			
+
 			ul.nav-box {
 				height: 100%;
 			}
