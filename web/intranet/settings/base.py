@@ -344,17 +344,13 @@ DEFAULT_AUTO_FIELD = (
     "django.db.models.BigAutoField"  # Certains package utilise encore ce paramètre (ex: guide, wagtailstreamforms)
 )
 
-# WAGTAIL SETTINGS
-
 # Mailing
 EMAIL_BACKEND = os.getenv("WAGTAIL_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-EMAIL_USE_TLS = os.getenv("WAGTAIL_EMAIL_USE_TLS", False)
-EMAIL_USE_SSL = os.getenv("WAGTAIL_EMAIL_USE_SSL", True)
+EMAIL_USE_SSL = os.getenv("WAGTAIL_EMAIL_USE_SSL", False)
 EMAIL_HOST = os.getenv("WAGTAIL_EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = os.getenv("WAGTAIL_EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("WAGTAIL_EMAIL_HOST_USER", "wagtail_example.com")
 EMAIL_HOST_PASSWORD = os.getenv("WAGTAIL_EMAIL_HOST_PASSWORD", "password")
-DEFAULT_FROM_EMAIL = os.getenv("WAGTAIL_DEFAULT_FROM_EMAIL", "wagtail_example.com")
 
 # PDF2Images
 POPPLER_PATH = os.getenv("POPPLER_PATH", r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")

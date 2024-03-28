@@ -2,12 +2,7 @@ from .base import *
 
 DEBUG = True
 print(f"DEBUG:", DEBUG)
-print(f"EMAIL_HOST:", EMAIL_HOST)
-print(f"EMAIL_PORT:", EMAIL_PORT)
-print(f"EMAIL_HOST_USER:", EMAIL_HOST_USER)
-print(f"EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
-print(f"EMAIL_USE_TLS:", EMAIL_USE_TLS)
-print(f"EMAIL_USE_SSL:", EMAIL_USE_SSL)
+
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Wagtail settings
