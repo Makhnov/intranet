@@ -115,10 +115,19 @@ def after_edit_only(request, page):
 #############
 
 # Comparaison des dates
-def compare_dates(request):
+def compare_dates(request, page):
     request = request.POST.copy()
-    now = datetime.now()
+    published = page.first_published_at
+    
+    if published:
+        now = published.replace(tzinfo=None)
+    else:
+        now = datetime.now()
+    
     then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
+    print(now)
+    print(then)
+    
     if now > then:
         # print("La date est passée")
         return True
@@ -189,7 +198,7 @@ def update_convoc_and_cr_defaults(request, page):
 
     # Si on sauvegarde une convocation on vérifie la date
     if isinstance(page.specific, ConvocationPage):
-        if compare_dates(request):
+        if compare_dates(request, page):
             page.specific.old = True
         else:
             page.specific.old = False
@@ -236,7 +245,7 @@ def create_convocation_users(request, page):
 
     try:
         # On vérifie la date de la convocation, on la signifie comme "ancienne" le cas échéant
-        if compare_dates(request):
+        if compare_dates(request, page):
             page.specific.old = True
             page.specific.save()
             return
