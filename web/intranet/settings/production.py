@@ -1,6 +1,7 @@
 from .base import *
 
-DEBUG = False
+DEBUG = True
+print(DEBUG)
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -21,6 +22,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+POPPLER_PATH = None
 
 # Configuration Redis
 # https://docs.wagtail.org/en/latest/advanced_topics/performance.html#cache
@@ -38,10 +40,6 @@ CACHES = {
         }
     }
 }
-
-POPPLER_PATH = None
-
-print(DEBUG)
 
 try:
     from .local import *

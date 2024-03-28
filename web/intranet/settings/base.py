@@ -261,8 +261,8 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 0
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_LOGOUT_ON_GET = False
 ACCOUNT_CONFIRM_EMAIL_ON_GET = False 
 ACCOUNT_PRESERVE_USERNAME_CASING = False
@@ -347,7 +347,7 @@ DEFAULT_AUTO_FIELD = (
 # WAGTAIL SETTINGS
 
 # Mailing
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = os.getenv("WAGTAIL_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 EMAIL_HOST = os.getenv("WAGTAIL_EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = os.getenv("WAGTAIL_EMAIL_PORT", 587)
 EMAIL_HOST_USER = os.getenv("WAGTAIL_EMAIL_HOST_USER", "wagtail_example.com")
@@ -355,6 +355,7 @@ EMAIL_HOST_PASSWORD = os.getenv("WAGTAIL_EMAIL_HOST_PASSWORD", "password")
 EMAIL_USE_TLS = os.getenv("WAGTAIL_EMAIL_USE_TLS", True)
 EMAIL_USE_SSL = os.getenv("WAGTAIL_EMAIL_USE_SSL", True)
 DEFAULT_FROM_EMAIL = os.getenv("WAGTAIL_DEFAULT_FROM_EMAIL", "wagtail_example.com")
+
 
 # PDF2Images
 POPPLER_PATH = os.getenv("POPPLER_PATH", r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
