@@ -2,6 +2,13 @@ from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+print(f"DEBUG:", DEBUG)
+print(f"EMAIL_HOST:", EMAIL_HOST)
+print(f"EMAIL_PORT:", EMAIL_PORT)
+print(f"EMAIL_HOST_USER:", EMAIL_HOST_USER)
+print(f"EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
+print(f"EMAIL_USE_TLS:", EMAIL_USE_TLS)
+print(f"EMAIL_USE_SSL:", EMAIL_USE_SSL)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-jc$23*h%wtjs&4=+2x$ovklg#wlemz07_7p=5bar89u+e*dr+d"
