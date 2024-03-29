@@ -104,7 +104,7 @@ body.login #main, body.signup #main, body.logout #main {
 }
 
 #main {//Logo
-    .login-logo, .logout-logo {
+    .login-logo, .logout-logo, .confirm-logo {
         width: 80%;
         display: flex;
         flex-direction: column;

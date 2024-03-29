@@ -1,0 +1,37 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load i18n static allauth %}
+
+{% block titletag %}{% trans "Confirm" %}{% endblock %}
+{% block bodyclass %}login confirm{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
+{% endblock %}
+
+{% block furniture %}
+    <main class="content-wrapper" id="main">
+        <div class="header-bar cgs-content-block">
+            <h1>{% trans "Mail confirmation" %}</h1>
+        </div>
+
+        <div class="confirm-logo cgs-content-block">
+            <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
+        </div>
+
+        <div class="messages" role="status">
+            <!-- Place for any messages if needed -->
+        </div>
+
+        {% element h1 %}
+            {% trans "Verify Your Email Address" %}
+        {% endelement %}
+
+        <p style='text-align:center;'>
+            {% blocktrans %}We have sent an email to you for verification. Follow the link provided to finalize the signup process. If you do not see the verification email in your main inbox, check your spam folder. Please contact us if you do not receive the verification email within a few minutes.{% endblocktrans %}
+        </p>
+
+    </main>
+{% endblock %}
+
+
+
