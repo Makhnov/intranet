@@ -89,7 +89,7 @@ INSTALLED_APPS = [
     # Charts
     
     # Formulaires
-    "wagtailstreamforms", # https://wagtailstreamforms.readthedocs.io/en/latest/ 
+    "wagtailstreamforms", # https://wagtailstreamforms.readthedocs.io/en/latest/
     "generic_chooser", # Requis par wagtailstreamforms   
     # Formulaires
 
