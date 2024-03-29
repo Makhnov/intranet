@@ -46,70 +46,42 @@
         {% endif %}   
         
         <form class="login-form cgs-content-block" action="{% url 'wagtailadmin_login' %}" method="post" autocomplete="off" novalidate>
-                {% csrf_token %}
+            {% csrf_token %}
 
-                {{ form.non_field_errors | safe }}
+            {{ form.non_field_errors | safe }}
 
-                {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                {% url 'wagtailadmin_home' as home_url %}
-                <input type="hidden" name="next" value="{{ next|default:home_url }}" />
-                
-                <div class="w-field__wrapper cgs-form-block" data-field-wrapper="">  
-                    <label class="w-field__label" for="id_login" id="id_username-label">{% trans "Username" %}</label>
-                    <div class="w-field w-field--char_field w-field--text_input" data-field="" data-contentpath="username">
-                        <div class="w-field__errors" data-field-errors=""></div>
-                        <div class="w-field__help" data-field-help=""></div>
-                        <div class="w-field__input" data-field-input="">
-                            <input  id="id_login" type="text" name="login" maxlength="150" value="" autocomplete="email" required="">
-                        </div>
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            {% url 'wagtailadmin_home' as home_url %}
+            <input type="hidden" name="next" value="{{ next|default:home_url }}" />
+            
+            {% with username_value=form.username.value|default_if_none:'' %}
+                {% formattedfield field=form.username classname="cgs-form-block" label_text="Identifiant" rendered_field='<input id="id_username" type="text" name="username" maxlength="150" value="'|add:username_value|add:'" required="">'|safe %}
+            {% endwith %}
+            {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required=""><span class="cgs-eye showpass"></span>' %}
+
+            <a class="reset-password cgs-form-block" href="{% url 'wagtailadmin_password_reset' %}">{% trans "Forgotten password?" %}</a>
+
+            {% trans "Remember me" as checkbox_text %}
+            {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me cgs-form-block" name="remember" text=checkbox_text %}
+
+            <footer class="form-actions cgs-form-block">
+                    <div class="fake button" style="position:absolute;">
+                        {% trans 'Connexion' %}
                     </div>
-                </div>
-                
-                <div class="w-field__wrapper cgs-form-block password" data-field-wrapper=""> 
-                    <label class="w-field__label" for="id_password" id="id_password-label">{% trans "Password" %}</label>
-                    <div class="w-field w-field--char_field w-field--password_input" data-field="" data-contentpath="password"> 
-                        <div class="w-field__errors" data-field-errors=""></div> 
-                        <div class="w-field__help" data-field-help=""></div>
-                        <div class="w-field__input" data-field-input="">       
-                            <input id="id_password" type="password" name="password" autocomplete="current-password" required="">                
-                            <span class="cgs-eye showpass"></span> 
-                        </div>
-                    </div>
-                </div>
-    
-                <a class="reset-password cgs-form-block" href="{% url 'account_reset_password' %}">{% trans "Forgotten password?" %}</a>
-    
-                {% trans "Remember me" as checkbox_text %}
-                {% include "wagtailadmin/shared/forms/single_checkbox.html" with label_classname="remember-me cgs-form-block" name="remember" text=checkbox_text %}
-    
-                <footer class="form-actions cgs-form-block">
-                        <div class="fake button">
-                            {% trans 'Connexion' %}
-                        </div>
-    
-                        <button
-                            type="submit"
-                            class="button button-longrunning"
-                            data-controller="w-progress"
-                            data-action="w-progress#activate"
-                            data-w-progress-active-value="{% trans 'Connexion…' %}"
-                        >
-                            {% icon name="spinner" %}
-                            <em data-w-progress-target="label">{% trans 'Connexion' %}</em>
-                        </button>
-                </footer>
-                
-                <section class="signup-option cgs-option-block">
-                    <p>
-                        {% blocktrans %}
-                            <span>If you do not have an account yet, please</span>
-                            <span><a href="{{ signup_url }}">sign up</a></span>
-                            <span>before login in.</span>
-                        {% endblocktrans %}
-                    </p>
-                </section>
-            </form>
-        </main>
+                    <button
+                        type="submit"
+                        class="button button-longrunning"
+                        data-controller="w-progress"
+                        data-action="w-progress#activate"
+                        data-w-progress-active-value="{% trans 'Connexion…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'Connexion' %}</em>
+                    </button>
+            </footer>
+        </form>
+        {% block below_login %}{% endblock %}
+    </main>
 {% endblock %} 
