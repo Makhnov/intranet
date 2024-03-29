@@ -68,16 +68,16 @@ BLOCS REPONSE NIVEAU 1 autorisés (autant que souhaité) :
 class SimpleAnswerBlock(StreamBlock):
     def __init__(self, *args, **kwargs):
         super().__init__([
-            ("heading", CharBlock(classname="title", icon="title")),
-            ("paragraph", RichTextBlock(icon="pilcrow")),
-            ("media", MediaBlock(icon="media")),  # Assurez-vous que MediaBlock est correctement défini/importé
-            ("image", ImageChooserBlock(icon="image")),
-            ("document", DocumentChooserBlock(icon="doc-full")),
-            ("link", LinkBlock(icon="link")),  # Assurez-vous que LinkBlock est correctement défini/importé
-            ("embed", EmbedBlock(icon="media")),  # Assurez-vous que EmbedBlock est correctement défini/importé
-            ("list", ListBlock(CharBlock(icon="list-ul"), icon="list-ul")),
-            ("quote", BlockQuoteBlock(icon="openquote")),
-            ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table")),  # Assurez-vous que TABLE_OPTIONS est défini
+            ("heading", CharBlock(classname="title", icon="title", label=_("Heading"))),
+            ("paragraph", RichTextBlock(icon="pilcrow", label=_("Paragraph"))),
+            ("media", MediaBlock(icon="media", label=_("Media"))),
+            ("image", ImageChooserBlock(icon="image", label=_("Image"))),
+            ("document", DocumentChooserBlock(icon="doc-full", label=_("Document"))),
+            ("link", LinkBlock(icon="link", label=_("Link"))),
+            ("embed", EmbedBlock(icon="media", label=_("Embed"))),
+            ("list", ListBlock(CharBlock(icon="list-ul", label=_("List Item")), icon="list-ul", label=_("List"))),
+            ("quote", BlockQuoteBlock(icon="openquote", label=_("Quote"))),
+            ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table", label=_("Table"))),
         ], icon="doc-full", label=_("Simple answer"), required=False, *args, **kwargs)
 
 def choice_block():
@@ -126,33 +126,53 @@ def list_block(f, str):
 class StepBlockSecondary(StructBlock):
     step_item = step_block()
     step_answer = SimpleAnswerBlock()
+    class Meta:
+        label = _("Step")
         
 class ChoiceBlockSecondary(StructBlock):
     choice_item = choice_block()
     choice_answer = SimpleAnswerBlock()
-           
+    class Meta:
+        label = _("Condition")
+        
 class ChoiceAnswerBlockSecondary(StructBlock):
     choices_intro = intro_block()
     choices = list_block(ChoiceBlockSecondary, "condition")  
-
+    class Meta:
+        icon = "help"
+        label = _("Conditonnal answer")
+        
 class StepAnswerBlockSecondary(StructBlock):
     steps_intro = intro_block()
     steps = list_block(StepBlockSecondary, "step")
-
+    class Meta:
+        icon = "tasks"
+        label = _("Step answer")
+        
 class ChoiceBlock(StructBlock):
     choice_item = choice_block()
     choice_answer = multiple_answer_block(ChoiceAnswerBlockSecondary(), StepAnswerBlockSecondary())
-
+    class Meta:
+        label = _("Condition")
+    
 class ChoiceAnswerBlock(StructBlock):
     choices_intro = intro_block()
     choices = list_block(ChoiceBlock, "condition")
-
+    class Meta:
+        icon = "help"
+        label = _("Conditonnal answer")
+        
 # Bloc de réponse par étape
 class StepBlock(StructBlock):
     step_item = step_block()
     step_answer = multiple_answer_block(ChoiceAnswerBlockSecondary(), StepAnswerBlockSecondary())
-
+    class Meta:
+        label = _("Step")
+        
 # Bloc de réponse à choix multiples
 class StepAnswerBlock(StructBlock):
     steps_intro = intro_block()
     steps = list_block(StepBlock, "step")
+    class Meta:
+        icon = "tasks"
+        label = _("Step answer")

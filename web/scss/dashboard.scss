@@ -326,7 +326,6 @@ div.handsontable.htRowHeaders.htColumnHeaders {
 }
 
 // GENERAL 
-
 .w-panel__content {
     &.disabled {
         opacity: 0.5;
@@ -369,30 +368,6 @@ body.homepage {
     .w-header__description {
         font-weight: 700;
         font-size: 1.25rem;
-    }
-
-    .wagtail_quick_create {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-        column-gap: 4em;
-
-        a {
-        display: block;
-        height: 4.5em;
-        max-width: 200px !important;
-        }
-
-        button.bicolor.button--icon {
-        height: 3em;
-        width: 200px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        text-align: start;
-        }
     }
 }
 
@@ -510,7 +485,6 @@ body.ready {
 }
 
 // USERS
-
 #id_groups #commissions, #id_groups #groupes_de_travail {
     padding-left: 2.125rem;
     display: flex;
@@ -540,15 +514,27 @@ body.ready {
 
 // Index submissions (streamforms)
 form.cgs-submission-index {
+    width: max-content;
+    max-width: 100%;
+
+    button {
+        margin:0;
+        margin-inline: 0 !important;
+        font-size: .875rem;
+        height: 3em;
+        line-height: calc(3em - 2px);
+    }
     div.left {
-        ul.rowflush {
-            margin:0;
+        div.search-bar {
+            display: flex;
+            align-items: end;            
+            justify-content: space-between;
+            flex-wrap: wrap;            
         }
-        h1 {
-            margin-left: 50px;
-            span {
-                display: block;
-            }
+
+        h1 {            
+            display: flex;
+            justify-content: center;
         }
         .submit button {
             margin-bottom: 1.875rem;
@@ -557,11 +543,13 @@ form.cgs-submission-index {
     div.right {
         display: flex;
         width: fit-content;
-        flex-direction: column;
+        flex-direction: row;
+        column-gap: 1rem;
         row-gap: 1rem;
+        flex-wrap: wrap;
 
         button {
-            margin:0;   
+            width:200px;
         }
     }
 
@@ -585,5 +573,63 @@ form.cgs-submission-index {
         padding: .25em;
         height: calc(var(--quickbar-button-size) - .5em);
         width: calc(var(--quickbar-button-size) - .5em);
+    }
+}
+
+// QUICKCREATE
+
+.wagtail_quick_create {// Accueil
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 4em;
+
+    a {
+    display: block;
+    height: 4.5em;
+    max-width: 300px !important;
+    }
+
+    button.bicolor.button--icon {
+    height: 3em;
+    width: 260px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: start;
+    }
+}
+
+ul.listing.cgs-quick {// Sélection de la page parent (convoc et CR)
+
+    a {
+        width: max-content;
+    }
+
+    li.list {        
+        
+        &:not(.cgs-closed) {
+            border:none;
+        }
+        
+        a {            
+            cursor: pointer;
+
+            span {
+                margin-left: .5em;
+            }
+        }
+        
+        ul {
+            width: max-content;
+            margin: 1em 0 0 1em;
+
+            li {
+                padding: .5em 0;
+                border-bottom: 1px dashed var(--w-color-border-field-default);
+            }
+        }
     }
 }

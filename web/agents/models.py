@@ -119,8 +119,8 @@ class FaqPage(Page):
     answer = StreamField(
         [
             ("single_answer", SimpleAnswerBlock()),
-            ("multiple_answer", ChoiceAnswerBlock(icon="help", label=_("Conditonnal answer"))),
-            ("step_answer", StepAnswerBlock(icon="tasks", label=_("Step answer"))),
+            ("multiple_answer", ChoiceAnswerBlock()),
+            ("step_answer", StepAnswerBlock()),
         ],
         use_json_field=True,
         blank=True,

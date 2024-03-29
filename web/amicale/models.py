@@ -139,18 +139,15 @@ class AmicalePage(Page):
     )
     body = StreamField(
         [
-            ("heading", blocks.CharBlock(classname="title", icon="title")),
-            ("paragraph", blocks.RichTextBlock(icon="pilcrow")),
-            ("media", MediaBlock(icon="media")),
-            ("image", ImageChooserBlock(icon="image")),
-            ('document', DocumentChooserBlock(icon="doc-full-inverse")),
-            ("link", LinkBlock()),
-            ("embed", EmbedBlock(icon="media")),
-            (
-                "list",
-                blocks.ListBlock(blocks.CharBlock(icon="radio-full"), icon="list-ul"),
-            ),
-            ("quote", blocks.BlockQuoteBlock(icon="openquote")),
+            ("heading", blocks.CharBlock(classname="title", icon="title", label=_("Heading"))),
+            ("paragraph", blocks.RichTextBlock(icon="pilcrow", label=_("Paragraph"))),
+            ("media", MediaBlock(icon="media", label=_("Media"))),            
+            ("image", ImageChooserBlock(icon="image", label=_("Image"))),
+            ('document', DocumentChooserBlock(icon="doc-full-inverse", label=_("Document"))),            
+            ("link", LinkBlock(icon="link", label=_("Link"))),
+            ("embed", EmbedBlock(icon="media", label=_("Embed media"))),
+            ("list", blocks.ListBlock(blocks.CharBlock(icon="radio-full", label=_("Item")), icon="list-ul", label=_("List"))),
+            ("quote", blocks.BlockQuoteBlock(icon="openquote", label=_("Quote"))),
         ],
         use_json_field=True,
         blank=True,

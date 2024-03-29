@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-06 07:54+0100\n"
+"POT-Creation-Date: 2024-03-29 20:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,320 +18,299 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\administration\models.py:138 .\administration\models.py:176
-#: .\administration\models.py:215 .\administration\models.py:297
+#: .\administration\models.py:105 .\administration\models.py:159
+#: .\administration\models.py:208 .\administration\models.py:302
 msgid "Label"
 msgstr "Étiquette"
 
-#: .\administration\models.py:139 .\administration\models.py:177
-#: .\administration\models.py:216 .\administration\models.py:298
+#: .\administration\models.py:106 .\administration\models.py:160
+#: .\administration\models.py:209 .\administration\models.py:303
+#, fuzzy
+#| msgid ""
+#| "Le texte qui apparaîtra dans le titre des convocations et des comptes-"
+#| "rendus."
 msgid ""
+"Le texte qui apparaitra dans le titre des convocations et des comptes-rendus."
+msgstr ""
 "Le texte qui apparaîtra dans le titre des convocations et des comptes-rendus."
-msgstr "Le texte qui apparaîtra dans le titre des convocations et des comptes-rendus."
 
-#: .\administration\models.py:269 .\home\models.py:376 .\home\models.py:484
+#: .\administration\models.py:274 .\home\models.py:90 .\home\models.py:299
 #: .\utils\menu_pages.py:110
 msgid "Logo (SVG, png, jpg, etc.)"
 msgstr "Logo (SVG, png, jpg, etc.)"
 
-#: .\administration\models.py:270 .\home\models.py:377 .\home\models.py:485
+#: .\administration\models.py:275 .\home\models.py:91 .\home\models.py:300
 #: .\utils\menu_pages.py:111
 msgid ""
 "𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦: Round or square (1/1). 𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦𝐚𝐭: Filled SVG. 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 "
 "𝐟𝐨𝐫𝐦𝐚𝐭: PNG with transparent background."
-msgstr "Forme conseillée: ronde ou carrée (1/1). Extension conseillée: SVG Plein. Extension secondaire: PNG avec fond transparent."
+msgstr ""
+"Forme conseillée: ronde ou carrée (1/1). Extension conseillée: SVG Plein. "
+"Extension secondaire: PNG avec fond transparent."
 
-#: .\administration\models.py:276 .\home\models.py:383 .\home\models.py:491
+#: .\administration\models.py:281 .\administration\models.py:544
+#: .\home\models.py:97 .\home\models.py:306 .\utils\faq.py:71
 #: .\utils\imports.py:72 .\utils\menu_pages.py:117
 msgid "Heading"
-msgstr "En-tête"
+msgstr "Titre"
 
-#: .\administration\models.py:277 .\home\models.py:384 .\home\models.py:492
+#: .\administration\models.py:282 .\home\models.py:98 .\home\models.py:307
 #: .\utils\menu_pages.py:118
 #, fuzzy
 #| msgid "This is the main content of the page."
 msgid "Displayed in menus, the heading is the title of the page."
 msgstr "Ceci est le contenu principal de la page."
 
-#: .\administration\models.py:283 .\agents\models.py:69 .\home\models.py:390
-#: .\home\models.py:498 .\utils\menu_pages.py:124
+#: .\administration\models.py:288 .\agents\models.py:213 .\home\models.py:104
+#: .\home\models.py:313 .\utils\menu_pages.py:124
 msgid "Tooltip"
 msgstr "Info-bulle"
 
-#: .\administration\models.py:284 .\home\models.py:391 .\home\models.py:499
+#: .\administration\models.py:289 .\home\models.py:105 .\home\models.py:314
 #: .\utils\menu_pages.py:125
 msgid "Used for accessibility (alt, title) and when user mouse over the icon."
-msgstr "Utilisé pour l'accessibilité (alt, titre) et lorsque l'utilisateur survole l'icône."
+msgstr ""
+"Utilisé pour l'accessibilité (alt, titre) et lorsque l'utilisateur survole "
+"l'icône."
 
-#: .\administration\models.py:292
+#: .\administration\models.py:297
 msgid "Type"
 msgstr "Type"
 
-#: .\administration\models.py:293
+#: .\administration\models.py:298
 msgid "Choose if this is a commission or a working group."
 msgstr "Choisissez s'il s'agit d'une commission ou d'un groupe de travail."
 
-#: .\administration\models.py:310 .\home\models.py:421 .\home\models.py:510
+#: .\administration\models.py:315 .\home\models.py:135 .\home\models.py:325
 #: .\utils\menu_pages.py:140
 msgid "Menu display options (click to expand)"
 msgstr "Options d'affichage du menu (cliquez pour développer)"
 
-#: .\administration\models.py:311 .\home\models.py:422 .\home\models.py:511
+#: .\administration\models.py:316 .\home\models.py:136 .\home\models.py:326
 #: .\utils\menu_pages.py:141
 msgid ""
 "Choose an icon and a tooltip to display on the index pages. Both optional, "
 "if none, CGS logo will be the icon and tooltip will refer as the page title"
-msgstr "Choisissez une icône et une info-bulle à afficher sur les pages d'index. "
-"Les deux sont optionnels, si aucun n'est spécifié, le logo CGS sera l'icône "
-"et l'info-bulle fera référence au titre de la page."
+msgstr ""
+"Choisissez une icône et une info-bulle à afficher sur les pages d'index. Les "
+"deux sont optionnels, si aucun n'est spécifié, le logo CGS sera l'icône et "
+"l'info-bulle fera référence au titre de la page."
 
-#: .\administration\models.py:365 .\administration\models.py:519
-#: .\amicale\models.py:186 .\home\models.py:410
+#: .\administration\models.py:405
+msgid "Old"
+msgstr "Ancien"
+
+#: .\administration\models.py:406 .\amicale\models.py:158 .\home\models.py:124
 msgid "Agenda"
 msgstr "Ordre du jour"
 
-#: .\administration\models.py:372 .\administration\models.py:541
-#: .\home\models.py:86 .\home\models.py:177 .\home\models.py:433
-#: .\home\models.py:591
+#: .\administration\models.py:413 .\administration\models.py:548
+#: .\administration\models.py:593 .\home\models.py:147 .\home\models.py:231
+#: .\utils\faq.py:75 .\utils\streamfield.py:63 .\utils\streamfield.py:153
 msgid "Document"
 msgstr "Document"
 
-#: .\administration\models.py:373 .\administration\models.py:542
-#: .\home\models.py:434 .\home\models.py:592
+#: .\administration\models.py:414 .\administration\models.py:594
+#: .\home\models.py:148 .\home\models.py:232
 msgid "Attachments"
 msgstr "Pièces jointes"
 
-#: .\administration\models.py:464 .\administration\models.py:683
+#: .\administration\models.py:506 .\administration\models.py:745
 msgid "Convocation"
 msgstr "Convocation"
 
-#: .\administration\models.py:465
+#: .\administration\models.py:507
 msgid "Sélectionnez la convocation associée."
 msgstr "Sélectionnez la convocation associée."
-#: .\administration\models.py:470
+
+#: .\administration\models.py:512
 msgid "Secrétaire"
 msgstr "Secrétaire"
 
-#: .\administration\models.py:478
+#: .\administration\models.py:520
 msgid "Remplaçants"
 msgstr "Remplaçants"
 
-#: .\administration\models.py:484
+#: .\administration\models.py:526
 msgid "Excusés et remplacés"
 msgstr "Excusés et remplacés"
 
-#: .\administration\models.py:490
+#: .\administration\models.py:532
 msgid "Excusés non remplacés"
 msgstr "Excusés non remplacés"
 
-#: .\administration\models.py:497
+#: .\administration\models.py:539
 msgid "Quorum"
 msgstr "Quorum"
 
-#: .\administration\models.py:498
-#, fuzzy
-#| msgid "Check this box if you want to use a map."
-msgid "Uncheck this box if the quorum isn't reached."
-msgstr "Cochez cette case si vous souhaitez utiliser une carte."
+#: .\administration\models.py:540
+msgid "Uncheck this box if the quorum isn't reached"
+msgstr "Décochez cette case si le quorum n'est pas atteint"
 
-#: .\administration\models.py:520 .\amicale\models.py:187 .\home\models.py:411
+#: .\administration\models.py:545 .\utils\faq.py:72 .\utils\imports.py:87
+msgid "Paragraph"
+msgstr "Paragraphe"
+
+#: .\administration\models.py:546 .\utils\faq.py:73
+#, fuzzy
+#| msgid "Medium"
+msgid "Media"
+msgstr "Moyen"
+
+#: .\administration\models.py:547 .\amicale\models.py:229 .\home\models.py:142
+#: .\utils\faq.py:74 .\utils\imports.py:114
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
+msgid "Image"
+msgstr "Image"
+
+#: .\administration\models.py:549 .\utils\faq.py:76 .\utils\streamfield.py:250
+msgid "Link"
+msgstr "Lien"
+
+#: .\administration\models.py:550
+msgid "Embed media"
+msgstr "Intégration média"
+
+#: .\administration\models.py:551 .\utils\faq.py:78
+#, fuzzy
+#| msgid "Next Item"
+msgid "List Item"
+msgstr "Élément suivant"
+
+#: .\administration\models.py:551 .\utils\faq.py:78
+msgid "List"
+msgstr "Liste"
+
+#: .\administration\models.py:552 .\utils\faq.py:79
+msgid "Quote"
+msgstr "Citation"
+
+#: .\administration\models.py:553 .\utils\faq.py:80 .\utils\imports.py:130
+msgid "Table"
+msgstr "Tableau"
+
+#: .\administration\models.py:554 .\utils\streamfield.py:236
+msgid "PDF"
+msgstr "Document PDF"
+
+#: .\administration\models.py:555
+msgid "DOCX"
+msgstr "Document DOCX"
+
+#: .\administration\models.py:560
+msgid "Main review"
+msgstr "Compte-rendu"
+
+#: .\administration\models.py:561 .\amicale\models.py:159 .\home\models.py:125
 msgid "This is the main content of the page."
 msgstr "Ceci est le contenu principal de la page."
 
-#: .\administration\models.py:676
+#: .\administration\models.py:571
+msgid "Instance management"
+msgstr "Paramètres généraux"
+
+#: .\administration\models.py:587
+msgid "Absence management"
+msgstr "Gestion des absences"
+
+#: .\administration\models.py:739
 msgid "Présent"
 msgstr "Présent"
 
-#: .\administration\models.py:677
+#: .\administration\models.py:740
 msgid "Remplacé"
 msgstr "Remplacé"
 
-#: .\administration\models.py:678
+#: .\administration\models.py:741
 msgid "Non remplacé"
 msgstr "Non remplacé"
 
-#: .\administration\models.py:684
+#: .\administration\models.py:746
 msgid "User"
 msgstr "Utilisateur"
 
-#: .\administration\models.py:685
+#: .\administration\models.py:747
 msgid "Parent Page"
 msgstr "Page parente"
 
-#: .\administration\models.py:686
+#: .\administration\models.py:748
 msgid "Function Weight"
 msgstr "Poids de la fonction"
 
-#: .\administration\models.py:687
+#: .\administration\models.py:749
 #, fuzzy
 #| msgid "Convocation"
 msgid "Function"
 msgstr "Convocation"
 
-#: .\administration\models.py:688
+#: .\administration\models.py:750
 msgid "Gender"
 msgstr "Genre"
 
-#: .\administration\models.py:689
+#: .\administration\models.py:751
 msgid "Identity"
 msgstr "Identité"
 
-#: .\administration\models.py:690 .\templates\wagtailusers\users\list.html:35
+#: .\administration\models.py:752 .\templates\wagtailusers\users\list.html:35
 msgid "Municipality"
 msgstr "Municipalité"
 
-#: .\administration\models.py:691
+#: .\administration\models.py:753
 msgid "Presence"
 msgstr "Présence"
 
-#: .\administration\models.py:692
+#: .\administration\models.py:754
 msgid "Substitute"
 msgstr "Suppléant"
 
-#: .\administration\models.py:693
+#: .\administration\models.py:755
 msgid "Alternate"
 msgstr "Alternatif"
 
-#: .\administration\models.py:740
+#: .\administration\models.py:802
 #, fuzzy
 #| msgid "Convocation"
 msgid "Convocation User"
 msgstr "Convocation"
 
-#: .\administration\models.py:741
+#: .\administration\models.py:803
 #, fuzzy
 #| msgid "Convocation"
 msgid "Convocation Users"
 msgstr "Convocation"
 
-#: .\agents\models.py:61 .\home\models.py:687
-#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:12
-msgid "Title"
-msgstr "Titre"
-
-#: .\agents\models.py:62
-msgid "Visible title on the FAQ index page."
-msgstr "Titre visible sur la page d'index des FAQ."
-
-#: .\agents\models.py:70
-msgid ""
-"Tooltip displayed on the index pages. Visible when user mouse over the logo "
-"icon."
-msgstr ""
-"Info-bulle affichée sur les pages d'index. Visible lorsque l'utilisateur "
-"passe la souris sur l'icône du logo."
-
-#: .\agents\models.py:78 .\dashboard\models.py:68
-msgid "Logo"
-msgstr "Logo"
-
-#: .\agents\models.py:79
-msgid ""
-"Visible icon on index pages. Ideal size: 1/1 (square or round). Format :⚠️SVG⚠️"
-msgstr ""
-"Icône visible sur les pages d'index. Taille idéale : 1/1 (carré ou rond). "
-"Format :⚠️SVG⚠️"
-
-#: .\agents\models.py:97
-msgid "one category"
-msgstr "une catégorie"
-
-#: .\agents\models.py:98
-msgid "categories"
-msgstr "catégories"
-
-#: .\agents\models.py:173
-msgid "Law text reference"
-msgstr "Référence du texte de loi"
-
-#: .\agents\models.py:174
-msgid "Law text link"
-msgstr "Lien vers le texte de loi"
-
-#: .\agents\models.py:198
-msgid "Simple answer"
-msgstr "Réponse simple"
-
-#: .\agents\models.py:206
-msgid "Criteria"
-msgstr "Critères"
-
-#: .\agents\models.py:208
-msgid ""
-"User select the criteria wich fits to his situation, it will allow him to "
-"see related answer(s). Mandatory."
-msgstr ""
-"L'utilisateur sélectionne les critères qui correspondent à sa situation, "
-"ceci lui permettra de voir la/les réponse(s) associée(s). Obligatoire."
-
-#: .\agents\models.py:216
-#, fuzzy
-#| msgid "Last name"
-msgid "Step name"
-msgstr "Nom de famille"
-
-#: .\agents\models.py:218
-msgid ""
-"User click on each steps names to open it and see related answer(s). "
-"Mandatory."
-msgstr ""
-"L'utilisateur clique sur chaque nom d'étape pour l'ouvrir et voir les "
-"réponse(s) associée(s). Obligatoire."
-
-#: .\agents\models.py:226
-msgid "Introduction"
-msgstr "Introduction"
-
-#: .\agents\models.py:237
-#, fuzzy
-#| msgid "Answer(s)"
-msgid "Related answer(s)"
-msgstr "Réponse(s)"
-
-#: .\agents\models.py:243
-msgid "Click on the + below to add another "
-msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
-
-#: .\agents\models.py:287
+#: .\agents\models.py:116
 msgid "Category"
 msgstr "Catégorie"
 
-#: .\agents\models.py:289
+#: .\agents\models.py:118
 msgid "Question"
 msgstr "Question"
 
-#: .\agents\models.py:293
-msgid "Conditonnal answer"
-msgstr "Réponse conditionnelle"
-
-#: .\agents\models.py:294
-msgid "Step answer"
-msgstr "Réponse d'étape"
-
-#: .\agents\models.py:299
+#: .\agents\models.py:128
 msgid "Answer(s)"
 msgstr "Réponse(s)"
 
-#: .\agents\models.py:301
+#: .\agents\models.py:130
 msgid ""
 "Click on the ⊕ below to add an answer. You can add simple answer(s), "
 "conditional answer(s) or step answer(s). You can either imbriqued "
 "conditional answer(s) or step answer(s) inside any answer."
 msgstr ""
 "Cliquez sur le ⊕ ci-dessous pour ajouter une réponse. Vous pouvez ajouter "
-"des réponses simples, des réponses conditionnelles ou des réponses "
-"d'étape. Vous pouvez également imbriquer des réponses conditionnelles ou "
-"des réponses d'étape dans n'importe quelle réponse."
+"des réponses simples, des réponses conditionnelles ou des réponses d'étape. "
+"Vous pouvez également imbriquer des réponses conditionnelles ou des réponses "
+"d'étape dans n'importe quelle réponse."
 
-#: .\agents\models.py:306
+#: .\agents\models.py:135
 msgid "Related FAQ"
 msgstr "FAQ associées"
 
-#: .\agents\models.py:311
+#: .\agents\models.py:140
 msgid "Similar themes"
 msgstr "Thèmes similaires"
 
-#: .\agents\models.py:312
+#: .\agents\models.py:141
 msgid ""
 "You can click on the ⊕ below to add related FAQ to this one. Users will see "
 "it in the 'Go further' section"
@@ -339,37 +318,61 @@ msgstr ""
 "Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des FAQ associées à "
 "celle-ci. Les utilisateurs les verront dans la section 'Aller plus loin'."
 
-#: .\agents\models.py:321
+#: .\agents\models.py:150
 msgid "Law texts"
 msgstr "Textes de loi"
 
-#: .\agents\models.py:322
+#: .\agents\models.py:151
 msgid "You can click on the ⊕ below to add law texts related to this FAQ."
 msgstr ""
-"Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des textes de loi "
-"liés à cette FAQ."
+"Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des textes de loi liés "
+"à cette FAQ."
 
-#: .\agents\models.py:327
+#: .\agents\models.py:156
 msgid "Faq Tags"
 msgstr "Balises FAQ"
 
-#: .\amicale\models.py:66
-msgid "Author imge"
-msgstr "Image de l'auteur"
+#: .\agents\models.py:205 .\utils\widgets.py:46
+#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:12
+msgid "Title"
+msgstr "Titre"
 
-#: .\amicale\models.py:78
-msgid "Author"
-msgstr "Auteur"
+#: .\agents\models.py:206
+msgid "Visible title on the FAQ index page."
+msgstr "Titre visible sur la page d'index des FAQ."
 
-#: .\amicale\models.py:79
-msgid "Authors"
-msgstr "Auteurs"
+#: .\agents\models.py:214
+msgid ""
+"Tooltip displayed on the index pages. Visible when user mouse over the logo "
+"icon."
+msgstr ""
+"Info-bulle affichée sur les pages d'index. Visible lorsque l'utilisateur "
+"passe la souris sur l'icône du logo."
 
-#: .\amicale\models.py:149
+#: .\agents\models.py:222 .\dashboard\models.py:68
+msgid "Logo"
+msgstr "Logo"
+
+#: .\agents\models.py:223
+msgid ""
+"Visible icon on index pages. Ideal size: 1/1 (square or round). Format :⚠️SVG⚠️"
+msgstr ""
+"Icône visible sur les pages d'index. Taille idéale : 1/1 (carré ou rond). "
+"Format :⚠️SVG⚠️"
+
+#: .\agents\models.py:240
+msgid "one category"
+msgstr "une catégorie"
+
+#: .\agents\models.py:241
+msgid "categories"
+msgstr "catégories"
+
+#: .\amicale\models.py:121
 msgid "Date"
 msgstr "Date"
 
-#: .\amicale\models.py:150
+#: .\amicale\models.py:122
 msgid ""
 "For an event enter the event date, for an article enter the publication "
 "date(or leave it blank)."
@@ -377,100 +380,99 @@ msgstr ""
 "Pour un événement, entrez la date de l'événement ; pour un article, entrez "
 "la date de publication (ou laissez-la vide)."
 
-#: .\amicale\models.py:157
+#: .\amicale\models.py:129
 msgid "Auteur"
 msgstr "Auteur"
 
-#: .\amicale\models.py:166
+#: .\amicale\models.py:138
 msgid "Amicale Tags"
 msgstr "Balises Amicale"
 
-#: .\amicale\models.py:191
+#: .\amicale\models.py:163
 msgid "Use a map?"
 msgstr "Utiliser une carte ?"
 
-#: .\amicale\models.py:192
+#: .\amicale\models.py:164
 msgid "Check this box if you want to use a map."
 msgstr "Cochez cette case si vous souhaitez utiliser une carte."
 
-#: .\amicale\models.py:198 .\amicale\models.py:271
+#: .\amicale\models.py:170 .\amicale\models.py:243
 msgid "Location"
 msgstr "Emplacement"
 
-#: .\amicale\models.py:199
+#: .\amicale\models.py:171
 msgid "Select location on the map."
 msgstr "Sélectionnez l'emplacement sur la carte."
 
-#: .\amicale\models.py:205 .\amicale\models.py:265
+#: .\amicale\models.py:177 .\amicale\models.py:237
 msgid "Address"
 msgstr "Adresse"
 
-#: .\amicale\models.py:206
+#: .\amicale\models.py:178
 msgid "Address to geocode to get the location."
 msgstr "Adresse à géocoder pour obtenir l'emplacement."
 
-#: .\amicale\models.py:212
+#: .\amicale\models.py:184
 msgid "Name to display for this point on the map."
 msgstr "Nom à afficher pour ce point sur la carte."
 
-#: .\amicale\models.py:217
+#: .\amicale\models.py:189
 msgid "Link for the point on the map."
 msgstr "Lien pour le point sur la carte."
 
-#: .\amicale\models.py:234
+#: .\amicale\models.py:206
 msgid "Form field"
 msgstr "Champ de formulaire"
 
-#: .\amicale\models.py:239
+#: .\amicale\models.py:211
 msgid "Inscription form"
 msgstr "Formulaire d'inscription"
 
-#: .\amicale\models.py:240
+#: .\amicale\models.py:212
 msgid "Add an inscription form for this event."
 msgstr "Ajouter un formulaire d'inscription pour cet événement."
 
-#: .\amicale\models.py:251
+#: .\amicale\models.py:223
 #, fuzzy
 #| msgid "Additional information"
 msgid "Article informations"
 msgstr "Informations supplémentaires"
 
-#: .\amicale\models.py:254 .\home\models.py:425
+#: .\amicale\models.py:226 .\home\models.py:139
 msgid "Content"
 msgstr "Contenu"
 
-#: .\amicale\models.py:257 .\home\models.py:428 .\utils\imports.py:114
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
-msgid "Image"
-msgstr "Image"
-
-#: .\amicale\models.py:258
+#: .\amicale\models.py:230
 msgid "Gallery images"
 msgstr "Images de la galerie"
 
-#: .\amicale\models.py:273
+#: .\amicale\models.py:245
 msgid "Name (marker)"
 msgstr "Nom (marqueur)"
 
-#: .\amicale\models.py:274
+#: .\amicale\models.py:246
 msgid "Link (marker)"
 msgstr "Lien (marqueur)"
 
-#: .\amicale\models.py:276
+#: .\amicale\models.py:248
 msgid "Map details"
 msgstr "Détails de la carte"
 
-#: .\amicale\models.py:279
+#: .\amicale\models.py:251
 msgid "inscription form"
 msgstr "formulaire d'inscription"
 
-#: .\amicale\models.py:328 .\home\models.py:665
-msgid "Caption"
-msgstr "Légende"
+#: .\amicale\models.py:298
+msgid "Author imge"
+msgstr "Image de l'auteur"
 
-#: .\amicale\models.py:329 .\home\models.py:666
-msgid "You can add a caption to the image (optional)."
-msgstr "Vous pouvez ajouter une légende à l'image (facultatif)."
+#: .\amicale\models.py:310
+msgid "Author"
+msgstr "Auteur"
+
+#: .\amicale\models.py:311
+msgid "Authors"
+msgstr "Auteurs"
 
 #: .\dashboard\models.py:76
 msgid "Footer Image"
@@ -516,7 +518,6 @@ msgstr "Conseils"
 msgid "Opening Boards"
 msgstr "Bureaux"
 
-
 #: .\dashboard\models.py:109 .\dashboard\models.py:147
 msgid "Opening Commissions"
 msgstr "Commissions"
@@ -552,23 +553,29 @@ msgstr "Formules de politesse"
 
 #: .\dashboard\models.py:130
 msgid "Text for council openings."
-msgstr "Message d'introduction pour les convocations aux conseils communautaires"
+msgstr ""
+"Message d'introduction pour les convocations aux conseils communautaires"
 
 #: .\dashboard\models.py:137
 msgid "Text for board openings."
-msgstr "Message d'introduction pour les convocations aux bureaux communautaires"
+msgstr ""
+"Message d'introduction pour les convocations aux bureaux communautaires"
 
 #: .\dashboard\models.py:144
 msgid "Text for commission openings."
-msgstr "Message d'introduction pour les convocations aux commissions et groupe de travail"
+msgstr ""
+"Message d'introduction pour les convocations aux commissions et groupe de "
+"travail"
 
 #: .\dashboard\models.py:151
 msgid "Text for conference openings."
-msgstr "Message d'introduction pour les convocations aux conférences des maires"
+msgstr ""
+"Message d'introduction pour les convocations aux conférences des maires"
 
 #: .\dashboard\models.py:160
 msgid "Closing text for councils."
-msgstr "Formule de politesse pour clore une convocation au conseil communautaire."
+msgstr ""
+"Formule de politesse pour clore une convocation au conseil communautaire."
 
 #: .\dashboard\models.py:166
 msgid "Closing text for boards."
@@ -576,13 +583,16 @@ msgstr "Formule de politesse pour clore une convocation au bureau."
 
 #: .\dashboard\models.py:172
 msgid "Closing text for commissions."
-msgstr "Formule de politesse pour clore une convocation aux commissions et aux groupes de travail."
+msgstr ""
+"Formule de politesse pour clore une convocation aux commissions et aux "
+"groupes de travail."
 
 #: .\dashboard\models.py:178
 msgid "Closing text for conferences."
-msgstr "Formule de politesse pour clore une convocation aux conférences des maires."
+msgstr ""
+"Formule de politesse pour clore une convocation aux conférences des maires."
 
-#: .\dashboard\models.py:197 .\dashboard\models.py:567
+#: .\dashboard\models.py:197 .\dashboard\models.py:548
 msgid "Home"
 msgstr "Accueil"
 
@@ -600,466 +610,257 @@ msgstr ""
 msgid "User profile"
 msgstr "Profil"
 
-#: .\dashboard\models.py:207 .\dashboard\models.py:568
+#: .\dashboard\models.py:207 .\dashboard\models.py:549
 #, fuzzy
 #| msgid "Profile"
 msgid "User Profile"
 msgstr "Profil"
 
-#: .\dashboard\models.py:215 .\dashboard\models.py:569
+#: .\dashboard\models.py:215 .\dashboard\models.py:550
 msgid "Previous Page"
 msgstr "Page précédente"
 
-#: .\dashboard\models.py:223 .\dashboard\models.py:570
+#: .\dashboard\models.py:223 .\dashboard\models.py:551
 msgid "Next Page"
 msgstr "Page suivante"
 
-#: .\dashboard\models.py:233 .\dashboard\models.py:577
+#: .\dashboard\models.py:233 .\dashboard\models.py:558
 msgid "Open"
 msgstr "Ouvrir"
 
-#: .\dashboard\models.py:241 .\dashboard\models.py:578
+#: .\dashboard\models.py:241 .\dashboard\models.py:559
 msgid "Close"
 msgstr "Fermer"
 
-#: .\dashboard\models.py:249 .\dashboard\models.py:579
+#: .\dashboard\models.py:249 .\dashboard\models.py:560
 msgid "More"
 msgstr "Plus"
 
-#: .\dashboard\models.py:257 .\dashboard\models.py:580
+#: .\dashboard\models.py:257 .\dashboard\models.py:561
 msgid "Less"
 msgstr "Moins"
 
-#: .\dashboard\models.py:265 .\dashboard\models.py:581
+#: .\dashboard\models.py:265 .\dashboard\models.py:562
 msgid "More (right)"
 msgstr "Plus (droite)"
 
-#: .\dashboard\models.py:273 .\dashboard\models.py:582
+#: .\dashboard\models.py:273 .\dashboard\models.py:563
 msgid "Less (left)"
 msgstr "Moins (gauche)"
 
-#: .\dashboard\models.py:281 .\dashboard\models.py:583
-msgid "Base item"
-msgstr "Élément de base"
-
-#: .\dashboard\models.py:282
-msgid "Base Item"
-msgstr "Élément de base"
-
-#: .\dashboard\models.py:290 .\dashboard\models.py:584
+#: .\dashboard\models.py:281 .\dashboard\models.py:564
 msgid "Previous Item"
 msgstr "Élément précédent"
 
-#: .\dashboard\models.py:298
+#: .\dashboard\models.py:289
 msgid "Next item"
 msgstr "Élément suivant"
 
-#: .\dashboard\models.py:299 .\dashboard\models.py:585
+#: .\dashboard\models.py:290 .\dashboard\models.py:565
 msgid "Next Item"
 msgstr "Élément suivant"
 
-#: .\dashboard\models.py:307 .\dashboard\models.py:308
-#: .\dashboard\models.py:586
+#: .\dashboard\models.py:298 .\dashboard\models.py:299
+#: .\dashboard\models.py:566
 msgid "All FAQ"
 msgstr "Toutes les FAQ"
 
-#: .\dashboard\models.py:316 .\dashboard\models.py:317
-#: .\dashboard\models.py:587
+#: .\dashboard\models.py:307 .\dashboard\models.py:308
+#: .\dashboard\models.py:567
 #, fuzzy
 #| msgid "Amicale Tags"
 msgid "Amicale news"
 msgstr "Balises Amicale"
 
-#: .\dashboard\models.py:325 .\dashboard\models.py:326
-#: .\dashboard\models.py:588
+#: .\dashboard\models.py:316 .\dashboard\models.py:317
+#: .\dashboard\models.py:568
 #, fuzzy
 #| msgid "Amicale Tags"
 msgid "Amicale sorties"
 msgstr "Balises Amicale"
 
-#: .\dashboard\models.py:334 .\dashboard\models.py:335
-#: .\dashboard\models.py:589
+#: .\dashboard\models.py:325 .\dashboard\models.py:326
+#: .\dashboard\models.py:569
 #, fuzzy
 #| msgid "Amicale Tags"
 msgid "Amicale divers"
 msgstr "Balises Amicale"
 
-#: .\dashboard\models.py:343 .\dashboard\models.py:344
-#: .\dashboard\models.py:590
+#: .\dashboard\models.py:334 .\dashboard\models.py:335
+#: .\dashboard\models.py:570
 msgid "Amicale unknown"
 msgstr "Amicale inconnue"
 
-#: .\dashboard\models.py:354 .\dashboard\models.py:355
-#: .\dashboard\models.py:597
+#: .\dashboard\models.py:345 .\dashboard\models.py:346
+#: .\dashboard\models.py:577
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:9
 #: .\venv\Lib\site-packages\generic_chooser\views.py:338
 #: .\venv\Lib\site-packages\generic_chooser\views.py:339
 msgid "Search"
 msgstr "Recherche"
 
-#: .\dashboard\models.py:363 .\dashboard\models.py:364
-#: .\dashboard\models.py:598
+#: .\dashboard\models.py:354 .\dashboard\models.py:355
+#: .\dashboard\models.py:578
 msgid "Zoom in"
 msgstr "Zoomer"
 
-#: .\dashboard\models.py:372 .\dashboard\models.py:373
-#: .\dashboard\models.py:599
+#: .\dashboard\models.py:363 .\dashboard\models.py:364
+#: .\dashboard\models.py:579
 msgid "Zoom out"
 msgstr "Dézoomer"
 
-#: .\dashboard\models.py:381 .\dashboard\models.py:382
-#: .\dashboard\models.py:600
+#: .\dashboard\models.py:372 .\dashboard\models.py:373
+#: .\dashboard\models.py:580
 msgid "Apply filter"
 msgstr "Appliquer le filtre"
 
-#: .\dashboard\models.py:390 .\dashboard\models.py:391
-#: .\dashboard\models.py:601
+#: .\dashboard\models.py:381 .\dashboard\models.py:382
+#: .\dashboard\models.py:581
 msgid "Reset filter"
 msgstr "Réinitialiser le filtre"
 
-#: .\dashboard\models.py:401 .\dashboard\models.py:402
-#: .\dashboard\models.py:608
+#: .\dashboard\models.py:390 .\dashboard\models.py:391
+#: .\dashboard\models.py:582
+msgid "Copy to clipboard"
+msgstr "Copier dans le presse-papier"
+
+#: .\dashboard\models.py:399 .\dashboard\models.py:400
+#: .\dashboard\models.py:509 .\dashboard\models.py:583
+msgid "Download"
+msgstr "Télécharger"
+
+#: .\dashboard\models.py:408 .\dashboard\models.py:409
+#: .\dashboard\models.py:584
+msgid "Print"
+msgstr "Imprimer"
+
+#: .\dashboard\models.py:418 .\dashboard\models.py:419
+#: .\dashboard\models.py:591
 msgid "List view"
 msgstr "Vue en liste"
 
-#: .\dashboard\models.py:410 .\dashboard\models.py:411
-#: .\dashboard\models.py:609
+#: .\dashboard\models.py:427 .\dashboard\models.py:428
+#: .\dashboard\models.py:592
 msgid "Upcoming view"
 msgstr "Vue à venir"
 
-#: .\dashboard\models.py:419 .\dashboard\models.py:420
-#: .\dashboard\models.py:610
+#: .\dashboard\models.py:436 .\dashboard\models.py:437
+#: .\dashboard\models.py:593
 msgid "Past view"
 msgstr "Vue précédente"
 
-#: .\dashboard\models.py:428 .\dashboard\models.py:429
-#: .\dashboard\models.py:611
+#: .\dashboard\models.py:445 .\dashboard\models.py:446
+#: .\dashboard\models.py:594
 msgid "Day view"
 msgstr "Vue journalière"
 
-#: .\dashboard\models.py:437 .\dashboard\models.py:438
-#: .\dashboard\models.py:612
+#: .\dashboard\models.py:454 .\dashboard\models.py:455
+#: .\dashboard\models.py:595
 msgid "Week view"
 msgstr "Vue hebdomadaire"
 
-#: .\dashboard\models.py:446 .\dashboard\models.py:447
-#: .\dashboard\models.py:613
+#: .\dashboard\models.py:463 .\dashboard\models.py:464
+#: .\dashboard\models.py:596
 msgid "Month view"
 msgstr "Vue mensuelle"
 
-#: .\dashboard\models.py:455 .\dashboard\models.py:456
-#: .\dashboard\models.py:614
+#: .\dashboard\models.py:472 .\dashboard\models.py:473
+#: .\dashboard\models.py:597
 msgid "Actual view"
 msgstr "Vue actuelle"
 
-#: .\dashboard\models.py:466 .\dashboard\models.py:621
+#: .\dashboard\models.py:483 .\dashboard\models.py:604
 #, fuzzy
 #| msgid "Convocation"
 msgid "Convocation page"
 msgstr "Convocation"
 
-#: .\dashboard\models.py:474 .\dashboard\models.py:622
+#: .\dashboard\models.py:491 .\dashboard\models.py:605
 msgid "Compte rendu page"
 msgstr "Page de compte rendu"
 
-#: .\dashboard\models.py:482 .\dashboard\models.py:623
-msgid "Administration page"
-msgstr "Page d'administration"
-
-#: .\dashboard\models.py:483
-#, fuzzy
-#| msgid "introduction"
-msgid "Administration"
-msgstr "introduction"
-
-#: .\dashboard\models.py:491 .\dashboard\models.py:624
-#, fuzzy
-#| msgid "Amicale Tags"
-msgid "Amicale page"
-msgstr "Balises Amicale"
-
-#: .\dashboard\models.py:492
-#, fuzzy
-#| msgid "Amicale Tags"
-msgid "Amicale"
-msgstr "Balises Amicale"
-
-#: .\dashboard\models.py:500 .\dashboard\models.py:625
-msgid "FAQ page"
-msgstr "Page FAQ"
-
-#: .\dashboard\models.py:501
-msgid "FAQ"
-msgstr "FAQ"
-
-#: .\dashboard\models.py:509 .\dashboard\models.py:626
-msgid "Ressources page"
-msgstr "Page Ressources"
-
-#: .\dashboard\models.py:510
-msgid "Ressources"
-msgstr "Ressources"
-
-#: .\dashboard\models.py:518 .\dashboard\models.py:519
-#: .\dashboard\models.py:627
+#: .\dashboard\models.py:499 .\dashboard\models.py:500
+#: .\dashboard\models.py:606
 msgid "Web page"
 msgstr "Page Web"
 
-#: .\dashboard\models.py:527 .\dashboard\models.py:628
+#: .\dashboard\models.py:508 .\dashboard\models.py:607
 msgid "Documents (InstantDownload)"
 msgstr "Documents (Téléchargement instantané)"
 
-#: .\dashboard\models.py:528
-msgid "Download"
-msgstr "Télécharger"
-
-#: .\dashboard\models.py:536 .\dashboard\models.py:537
-#: .\dashboard\models.py:629
+#: .\dashboard\models.py:517 .\dashboard\models.py:518
+#: .\dashboard\models.py:608
 msgid "Form"
 msgstr "Formulaire"
 
-#: .\dashboard\models.py:545 .\dashboard\models.py:630
+#: .\dashboard\models.py:526 .\dashboard\models.py:609
 msgid "Site web officiel"
 msgstr "Site web officiel"
 
-#: .\dashboard\models.py:553 .\dashboard\models.py:631
+#: .\dashboard\models.py:534 .\dashboard\models.py:610
 msgid "Office de tourisme"
 msgstr "Office de tourisme"
 
-#: .\dashboard\models.py:561 .\dashboard\models.py:632
+#: .\dashboard\models.py:542 .\dashboard\models.py:611
 msgid "Facebook"
 msgstr "Facebook"
 
-#: .\dashboard\models.py:572
+#: .\dashboard\models.py:553
 msgid "Navigation"
 msgstr "Navigation"
 
-#: .\dashboard\models.py:592
+#: .\dashboard\models.py:572
 #, fuzzy
 #| msgid "Display name"
 msgid "Display"
 msgstr "Nom d'affichage"
 
-#: .\dashboard\models.py:603
+#: .\dashboard\models.py:586
 #, fuzzy
 #| msgid "Location"
 msgid "Actions"
 msgstr "Emplacement"
 
-#: .\dashboard\models.py:616
+#: .\dashboard\models.py:599
 msgid "Calendar"
 msgstr "Calendrier"
 
-#: .\dashboard\models.py:634
+#: .\dashboard\models.py:613
 msgid "Pages"
 msgstr "Pages"
 
-#: .\dashboard\wagtail_hooks.py:31
+#: .\dashboard\wagtail_hooks.py:29
 msgid "Custom settings"
 msgstr "Paramètres personnalisés"
 
-#: .\dashboard\wagtail_hooks.py:38
+#: .\dashboard\wagtail_hooks.py:35
 msgid "My custom settings"
 msgstr "Mes paramètres personnalisés"
 
-#: .\home\models.py:87
-msgid "Chose a DOCX file to import in the flow."
-msgstr "Choisissez un fichier DOCX à importer dans le flux."
-
-#: .\home\models.py:92 .\home\models.py:183
-msgid "Save and import"
-msgstr "Enregistrer et importer"
-
-#: .\home\models.py:93
-msgid "Use cautiously. It will override all existing content in this section."
-msgstr "Utilisez avec prudence. Cela remplacera tout le contenu existant dans cette section."
-
-#: .\home\models.py:104
-#, fuzzy
-#| msgid "Answer content"
-msgid "Aperçu du contenu"
-msgstr "Contenu de la réponse"
-
-#: .\home\models.py:105
-msgid ""
-"You can remove or replace any of the content below. If you want to restore "
-"the original content, click again on the import button."
-msgstr ""
-"Vous pouvez supprimer ou remplacer n'importe lequel du contenu ci-dessous. "
-"Si vous souhaitez restaurer le contenu original, cliquez à nouveau sur le "
-"bouton d'importation."
-
-#: .\home\models.py:142
-#, python-format
-msgid "The file '%(filename)s' is not a DOCX document."
-msgstr "Le fichier '%(filename)s' n'est pas un document DOCX."
-
-#: .\home\models.py:178
-msgid ""
-"Chose a PDF wich will be converted to images and added in the flow. Name "
-"smartly the document, it will be used to create a collection."
-msgstr ""
-"Choisissez un PDF qui sera converti en images et ajouté dans le flux. Nommez "
-"intelligemment le document, il sera utilisé pour créer une collection."
-
-#: .\home\models.py:184
-msgid "Use cautiously. It will override all existing images in this section."
-msgstr "Utilisez avec prudence. Cela remplacera toutes les images existantes dans cette section."
-
-#: .\home\models.py:192
-msgid "Aperçu des pages"
-msgstr "Aperçu des pages"
-
-#: .\home\models.py:193
-msgid ""
-"You can remove or replace any of the images below. If you want to restore "
-"the original images, click again on the import button."
-msgstr ""
-"Vous pouvez supprimer ou remplacer n'importe laquelle des images ci-dessous. "
-"Si vous souhaitez restaurer les images originales, cliquez à nouveau sur le "
-"bouton d'importation."
-
-#: .\home\models.py:217
-#, python-format
-msgid "The file '%(filename)s' is not a PDF document."
-msgstr "Le fichier '%(filename)s' n'est pas un document PDF."
-
-#: .\home\models.py:259
-msgid "PDF"
-msgstr "PDF"
-
-#: .\home\models.py:270
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2623
-msgid "URL"
-msgstr "URL"
-
-#: .\home\models.py:270
-msgid "Enter the URL."
-msgstr "Entrez l'URL."
-
-#: .\home\models.py:273
-msgid "Replacement Text"
-msgstr "Texte de remplacement"
-
-#: .\home\models.py:274
-msgid "Enter the visible text for this link (optional)."
-msgstr "Entrez le texte visible pour ce lien (facultatif)."
-
-#: .\home\models.py:279
-msgid "Link"
-msgstr "Lien"
-
-#: .\home\models.py:284
-msgid "URL a intégrer"
-msgstr "URL à intégrer"
-
-#: .\home\models.py:287
-msgid "Very small"
-msgstr "Très petit"
-
-#: .\home\models.py:288 .\utils\imports.py:103
-msgid "Small"
-msgstr "Petit"
-
-#: .\home\models.py:289 .\utils\imports.py:104
-msgid "Medium"
-msgstr "Moyen"
-
-#: .\home\models.py:290 .\utils\imports.py:105
-msgid "Large"
-msgstr "Grand"
-
-#: .\home\models.py:291
-msgid "Very large"
-msgstr "Très grand"
-
-#: .\home\models.py:294
-msgid "Size of the frame"
-msgstr "Taille du cadre"
-
-#: .\home\models.py:299
-msgid "Alternative title"
-msgstr "Titre alternatif"
-
-#: .\home\models.py:300
-msgid "Alternative title for users accessibility."
-msgstr "Titre alternatif pour l'accessibilité des utilisateurs."
-
-#: .\home\models.py:306
-msgid "Intégration vidéo"
-msgstr "Intégration vidéo"
-
-#: .\home\models.py:317
-#, python-brace-format
-msgid ""
-"\n"
-"            <div>\n"
-"                <video width=\"{1}\" height=\"{2}\" controls>\n"
-"                    {0}\n"
-"                    Your browser does not support the video tag.\n"
-"                </video>\n"
-"            </div>\n"
-"            "
-msgstr ""
-"\n"
-"            <div>\n"
-"                <video width=\"{1}\" height=\"{2}\" controls>\n"
-"                    {0}\n"
-"                    Votre navigateur ne prend pas en charge la balise vidéo.\n"
-"                </video>\n"
-"            </div>\n"
-"            "
-
-#: .\home\models.py:328
-#, python-brace-format
-msgid ""
-"\n"
-"            <div>\n"
-"                <audio controls>\n"
-"                    {0}\n"
-"                    Your browser does not support the audio element.\n"
-"                </audio>\n"
-"            </div>\n"
-"            "
-msgstr ""
-"\n"
-"            <div>\n"
-"                <audio controls>\n"
-"                    {0}\n"
-"                    Votre navigateur ne prend pas en charge l'élément audio.\n"
-"                </audio>\n"
-"            </div>\n"
-"            "
-
-#: .\home\models.py:429
+#: .\home\models.py:143
 #, fuzzy
 #| msgid "Gallery images"
 msgid "Gallery"
 msgstr "Images de la galerie"
 
-#: .\home\models.py:593
+#: .\home\models.py:233
 msgid ""
 "Add one or more documents to download. If multiple documents are added, they "
 "will be downloaded as a zip file. Icon and Tooltip are optional, if none, "
 "icon will be generic image and tooltip will be the page title."
 msgstr ""
-"Ajoutez un ou plusieurs documents à télécharger. Si plusieurs documents sont ajoutés, ils "
-"seront téléchargés sous forme de fichier zip. L'icône et l'info-bulle sont facultatives, "
-"si aucune n'est spécifiée, l'icône sera une image générique et l'info-bulle sera le titre de la page."
+"Ajoutez un ou plusieurs documents à télécharger. Si plusieurs documents sont "
+"ajoutés, ils seront téléchargés sous forme de fichier zip. L'icône et l'info-"
+"bulle sont facultatives, si aucune n'est spécifiée, l'icône sera une image "
+"générique et l'info-bulle sera le titre de la page."
 
-#: .\home\models.py:645
+#: .\home\models.py:285
 msgid "Instant download page"
 msgstr "Page de téléchargement instantané"
 
-#: .\home\models.py:646
+#: .\home\models.py:286
 msgid "Instant download pages"
 msgstr "Pages de téléchargement instantané"
-
-#: .\home\models.py:681
-#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
-msgid "File"
-msgstr "Fichier"
-
 
 #: .\intranet\settings\base.py:310
 msgid "French"
@@ -1085,43 +886,64 @@ msgstr "Se connecter"
 msgid "Welcome !"
 msgstr "Bienvenue !"
 
-#: .\templates\account\login.html:36 .\templates\account\signup.html:36
-msgid "Please log in to access this page."
-msgstr "Veuillez vous connecter pour accéder à cette page."
+#: .\templates\account\login.html:38
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                        <span>If you do not have an account yet, please</"
+#| "span>\n"
+#| "                        <span><a href=\"%(signup_url)s\">sign up</a></"
+#| "span>\n"
+#| "                        <span>before login in.</span>\n"
+#| "                    "
+msgid ""
+"\n"
+"                        <span>You are not allowed to view this page. Please "
+"sign in with authorized account or</span>\n"
+"                        <span><a href=\"/\">return to site</a></span>\n"
+"                    "
+msgstr ""
+"\n"
+"                        <span>Si vous n'avez pas encore de compte, veuillez</"
+"span>\n"
+"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
+"span>\n"
+"                        <span>avant de vous connecter.</span>\n"
+"                    "
 
-#: .\templates\account\login.html:50 .\templates\account\signup.html:60
+#: .\templates\account\login.html:57 .\templates\account\signup.html:67
 #: .\templates\wagtailusers\users\list.html:20
 #: .\templates\wagtailusers\users\list.html:24
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: .\templates\account\login.html:61 .\templates\account\signup.html:70
+#: .\templates\account\login.html:68 .\templates\account\signup.html:77
 #, fuzzy
 #| msgid "Forgot Password?"
 msgid "Password"
 msgstr "Mot de passe oublié ?"
 
-#: .\templates\account\login.html:72 .\templates\wagtailadmin\login.html:49
+#: .\templates\account\login.html:79 .\templates\wagtailadmin\login.html:49
 #, fuzzy
 #| msgid "Forgot Password?"
 msgid "Forgotten password?"
 msgstr "Mot de passe oublié ?"
 
-#: .\templates\account\login.html:74 .\templates\wagtailadmin\login.html:51
+#: .\templates\account\login.html:81 .\templates\wagtailadmin\login.html:51
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
-#: .\templates\account\login.html:79 .\templates\account\login.html:90
+#: .\templates\account\login.html:86 .\templates\account\login.html:97
 #: .\templates\wagtailadmin\login.html:56
 #: .\templates\wagtailadmin\login.html:66
 msgid "Connexion"
 msgstr "Connexion"
 
-#: .\templates\account\login.html:87 .\templates\wagtailadmin\login.html:63
+#: .\templates\account\login.html:94 .\templates\wagtailadmin\login.html:63
 msgid "Connexion…"
 msgstr "Connexion…"
 
-#: .\templates\account\login.html:96
+#: .\templates\account\login.html:103
 #, python-format
 msgid ""
 "\n"
@@ -1132,25 +954,43 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                        <span>Si vous n'avez pas encore de compte, veuillez</span>\n"
-"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></span>\n"
+"                        <span>Si vous n'avez pas encore de compte, veuillez</"
+"span>\n"
+"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
+"span>\n"
 "                        <span>avant de vous connecter.</span>\n"
 "                    "
 
-#: .\templates\account\logout.html:4 .\templates\account\logout.html:7
-#: .\templates\account\logout.html:16 .\templates\account\profile.html:92
+#: .\templates\account\logout.html:4 .\templates\account\logout.html:41
+#: .\templates\account\profile.html:92
 msgid "Sign Out"
 msgstr "Se déconnecter"
 
-#: .\templates\account\logout.html:12
+#: .\templates\account\logout.html:14
+#, fuzzy
+#| msgid "Connexion"
+msgid "Deconnexion"
+msgstr "Connexion"
+
+#: .\templates\account\logout.html:23
+msgid "Goodbye!"
+msgstr "A Bientôt!"
+
+#: .\templates\account\logout.html:29
 msgid "Are you sure you want to sign out?"
 msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
-#: .\templates\account\logout.html:20
+#: .\templates\account\logout.html:38
+#, fuzzy
+#| msgid "Connexion…"
+msgid "Deconnexion…"
+msgstr "Connexion…"
+
+#: .\templates\account\logout.html:47
 msgid "No, stay logged in"
 msgstr "Non, rester connecté"
 
-#: .\templates\account\logout.html:21
+#: .\templates\account\logout.html:49
 msgid "Return to site"
 msgstr "Revenir au site"
 
@@ -1160,18 +1000,24 @@ msgid "Sign In"
 msgstr "Se connecter"
 
 #: .\templates\account\oldlogin.html:15
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "  Please sign in with one of your existing third-party accounts.\n"
+#| "  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account "
+#| "and sign in below:\n"
+#| "  "
 msgid ""
 "\n"
-"  Please sign in with one of your existing third-party accounts.\n"
+"  Please sign in with one of your existing third party accounts.\n"
 "  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
 "sign in below:\n"
 "  "
 msgstr ""
 "\n"
 "  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
-"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte %(site_name)s "
-"et connectez-vous ci-dessous :\n"
+"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte "
+"%(site_name)s et connectez-vous ci-dessous :\n"
 "  "
 
 #: .\templates\account\oldlogin.html:24
@@ -1216,19 +1062,19 @@ msgstr "Nom de famille"
 msgid "Display name"
 msgstr "Nom d'affichage"
 
-#: .\templates\account\profile.html:38 .\users\models.py:111
+#: .\templates\account\profile.html:38 .\users\models.py:32
 msgid "Address line 1"
 msgstr "Adresse ligne 1"
 
-#: .\templates\account\profile.html:44 .\users\models.py:114
+#: .\templates\account\profile.html:44 .\users\models.py:35
 msgid "Address line 2"
 msgstr "Adresse ligne 2"
 
-#: .\templates\account\profile.html:50 .\users\models.py:117
+#: .\templates\account\profile.html:50 .\users\models.py:38
 msgid "Postal Code"
 msgstr "Code postal"
 
-#: .\templates\account\profile.html:56 .\users\models.py:120
+#: .\templates\account\profile.html:56 .\users\models.py:41
 msgid "City"
 msgstr "Ville"
 
@@ -1236,7 +1082,7 @@ msgstr "Ville"
 msgid "Country"
 msgstr "Pays"
 
-#: .\templates\account\profile.html:70 .\users\models.py:131
+#: .\templates\account\profile.html:70 .\users\models.py:52
 msgid "Mobile phone"
 msgstr "Téléphone mobile"
 
@@ -1244,7 +1090,7 @@ msgstr "Téléphone mobile"
 msgid "Additional information"
 msgstr "Informations supplémentaires"
 
-#: .\templates\account\profile.html:82 .\users\models.py:108
+#: .\templates\account\profile.html:82 .\users\models.py:29
 msgid "Date of birth"
 msgstr "Date de naissance"
 
@@ -1254,24 +1100,49 @@ msgid "Admin"
 msgstr "Admin"
 
 #: .\templates\account\signup.html:4 .\templates\account\signup.html:14
-#: .\templates\account\signup.html:93 .\templates\account\signup.html:104
+#: .\templates\account\signup.html:100 .\templates\account\signup.html:111
 msgid "Sign Up"
 msgstr "S'inscrire"
 
-#: .\templates\account\signup.html:50
+#: .\templates\account\signup.html:38
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                        <span>If you do not have an account yet, please</"
+#| "span>\n"
+#| "                        <span><a href=\"%(signup_url)s\">sign up</a></"
+#| "span>\n"
+#| "                        <span>before login in.</span>\n"
+#| "                    "
+msgid ""
+"\n"
+"                        <span>You are not allowed to view this page, please "
+"sign in with an authorized account or<br></span>\n"
+"                        <span><a href=\"/\">return to site</a></span>\n"
+"                    "
+msgstr ""
+"\n"
+"                        <span>Si vous n'avez pas encore de compte, veuillez</"
+"span>\n"
+"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
+"span>\n"
+"                        <span>avant de vous connecter.</span>\n"
+"                    "
+
+#: .\templates\account\signup.html:57
 msgid "Email"
 msgstr "E-mail"
 
-#: .\templates\account\signup.html:81
+#: .\templates\account\signup.html:88
 msgid "Password (again)"
 msgstr "Mot de passe (à nouveau)"
 
-#: .\templates\account\signup.html:101
+#: .\templates\account\signup.html:108
 #, fuzzy
 msgid "Signing Up…"
 msgstr "S'inscrire"
 
-#: .\templates\account\signup.html:110
+#: .\templates\account\signup.html:117
 #, python-format
 msgid ""
 "\n"
@@ -1279,6 +1150,12 @@ msgid ""
 "                        <span><a href=\"%(login_url)s\">sign in.</a><span>\n"
 "                    "
 msgstr ""
+"\n"
+"                        <span>Vous avez déjà un compte ? Veuillez vous</"
+"span>\n"
+"                        <span><a href=\"%(login_url)s\">connecter.</"
+"a><span>\n"
+"                    "
 
 #: .\templates\amicale\widgets\amicale_list.html:53
 msgid "on"
@@ -1302,7 +1179,7 @@ msgstr "Événements du %(day)s"
 #: .\templates\joyous\calendar_list_day.html:17
 #, python-format
 msgid "Aujourd'hui %(day)s"
-msgstr ""
+msgstr "Aujourd'hui %(day)s"
 
 #: .\templates\joyous\calendar_list_past.html:5
 #: .\templates\joyous\calendar_list_upcoming.html:12
@@ -1409,11 +1286,12 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: .\templates\streamforms\index_submissions.html:74
-#, python-format
-msgid "Form data <span>%(form_title)s</span>"
+#, fuzzy, python-format
+#| msgid "Form data <span>%(form_title)s</span>"
+msgid "Form data <span>\"%(form_title)s\"</span>"
 msgstr "Données du formulaire <span>%(form_title)s</span>"
 
-#: .\templates\streamforms\index_submissions.html:83
+#: .\templates\streamforms\index_submissions.html:84
 msgid "Filter"
 msgstr "Filtrer"
 
@@ -1612,7 +1490,9 @@ msgstr "Désolé, vous ne pouvez pas créer de page à cet emplacement."
 #: .\templates\wagtailadmin\pages\add_subpage.html:18
 msgid ""
 "If you need generic information on how to use Wagtail CMS, check for the"
-msgstr "Si vous avez besoin d'informations génériques sur l'utilisation de Wagtail CMS, veuillez vérifier le"
+msgstr ""
+"Si vous avez besoin d'informations génériques sur l'utilisation de Wagtail "
+"CMS, veuillez vérifier le"
 
 #: .\templates\wagtailadmin\pages\add_subpage.html:20
 msgid "Wagtail user guide"
@@ -1622,7 +1502,9 @@ msgstr "Guide de l'utilisateur Wagtail"
 msgid ""
 "If you need more specific details you should find it in the Intranet content "
 "creator's guide at the"
-msgstr "Si vous avez besoin de détails plus spécifiques, vous devriez les trouver dans le guide du créateur de contenu de l'intranet à"
+msgstr ""
+"Si vous avez besoin de détails plus spécifiques, vous devriez les trouver "
+"dans le guide du créateur de contenu de l'intranet à"
 
 #: .\templates\wagtailadmin\pages\add_subpage.html:27
 msgid "How to create a page"
@@ -1648,8 +1530,8 @@ msgstr "Ajouter un commentaire"
 msgid "Name"
 msgstr "Nom"
 
-#: .\templates\wagtailusers\users\list.html:31 .\users\forms.py:32
-#: .\users\models.py:142
+#: .\templates\wagtailusers\users\list.html:31 .\users\forms.py:35
+#: .\users\models.py:63
 msgid "municipality"
 msgstr "Municipalité"
 
@@ -1691,169 +1573,270 @@ msgstr[1] ""
 #: .\templates\wagtailusers\users\result.html:21
 #, python-format
 msgid "Sorry, no users match \"<em>%(query_string)s</em>\""
-msgstr "Désolé, aucun utilisateur ne correspond à \"<em>%(query_string)s</em>\""
+msgstr ""
+"Désolé, aucun utilisateur ne correspond à \"<em>%(query_string)s</em>\""
 
 #: .\templates\wagtailusers\users\result.html:27
 #, python-format
 msgid ""
 "The %(group_name)s group has no users configured. Why not <a "
 "href=\"%(wagtailusers_add_url)s\">add some</a>?"
-msgstr "%(group_name)s n'a aucun utilisateur configuré. Pourquoi ne pas <a href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
+msgstr ""
+"%(group_name)s n'a aucun utilisateur configuré. Pourquoi ne pas <a "
+"href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
 
 #: .\templates\wagtailusers\users\result.html:30
 #, python-format
 msgid ""
 "There are no users configured. Why not <a "
 "href=\"%(wagtailusers_add_url)s\">add some</a>?"
-msgstr "Il n'y a aucun utilisateur configuré. Pourquoi ne pas <a href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
+msgstr ""
+"Il n'y a aucun utilisateur configuré. Pourquoi ne pas <a "
+"href=\"%(wagtailusers_add_url)s\">en ajouter</a> ?"
 
-#: .\users\forms.py:27
+#: .\users\forms.py:30
 msgid "Civility"
 msgstr "Civilité"
 
-#: .\users\forms.py:37 .\users\models.py:149
+#: .\users\forms.py:40 .\users\models.py:70
 msgid "municipal council function"
 msgstr "fonction au conseil municipal"
 
-#: .\users\forms.py:42 .\users\models.py:156
+#: .\users\forms.py:45 .\users\models.py:77
 msgid "communautary council function"
 msgstr "fonction au conseil communautaire"
 
-#: .\users\forms.py:47 .\users\models.py:163
-msgid "commission"
+#: .\users\forms.py:51 .\users\models.py:81
+#, fuzzy
+#| msgid "commission"
+msgid "commissions"
 msgstr "commission"
 
-#: .\users\forms.py:52 .\users\models.py:170
-msgid "commission function"
-msgstr "fonction de commission"
+#: .\users\forms.py:57 .\users\models.py:86
+#, fuzzy
+#| msgid "Closing Commissions"
+msgid "Functions in Commissions"
+msgstr "Commissions"
 
-#: .\users\forms.py:57 .\users\models.py:177
+#: .\users\forms.py:62 .\users\models.py:94
 msgid "bureau function"
 msgstr "fonction de bureau"
 
-#: .\users\forms.py:62 .\users\models.py:184
+#: .\users\forms.py:67 .\users\models.py:101
 msgid "mayor conference function"
 msgstr "fonction de conférence du maire"
 
-#: .\users\forms.py:100
+#: .\users\forms.py:107
 #, python-brace-format
 msgid ""
 "They are already {council_members} council members and {substitutes} "
 "substitute(s) in {verbose_municipality}, therefore, you cannot add a "
 "substitute."
-msgstr "Il y a déjà {council_members} membres du conseil et {substitutes} remplaçant(s) à {verbose_municipality}, vous ne pouvez donc pas en ajouter un autre."
+msgstr ""
+"Il y a déjà {council_members} membres du conseil et {substitutes} "
+"remplaçant(s) à {verbose_municipality}, vous ne pouvez donc pas en ajouter "
+"un autre."
 
-#: .\users\forms.py:106
+#: .\users\forms.py:113
 #, python-brace-format
 msgid ""
 "They are already {substitutes} substitute and {council_members} council "
 "member(s) in {verbose_municipality}, you cannot add any more council members "
 "or substitutes."
-msgstr "Il y a déjà {substitutes} remplaçant et {council_members} membre(s) du conseil à {verbose_municipality}, vous ne pouvez donc pas ajouter d'autres membres du conseil ou de remplaçants."
+msgstr ""
+"Il y a déjà {substitutes} remplaçant et {council_members} membre(s) du "
+"conseil à {verbose_municipality}, vous ne pouvez donc pas ajouter d'autres "
+"membres du conseil ou de remplaçants."
 
-#: .\users\forms.py:114
+#: .\users\forms.py:121
 msgid ""
 "This user is not associated with a municipality. If you wish to add them to "
 "a municipal council, first choose the relevant municipality."
-msgstr "Cet utilisateur n'est pas associé à une municipalité. Si vous souhaitez l'ajouter à un conseil municipal, choisissez d'abord la municipalité concernée."
+msgstr ""
+"Cet utilisateur n'est pas associé à une municipalité. Si vous souhaitez "
+"l'ajouter à un conseil municipal, choisissez d'abord la municipalité "
+"concernée."
 
-#: .\users\forms.py:119
-msgid "If there's no commission chosen, there can't be a commission role."
-msgstr "S'il n'y a pas de commission choisie, il ne peut pas y avoir de rôle de commission."
-
-#: .\users\forms.py:124
+#: .\users\forms.py:126
 msgid ""
 "Only elected officials can serve. Choose both a municipality and a position "
 "within the municipal council before selecting a commission."
-msgstr "Seuls les élus peuvent siéger. Choisissez à la fois une municipalité et un poste au sein du conseil municipal avant de sélectionner une commission."
+msgstr ""
+"Seuls les élus peuvent siéger. Choisissez à la fois une municipalité et un "
+"poste au sein du conseil municipal avant de sélectionner une commission."
 
-#: .\users\forms.py:129
+#: .\users\forms.py:131
 msgid ""
 "Only elected officials can serve. Choose a municipality before selecting a "
 "commission."
-msgstr "Seuls les élus peuvent siéger. Choisissez d'abord une municipalité avant de sélectionner une commission."
+msgstr ""
+"Seuls les élus peuvent siéger. Choisissez d'abord une municipalité avant de "
+"sélectionner une commission."
 
-#: .\users\forms.py:134
+#: .\users\forms.py:136
 msgid ""
 "Only elected officials can serve. Choose a function within the municipal "
 "council before selecting a commission."
-msgstr "Seuls les élus peuvent siéger. Choisissez d'abord une fonction au sein du conseil municipal avant de sélectionner une commission."
+msgstr ""
+"Seuls les élus peuvent siéger. Choisissez d'abord une fonction au sein du "
+"conseil municipal avant de sélectionner une commission."
 
-#: .\users\forms.py:139
+#: .\users\forms.py:141
 msgid ""
 "A municipality and a municipal council role must be selected before choosing "
 "a community council role."
-msgstr "Une municipalité et un rôle au conseil municipal doivent être sélectionnés avant de choisir un rôle au conseil communautaire."
+msgstr ""
+"Une municipalité et un rôle au conseil municipal doivent être sélectionnés "
+"avant de choisir un rôle au conseil communautaire."
 
-#: .\users\forms.py:144
+#: .\users\forms.py:146
 msgid ""
 "A municipality must be selected before choosing a community council role."
-msgstr "Une municipalité doit être sélectionnée avant de choisir un rôle au conseil communautaire."
+msgstr ""
+"Une municipalité doit être sélectionnée avant de choisir un rôle au conseil "
+"communautaire."
 
-#: .\users\forms.py:149
+#: .\users\forms.py:151
 msgid ""
 "A municipal council role must be selected before choosing a community "
 "council role."
-msgstr "Un rôle au conseil municipal doit être sélectionné avant de choisir un rôle au conseil communautaire."
+msgstr ""
+"Un rôle au conseil municipal doit être sélectionné avant de choisir un rôle "
+"au conseil communautaire."
 
-#: .\users\forms.py:154
+#: .\users\forms.py:156
 msgid ""
 "Only the Vice-President or President of the community council can have a "
 "bureau role."
-msgstr "Seul le Vice-Président ou le Président du conseil communautaire peut avoir un rôle au bureau."
+msgstr ""
+"Seul le Vice-Président ou le Président du conseil communautaire peut avoir "
+"un rôle au bureau."
 
-#: .\users\forms.py:159
+#: .\users\forms.py:161
 msgid ""
 "Only the Mayor, Vice-President, or President of the community council can "
 "have a role in the Mayors' conference."
-msgstr "Seul le Maire, le Vice-Président ou le Président du conseil communautaire peut avoir un rôle dans la conférence des maires."
+msgstr ""
+"Seul le Maire, le Vice-Président ou le Président du conseil communautaire "
+"peut avoir un rôle dans la conférence des maires."
 
-#: .\users\forms.py:164
+#: .\users\forms.py:166
 msgid "There can only be one President of the council."
 msgstr "Il ne peut y avoir qu'un seul Président du conseil."
 
-#: .\users\forms.py:168
+#: .\users\forms.py:170
 msgid "There can only be one Mayor for each municipality."
 msgstr "Il ne peut y avoir qu'un seul Maire pour chaque municipalité."
 
-#: .\users\forms.py:172
-msgid "There can only be one President for each commission."
+#: .\users\forms.py:181
+#, fuzzy, python-brace-format
+#| msgid "There can only be one President for each commission."
+msgid "There is already a President ({er}) for the commission : {com}."
 msgstr "Il ne peut y avoir qu'un seul Président pour chaque commission."
 
-#: .\users\forms.py:176
-msgid "There can only be one person in charge for each commission."
-msgstr "Il ne peut y avoir qu'une seule personne responsable pour chaque commission."
+#: .\users\forms.py:184
+#, fuzzy, python-brace-format
+#| msgid "There can only be one person in charge for each commission."
+msgid "There is already a person in charge ({er}) for the commission : {com}."
+msgstr ""
+"Il ne peut y avoir qu'une seule personne responsable pour chaque commission."
 
-#: .\users\forms.py:180
+#: .\users\forms.py:196
 msgid ""
 "The person in charge of the commission must be a Vice President of the "
 "council."
-msgstr "La personne responsable de la commission doit être un Vice-Président du conseil."
+msgstr ""
+"La personne responsable de la commission doit être un Vice-Président du "
+"conseil."
 
-#: .\users\models.py:12
-msgid "Monsieur"
-msgstr "Monsieur"
-
-#: .\users\models.py:13
-msgid "Madame"
-msgstr "Madame"
-
-#: .\users\models.py:14
-msgid "Neutre"
-msgstr "Neutre"
-
-#: .\users\models.py:101
+#: .\users\models.py:22
 msgid "civility"
 msgstr "civilité"
 
-#: .\users\models.py:125
+#: .\users\models.py:46
 msgid ""
 "Enter a valid international mobile phone number starting with +(country code)"
-msgstr "Entrez un numéro de téléphone mobile international valide commençant par +(code pays)"
+msgstr ""
+"Entrez un numéro de téléphone mobile international valide commençant par "
+"+(code pays)"
 
-#: .\users\models.py:130
+#: .\users\models.py:51
 msgid "With country code and no spaces"
 msgstr "Avec le code pays et sans espaces"
+
+#: .\utils\faq.py:35
+msgid "Law text reference"
+msgstr "Référence du texte de loi"
+
+#: .\utils\faq.py:36
+msgid "Law text link"
+msgstr "Lien vers le texte de loi"
+
+#: .\utils\faq.py:77
+msgid "Embed"
+msgstr ""
+
+#: .\utils\faq.py:81
+msgid "Simple answer"
+msgstr "Réponse simple"
+
+#: .\utils\faq.py:87
+msgid "Criteria"
+msgstr "Critères"
+
+#: .\utils\faq.py:89
+msgid ""
+"User select the criteria wich fits to his situation, it will allow him to "
+"see related answer(s). Mandatory."
+msgstr ""
+"L'utilisateur sélectionne les critères qui correspondent à sa situation, "
+"ceci lui permettra de voir la/les réponse(s) associée(s). Obligatoire."
+
+#: .\utils\faq.py:97
+#, fuzzy
+#| msgid "Last name"
+msgid "Step name"
+msgstr "Nom de famille"
+
+#: .\utils\faq.py:99
+msgid ""
+"User click on each steps names to open it and see related answer(s). "
+"Mandatory."
+msgstr ""
+"L'utilisateur clique sur chaque nom d'étape pour l'ouvrir et voir les "
+"réponse(s) associée(s). Obligatoire."
+
+#: .\utils\faq.py:107
+msgid "Introduction"
+msgstr "Introduction"
+
+#: .\utils\faq.py:118
+msgid "Related answer(s)"
+msgstr "Réponse(s)"
+
+#: .\utils\faq.py:124
+msgid "Click on the + below to add another "
+msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
+
+#: .\utils\faq.py:130 .\utils\faq.py:170
+#, fuzzy
+#| msgid "Last name"
+msgid "Step"
+msgstr "Nom de famille"
+
+#: .\utils\faq.py:136 .\utils\faq.py:156
+#, fuzzy
+#| msgid "Convocation"
+msgid "Condition"
+msgstr "Convocation"
+
+#: .\utils\faq.py:143 .\utils\faq.py:163
+msgid "Conditonnal answer"
+msgstr "Réponse conditionnelle"
+
+#: .\utils\faq.py:150 .\utils\faq.py:178
+msgid "Step answer"
+msgstr "Réponse à étapes"
 
 #: .\utils\imports.py:38
 msgid "Left"
@@ -1874,6 +1857,13 @@ msgstr "Justifier"
 #: .\utils\imports.py:43
 msgid "alignement"
 msgstr "alignement"
+
+#: .\utils\imports.py:51 .\utils\imports.py:79 .\utils\imports.py:94
+#: .\utils\imports.py:121
+#, fuzzy
+#| msgid "Content"
+msgid "content"
+msgstr "Contenu"
 
 #: .\utils\imports.py:55
 msgid "Heading 1"
@@ -1903,13 +1893,21 @@ msgstr "Titre 6"
 msgid "level"
 msgstr "niveau"
 
-#: .\utils\imports.py:87
-msgid "Paragraph"
-msgstr "Paragraphe"
-
 #: .\utils\imports.py:102
 msgid "Icon"
 msgstr "Icône"
+
+#: .\utils\imports.py:103 .\utils\streamfield.py:258
+msgid "Small"
+msgstr "Petit"
+
+#: .\utils\imports.py:104 .\utils\streamfield.py:259
+msgid "Medium"
+msgstr "Moyen"
+
+#: .\utils\imports.py:105 .\utils\streamfield.py:260
+msgid "Large"
+msgstr "Grand"
 
 #: .\utils\imports.py:106
 msgid "Full"
@@ -1919,59 +1917,243 @@ msgstr "Complet"
 msgid "size"
 msgstr "taille"
 
-#: .\utils\imports.py:130
-msgid "Table"
-msgstr "Tableau"
-
 #: .\utils\menu_pages.py:133
-msgid "Title of the page, automatically generated, cannot be changed."
+#, fuzzy
+#| msgid "Title of the page, automatically generated, cannot be changed."
+msgid "Title of the page, automaticaly generated, cannot be changed."
 msgstr "Titre de la page, généré automatiquement, ne peut pas être modifié."
 
 #: .\utils\menu_pages.py:151
-msgid "Slug of the page, automatically generated, cannot be changed."
+#, fuzzy
+#| msgid "Slug of the page, automatically generated, cannot be changed."
+msgid "Slug of the page, automaticaly generated, cannot be changed."
 msgstr "Slug de la page, généré automatiquement, ne peut pas être modifié."
 
 #: .\utils\menu_pages.py:155
 msgid "Uncheck to hide this page from the menus."
 msgstr "Décochez pour masquer cette page des menus."
 
+#: .\utils\streamfield.py:64
+msgid "Chose a DOCX file to import in the flow."
+msgstr "Choisissez un fichier DOCX à importer dans le flux."
+
+#: .\utils\streamfield.py:69 .\utils\streamfield.py:159
+msgid "Save and import"
+msgstr "Enregistrer et importer"
+
+#: .\utils\streamfield.py:70
+msgid "Use cautiously. It will override all existing content in this section."
+msgstr ""
+"Utilisez avec prudence. Cela remplacera tout le contenu existant dans cette "
+"section."
+
+#: .\utils\streamfield.py:81
+#, fuzzy
+#| msgid "Answer content"
+msgid "Aperçu du contenu"
+msgstr "Contenu de la réponse"
+
+#: .\utils\streamfield.py:82
+msgid ""
+"You can remove or replace any of the content below. If you want to restore "
+"the original content, click again on the import button."
+msgstr ""
+"Vous pouvez supprimer ou remplacer n'importe lequel du contenu ci-dessous. "
+"Si vous souhaitez restaurer le contenu original, cliquez à nouveau sur le "
+"bouton d'importation."
+
+#: .\utils\streamfield.py:119
+#, python-format
+msgid "The file '%(filename)s' is not a DOCX document."
+msgstr "Le fichier '%(filename)s' n'est pas un document DOCX."
+
+#: .\utils\streamfield.py:154
+msgid ""
+"Chose a PDF wich will be converted to images and added in the flow. Name "
+"smartly the document, it will be used to create a collection."
+msgstr ""
+"Choisissez un PDF qui sera converti en images et ajouté dans le flux. Nommez "
+"intelligemment le document, il sera utilisé pour créer une collection."
+
+#: .\utils\streamfield.py:160
+msgid "Use cautiously. It will override all existing images in this section."
+msgstr ""
+"Utilisez avec prudence. Cela remplacera toutes les images existantes dans "
+"cette section."
+
+#: .\utils\streamfield.py:168
+msgid "Aperçu des pages"
+msgstr "Aperçu des pages"
+
+#: .\utils\streamfield.py:169
+msgid ""
+"You can remove or replace any of the images below. If you want to restore "
+"the original images, click again on the import button."
+msgstr ""
+"Vous pouvez supprimer ou remplacer n'importe laquelle des images ci-dessous. "
+"Si vous souhaitez restaurer les images originales, cliquez à nouveau sur le "
+"bouton d'importation."
+
+#: .\utils\streamfield.py:193
+#, python-format
+msgid "The file '%(filename)s' is not a PDF document."
+msgstr "Le fichier '%(filename)s' n'est pas un document PDF."
+
+#: .\utils\streamfield.py:241
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2623
+msgid "URL"
+msgstr "URL"
+
+#: .\utils\streamfield.py:241
+msgid "Enter the URL."
+msgstr "Entrez l'URL."
+
+#: .\utils\streamfield.py:244
+msgid "Replacement Text"
+msgstr "Texte de remplacement"
+
+#: .\utils\streamfield.py:245
+msgid "Enter the visible text for this link (optional)."
+msgstr "Entrez le texte visible pour ce lien (facultatif)."
+
+#: .\utils\streamfield.py:254
+msgid "URL a intégrer"
+msgstr "URL à intégrer"
+
+#: .\utils\streamfield.py:257
+msgid "Very small"
+msgstr "Très petit"
+
+#: .\utils\streamfield.py:261
+msgid "Very large"
+msgstr "Très grand"
+
+#: .\utils\streamfield.py:264
+msgid "Size of the frame"
+msgstr "Taille du cadre"
+
+#: .\utils\streamfield.py:269
+msgid "Alternative title"
+msgstr "Titre alternatif"
+
+#: .\utils\streamfield.py:270
+msgid "Alternative title for users accessibility."
+msgstr "Titre alternatif pour l'accessibilité des utilisateurs."
+
+#: .\utils\streamfield.py:276
+msgid "Intégration vidéo"
+msgstr "Intégration vidéo"
+
+#: .\utils\streamfield.py:286
+#, python-brace-format
+msgid ""
+"\n"
+"            <div>\n"
+"                <video width=\"{1}\" height=\"{2}\" controls>\n"
+"                    {0}\n"
+"                    Your browser does not support the video tag.\n"
+"                </video>\n"
+"            </div>\n"
+"            "
+msgstr ""
+"\n"
+"            <div>\n"
+"                <video width=\"{1}\" height=\"{2}\" controls>\n"
+"                    {0}\n"
+"                    Votre navigateur ne prend pas en charge la balise "
+"vidéo.\n"
+"                </video>\n"
+"            </div>\n"
+"            "
+
+#: .\utils\streamfield.py:297
+#, python-brace-format
+msgid ""
+"\n"
+"            <div>\n"
+"                <audio controls>\n"
+"                    {0}\n"
+"                    Your browser does not support the audio element.\n"
+"                </audio>\n"
+"            </div>\n"
+"            "
+msgstr ""
+"\n"
+"            <div>\n"
+"                <audio controls>\n"
+"                    {0}\n"
+"                    Votre navigateur ne prend pas en charge l'élément "
+"audio.\n"
+"                </audio>\n"
+"            </div>\n"
+"            "
+
+#: .\utils\widgets.py:22
+msgid "Caption"
+msgstr "Légende"
+
+#: .\utils\widgets.py:23
+msgid "You can add a caption to the image (optional)."
+msgstr "Vous pouvez ajouter une légende à l'image (facultatif)."
+
+#: .\utils\widgets.py:40
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:232
+msgid "File"
+msgstr "Fichier"
+
+#: .\utils\widgets.py:68
+msgid "Monsieur"
+msgstr "Monsieur"
+
+#: .\utils\widgets.py:69
+msgid "Madame"
+msgstr "Madame"
+
+#: .\utils\widgets.py:70
+msgid "Neutre"
+msgstr "Neutre"
+
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+#, fuzzy
+#| msgid "Pages"
 msgid "Messages"
-msgstr "Messages"
+msgstr "Pages"
 
 #: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
 msgid "Site Maps"
-msgstr "Plans du site"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
 msgid "Static Files"
-msgstr "Fichiers statiques"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+#, fuzzy
+#| msgid "Convocation"
 msgid "Syndication"
-msgstr "Syndication"
+msgstr "Convocation"
 
 #. Translators: String used to replace omitted page numbers in elided page
 #. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
 #: .\venv\Lib\site-packages\django\core\paginator.py:30
 msgid "…"
-msgstr "…"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:32
 msgid "That page number is not an integer"
-msgstr "Ce numéro de page n'est pas un entier"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:33
 msgid "That page number is less than 1"
-msgstr "Ce numéro de page est inférieur à 1"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\paginator.py:34
 msgid "That page contains no results"
-msgstr "Cette page ne contient aucun résultat"
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:22
 msgid "Enter a valid value."
-msgstr "Veuillez entrer une valeur valide."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:104
 #: .\venv\Lib\site-packages\django\forms\fields.py:760
@@ -1982,70 +2164,69 @@ msgstr "Entrez l'URL."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:165
 msgid "Enter a valid integer."
-msgstr "Entrez un entier valide."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:176
 msgid "Enter a valid email address."
-msgstr "Entrez une adresse e-mail valide."
+msgstr ""
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: .\venv\Lib\site-packages\django\core\validators.py:259
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr "Entrez un « slug » valide composé de lettres, de chiffres, de traits de soulignement ou de tirets."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:267
 msgid ""
 "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
 "hyphens."
-msgstr "Entrez un « slug » valide composé de lettres Unicode, de chiffres, de traits de soulignement ou de tirets."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:279
 #: .\venv\Lib\site-packages\django\core\validators.py:306
 msgid "Enter a valid IPv4 address."
-msgstr "Entrez une adresse IPv4 valide."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:286
 #: .\venv\Lib\site-packages\django\core\validators.py:307
 msgid "Enter a valid IPv6 address."
-msgstr "Entrez une adresse IPv6 valide."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:298
 #: .\venv\Lib\site-packages\django\core\validators.py:305
 msgid "Enter a valid IPv4 or IPv6 address."
-msgstr "Entrez une adresse IPv4 ou IPv6 valide."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:341
 msgid "Enter only digits separated by commas."
-msgstr "Entrez uniquement des chiffres séparés par des virgules."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:347
 #, python-format
 msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr "Assurez-vous que cette valeur est %(limit_value)s (elle est %(show_value)s)."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:382
 #, python-format
 msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr "Assurez-vous que cette valeur est inférieure ou égale à %(limit_value)s."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:391
 #, python-format
 msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr "Assurez-vous que cette valeur est supérieure ou égale à %(limit_value)s."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:400
 #, python-format
 msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr "Assurez-vous que cette valeur est un multiple du pas %(limit_value)s."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:407
 #, python-format
 msgid ""
 "Ensure this value is a multiple of step size %(limit_value)s, starting from "
 "%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr "Assurez-vous que cette valeur est un multiple du pas %(limit_value)s, en commençant par %(offset)s, par exemple %(offset)s, %(valid_value1)s, %(valid_value2)s, et ainsi de suite."
-
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:439
 #, python-format
@@ -2073,21 +2254,21 @@ msgstr[1] ""
 #: .\venv\Lib\site-packages\django\forms\fields.py:355
 #: .\venv\Lib\site-packages\django\forms\fields.py:394
 msgid "Enter a number."
-msgstr "Entrez un nombre."
+msgstr ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:482
 #, python-format
 msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffre au total."
-msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffres au total."
+msgstr[0] ""
+msgstr[1] ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:487
 #, python-format
 msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s décimale."
-msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s décimales."
+msgstr[0] ""
+msgstr[1] ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:492
 #, python-format
@@ -2095,8 +2276,8 @@ msgid ""
 "Ensure that there are no more than %(max)s digit before the decimal point."
 msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffre avant le point décimal."
-msgstr[1] "Assurez-vous qu'il n'y a pas plus de %(max)s chiffres avant le point décimal."
+msgstr[0] ""
+msgstr[1] ""
 
 #: .\venv\Lib\site-packages\django\core\validators.py:563
 #, python-format
@@ -2225,8 +2406,10 @@ msgid "“%(value)s” value must be a decimal number."
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1687
+#, fuzzy
+#| msgid "December"
 msgid "Decimal number"
-msgstr ""
+msgstr "Décembre"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1848
 #, python-format
@@ -2248,8 +2431,10 @@ msgid "Email address"
 msgstr "Adresse"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1929
+#, fuzzy
+#| msgid "File"
 msgid "File path"
-msgstr ""
+msgstr "Fichier"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2007
 #, python-format
@@ -2393,8 +2578,10 @@ msgid ":?.!"
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:95
+#, fuzzy
+#| msgid "A valid timezone is required."
 msgid "This field is required."
-msgstr ""
+msgstr "Un fuseau horaire valide est requis"
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:304
 msgid "Enter a whole number."
@@ -2499,17 +2686,15 @@ msgstr ""
 #, python-format
 msgid "Please submit at most %(num)d form."
 msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] "Veuillez soumettre au plus %(num)d item."
-msgstr[1] "Veuillez soumettre au plus %(num)d items."
-msgstr[2] "Veuillez soumettre au plus %(num)d items."
+msgstr[0] ""
+msgstr[1] ""
 
 #: .\venv\Lib\site-packages\django\forms\formsets.py:70
 #, python-format
 msgid "Please submit at least %(num)d form."
 msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] "Veuillez soumettre au moins %(num)d item."
-msgstr[1] "Veuillez soumettre au moins %(num)d items."
-msgstr[2] "Veuillez soumettre au moins %(num)d items."
+msgstr[0] ""
+msgstr[1] ""
 
 #: .\venv\Lib\site-packages\django\forms\formsets.py:484
 #: .\venv\Lib\site-packages\django\forms\formsets.py:491
@@ -2637,8 +2822,10 @@ msgid "AM"
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\utils\dateformat.py:152
+#, fuzzy
+#| msgid "Right"
 msgid "midnight"
-msgstr ""
+msgstr "Droite"
 
 #: .\venv\Lib\site-packages\django\utils\dateformat.py:154
 msgid "noon"
@@ -2661,12 +2848,16 @@ msgid "apr"
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:43
+#, fuzzy
+#| msgid "May"
 msgid "may"
-msgstr ""
+msgstr "Mai"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:44
+#, fuzzy
+#| msgid "Sun"
 msgid "jun"
-msgstr ""
+msgstr "Dim"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:45
 msgid "jul"
@@ -2703,29 +2894,39 @@ msgid "Feb."
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:55
+#, fuzzy
+#| msgid "March"
 msgctxt "abbrev. month"
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:56
+#, fuzzy
+#| msgid "April"
 msgctxt "abbrev. month"
 msgid "April"
-msgstr ""
+msgstr "Avril"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:57
+#, fuzzy
+#| msgid "May"
 msgctxt "abbrev. month"
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:58
+#, fuzzy
+#| msgid "June"
 msgctxt "abbrev. month"
 msgid "June"
-msgstr ""
+msgstr "Juin"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:59
+#, fuzzy
+#| msgid "July"
 msgctxt "abbrev. month"
 msgid "July"
-msgstr ""
+msgstr "Juillet"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:60
 msgctxt "abbrev. month"
@@ -2753,64 +2954,88 @@ msgid "Dec."
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:67
+#, fuzzy
+#| msgid "January"
 msgctxt "alt. month"
 msgid "January"
-msgstr ""
+msgstr "Janvier"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:68
+#, fuzzy
+#| msgid "February"
 msgctxt "alt. month"
 msgid "February"
-msgstr ""
+msgstr "Février"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:69
+#, fuzzy
+#| msgid "March"
 msgctxt "alt. month"
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:70
+#, fuzzy
+#| msgid "April"
 msgctxt "alt. month"
 msgid "April"
-msgstr ""
+msgstr "Avril"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:71
+#, fuzzy
+#| msgid "May"
 msgctxt "alt. month"
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:72
+#, fuzzy
+#| msgid "June"
 msgctxt "alt. month"
 msgid "June"
-msgstr ""
+msgstr "Juin"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:73
+#, fuzzy
+#| msgid "July"
 msgctxt "alt. month"
 msgid "July"
-msgstr ""
+msgstr "Juillet"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:74
+#, fuzzy
+#| msgid "August"
 msgctxt "alt. month"
 msgid "August"
-msgstr ""
+msgstr "Août"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:75
+#, fuzzy
+#| msgid "September"
 msgctxt "alt. month"
 msgid "September"
-msgstr ""
+msgstr "Septembre"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:76
+#, fuzzy
+#| msgid "October"
 msgctxt "alt. month"
 msgid "October"
-msgstr ""
+msgstr "Octobre"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:77
+#, fuzzy
+#| msgid "November"
 msgctxt "alt. month"
 msgid "November"
-msgstr ""
+msgstr "Novembre"
 
 #: .\venv\Lib\site-packages\django\utils\dates.py:78
+#, fuzzy
+#| msgid "December"
 msgctxt "alt. month"
 msgid "December"
-msgstr ""
+msgstr "Décembre"
 
 #: .\venv\Lib\site-packages\django\utils\ipv6.py:8
 msgid "This is not a valid IPv6 address."
@@ -2971,9 +3196,10 @@ msgid "Page is not “last”, nor can it be converted to an int."
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\views\generic\list.py:77
-#, python-format
+#, fuzzy, python-format
+#| msgid "Page %(page_num)s of %(total_pages)s."
 msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
+msgstr "Page %(page_num)s sur %(total_pages)s."
 
 #: .\venv\Lib\site-packages\django\views\generic\list.py:169
 #, python-format
@@ -3043,58 +3269,105 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:19
 msgid "Confirm selection"
-msgstr ""
+msgstr "Confirmez la sélection"
 
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:10
 msgid "Select"
-msgstr ""
+msgstr "Sélectionner"
 
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:20
 #, python-format
 msgid "Select %(title)s"
-msgstr ""
+msgstr "Sélectionner les %(title)s"
 
 #: .\venv\Lib\site-packages\generic_chooser\views.py:419
 #: .\venv\Lib\site-packages\generic_chooser\views.py:421
 msgid "Create"
-msgstr ""
+msgstr "Créer"
 
 #: .\venv\Lib\site-packages\generic_chooser\views.py:423
 msgid "Uploading…"
-msgstr ""
+msgstr "Téléchargement…"
 
 #: .\venv\Lib\site-packages\generic_chooser\views.py:489
 #, python-format
 msgid "Add %s"
-msgstr ""
+msgstr "Ajouter %s"
 
 #: .\venv\Lib\site-packages\generic_chooser\views.py:513
 msgid "Choose"
-msgstr ""
+msgstr "Choisir"
 
 #: .\venv\Lib\site-packages\generic_chooser\widgets.py:17
 msgid "Choose an item"
-msgstr ""
+msgstr "Choisir un élément"
 
 #: .\venv\Lib\site-packages\generic_chooser\widgets.py:18
 msgid "Choose another item"
-msgstr ""
+msgstr "Choisissez un autre élément"
 
 #: .\venv\Lib\site-packages\generic_chooser\widgets.py:19
 msgid "Clear choice"
-msgstr ""
+msgstr "Effacer le choix"
 
 #: .\venv\Lib\site-packages\generic_chooser\widgets.py:20
 msgid "Edit this item"
-msgstr ""
+msgstr "Modifier cet élément"
 
 #: .\venv\Lib\site-packages\generic_chooser\widgets.py:21
 msgid "Create an item"
-msgstr ""
+msgstr "Créer un élément"
 
 #: .\venv\Lib\site-packages\timezone_field\rest_framework.py:10
 msgid "A valid timezone is required."
-msgstr ""
+msgstr "Un fuseau horaire valide est requis"
+
+#~ msgid "Base item"
+#~ msgstr "Élément de base"
+
+#~ msgid "Base Item"
+#~ msgstr "Élément de base"
+
+#~ msgid "Administration page"
+#~ msgstr "Page d'administration"
+
+#, fuzzy
+#~| msgid "introduction"
+#~ msgid "Administration"
+#~ msgstr "introduction"
+
+#, fuzzy
+#~| msgid "Amicale Tags"
+#~ msgid "Amicale page"
+#~ msgstr "Balises Amicale"
+
+#, fuzzy
+#~| msgid "Amicale Tags"
+#~ msgid "Amicale"
+#~ msgstr "Balises Amicale"
+
+#~ msgid "FAQ page"
+#~ msgstr "Page FAQ"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Ressources page"
+#~ msgstr "Page Ressources"
+
+#~ msgid "Ressources"
+#~ msgstr "Ressources"
+
+#~ msgid "Please log in to access this page."
+#~ msgstr "Veuillez vous connecter pour accéder à cette page."
+
+#~ msgid "commission function"
+#~ msgstr "fonction de commission"
+
+#~ msgid "If there's no commission chosen, there can't be a commission role."
+#~ msgstr ""
+#~ "S'il n'y a pas de commission choisie, il ne peut pas y avoir de rôle de "
+#~ "commission."
 
 #~ msgid "Responsable"
 #~ msgstr "Responsable"

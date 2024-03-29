@@ -284,34 +284,58 @@ function amicale() {
 
 // Page intermédiaire de la création de Convocs ou de CR en passant par Quickcreate (page d'accueil)
 function quickcreate() {
-    let commissionLinks = [];
-    document.querySelectorAll('body.ready ul.listing li a').forEach(function(link) {
-        if (link.innerHTML.includes('Commissions &gt;')) {
-            commissionLinks.push({
-                href: link.getAttribute('href'),
-                text: link.querySelector('strong').textContent
-            });
-            link.parentElement.remove();
+    const container = document.querySelector('body.ready ul.listing')    
+    const items = document.querySelectorAll('body.ready ul.listing li');
+    // const H1 = document.querySelector('header h1');
+    // const title = H1 ? H1.textContent.split("Création d'")[1] || "" : "";    
+
+    const LI = document.createElement('li');
+    LI.classList.add('list', 'cgs-closed');
+    LI.setAttribute('data-name', 'Commissions et groupes de travail');
+    LI.setAttribute('data-model', 'CommissionPage');
+    
+    const A = document.createElement('a');
+    A.classList.add('icon', 'icon-plus-inverse', 'icon-larger');
+    A.setAttribute('ID', 'commissions-dropdown');
+    A.setAttribute('alt', 'Ouvrir le menu déroulant des commissions ou groupes de travail');
+    A.setAttribute('title', 'Afficher toutes les commissions et groupes de travail');
+
+    const text = document.createElement('strong');
+    text.textContent = "Commissions et groupes de travail";
+    const icon = document.createElement('span');
+    icon.textContent ="▶️"
+    //⤵️⤴️🔼🔽▶️◀️
+
+    const UL = document.createElement('ul');
+    UL.classList.add('com-listing', 'cgs-quick', 'cgs-hidden');
+    
+    A.appendChild(text); 
+    A.appendChild(icon); 
+    LI.appendChild(A);
+    LI.appendChild(UL);
+    container.appendChild(LI);
+
+    A.addEventListener('click', function() {
+        UL.classList.toggle('cgs-hidden');
+        LI.classList.toggle('cgs-closed');
+        if (UL.classList.contains('cgs-hidden')) {
+            icon.textContent = "▶️";
+            A.setAttribute('title', 'Afficher toutes les commissions et groupes de travail');
+            A.setAttribute('alt', 'Ouvrir le menu déroulant des commissions ou groupes de travail');
         } else {
-            link.innerHTML = link.querySelector('strong').outerHTML;
+            icon.textContent = "🔽";
+            A.setAttribute('title', 'Masquer toutes les commissions et groupes de travail');
+            A.setAttribute('alt', 'Fermer le menu déroulant des commissions ou groupes de travail');
         }
     });
 
-    if (commissionLinks.length) {
-        let dropdownHtml = '<li><a class="icon icon-plus-inverse icon-larger toggle-commissions hidden"><strong>Commissions</strong></a><ul id="commissions" class="hidden">';
-        commissionLinks.forEach(function(link) {
-            dropdownHtml += `<li><a href="${link.href}">${link.text}</a></li>`;
-        });
-        dropdownHtml += '</ul></li>';
-
-        document.querySelector('body.ready ul.listing').insertAdjacentHTML('beforeend', dropdownHtml);
-    }
-
-    document.querySelectorAll('.toggle-commissions').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            document.getElementById('commissions').classList.toggle('hidden');
-            btn.classList.toggle('hidden');
-        });
+    items.forEach(item => {
+        const model = item.getAttribute('data-model');
+        if (model === 'CommissionPage') {
+            const clone = item.cloneNode(true);
+            UL.appendChild(clone);
+            item.remove()
+        }
     });
 }
 

@@ -412,13 +412,16 @@ GEO_WIDGET_ZOOM = 12
 
 # QuickCreate
 WAGTAIL_QUICK_CREATE_PAGE_TYPES = [
-    "amicale.AmicalePage",
-    "agents.FaqPage",
-    "administration.CompteRenduPage",
-    "administration.ConvocationPage",
+    ("administration.ConvocationPage", "une convocation"),
+    ("administration.CompteRenduPage", "un compte-rendu"),
+    ("amicale.AmicalePage", "une page de l'amicale"),
+    ("agents.FaqPage", "une page de la FAQ"),
 ]
-WAGTAIL_QUICK_CREATE_DOCUMENTS = False
-WAGTAIL_QUICK_CREATE_IMAGES = False
+
+WAGTAIL_QUICK_CREATE_DOCUMENTS = True
+WAGTAIL_QUICK_CREATE_IMAGES = True
+WAGTAIL_QUICK_CREATE_AUDIO = True
+WAGTAIL_QUICK_CREATE_VIDEO = True
 
 # Formulaires pour l'amicale
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
