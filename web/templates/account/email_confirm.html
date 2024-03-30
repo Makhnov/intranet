@@ -1,12 +1,8 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "account/base.html" %}
 {% load i18n static wagtailadmin_tags account allauth %}
 
 {% block titletag %}{% trans "Confirm" %}{% endblock %}
-{% block bodyclass %}login confirm{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
-{% endblock %}
+{% block bodyclass %}confirm{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">
@@ -20,20 +16,22 @@
         
         <div class="confirm-logo cgs-content-block">
             <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
-            <h1>{% trans "Welcome to the Intranet !" %}</h1>
         </div>
 
-        {% element h1 %}
+        {% element h2 %}
             {% trans "Confirm Email Address" %}
         {% endelement %}
 
-        <footer class="form-actions cgs-form-block">
-            {% if confirmation %}
-                {% user_display confirmation.email_address.user as user_display %}
-                {% if can_confirm %}
-                    <p>
+        {% if confirmation %}
+            {% user_display confirmation.email_address.user as user_display %}
+            {% if can_confirm %}
+                <div class="w-field__wrapper cgs-form-block confirm">
+                    <p class="confirm-mail">
                         {% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{ email }}">{{ email }}</a> is an email address for user {{ user_display }}.{% endblocktrans %}
                     </p>
+                </div>
+
+                <footer class="form-actions cgs-form-block confirm-form">
                     {% url 'account_confirm_email' confirmation.key as action_url %}
                     {% element form method="post" action=action_url %}
                         {% slot actions %}
@@ -50,20 +48,17 @@
                             </button>
                         {% endslot %}
                     {% endelement %}
-                {% else %}
-                    <p>
-                        {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
-                    </p>
-                {% endif %}
+                </footer>
             {% else %}
-                {% url 'account_email' as email_url %}
                 <p>
-                    {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
+                    {% blocktrans %}Unable to confirm {{ email }} because it is already confirmed by a different account.{% endblocktrans %}
                 </p>
             {% endif %}
-
-
-        </footer>
-
+        {% else %}
+            {% url 'account_email' as email_url %}
+            <p>
+                {% blocktrans %}This email confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new email confirmation request</a>.{% endblocktrans %}
+            </p>
+        {% endif %}
     </main>
 {% endblock %}

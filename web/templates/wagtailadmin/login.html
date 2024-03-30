@@ -1,12 +1,8 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "account/base.html" %}
 {% load i18n static wagtailadmin_tags account socialaccount %}
 
 {% block titletag %}{% trans "Sign in" %}{% endblock %}
 {% block bodyclass %}login{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
-{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">
@@ -59,7 +55,8 @@
             {% with username_value=form.username.value|default_if_none:'' %}
                 {% formattedfield field=form.username classname="cgs-form-block" label_text="Identifiant" rendered_field='<input id="id_username" type="text" name="username" maxlength="150" value="'|add:username_value|add:'" required="">'|safe %}
             {% endwith %}
-            {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required=""><span class="cgs-eye showpass"></span>' %}
+
+            {% formattedfield field=form.password classname="cgs-form-block password" label_text="Mot de passe" rendered_field='<input id="id_password" type="password" name="password" required="">' %}
 
             <a class="reset-password cgs-form-block" href="{% url 'wagtailadmin_password_reset' %}">{% trans "Forgotten password?" %}</a>
 

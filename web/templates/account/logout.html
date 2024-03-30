@@ -1,12 +1,8 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "account/base.html" %}
 {% load i18n static wagtailadmin_tags account socialaccount %}
 
 {% block titletag %}{% trans "Sign Out" %}{% endblock %}
-{% block bodyclass %}logout{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
-{% endblock %}
+{% block bodyclass %}logout confirm{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">
@@ -20,8 +16,9 @@
 
         <div class="logout-logo cgs-content-block">
             <img src="{% static 'images/cgs-blanc.png' %}" alt="Logo CGS blanc"/>
-            <h1>{% trans "Goodbye!" %}</h1>
         </div>
+
+        <h2>{% trans "Goodbye!" %}</h2>
 
         <form class="logout-form cgs-content-block" action="{% url 'account_logout' %}" method="post" autocomplete="off">
           {% csrf_token %}
@@ -29,7 +26,7 @@
               <p>{% trans "Are you sure you want to sign out?" %}</p>
           </div>
 
-          <footer class="form-actions cgs-form-block">
+          <footer class="form-actions cgs-form-block confirm-form">
               <button
                   type="submit"
                   class="button button-longrunning"

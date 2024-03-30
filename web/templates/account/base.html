@@ -1,0 +1,10 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/accompte.min.js' %}"></script>
+{% endblock %}

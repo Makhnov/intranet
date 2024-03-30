@@ -9,12 +9,6 @@ function whereAmI() {
     const headerText = header && header.querySelector('h1') ? header.querySelector('h1').textContent : '';    
     console.log(bodyClass);
 
-    // Page de connexion
-    if (bodyClass.includes("login")) {
-        console.log("Page de connexion détectée");
-        login();
-    }
-
     // Page d'accueil du Dashboard
     if (bodyClass.includes("homepage")) {
         console.log("Page d'accueil du Dashboard détectée");
@@ -127,111 +121,6 @@ function removeInfoBlock(id) {
 }
 
 //////////////////////////////////////////    PAGES CHARGEES  //////////////////////////////////////////////////
-
-
-// Page de connexion
-function login() {
-
-    // Sélectionner le span avec l'icone hide/show du formulaire
-    const eye = document.querySelector('span.cgs-eye');
-
-    // Sélectionner les champs de formulaire username et password
-    const usernameInput = document.getElementById('id_username');
-    const loginInput = document.getElementById('id_login');
-    const passwordInput = document.getElementById('id_password');
-
-    // Ecouteur d'évenement sur l'oeil
-    eye.addEventListener('click', function() {
-        // Changement d'état
-        this.classList.toggle('showpass');
-        if (this.classList.contains('showpass')) {
-            passwordInput.setAttribute('type', 'password');
-        } else {
-            passwordInput.setAttribute('type', 'text');
-        }
-    });
-
-    // Sélectionner le faux bouton de soumission du formulaire
-    const fakeSubmit = document.querySelector('.form-actions div.fake');
-
-    // Sélectionner tous les champs input dans le formulaire avec la classe 'cgs-content-block'
-    const inputs = document.querySelectorAll('.w-field__input input');
-
-    // Fonction pour vérifier la valeur de tous les inputs
-    function checkFilled() {
-        const filled = Array.from(inputs).every(input => input.value !== '');
-        fakeSubmit.style.zIndex = filled ? '-1' : '2';
-    }
-
-    // Ajouter des écouteurs d'événements pour chaque input
-    inputs.forEach(function(input) {
-
-        // Fonction pour vérifier la valeur de l'input        
-        function checkInputValue(thisInput) {
-            if (thisInput.value !== '') {
-                thisInput.closest('.cgs-form-block').classList.add('cgs-input');
-            } else {
-                thisInput.closest('.cgs-form-block').classList.remove('cgs-input');
-            }
-            // Vérifier l'état de tous les inputs après chaque modification
-            checkFilled();
-        }
-        
-        // Écouteur pour le focus
-        input.addEventListener('focus', function() {
-            this.closest('.cgs-form-block').classList.add('cgs-focus');
-        });
-
-        // Écouteur pour le défocus (blur)
-        input.addEventListener('blur', function() {
-            this.closest('.cgs-form-block').classList.remove('cgs-focus');
-        });
-
-        // Écouteur pour les changements de valeur
-        input.addEventListener('input', function() {
-            checkInputValue(this);
-        });
-
-        // Vérifier les valeurs initiales
-        checkInputValue(input);
-    });
-
-    // Empêcher la soumission du formulaire si l'un des champs est vide avec animation
-    fakeSubmit.addEventListener('click', function() {
-
-        // Vérifier si les champs sont vides et appliquer l'animation si nécessaire
-        let isFormValid = true;
-        if (usernameInput !== null && !usernameInput.value.trim()) {
-            nope(usernameInput.closest('.cgs-form-block'));
-            isFormValid = false;
-        } else if (loginInput !== null && !loginInput.value.trim()) {
-            nope(loginInput.closest('.cgs-form-block'));
-            isFormValid = false;
-        }
-        if (!passwordInput.value.trim()) {
-            nope(passwordInput.closest('.cgs-form-block'));
-            isFormValid = false;
-        }
-    });
-
-    // Fonction nope (pour secouer et changer la couleur)
-    function nope(element) {
-
-        // Applique l'animation shake au container
-        element.style.animation = 'shake 0.82s cubic-bezier(.36,.07,.19,.97) both';
-        // Applique l'animation colorized au label
-        element.firstElementChild.style.animation = 'colorized 0.82s ease-in-out both';
-
-        function handleAnimationEnd() {
-            element.style.animation = '';
-            element.removeEventListener('animationend', handleAnimationEnd);
-            element.firstElementChild.style.animation = '';
-            element.firstElementChild.removeEventListener('animationend', handleAnimationEnd);
-        }
-    
-        element.addEventListener('animationend', handleAnimationEnd);
-    }
-}
 
 // Page d'accueil du Dashboard
 function accueil() {

@@ -1,4 +1,4 @@
-body.login, body.signup, body.logout {     
+body.login, body.signup, body.logout, body.confirm, body.password, body.mail {     
     background: none;
 
     input:not([name='remember']) {
@@ -36,24 +36,15 @@ body.login, body.signup, body.logout {
     }
 }
 
-body.login #main, body.signup #main, body.logout #main {
-    // background: radial-gradient(
-    //     100% 300.28% at 100% 0%, 
-    //     var(--wp--preset--color--greeng) 0%, 
-    //     var(--wp--preset--color--blue) 50%,
-    //     var(--wp--preset--color--bluegtest) 130%
-    // );
+
+body.login #main, body.signup #main, body.logout #main, body.confirm #main, body.reset #main, body.change #main {
     background: radial-gradient(
         100% 300.28% at 115% -20%, 
         var(--cgs-color-tertiary) 0%, 
         var(--cgs-color-secondary) 50%,
         var(--cgs-color-primary) 100%
     );
-    // background: radial-gradient(
-    //     100% 300.28% at 110% -20%, 
-    //     var(--wstest3) 0%, 
-    //     var(--wptest1) 100%        
-    // );
+
     border: none;
     overflow: hidden;
     padding: 0 3rem 1.5rem;
@@ -61,17 +52,11 @@ body.login #main, body.signup #main, body.logout #main {
     max-width: 32rem;
     min-width: 22rem;
 
-    .cgs-content-block:not(.header-bar) {
+    .cgs-content-block:not(.header-bar) {//Bloc de contenu
         margin: 2rem auto;
     }
-}
-
-#main {//header
-    .header-bar {
-        margin: 0 auto 1rem;
-    }
-
-    .header-bar {
+    
+    .header-bar {//header
         position: relative;
         width: calc(100% + 10rem);
         background-image: url(../images/vague.svg);
@@ -79,21 +64,20 @@ body.login #main, body.signup #main, body.logout #main {
         background-position: bottom;
         left: -5rem;
         height: 5rem;
+        margin: 0 auto 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
 
-    h1 {
-        margin: 0;
-        color: var(--w-color-text-label);
-        font-size: 1.875rem;
-        font-weight: 800;
+        h1 {
+            margin: 0;
+            color: var(--w-color-text-label);
+            font-size: 1.875rem;
+            font-weight: 800;
+        }
     }
-    }
-}
 
-#main {//Messages
-    .messages {
+    .messages {//Messages
         width: calc(100% + 2rem);
         left: -1rem;
 
@@ -101,10 +85,8 @@ body.login #main, body.signup #main, body.logout #main {
             padding: 1em 1.25em;
         }
     }    
-}
 
-#main {//Logo
-    .login-logo, .logout-logo, .confirm-logo {
+    .login-logo, .logout-logo, .confirm-logo {//Logo
         width: 80%;
         display: flex;
         flex-direction: column;
@@ -122,13 +104,106 @@ body.login #main, body.signup #main, body.logout #main {
             font-weight: 800;
             margin:0 auto;
         }
-    }    
+    }
+
+    h2 {
+        font-size: clamp(1.7em, 3vw, 2.2em);
+        font-weight: bold;
+        text-align: center;
+    }
+                
+    .cgs-form-block.confirm p {            
+        text-align: center;
+    }
+
+    .cgs-form-block.info {
+        p, strong {
+            text-align: center;
+            font-size: .9rem;
+            color: var(--cgs-color-menu-5);
+        }
+    }
+
+    .cgs-form-block.small p {
+        text-align: center;
+        font-size: 0.8rem;        
+        color: gainsboro;
+    }
+
+    .cgs-eye {
+        position: absolute;
+        cursor: pointer;
+
+        height: 1.125rem;
+        width: 1.125rem;
+        transform: translateX(-1.125rem);
+
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        background-position: bottom;
+        filter: brightness(0) invert(1);
+
+        &:hover {
+            animation: blink 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        } 
+    }
+    .cgs-eye:not(.showpass) {
+        background-image: url(../images/show-logo.png);
+    }
+    .cgs-eye.showpass {
+        background-image: url(../images/hide-logo.png);
+    }
+
+    button, div.fake {
+        display: flex;
+        width:10rem;
+        margin-inline-start:0;
+        height: 2.5em;
+        padding: 0 2em;
+        border-radius: 2rem;
+        background-color: white;
+        color: var(--w-color-primary);
+        line-height: normal;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+
+        &.fake {
+            position:absolute;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        &.button-longrunning-active {
+            background-color: var(--w-color-grey-400);
+            border-color: var(--w-color-grey-500);
+            color:var(--w-color-grey-100);
+
+            em {
+                padding-left: 1em;
+            }
+
+            svg.icon-spinner {
+                display: inline-block;
+                position: absolute;
+                left: .75em;
+                height: 1em;
+                padding: 0;
+                width: 1em;
+
+                use {
+                    color:var(--w-color-grey-100);
+                }
+            }
+        }        
+    }
 }
 
-#main form.login-form, #main form.logout-form {//Formulaire
 
+#main form.login-form, #main form.logout-form {//Formulaire de connexion et de déconnexion
     max-width: 22.5rem;
-
+    
     label {
         user-select: none;
     }
@@ -188,32 +263,6 @@ body.login #main, body.signup #main, body.logout #main {
         font-weight: 300;
     }
 
-
-    .cgs-eye {
-        position: absolute;
-        cursor: pointer;
-
-        height: 1.125rem;
-        width: 1.125rem;
-        transform: translateX(-1.125rem);
-
-        background-size: 100% auto;
-        background-repeat: no-repeat;
-        background-position: bottom;
-        filter: brightness(0) invert(1);
-
-        &:hover {
-            animation: blink 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        } 
-    }
-
-    .cgs-eye:not(.showpass) {
-        background-image: url(../images/show-logo.png);
-    }
-    .cgs-eye.showpass {
-        background-image: url(../images/hide-logo.png);
-    }
-       
     //ANIMATION DES LABELS
     .cgs-form-block.cgs-focus:not(.cgs-input), .cgs-form-block.cgs-input {
         label {
@@ -230,77 +279,106 @@ body.login #main, body.signup #main, body.logout #main {
         cursor: pointer;
     }
 
-    // .button.button-longrunning svg.icon-spinner {
-    //     display: inline-block;
-    //     position: absolute;
-    //     left: .75em;
-    //     top: .7em;
-    //     height: 1em;
-    //     padding: 0;
-    //     width: 1em;
-
-    //     use {
-    //         color:var(--w-color-grey-100);
-    //     }
-    // }
-
     footer.form-actions {// Bloc submit
         height: 2.5rem;
         display: flex;
         justify-content: center;
     }
-    
-    footer.form-actions .button, footer.form-actions div.fake, section.signup-option button.signup {
-        display: flex;
-        width:10rem;
-        margin-inline-start:0;
-        height: 2.5em;
-        padding: 0 2em;
-        border-radius: 2rem;
-        background-color: white;
-        color: var(--w-color-primary);
-        line-height: normal;
-        align-items: center;
-        justify-content: center;
-
-        &.fake {
-            position:absolute;
-            z-index: 2;
-            cursor: pointer;
-        }
-
-        &.button-longrunning-active {
-            background-color: var(--w-color-grey-400);
-            border-color: var(--w-color-grey-500);
-            color:var(--w-color-grey-100);
-
-            em {
-                padding-left: 1em;
-            }
-            svg.icon-spinner {
-                display: inline-block;
-                position: absolute;
-                left: .75em;
-                height: 1em;
-                padding: 0;
-                width: 1em;
-
-                use {
-                    color:var(--w-color-grey-100);
-                }
-            }
-        }
-        
-    }
-
-    .cgs-form-block.confirm p {            
-        text-align: center;
-    }
 }
 
 
+body.confirm #main, body.reset #main, body.change #main {//Formulaire de confirmation, de déconnexion ou de réinitialisation
+    .confirm p {
+        font-size: 1em;
 
-section.signup-option, section.logout-option, section.redirect-option {
+        a {
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+    }
+
+    form {
+        margin: 0 auto 2rem auto;
+        width: fit-content;
+
+        label {
+            display: block;            
+            text-decoration: underline;
+            margin-bottom: .25em;
+            font-size: .85rem;
+        }
+
+        input {
+            width: 100%;                    
+            color:white;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-bottom: 2px solid white;
+            
+            &::placeholder {
+                font-size: .8rem;
+                color: white;
+            }
+
+            &:focus, 
+            &:focus-visible {
+                outline: none!important; 
+
+                &::placeholder {
+                    color: transparent;
+                }
+            }
+        }
+
+        button {
+            margin: 2em auto;
+            width:fit-content;
+        }
+    }
+}
+
+body.change { 
+
+    form {// Changement de mot de passe uniquement
+        width: 100%!important;  
+        
+        p {
+            margin: 1em 0 0 0;
+        }
+    }
+
+    a {
+        cursor: pointer;        
+        display: block;        
+        margin-bottom: .5rem;
+
+        strong {
+            margin-right: .25rem;
+        }
+    } 
+
+    ul {
+        margin-bottom: 1rem;
+        padding:0;
+        list-style-type:armenian;
+
+        li {
+            margin-bottom: .25rem;
+            list-style-type: none;
+        }
+        
+        &:not(.errorlist) li::before {
+            content: "✔️";
+            margin-right: .5rem;
+        }
+        &.errorlist li::before {
+            content: "❌";
+            margin-right: .5rem;
+        }
+    }  
+}
+
+section.signup-option, section.logout-option, section.redirect-option, section.reset-option, section.change-option {
     margin: 1.75rem auto 0;
     padding-top: .65rem;
     border-top: 1.5px solid whitesmoke;
@@ -345,6 +423,7 @@ section.signup-option, section.logout-option, section.redirect-option {
         }
     }
 }
+
 
 section.redirect-option {
 

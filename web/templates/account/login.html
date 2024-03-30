@@ -1,12 +1,8 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "account/base.html" %}
 {% load i18n static wagtailadmin_tags account socialaccount %}
 
 {% block titletag %}{% trans "Sign in" %}{% endblock %}
 {% block bodyclass %}login{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
-{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">
@@ -73,8 +69,7 @@
                     <div class="w-field__errors" data-field-errors=""></div> 
                     <div class="w-field__help" data-field-help=""></div>
                     <div class="w-field__input" data-field-input="">       
-                        <input id="id_password" type="password" name="password" autocomplete="current-password" required="">                
-                        <span class="cgs-eye showpass"></span> 
+                        <input id="id_password" type="password" name="password" autocomplete="current-password" required="">                                        
                     </div>
                 </div>
             </div>

@@ -1,12 +1,8 @@
-{% extends "wagtailadmin/admin_base.html" %}
+{% extends "account/base.html" %}
 {% load i18n static wagtailadmin_tags account socialaccount %}
 
 {% block titletag %}{% trans "Sign Up" %}{% endblock %}
 {% block bodyclass %}login signup{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/accompte.min.css' %}">
-{% endblock %}
 
 {% block furniture %}
     <main class="content-wrapper" id="main">

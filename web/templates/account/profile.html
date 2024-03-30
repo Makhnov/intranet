@@ -3,101 +3,117 @@
 
 {% block body_class %}cgs-profile list{% endblock %}
 
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.min.css' %}">
+{% endblock %}
+
 {% block title %}
   {% trans "Profile" %}
 {% endblock %}
 
 {% block content %}
+  <main class="main-content">
 
-<main class="main-content">
-    <h1>{% trans "Account profile" %}</h3>
-    <div class="cgs-container cgs-profile">
-        <div class="cgs-block">
-            <!-- First Name -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "First name" %}</small>
-              <p class="mb-0">{{ user.first_name|default:'' }}</p>
-            </div>
-        
-            <!-- Last Name -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Last name" %}</small>
-              <p class="mb-0">{{ user.last_name|default:'' }}</p>
-            </div>
+      <h1>{% trans "Account profile" %}</h3>
 
-            <!-- Display Name -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Display name" %}</small>
-              <p class="mb-0">{{ request.user.display_name|default:'' }}</p>
-            </div>
-        </div>
-      
-        <div class="cgs-block">      
-            <!-- Address Line 1 -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Address line 1" %}</small>
-              <p class="mb-0">{{ request.user.address1|default:'' }}</p>
-            </div>
-        
-            <!-- Address Line 2 -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Address line 2" %}</small>
-              <p class="mb-0">{{ request.user.address2|default:'' }}</p>
-            </div>
-        
-            <!-- Postal Code -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Postal Code" %}</small>
-              <p class="mb-0">{{ request.user.zip_code|default:'' }}</p>
-            </div>
-        
-            <!-- City -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "City" %}</small>
-              <p class="mb-0">{{ request.user.city|default:'' }}</p>
-            </div>
-        
-            <!-- Country -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Country" %}</small>
-              <p class="mb-0">{{ request.user.country|default:'' }}</p>
-            </div>
-        </div>
-      
-        <div class="cgs-block">
-            <!-- Mobile Phone -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Mobile phone" %}</small>
-              <p class="mb-0">{{ request.user.mobile_phone|default:'' }}</p>
-            </div>
-        
-            <!-- Additional Information -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Additional information" %}</small>
-              <p class="mb-0">{{ request.user.municipality|default:'' }}</p>
-            </div>
-
-            <!-- Date of Birth -->
-            <div class="col border py-2">
-              <small class="text-muted">{% trans "Date of birth" %}</small>
-              <p class="mb-0">{{ request.user.date_of_birth|date:"F d, Y"|default:'' }}</p>
-            </div>
-        </div>
-
-        <div class="cgs-block">
-            <!-- Sign Out Button -->
-            <div class="cgs-part">
-              <form method="POST" action="{% url 'account_logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-primary btn-sm">{% trans "Sign Out" %}</button>
-              </form>
-            </div>
+      <div class="cgs-container cgs-profile">
           
-            <!-- Admin Button -->
-            <div class="cgs-part">
-              <a href="{% url 'wagtailadmin_home' %}" class="btn btn-outline-primary btn-sm">{% trans "Admin" %}</a>
-            </div>
-        </div>
-    </div>
-</main>    
+          <div class="cgs-block">
+              <!-- Pasword change-->
+              <a href="{% url 'account_change_password' %}">{% trans "Change Password?" %}</a>
+          </div>
+
+          <div class="cgs-block">
+              <!-- Pasword reset-->
+              <a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+          </div>
+              
+          <div class="cgs-block">
+              <!-- First Name -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "First name" %}</small>
+                <p class="mb-0">{{ user.first_name|default:'' }}</p>
+              </div>
+          
+              <!-- Last Name -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Last name" %}</small>
+                <p class="mb-0">{{ user.last_name|default:'' }}</p>
+              </div>
+
+              <!-- Display Name -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Display name" %}</small>
+                <p class="mb-0">{{ request.user.display_name|default:'' }}</p>
+              </div>
+          </div>
+        
+          <div class="cgs-block">      
+              <!-- Address Line 1 -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Address line 1" %}</small>
+                <p class="mb-0">{{ request.user.address1|default:'' }}</p>
+              </div>
+          
+              <!-- Address Line 2 -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Address line 2" %}</small>
+                <p class="mb-0">{{ request.user.address2|default:'' }}</p>
+              </div>
+          
+              <!-- Postal Code -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Postal Code" %}</small>
+                <p class="mb-0">{{ request.user.zip_code|default:'' }}</p>
+              </div>
+          
+              <!-- City -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "City" %}</small>
+                <p class="mb-0">{{ request.user.city|default:'' }}</p>
+              </div>
+          
+              <!-- Country -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Country" %}</small>
+                <p class="mb-0">{{ request.user.country|default:'' }}</p>
+              </div>
+          </div>
+        
+          <div class="cgs-block">
+              <!-- Mobile Phone -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Mobile phone" %}</small>
+                <p class="mb-0">{{ request.user.mobile_phone|default:'' }}</p>
+              </div>
+          
+              <!-- Additional Information -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Additional information" %}</small>
+                <p class="mb-0">{{ request.user.municipality|default:'' }}</p>
+              </div>
+
+              <!-- Date of Birth -->
+              <div class="col border py-2">
+                <small class="text-muted">{% trans "Date of birth" %}</small>
+                <p class="mb-0">{{ request.user.date_of_birth|date:"F d, Y"|default:'' }}</p>
+              </div>
+          </div>
+
+          <div class="cgs-block">
+              <!-- Sign Out Button -->
+              <div class="cgs-part">
+                <form method="POST" action="{% url 'account_logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-primary btn-sm">{% trans "Sign Out" %}</button>
+                </form>
+              </div>
+            
+              <!-- Admin Button -->
+              <div class="cgs-part">
+                <a href="{% url 'wagtailadmin_home' %}" class="btn btn-outline-primary btn-sm">{% trans "Admin" %}</a>
+              </div>
+          </div>
+      </div>
+  </main>    
 {% endblock %}
