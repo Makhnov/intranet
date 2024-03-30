@@ -28,16 +28,29 @@
             <h1>{% trans "Welcome !" %}</h1>
         </div>
 
-        {% if next and not request.user.is_authenticated %}
-            <section class="redirect-option cgs-option-block">
+        {% if next %}
+            <div class="w-field__wrapper cgs-form-block info">                
                 <p>
-                    {% blocktrans %}
-                        <span>You are not allowed to view this page, please sign in with an authorized account or<br></span>
-                        <span><a href="/">return to site</a></span>
-                    {% endblocktrans %}
+                    <strong>{% blocktrans %}Note{% endblocktrans %}:</strong>
+                    <em>
+                        {% if request.user.is_authenticated %}
+                            {% user_display user as user_display %}
+                            <span>
+                                {% blocktrans %}As <strong>{{ user_display }}</strong> your are not allowed to view this page. Please {% endblocktrans %}
+                                <a href="{{ login_url }}"><strong>{% blocktrans %}sign in.{% endblocktrans %}</strong></a>
+                                {% blocktrans %}with authorized account or{% endblocktrans %}
+                                <a href="/"><strong>{% blocktrans %}return to site{% endblocktrans %}</strong></a>
+                            </span>
+                        {% else %}
+                            <span>
+                                {% blocktrans %}In order to view this page your need to {% endblocktrans %}
+                                <a href="{{ login_url }}"><strong>{% blocktrans %}sign in.{% endblocktrans %}</strong></a>
+                            </span>
+                        {% endif %}
+                    </em>
                 </p>
-            </section>
-        {% endif %}   
+            </div>
+        {% endif %}
 
         <form class="login-form cgs-content-block" action="{% url 'account_signup' %}" method="post" autocomplete="off" novalidate>
             {% csrf_token %}
@@ -109,11 +122,9 @@
             </footer>
 
             <section class="signup-option cgs-option-block">
-                <p>
-                    {% blocktrans %}
-                        <span>Already have an account? Please</span>
-                        <span><a href="{{ login_url }}">sign in.</a><span>
-                    {% endblocktrans %}
+                <p>                    
+                    <span>{% blocktrans %}Already have an account? Please{% endblocktrans %}</span>
+                    <span><a href="{{ login_url }}">{% blocktrans %}sign in.{% endblocktrans %}</a><span>
                 </p>
             </section>
         </form>

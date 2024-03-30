@@ -11,9 +11,10 @@ from wagtail_pdf_view import urls as wagtailpdf_urls
 
 from .api import api_router
 from users.views import UserPermissionDetailsView, CustomUserIndexView, profile_view
+from administration.views import administration_search
+from accompte.views import CustomPasswordChangeView
 from agents.views import faq_filter, faq_search
 from django.urls import path
-from administration.views import administration_search
 
 urlpatterns = [
     path("api/v2/auth/", UserPermissionDetailsView.as_view(), name="auth"),
@@ -46,6 +47,7 @@ urlpatterns = urlpatterns + [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
+    path('account/password/change/', CustomPasswordChangeView.as_view(), name='account_password_change'),
     path("account/", include("allauth.urls")),
     path("account/profile/", profile_view, name="account_profile"),
     # path('', include(wagtailimport_urls)),

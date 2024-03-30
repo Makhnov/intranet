@@ -2,9 +2,60 @@ h1 {
     margin: .5rem auto 1rem auto!important;
 }
 
-div.cgs-profile {
+div.profile {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
+}
+
+main {
+    a {
+        all:initial;
+        cursor: pointer;
+    }
+    
+    button {
+        cursor: pointer;
+        display: flex;
+        width:12rem;
+        margin-inline-start:0;
+        height: 3.5rem;
+        padding: 0 2em;
+        border-radius: 2rem;
+        background-color: var(--wrapper-color-list);
+        color: var(--content-color-list);
+        line-height: normal;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+        
+        svg {
+            position: absolute;
+        }
+
+        &.button-longrunning-active {
+            background-color: var(--w-color-grey-400);
+            border-color: var(--w-color-grey-500);
+            color:var(--w-color-grey-100);
+    
+            em {
+                padding-left: 1em;
+            }
+    
+            svg.icon-spinner {
+                display: inline-block;
+                position: absolute;
+                left: .75em;
+                height: 1em;
+                padding: 0;
+                width: 1em;
+    
+                use {
+                    color:var(--w-color-grey-100);
+                }
+            }
+        }        
+    }
 }
