@@ -90,6 +90,38 @@
     --w-font-mono: Courier;
 }
 
+// Définition de styles personnalisés pour le thème clair
+:root, .w-theme-light {
+    --cgs-theme-background-2: radial-gradient(100% 300.28% at 115% -20%,var(--cgs-color-secondary) 0,var(--cgs-color-primary) 100%);
+    --cgs-theme-background:hsl(168, 56%, 39%);
+    --cgs-theme-font: var(--cgs-color-primary);    
+  }
+  
+  // Définition de styles personnalisés pour le thème sombre
+  .w-theme-dark {
+    --cgs-theme-background-2: radial-gradient(100% 300.28% at 115% -20%,var(--cgs-color-secondary) 0,var(--cgs-color-primary) 100%);
+    --cgs-theme-background:hsl(168, 56%, 39%);
+    --cgs-theme-font: #fff;
+  }
+  
+  // Définition de styles personnalisés suivant les préférences système
+  @media (prefers-color-scheme: light) {
+    .w-theme-system {
+        --cgs-theme-background-2: radial-gradient(100% 300.28% at 115% -20%,var(--cgs-color-secondary) 0,var(--cgs-color-primary) 100%);
+        --cgs-theme-background:hsl(168, 56%, 39%);
+        --cgs-theme-font: var(--cgs-color-primary);    
+    }
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .w-theme-system {
+        --cgs-theme-background-2: radial-gradient(100% 300.28% at 115% -20%,var(--cgs-color-secondary) 0,var(--cgs-color-primary) 100%);
+        --cgs-theme-background:hsl(168, 56%, 39%);
+        --cgs-theme-font: #fff;
+    }
+  }
+  
+
 @font-face {
     font-family: 'rhino';
     font-weight: 100;

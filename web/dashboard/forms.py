@@ -1,100 +1,138 @@
 from django import forms
-from django.forms.models import ModelChoiceIteratorValue
-from django.template.loader import get_template
+from django.forms import ModelChoiceField
 from wagtail.models import Page
 from django.contrib.contenttypes.models import ContentType
 
-from administration.models import ConvocationPage, CompteRenduPage, ConseilsIndexPage, BureauxIndexPage, CommissionPage, ConferencesIndexPage
+from administration.models import ConvocationPage, ConseilsIndexPage, BureauxIndexPage, CommissionPage, ConferencesIndexPage
 from amicale.models import AmicalePage
-    
-class CustomModelChoiceField(forms.ModelChoiceField):
-    # widget=CustomSelect()
-    
+from home.models import RessourcesPage, PublicPage
+
+
+class CustomModelChoiceField(ModelChoiceField):    
     def label_from_instance(self, obj):
         return obj.date.strftime("%d-%b-%Y")
+
 
 class EmailForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         
-        # Récupère les ContentType pour chaque type de page
-        amicale_type = ContentType.objects.get_for_model(AmicalePage)
-        compte_rendu_type = ContentType.objects.get_for_model(CompteRenduPage)
-        convocation_type = ContentType.objects.get_for_model(ConvocationPage)
-        
-        # Construit un queryset qui sélectionne les pages de ces types spécifiques
-        pages = Page.objects.live().filter(content_type__in=[amicale_type, compte_rendu_type, convocation_type]).specific()
-
-
+        #######################################
+        ##  SECTION GAUCHE (Amicale, autres) ##
+        #######################################  
+ 
        # Définition des champs du formulaire pour les pages spécifiques
-        self.fields['specific_page'] = forms.ChoiceField(choices=[], widget=forms.RadioSelect, label="Sélectionnez une page spécifique", required=False)
-
-        # Remplissez le champ 'specific_page' avec vos pages spécifiques
-        self.fields['specific_page'].choices = [
-            ('conseil', 'Conseil'),
-            ('bureau', 'Bureau'),
-            # Ajoutez d'autres pages ici
+        self.fields['left_pages'] = forms.ChoiceField(choices=[], widget=forms.RadioSelect, label="Sélectionnez une type de page", required=False)
+        self.fields['left_pages'].choices = [
+            ('amicale', "Pages de l'amicale"),
+            ('ressources', "Pages ressources (privées)"),
+            ('public', "Pages publiques"),
         ]
-        # # Champs pour les destinataires
-        # self.fields['recipients'] = forms.CharField(widget=forms.Textarea, help_text="Séparer les adresses e-mail par une virgule", required=False)
+        
+        # On récupère les pages d'index ressources et publiques
+        resources_index_page = RessourcesPage.objects.first()
+        public_index_page = PublicPage.objects.first()
+        
+        # Queryset Amicale, Ressources et Publiques
+        amicale = AmicalePage.objects.live().specific().order_by('-date')
+        ressources = resources_index_page.get_children().live().specific().order_by('title')
+        public = public_index_page.get_children().live().specific().order_by('title')    
+       
+        # Choix de la page de l'amicale
+        self.fields['amicale'] = ModelChoiceField(
+            queryset=amicale,
+            label="Sélectionnez une page de l'amicale",
+            required=False
+        )
+        # Choix de la page ressources
+        self.fields['ressources'] = ModelChoiceField(
+            queryset=ressources,
+            label="Sélectionnez une page privée",
+            required=False
+        )
+        # Choix de la page publique
+        self.fields['public'] = ModelChoiceField(
+            queryset=public,
+            label="Sélectionnez une page publique",
+            required=False
+        )
+        
+        # Champs pour les destinataires
+        self.fields['mail_to'] = forms.CharField(widget=forms.Textarea, help_text="Séparer les adresses e-mail par une virgule", required=False)
+        
+        # Télécharger ou non un document sur cette page (booléen)
+        self.fields['left_attachments'] = forms.BooleanField(label="Attacher les pièces-jointes", required=False)
+        
+        #######################################
+        ##   SECTION DROITE (Convocations)   ##
+        ####################################### 
 
+        # Définition des champs du formulaire pour les pages générales
+        self.fields['right_pages'] = forms.ChoiceField(choices=[], widget=forms.RadioSelect, label="Sélectionnez une type de page", required=False)
+        self.fields['right_pages'].choices = [
+            ('conseils', "Page des conseils"),
+            ('bureaux', "Page des bureaux"),
+            ('conferences', "Page des conférences"),
+            ('commissions', "Page des commissions"),
+        ]
+        
+        # On prépare le champ de la séléction des commissions (sans choice pour commencer)
+        self.fields['commissions'] = forms.ChoiceField(choices=[], widget=forms.RadioSelect, label="Sélectionnez une commission ou un groupe de travail", required=False)
+        commissions_choices = []
+        
+        # On récupère les index des pages de conseils, bureaux et conférences (ainsi que tous les index des commissions)
         conseils_index_page = ConseilsIndexPage.objects.first()
         bureaux_index_page = BureauxIndexPage.objects.first()        
         conferences_index_page = ConferencesIndexPage.objects.first()    
-        # commissions_page = CommissionPage.objects.all()
+        commissions_page = CommissionPage.objects.all()
         
-        # Définition des champs du formulaire pour les pages générales
-        self.fields['page'] = forms.ModelChoiceField(queryset=pages, label="Sélectionnez une page", required=False)   
-        
-        self.fields['convocation_conseils'] = CustomModelChoiceField(
+        # Choix d'une page de conseil
+        self.fields['conseils'] = CustomModelChoiceField(
             queryset=ConvocationPage.objects.live().descendant_of(conseils_index_page).order_by('-date'),
-            label="Sélectionnez une convocation (Conseils)",
+            label="Convocation(s) Conseil",
             required=False
         )
-        self.fields['convocation_bureaux'] = CustomModelChoiceField(
+        
+        # Choix d'une page de bureau
+        self.fields['bureaux'] = CustomModelChoiceField(
             queryset=ConvocationPage.objects.live().descendant_of(bureaux_index_page).order_by('-date'),
-            label="Sélectionnez une convocation (Bureaux)",
+            label="Convocation(s) Bureau",
             required=False
         )
-        self.fields['convocation_conferences'] = CustomModelChoiceField(
+        
+        # Choix d'une page de conférence
+        self.fields['conferences'] = CustomModelChoiceField(
             queryset=ConvocationPage.objects.live().descendant_of(conferences_index_page).order_by('-date'),
-            label="Sélectionnez une convocation (Conferences)",
+            label="Convocation(s) Conférence",
             required=False
         )
+
+        # Ordre des champs
+        self.field_order = ['left_pages', 'amicale', 'divers', 'left_attachments', 'right_pages', 'commissions', 'convocation_conseils', 'convocation_bureaux', 'convocation_conferences']
+        commissions_order = []
         
-        self.field_order = ['choice', 'specific_page', 'page', 'convocation_conseils', 'convocation_bureaux', 'convocation_conferences']
+        # On boucle sur les commissions        
+        for commission in commissions_page:
+            
+            # On ajoute chaque commission au field du choix de commissions
+            commissions_choices.append((f'commission_{commission.id}', commission.title))
+               
+            # On ajoute ce champ à l'ordre des champs
+            commissions_order.append(f'commission_{commission.id}')
+            
+            # Ensuite on créé un champ pour chaque commission
+            self.fields[f'commission_{commission.id}'] = CustomModelChoiceField(
+                queryset=ConvocationPage.objects.live().descendant_of(commission).order_by('-date'),
+                label=f'Convocation(s) {commission.title}',
+                required=False
+            )
+            
+        # Mise à jour des choices du champ 'commissions' avec la nouvelle liste
+        self.fields['commissions'].choices = commissions_choices
         
-        # # On boucle sur les commissions        
-        # for commission in commissions_page:
-        #     self.fields[f'commission_{commission.id}'] = CustomModelChoiceField(
-        #         queryset=ConvocationPage.objects.live().descendant_of(commission).order_by('-date'),
-        #         label=f'{commission.title} (Commission)',
-        #         required=False
-        #     )
+        # Mise à jour de l'ordre des champs    
+        self.field_order.extend(commissions_order)
         
-
-# class CustomSelect(forms.Select):
-#     template_name = "widgets/blocks/select.html"
-#     option_template_name = "widgets/blocks/select_option.html"
-
-#     def create_option(self, name, value, label, selected, index, subindex=None, attrs=None):
-#         option = super().create_option(name, value, label, selected, index, subindex=subindex, attrs=attrs)
-
-#         # Vérifie si 'value' est une instance de ModelChoiceIteratorValue et extrait l'ID réel
-#         if isinstance(value, ModelChoiceIteratorValue):
-#             real_value = value.value
-#         else:
-#             real_value = value
-
-#         if real_value:
-#             try:                
-#                 page_object = self.choices.queryset.get(pk=real_value)
-#                 option['attrs']['data-year'] = page_object.date.year
-#                 option['attrs']['data-mail'] = getattr(page_object, 'mail', 'mail@default.com')
-#                 option['attrs']['data-url'] = f'{page_object.url}/pdf'
-#             except self.choices.queryset.model.DoesNotExist:
-#                 # Gérer l'exception si l'objet n'est pas trouvé
-#                 pass
-
-#         return option
+        # Télécharger ou non un document sur cette page (booléen)
+        self.fields['right_attachments'] = forms.BooleanField(label="Attacher les pièces-jointes", required=False)
+        self.field_order.append('right_attachments')

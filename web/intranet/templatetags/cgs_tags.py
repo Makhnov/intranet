@@ -38,6 +38,10 @@ def replace(value, args):
     search, replace = args.split(',')
     return value.replace(search, replace)
 
+@register.filter(name='classname')
+def classname(obj):
+    return obj.__class__.__name__
+
 ####################################################################################################
 #########################                        FAQ                       #########################
 #################################################################################################### 

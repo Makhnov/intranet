@@ -1,4 +1,3 @@
-{% extends "base.html" %}
 {% load static %}
 
 {% block body_class %}cgs-{{ main_dir }} doc{% endblock %}
@@ -12,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    {% include ""|add:main_dir|add:"/widgets/"|add:doc|add:"_page.html" with class_type=dir %}
+    {% include ""|add:main_dir|add:"/widgets/"|add:doc|add:".html" with class_type=dir %}
 {% endblock %}
 
 {% block extra_js %}

@@ -1,6 +1,6 @@
 {% extends "wagtailadmin/generic/base.html" %}
 
-{% load i18n static wagtailadmin_tags %}
+{% load i18n static wagtailadmin_tags cgs_tags %}
 
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/mailing.min.css' %}">
@@ -13,82 +13,120 @@
 {% block main_content %}
     <div class="cgs-main">
         <section class="top">
-            <div class="form-group ">
-                <label>Objet de la campagne:</label>
-                <div id="id_choice"><div>
-                <label for="id_choice_0"><input type="radio" name="choice" value="general" id="id_choice_0">
-                Amicale ou autres</label>
-                </div><div>
-                <label for="id_choice_1"><input type="radio" name="choice" value="convocation" id="id_choice_1">
-                Convocation officielle</label>
-                </div>
+            <div class="cgs-objects">
+                <label>Sélectionnez une campagne</label>
+                <div id="objects">
+                    <div class="cgs-object">
+                        <label for="object_divers">
+                            Divers (Ressources, Amicale…)
+                        </label>
+                        <div class="cgs-input">
+                            <span for="object_divers">Divers (Amicale…)</span>
+                            <input type="radio" name="choice" value="divers" id="object_divers">
+                        </div>
+                    </div>
+                    <div class="cgs-object">
+                        <label for="object_convocation">
+                            Convocation officielle
+                        </label>
+                        <div class="cgs-input">
+                            <input type="radio" name="choice" value="convocation" id="object_convocation">
+                            <span for="object_convocation">Convocation</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <section class="left">
-            <form method="post">
+        <section class="left cgs-pathed">
+            <form class="cgs-mailing divers" method="POST">
                 {% csrf_token %}
                 {% for field in form %}
-                    {% if forloop.counter0|divisibleby:2 %}
-                        <div class="form-group {% if field.errors %}has-error{% endif %}">
-                            {{ field.label_tag }}
-                            {{ field }}
-                            {% if field.help_text %}
-                                <span class="help-text">{{ field.help_text }}</span>
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <div class="error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
+                    {% if forloop.counter0 < 6 %}
+                        {% with type=field.field.widget.input_type %}
+                            <div 
+                                class="cgs-form-group {% if field.errors %}has-error{% endif %}"
+                                data-type="{{ type }}"
+                                data-id="{{ field.name }}"
+                                {% if type == "radio" %}data-selected=""{% endif %}
+                            >
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <span class="help-text">{{ field.help_text }}</span>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endwith %}
                     {% endif %}
-                {% endfor %}  
-                <button
-                    type="submit"
-                    class="submit button button-longrunning"
-                    data-controller="w-progress"
-                    data-action="w-progress#activate"
-                    data-w-progress-active-value="{% trans 'Confirmation…' %}"
-                >
-                    {% icon name="spinner" %}
-                    <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
-                </button>
-                <button
-                    class="PDF button button-longrunning"
-                    data-controller="w-progress"
-                    data-w-progress-active-value="{% trans 'Generating…' %}"
-                >
-                    {% icon name="spinner" %}
-                    <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
-                </button>
+                {% endfor %}
+                <div class="cgs-form-group validation">
+                    <button
+                        type="submit"
+                        class="submit button button-longrunning"
+                        data-controller="w-progress"
+                        data-action="w-progress#activate"
+                        data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                    </button>
+                    <button
+                        class="PDF button button-longrunning"
+                        data-controller="w-progress"
+                        data-w-progress-active-value="{% trans 'Generating…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
+                    </button>
+                </div>
             </form>
         </section>
-        <section class="right">
-            <form method="post">
+        <section class="right cgs-pathed">
+            <form class="cgs-mailing convocation" method="POST">
                 {% csrf_token %}
                 {% for field in form %}
-                    {% if not forloop.counter0|divisibleby:2 %}
-                        <div class="form-group {% if field.errors %}has-error{% endif %}">
-                            {{ field.label_tag }}
-                            {{ field }}
-                            {% if field.help_text %}
-                                <span class="help-text">{{ field.help_text }}</span>
-                            {% endif %}
-                            {% for error in field.errors %}
-                                <div class="error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
+                    {% if forloop.counter0 > 5 %}
+                        {% with type=field.field.widget.input_type %}
+                            <div 
+                                class="cgs-form-group {% if field.errors %}has-error{% endif %}"
+                                data-type="{{ type }}"
+                                data-id="{{ field.name }}"
+                                {% if type == "radio" %}data-selected=""{% endif %}
+                            >
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <span class="help-text">{{ field.help_text }}</span>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endwith %}
                     {% endif %}
                 {% endfor %}  
-                <button
-                    type="submit"
-                    class="submit button button-longrunning"
-                    data-controller="w-progress"
-                    data-action="w-progress#activate"
-                    data-w-progress-active-value="{% trans 'Confirmation…' %}"
-                >
-                    {% icon name="spinner" %}
-                    <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
-                </button>
+                <div class="cgs-form-group validation">
+                    <button
+                        type="submit"
+                        class="submit button button-longrunning"
+                        data-controller="w-progress"
+                        data-action="w-progress#activate"
+                        data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                    </button>
+                    <button
+                        class="PDF button button-longrunning"
+                        data-controller="w-progress"
+                        data-w-progress-active-value="{% trans 'Generating…' %}"
+                    >
+                        {% icon name="spinner" %}
+                        <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
+                    </button>
+                </div>
             </form>
         </section>
     </div>

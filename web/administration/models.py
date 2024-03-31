@@ -322,6 +322,7 @@ class CommissionPage(Page):
     
     def get_members(self):
         # Initialisation du dictionnaire pour trier les membres
+        print("get_members")
         members_sorted = {
             "Chargé de commission": [],
             "Chargée de commission": [],            
@@ -382,7 +383,7 @@ class CommissionPage(Page):
 
 ####################################
 ## CONVOCATIONS ET COMPTES-RENDUS ##
-####################################  
+#################################### 
 
 # Convocation aux instances
 class ConvocationPage(PdfViewPageMixin, Page):
