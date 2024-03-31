@@ -9,11 +9,12 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_pdf_view import urls as wagtailpdf_urls
 # from wagtail_content_import import urls as wagtailimport_urls
 
-from .api import api_router
+from intranet.api import api_router
 from users.views import UserPermissionDetailsView, CustomUserIndexView, profile_view
 from administration.views import administration_search
 from accompte.views import CustomPasswordChangeView
 from agents.views import faq_filter, faq_search
+from dashboard.views import mailing_view
 from django.urls import path
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
     path("api/v2/", include("dj_rest_auth.urls")),
     path("api/v2/", api_router.urls),
     path("django-admin/", admin.site.urls),
+    path('admin/mailing/', include(('dashboard.urls', 'dashboard'), namespace='mailing')),
     path('admin/users/', CustomUserIndexView.as_view(), name='wagtailusers_users'),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),

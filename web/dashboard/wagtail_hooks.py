@@ -1,6 +1,10 @@
+
+from django.urls import reverse
 from django.utils.html import format_html
 from django.templatetags.static import static
+
 from wagtail import hooks
+from wagtail.admin.menu import MenuItem
 from wagtail.admin.views.account import BaseSettingsPanel, SettingsTab
 from wagtail.admin.views.home import LockedPagesPanel
 
@@ -13,7 +17,6 @@ from users.forms import (
 )
 
 from django.utils.translation import gettext_lazy as _
-
 
 # CSS Panneau admin
 @hooks.register("insert_global_admin_css")
@@ -38,3 +41,12 @@ class CustomSettingsPanel(BaseSettingsPanel):
     form_class = CustomSettingsForm
     template_name = "wagtailadmin/profile/custom_settings.html"
 
+@hooks.register("register_admin_menu_item")
+def register_mailing_menu_item():
+    return MenuItem(
+        _("Mailing"),
+        reverse('mailing:index'),
+        name="mailing",
+        icon_name="mail",
+        order=1000,
+    )

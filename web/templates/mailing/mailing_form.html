@@ -1,0 +1,99 @@
+{% extends "wagtailadmin/generic/base.html" %}
+
+{% load i18n static wagtailadmin_tags %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mailing.min.css' %}">
+{% endblock %}
+
+{% block main_header %}
+    {% include "wagtailadmin/shared/header.html" with title="Mailing CGS" icon="mail" description="Envoi d'e-mails et génération de PDF" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="cgs-main">
+        <section class="top">
+            <div class="form-group ">
+                <label>Objet de la campagne:</label>
+                <div id="id_choice"><div>
+                <label for="id_choice_0"><input type="radio" name="choice" value="general" id="id_choice_0">
+                Amicale ou autres</label>
+                </div><div>
+                <label for="id_choice_1"><input type="radio" name="choice" value="convocation" id="id_choice_1">
+                Convocation officielle</label>
+                </div>
+                </div>
+            </div>
+        </section>
+        <section class="left">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <span class="help-text">{{ field.help_text }}</span>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}  
+                <button
+                    type="submit"
+                    class="submit button button-longrunning"
+                    data-controller="w-progress"
+                    data-action="w-progress#activate"
+                    data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                >
+                    {% icon name="spinner" %}
+                    <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                </button>
+                <button
+                    class="PDF button button-longrunning"
+                    data-controller="w-progress"
+                    data-w-progress-active-value="{% trans 'Generating…' %}"
+                >
+                    {% icon name="spinner" %}
+                    <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
+                </button>
+            </form>
+        </section>
+        <section class="right">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if not forloop.counter0|divisibleby:2 %}
+                        <div class="form-group {% if field.errors %}has-error{% endif %}">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% if field.help_text %}
+                                <span class="help-text">{{ field.help_text }}</span>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}  
+                <button
+                    type="submit"
+                    class="submit button button-longrunning"
+                    data-controller="w-progress"
+                    data-action="w-progress#activate"
+                    data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                >
+                    {% icon name="spinner" %}
+                    <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                </button>
+            </form>
+        </section>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/mailing.min.js' %}"></script>
+{% endblock %}

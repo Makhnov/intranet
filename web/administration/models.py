@@ -406,13 +406,14 @@ class ConvocationPage(PdfViewPageMixin, Page):
     body = RichTextField(blank=True, verbose_name=_("Agenda"))
 
     content_panels = custom_content_panels(["title"]) + [
-        FieldPanel("date"),
-        FieldPanel("body"),
+        FieldPanel("date", attrs={'data-id': "date"}),
+        FieldPanel("body", attrs={'data-id': "body"}),
         InlinePanel(
             "convocation_documents",
             label=_("Document"),
             heading=_("Attachments"),
             classname="collapsible collapsed",
+            attrs={'data-id': "attachments"},
         ),
     ]
     promote_panels = custom_promote_panels(["slug"])
@@ -561,15 +562,16 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         help_text=_("This is the main content of the page."),
     )
     content_panels = custom_content_panels(["title"]) + [
-        PageChooserPanel("convocation", "administration.ConvocationPage"),
+        PageChooserPanel("convocation", "administration.ConvocationPage", attrs={'data-id': "convocation"}),
         MultiFieldPanel(
             [
-                FieldPanel("secretary", widget=forms.Select, classname="instance_secretary col4"),
-                FieldPanel("date", read_only=True, classname="instance_date col4"),
-                FieldPanel("quorum", classname="instance_quorum col4"),
+                FieldPanel("secretary", widget=forms.Select, classname="instance_secretary col4", attrs={'data-id': "secretary"}),
+                FieldPanel("date", read_only=True, classname="instance_date col4", attrs={'data-id': "date"}),
+                FieldPanel("quorum", classname="instance_quorum col4", attrs={'data-id': "quorum"}),
             ],
             heading=_("Instance management"),
             classname="collapsible col12",
+            attrs={'data-id': "settings"},
         ),
         MultiFieldPanel(
             [
@@ -577,22 +579,29 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                     "replaced_users", 
                     widget=forms.CheckboxSelectMultiple,
                     classname="instance_replaced col6",
+                    attrs={'data-id': "replaced"},
                 ),
                 FieldPanel(
                     "unreplaced_users", 
                     widget=forms.CheckboxSelectMultiple,
                     classname="instance_unreplaced col6",
+                    attrs={'data-id': "unreplaced"},
                 ),
             ],
             heading=_("Absence management"),
             classname="collapsible collapsed col12",
+            attrs={'data-id': "absences"},
         ),
-        FieldPanel("body"),
+        FieldPanel(
+            "body",
+            attrs={'data-id': "body"},
+        ),
         InlinePanel(
             "compte_rendu_documents",
             label=_("Document"),
             heading=_("Attachments"),
             classname="collapsible collapsed",
+            attrs={'data-id': "attachments"},
         ),
     ]
     promote_panels = custom_promote_panels(["slug"])

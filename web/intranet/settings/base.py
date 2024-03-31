@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",  # Allauth need this
     "django.contrib.messages",  # Allauth need this
     "django.contrib.staticfiles",
+    "django.forms",
     
     # "wagtail_content_import", # https://torchbox.github.io/wagtail-content-import/
     # "wagtail_content_import.pickers.google", # Requis par wagtail content import (API Google)
@@ -189,6 +190,7 @@ TEMPLATES = [
         },
     },
 ]
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # Database PostgreSQL
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

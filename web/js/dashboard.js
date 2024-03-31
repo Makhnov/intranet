@@ -659,10 +659,10 @@ function compteRenduUsers() {
     
     // Secrétaire de séance
     const secretaryField = document.querySelector('#id_secretary');
-    const secretarySection = document.querySelector('div.instance_secretary');
+    const secretarySection = document.querySelector('[data-id="secretary"]');
 
     // Section des absences
-    const absencesSection = document.querySelector('#panel-child-contenu-absence_management-section');
+    const absencesSection = document.querySelector('[data-id="absences"]');
 
     // Absents remplacés
     const replacedUsersField = document.querySelector('#id_replaced_users');
@@ -671,13 +671,13 @@ function compteRenduUsers() {
     const unreplacedUsersField = document.querySelector('#id_unreplaced_users');
 
     // Quorum section
-    const quorumSection = document.querySelector('div.instance_quorum');
+    const quorumSection = document.querySelector('[data-id="quorum"]');
 
     // Ordre du jour
-    const agendaSection = document.querySelector('#panel-child-contenu-body-section');    
+    const agendaSection = document.querySelector('[data-id="body"]');    
 
     // PJ
-    const PJSection = document.querySelector('#panel-child-contenu-pieces_jointes-section');
+    const PJSection = document.querySelector('[data-id="attachments"]');
 
     // On vide les champs au chargement de la page
     secretaryField.innerHTML = '';
@@ -1044,7 +1044,6 @@ function compteRenduUsers() {
         fetch('/api/v2/pages/' + convocationId + '/')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 // On vérifie l'ancieneté de la convocation
                 const old = data.old ? data.old : false;                
                 if (old) {
