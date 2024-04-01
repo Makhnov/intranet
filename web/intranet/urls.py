@@ -2,7 +2,6 @@ from django.conf import settings
 from django.urls import include, path
 from django.contrib import admin
 
-from search import views as search_views
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -14,7 +13,6 @@ from users.views import UserPermissionDetailsView, CustomUserIndexView, profile_
 from administration.views import administration_search
 from accompte.views import CustomPasswordChangeView
 from agents.views import faq_filter, faq_search
-from dashboard.views import mailing_view
 from django.urls import path
 
 urlpatterns = [
@@ -23,11 +21,10 @@ urlpatterns = [
     path("api/v2/", include("dj_rest_auth.urls")),
     path("api/v2/", api_router.urls),
     path("django-admin/", admin.site.urls),
-    path('admin/mailing/', include(('dashboard.urls', 'dashboard'), namespace='mailing')),
+    path('admin/mailing/', include(('mailing.urls', 'mailing'), namespace='mailing')),
     path('admin/users/', CustomUserIndexView.as_view(), name='wagtailusers_users'),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    path("search/", search_views.search, name="search"),
     path("faq_filter/", faq_filter, name="faq_filter"),
     path("faq_search/", faq_search, name="faq_search"),
     path("administration/search/", administration_search, name="administration_search"),

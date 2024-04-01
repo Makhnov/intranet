@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "amicale",  # Le blog de l'amicale
     "administration",  # La partie de l'intranet réservée aux élus (CR, convocations, etc.)
     "agents",  # La partie de l'intranet réservée aux agents (FAQ, etc.)
-    "search",
+    "mailing",
     "intranet",  
     "corsheaders",
     "wagtail.contrib.forms", # https://docs.wagtail.org/en/latest/reference/contrib/forms/
@@ -78,7 +78,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",  # Allauth need this
     "django.contrib.messages",  # Allauth need this
     "django.contrib.staticfiles",
-    "django.forms",
     
     # "wagtail_content_import", # https://torchbox.github.io/wagtail-content-import/
     # "wagtail_content_import.pickers.google", # Requis par wagtail content import (API Google)
@@ -190,7 +189,6 @@ TEMPLATES = [
         },
     },
 ]
-FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 # Database PostgreSQL
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

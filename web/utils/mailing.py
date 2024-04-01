@@ -1,13 +1,54 @@
-from django.core.mail import send_mail, get_connection
+from django.core.mail import send_mail, send_mass_mail, get_connection
 from django.conf import settings
+from django.core.exceptions import PermissionDenied
+from mailing.models import SentMail
 
+# Gestionnaire d'envoi de mail
+class EmailSender:
+    def __init__(self, user):
+        self.user = user
+
+    def can_send_emails(self):
+        # Vérifier si l'utilisateur a la permission d'envoyer des emails        
+        return self.user.has_perm('mailing.can_send_mail')
+
+    def send_email(self, sujet, contenu, destinataire, expediteur='noreply'):
+        if not self.can_send_emails():
+            raise PermissionDenied("L'utilisateur n'a pas la permission d'envoyer des emails.")
+        
+        try:
+            cgs_mail(sujet, contenu, expediteur, destinataire)
+            # Enregistrement du succès pour chaque destinataire
+            SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataire, sent_successfully=True)
+        except Exception as e:
+            # Enregistrement de l'échec
+            SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataire, sent_successfully=False, error_message=str(e))
+            raise
+
+    def send_mass_email(self, email_data):
+        if not self.can_send_emails():
+            raise PermissionDenied("L'utilisateur n'a pas la permission d'envoyer des emails.")
+        
+        try:
+            cgs_mass_mail(email_data)
+            # Enregistrement du succès pour chaque destinataire dans email_data
+            for sujet, contenu, expediteur, destinataires in email_data:
+                for destinataire in destinataires:
+                    SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataire, sent_successfully=True)
+        except Exception as e:
+            # Enregistrement de l'échec (simplification : enregistre l'échec pour le premier destinataire de chaque tuple)
+            for _, contenu, _, destinataires in email_data:
+                SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataires[0], sent_successfully=False, error_message=str(e))
+            raise
+        
+# Envoi d'un mail avec les mêmes sujets et messages (plusieurs destinataires possibles).        
 def cgs_mail(sujet, contenu, expediteur, destinataires):
     real_backend="django.core.mail.backends.smtp.EmailBackend"
     
     # Créer une connexion avec la configuration spécifique
     connection = get_connection(
-        #backend=settings.EMAIL_BACKEND,
-        backend=real_backend,
+        backend=settings.EMAIL_BACKEND,
+        # backend=real_backend,
         host=settings.EMAIL_HOST,
         port=settings.EMAIL_PORT,
         use_tls=settings.EMAIL_USE_TLS,
@@ -24,18 +65,7 @@ def cgs_mail(sujet, contenu, expediteur, destinataires):
         connection=connection,
     )
 
-# Test
-# from utils.mailing import cgs_mail
-# cgs_mail(
-#     'Test',
-#     'Message',
-#     'instance',
-#     ['to1', 'to2', 'to3'],
-# )
-
-from django.core.mail import send_mass_mail, get_connection
-from django.conf import settings
-
+# Envoi de plusieurs mails où chaque mail a un sujet, un message, un expéditeur et une liste de destinataires.
 def cgs_mass_mail(email_data):
     """
     Envoie un ensemble d'e-mails en utilisant la fonction send_mass_mail de Django.
