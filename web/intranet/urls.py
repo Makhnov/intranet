@@ -6,7 +6,6 @@ from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_pdf_view import urls as wagtailpdf_urls
-# from wagtail_content_import import urls as wagtailimport_urls
 
 from intranet.api import api_router
 from users.views import UserPermissionDetailsView, CustomUserIndexView, profile_view
@@ -21,7 +20,6 @@ urlpatterns = [
     path("api/v2/", include("dj_rest_auth.urls")),
     path("api/v2/", api_router.urls),
     path("django-admin/", admin.site.urls),
-    path('admin/mailing/', include(('mailing.urls', 'mailing'), namespace='mailing')),
     path('admin/users/', CustomUserIndexView.as_view(), name='wagtailusers_users'),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
