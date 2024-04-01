@@ -40,14 +40,6 @@ from utils.variables import TABLE_OPTIONS
 # Custom panels
 from home.views import custom_content_panels, custom_promote_panels
 
-# Tables de fonctions utilisateurs
-from utils.widgets import (
-    FonctionsConseilListe, 
-    FonctionsBureauListe, 
-    FonctionsConferenceListe, 
-    FonctionsCommissionListe
-)
-
 # Tables
 from wagtail.contrib.table_block.blocks import TableBlock
 
@@ -457,17 +449,33 @@ class ConvocationPage(PdfViewPageMixin, Page):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
         context['old'] = self.old
-        # Récupération et tri des utilisateurs par poids de fonction puis par fonction
-        convocation_users = ConvocationUser.objects.filter(
-            convocation=self
-        ).order_by('function_weight', 'function')
+        parent = self.get_parent().specific
+        context['parent'] = parent
 
-        # Regroupement des utilisateurs par fonction
-        grouped_convocation_users = {
-            k: list(g) for k, g in groupby(convocation_users, lambda x: x.function)
-        }
+        if hasattr(parent, 'get_members'):
+            members = parent.get_members()
 
-        context['grouped_convocation_users'] = grouped_convocation_users
+            hosts = []
+
+            for president in members.get('Président', []) + members.get('Présidente', []):
+                hosts.append({
+                    'civility': president.civility,
+                    'function': 'Président' if president.civility == 'Monsieur' else 'Présidente',
+                    'name': f"{president.first_name} {president.last_name}",  # Ajout du nom complet
+                    'object': president,
+                })
+
+            if parent.__class__.__name__ == 'CommissionPage':
+                for charge in members.get('Chargé de commission', []) + members.get('Chargée de commission', []):
+                    hosts.append({
+                        'civility': charge.civility,
+                        'function': 'Chargé de commission' if charge.civility == 'Monsieur' else 'Chargée de commission',
+                        'name': f"{charge.first_name} {charge.last_name}",  # Ajout du nom complet
+                        'object': charge,
+                    })
+
+            context['hosts'] = hosts
+
         return context
     
     def get_template(self, request, *args, **kwargs):
@@ -635,11 +643,17 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             self.slug = "compte-rendu"
         super().save(*args, **kwargs)
 
+    def get_parent_type(self):
+        parent = self.get_parent()
+        if parent:
+            return parent.specific_class
+        return None
 
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
         context['is_pdf'] = 'pdf' in request.path
-
+        context['parent'] = self.get_parent().specific
+        
         # On s'assure que la page a une convocation associée
         if self.convocation is not None:
             

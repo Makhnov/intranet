@@ -16,30 +16,52 @@
         {% comment %} Convocation post-intranet (Document au complet) {% endcomment %}
         {% else %}
             <div class="container-fluid">
-                {% comment %} Watermark {% endcomment %}
-                {% if settings.dashboard.PDFSettings.watermark %}
-                    {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
-                {% endif %}
-        
-                {% comment %} Logo {% endcomment %}
-                {% if settings.dashboard.PDFSettings.logo %}
-                    {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+                {% if is_pdf %}
+                    {% comment %} Watermark {% endcomment %}
+                    {% if settings.dashboard.PDFSettings.watermark %}
+                        {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
+                    {% endif %}
+            
+                    {% comment %} Logo {% endcomment %}
+                    {% if settings.dashboard.PDFSettings.logo %}
+                        {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+                    {% endif %}
                 {% endif %}
 
-                <div class="grid-item grid-invitation">
+                <div class="grid-item grid-invitation">                
                     <div class="grid-invitation-content">
-                        {% for function, users in grouped_convocation_users.items %}
-                            {% if forloop.first %}
-                                {% for user in users %}
-                                    <p>{{ user.gender }} {{ user.identity }}</p>
-                                {% endfor %}
-                                <p>{{ function }}</p>
-                                <p>A</p>
-                                <p>Mesdames, Messieurs les</p>
-                                <p>délégués communautaires et</p>
-                                <p>délégués suppléants</p>
-                            {% endif %}
-                        {% endfor %}
+                        {% if hosts %}
+                            <div>
+                                {% if hosts|length == 1 %}
+                                    {% for host in hosts %}
+                                        <p>{{ host.civility }} {{ host.name }}, {{ host.function }}</p>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for host in hosts %}
+                                        {% if forloop.last and not forloop.first %}
+                                            <p>et {{ host.civility }} {{ host.name }}, {{ host.function }}<p>
+                                        {% else %}
+                                            <p>{{ host.civility }} {{ host.name }}, {{ host.function }}{% if not forloop.last %},{% endif %}<p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        <div><p>A</p></div>
+                        <p>Mesdames, Messieurs les</p>
+                        {% if sub_dir == "bureaux" %}
+                            <p>Vice présidents, </p>
+                            <p>Membres du bureau</p>
+                        {% elif sub_dir == "commissions" %}
+                            <p>membres de la commission</p>
+                            <p>{{ parent }}</p>
+                        {% elif sub_dir == "conferences" %}
+                            <p>Maires</p>
+                        {% elif sub_dir == "conseils" %}
+                            <p>délégués communautaires et</p>
+                            <p>délégués suppléants</p>
+                        {% endif %}
+
                     </div>
                 </div>
                 
@@ -70,32 +92,43 @@
                 </div>
 
                 <div class="grid-item grid-signature">
-                    {% for function, users in grouped_convocation_users.items %}
-                        {% if forloop.first %}
-                            {% for user in users %}
-                                <p>{{ user.identity }},</p>
+                    {% if hosts %}
+                        {% if hosts|length == 1 %}
+                            {% for host in hosts %}
+                                {{ host.civility }} {{ host.name }}, {{ host.function }}
                             {% endfor %}
-                            <p>{{ function }},</p>
+                        {% else %}
+                            {% for host in hosts %}
+                                {% if forloop.last and not forloop.first %}
+                                    et {{ host.civility }} {{ host.name }}, {{ host.function }}
+                                {% else %}
+                                    {{ host.civility }} {{ host.name }}, {{ host.function }}{% if not forloop.last %};{% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
-                    {% endfor %}
+                    {% endif %}
                 </div>
 
                 <div class="grid-item grid-documents">
-                    <h4>Documents associés :</h4>
+                    <h3>Documents associés :</h3>
                     <ul>
                     {% for piece_jointe in page.convocation_documents.all %}
                         {% if piece_jointe.document %}
                             <span>
-                                <a href="{{ piece_jointe.document.url }}" target="_blank">{{ piece_jointe.title }} |</a>
+                                <a href="{{ piece_jointe.document.url }}" target="_blank">
+                                    {{ piece_jointe.title|default:piece_jointe.document.title|default:piece_jointe.document.filename }}
+                                </a>
                             </span>
                         {% endif %}
                     {% endfor %}
                     </ul>
                 </div>
                 
-                {% comment %} Image de pied de page {% endcomment %}
+                {% if is_pdf %}
+                    {% comment %} Image de pied de page {% endcomment %}
                     {% if settings.dashboard.PDFSettings.footer_image %}
-                    {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+                        {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+                    {% endif %}
                 {% endif %}
             </div>
         {% endif %}

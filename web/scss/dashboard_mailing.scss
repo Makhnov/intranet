@@ -39,6 +39,9 @@ div.cgs-main {// Positionnement général des éléments
     button * {
         color:var(--w-color-grey-50);
     }
+    *.error {
+        color: var(--w-color-text-error);
+    }
 }
 
 section.cgs-pathed {// Sections cachées

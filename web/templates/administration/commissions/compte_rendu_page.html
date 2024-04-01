@@ -1,5 +1,5 @@
 {% if old %}
-    {% include "widgets/viewer/pdf.html" with doc="compte_rendu" main_dir="administration" sub_dir="commissions" %}
+    {% include "widgets/viewer/viewer.html" with doc="compte_rendu" main_dir="administration" sub_dir="commissions" %}
 {% else %}
-    {% include "widgets/viewer/html.html" with doc="compte_rendu" main_dir="administration" sub_dir="commissions" %}
+    {% include "widgets/viewer/base.html" with doc="compte_rendu" main_dir="administration" sub_dir="commissions" %}
 {% endif %}

@@ -124,9 +124,18 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s√
             if (selected === "commissions") {
                 selectedType = 'radio';
                 let hideValue = commissionsPages.getAttribute('data-selected');
+                commissionsPages.setAttribute('data-selected', '');
+                let unCheck = commissionsPages.querySelector(`input[type=radio][name=commissions][value="${hideValue}"]`);
+                if (unCheck) {
+                    unCheck.checked = false;
+                }
                 let hideCommission = document.querySelector(`div.cgs-form-group[data-type="select"][data-id="${hideValue}"]`);
                 if (hideCommission) {
                     hideCommission.classList.add('cgs-hidden');
+                    let unSelect = hideCommission.querySelector('select');
+                    if (unSelect) {
+                        unSelect.selectedIndex = 0;
+                    }
                 }
             }
 

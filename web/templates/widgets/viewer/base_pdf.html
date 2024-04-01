@@ -1,0 +1,8 @@
+
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/'|add:doc|add:'_pdf.min.css' %}">
+{% endblock %}
+
+{% include ""|add:main_dir|add:"/widgets/"|add:doc|add:".html" with class_type=dir %}

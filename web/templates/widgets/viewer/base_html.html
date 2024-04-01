@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+{% load static cgs_tags %}
+
+{% block body_class %}cgs-{{ main_dir }} doc{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/'|add:doc|add:'.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include ""|add:main_dir|add:"/widgets/"|add:doc|add:".html" with class_type=dir %}
+{% endblock %}
+
+{% block footer_mid %}
+    <ul class="nav-box doc">
+        <li class="nav-item doc {% if "convocation" in page.url %}cgs-selected{% endif %}">
+            <a 
+                href="{% if 'compte-rendu' in page.url %}{{ page.url|replace:'compte-rendu,convocation' }}{% else %}{{ page.url }}{% endif %}"
+                class="nav-link doc" 
+                title="Voir la convocation" 
+                alt="Convocation">
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.convocation class_type="cgs-nofill" %}
+            </a>
+        </li>
+        <li class="nav-item doc {% if "compte-rendu" in page.url %}cgs-selected{% endif %}">
+            <a 
+                href="{% if 'convocation' in page.url %}{{ page.url|replace:'convocation,compte-rendu' }}{% else %}{{ page.url }}{% endif %}"
+                class="nav-link doc" 
+                title="Voir le compte-rendu" 
+                alt="Compte-rendu">
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.compte_rendu class_type="cgs-nofill" %}
+            </a>
+        </li>
+        <li class="nav-item doc index">
+            <a href="/{{ main_dir }}/{{ sub_dir }}/" class="nav-link doc" title="Retour à l'index" alt="{{ sub_dir }} Index">
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="module" src="{% static 'js/'|add:doc|add:'.min.js' %}"></script>
+    <script type="module" src="{% static 'js/'|add:main_dir|add:'.min.js' %}"></script>
+{% endblock %}

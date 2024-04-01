@@ -51,13 +51,13 @@
                     <button id="cgs-print" alt="Imrimer les données" title="Imprimer la liste des membres">
                         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-nofill" %}
                     </button>
-                    <span id="emailsToCopy" style="display: none;">
+                    <div id="emailsContainer" style="display: none;">
                         {% for _, members_group in members.items %}
                             {% for member in members_group %}
-                                {{ member.email }}{% if not loop.last %}, {% endif %}
+                                <span class="email">{{ member.email }}</span>
                             {% endfor %}
                         {% endfor %}
-                    </span>
+                    </div>                                     
                 </div>
                     {% for function, members in members.items %}       
                         {% if members %}                 

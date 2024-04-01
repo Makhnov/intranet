@@ -59,14 +59,18 @@ function cgsList() {
 
     // Copie des emails
     function copyMails() {
-        const emailText = document.getElementById("emailsToCopy").textContent;
+        const emailSpans = document.querySelectorAll("#emailsContainer .email");
+        console.log(emailSpans);
+        const emails = Array.from(emailSpans).map(span => span.textContent.trim());
+        const emailText = emails.join(", ");
+    
         navigator.clipboard.writeText(emailText).then(function() {
             console.log('Copie réussie');
         }, function(err) {
             console.error('Erreur lors de la copie', err);
         });
-    }
-
+    }  
+    
     // Mise en forme de la vague du formulaire de recherche
     function VerticalWave() {
         const width = recherche.offsetWidth;

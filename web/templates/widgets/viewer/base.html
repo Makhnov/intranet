@@ -1,0 +1,5 @@
+{% if is_pdf %}
+    {% include "widgets/viewer/base_pdf.html" %}
+{% else %}
+    {% include "widgets/viewer/base_html.html" %}
+{% endif %}

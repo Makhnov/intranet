@@ -1,7 +1,8 @@
+import re
 from django import forms
 from django.forms import ModelChoiceField
-from wagtail.models import Page
-from django.contrib.contenttypes.models import ContentType
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 from administration.models import ConvocationPage, ConseilsIndexPage, BureauxIndexPage, CommissionPage, ConferencesIndexPage
 from amicale.models import AmicalePage
@@ -14,6 +15,7 @@ class CustomModelChoiceField(ModelChoiceField):
 
 
 class EmailForm(forms.Form):
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -58,7 +60,7 @@ class EmailForm(forms.Form):
         )
         
         # Champs pour les destinataires
-        self.fields['mail_to'] = forms.CharField(widget=forms.Textarea, help_text="Séparer les adresses e-mail par une virgule", required=False)
+        self.fields['mail_to'] = forms.CharField(label="Destinataires", widget=forms.Textarea, help_text="Séparer les adresses e-mail par une virgule", required=False)
         
         # Télécharger ou non un document sur cette page (booléen)
         self.fields['left_attachments'] = forms.BooleanField(label="Attacher les pièces-jointes", required=False)
@@ -136,3 +138,22 @@ class EmailForm(forms.Form):
         # Télécharger ou non un document sur cette page (booléen)
         self.fields['right_attachments'] = forms.BooleanField(label="Attacher les pièces-jointes", required=False)
         self.field_order.append('right_attachments')
+
+    def clean_mail_to(self):
+        data = self.cleaned_data['mail_to']
+        if not data:
+            return []
+        
+        # Permettre les séparations par virgule ou point-virgule, avec ou sans espaces blancs
+        separator_pattern = r'\s*[,;]\s*'
+        emails = re.split(separator_pattern, data)
+
+        # Vérifiez chaque adresse e-mail pour s'assurer qu'elle est valide
+        for email in emails:
+            try:
+                validate_email(email)
+            except ValidationError:
+                raise ValidationError(f"L'adresse e-mail '{email}' n'est pas valide.")
+
+        # Retournez les e-mails vérifiés comme une liste
+        return emails
