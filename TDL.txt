@@ -1,3 +1,8 @@
+# Affichage web convoc & CR
+# FAQ
+# 403 404
+# Contact
+
 # Convocation / compte rendu si slug change.
 # Barre de chargement a revoir.
 # Collection des pdf et docx
