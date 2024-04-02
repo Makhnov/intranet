@@ -417,12 +417,14 @@ WAGTAIL_QUICK_CREATE_PAGE_TYPES = [
     ("administration.CompteRenduPage", "un compte-rendu"),
     ("amicale.AmicalePage", "une page de l'amicale"),
     ("agents.FaqPage", "une page de la FAQ"),
+    ("joyous.SimpleEventPage", "un événement"),
+    ("joyous.MultidayEventPage", "un long événement"),
 ]
 
 WAGTAIL_QUICK_CREATE_DOCUMENTS = True
 WAGTAIL_QUICK_CREATE_IMAGES = True
-WAGTAIL_QUICK_CREATE_AUDIO = True
-WAGTAIL_QUICK_CREATE_VIDEO = True
+WAGTAIL_QUICK_CREATE_AUDIO = False
+WAGTAIL_QUICK_CREATE_VIDEO = False
 
 # Formulaires pour l'amicale
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (

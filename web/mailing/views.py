@@ -137,7 +137,7 @@ def mailing_view(request):
                                         destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
                                         destinataire = [random.choice(destinataires)]
                                         email_data.append((sujet, contenu, 'convocation', destinataire))
-                                break
+                                # break
                         else:
                             messages.error(request, "Aucun membre n'a été trouvé pour cette page.")                        
 
