@@ -54,7 +54,7 @@ COPY scripts/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # On utilise l'utilisateur non-root pour exécuter l'application
-# ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Réinitialisation des permissions pour le répertoire /migrations 
 # RUN chown -R root:root /usr/local/lib/python3.12/site-packages/wagtail/migrations/ \
