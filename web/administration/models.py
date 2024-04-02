@@ -671,7 +671,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             
             # On ajoute au contexte le statut 'old' de la convocation
             context['old'] = self.convocation.old            
-            print(colored("old", "green"), colored(context['old'], "white", "on_green"))
+            # print(colored("old", "green"), colored(context['old'], "white", "on_green"))
             
             convocation_users = ConvocationUser.objects.filter(
                 convocation=self.convocation
@@ -716,7 +716,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                     # 4/ Les absents excusés
                     excused.append(user_info)
 
-            print(colored("titulaires présents", "green"), colored(titulars, "white", "on_green"))
+            # print(colored("titulaires présents", "green"), colored(titulars, "white", "on_green"))
             # print(colored("suppléants présents", "green"), colored(alternates, "white", "on_green"))
             # print(colored("absents excusés avec procuration", "green"), colored(replaced, "white", "on_green"))
             # print(colored("absents excusés", "green"), colored(excused, "white", "on_green"))

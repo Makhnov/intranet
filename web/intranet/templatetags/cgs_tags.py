@@ -49,10 +49,6 @@ def spread(value, delimiter):
     """
     parts = value.split(delimiter, 1)  # Divise en deux parties au maximum
     if len(parts) == 2:
-        print(parts)
-        print(parts[0])
-        print(parts[1])
-        # Assurez que le délimiteur soit conservé dans la seconde partie si nécessaire
         return parts[0], parts[1]
     return value, ''
 
