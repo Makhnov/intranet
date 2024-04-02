@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = False
-print(f"DEBUG:", DEBUG)
+# print(f"DEBUG:", DEBUG)
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
