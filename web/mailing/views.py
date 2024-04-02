@@ -93,24 +93,21 @@ def mailing_view(request):
                         
                         for attachment in attachments:
                             document = attachment.document
-                            if document:                                
-                                if hasattr(attachment, 'title'):
-                                    attachment_title = attachment.title
-                                elif hasattr(document, 'title'):
-                                    attachment_title = document.title
-                                elif hasattr(document, 'filename'):
-                                    attachment_title = document.filename
-                                else:
-                                    attachment_title = 'Pièce jointe'
+                            if document and hasattr(document, 'filename'):
+                                attachment_title = document.filename
+                            elif document:
+                                messages.error(request, "Assurez-vous que le document a un nom de fichier.")
+                            else:
+                                messages.error(request, "Aucun document n'a été trouvé.")
                                     
-                                print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))
+                            print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))
                                 
-                                if hasattr(document, 'file'):
-                                    file = document.file
-                                    if hasattr(file, 'path'):
-                                        attachment_path = file.path
+                            if hasattr(document, 'file'):
+                                file = document.file
+                                if hasattr(file, 'path'):
+                                    attachment_path = file.path
                                         
-                                print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))
+                            print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))
                                     
                             try:
                                 with document.file.open('rb') as file:
@@ -139,7 +136,8 @@ def mailing_view(request):
                                         # destinataire = [user.email]
                                         destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
                                         destinataire = [random.choice(destinataires)]
-                                        email_data.append((sujet, contenu, 'convocation', destinataire))   
+                                        email_data.append((sujet, contenu, 'convocation', destinataire))
+                                break
                         else:
                             messages.error(request, "Aucun membre n'a été trouvé pour cette page.")                        
 
