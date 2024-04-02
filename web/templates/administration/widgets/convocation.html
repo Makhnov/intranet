@@ -1,4 +1,4 @@
-{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags cgs_tags %}
 
 {% block content %}
     <main class="main-content">
@@ -28,13 +28,14 @@
                     {% endif %}
                 {% endif %}
 
-                <div class="grid-item grid-invitation">                
+                <div class="grid-item grid-invitation">   
                     <div class="grid-invitation-content">
                         {% if hosts %}
                             <div>
                                 {% if hosts|length == 1 %}
                                     {% for host in hosts %}
-                                        <p>{{ host.civility }} {{ host.name }}, {{ host.function }}</p>
+                                        <p>{{ host.civility }} {{ host.name }}</p>
+                                        <p>{{ host.function }}</p>
                                     {% endfor %}
                                 {% else %}
                                     {% for host in hosts %}
@@ -47,11 +48,10 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                        <div><p>A</p></div>
+                        <p>A</p>
                         <p>Mesdames, Messieurs les</p>
                         {% if sub_dir == "bureaux" %}
-                            <p>Vice présidents, </p>
-                            <p>Membres du bureau</p>
+                            <p>Vice présidents</p>
                         {% elif sub_dir == "commissions" %}
                             <p>membres de la commission</p>
                             <p>{{ parent }}</p>
@@ -71,31 +71,83 @@
                 </div>
 
                 <div class="grid-item grid-opening">
-                    <p>{{ settings.dashboard.PDFSettings.opening_councils|linebreaksbr }}</p>
+                    {% if sub_dir == "bureaux" %}
+                        {% with settings.dashboard.PDFSettings.opening_boards|spread:"au premier" as parts %}
+                            <p>
+                                {{ parts.0|linebreaksbr }}{{ position_m }}
+                                {% with parts.1|spread:"XXXX" as parts_2 %}
+                                    {{ parts_2.0|linebreaksbr }}
+                                    {{ page.date|date:"Y" }}
+                                    {{ parts_2.1|linebreaksbr }}
+                                {% endwith %}                                
+                            </p>
+                        {% endwith %}
+                    {% elif sub_dir == "commissions" %}
+                        {% with settings.dashboard.PDFSettings.opening_commissions|spread:"à la première" as parts %}
+                            <p>
+                                {{ parts.0|linebreaksbr }}{{ position_f }}
+                                {% with parts.1|spread:"XXXX" as parts_2 %}
+                                    {{ parts_2.0|linebreaksbr }}
+                                    {{ page.date|date:"Y" }}
+                                    {{ parts_2.1|linebreaksbr }}
+                                {% endwith %}   
+                            </p>
+                        {% endwith %}
+                    {% elif sub_dir == "conferences" %}
+                        {% with settings.dashboard.PDFSettings.opening_conference|spread:"à la première" as parts %}
+                            <p>
+                                {{ parts.0|linebreaksbr }}{{ position_f }}
+                                {% with parts.1|spread:"XXXX" as parts_2 %}
+                                    {{ parts_2.0|linebreaksbr }}
+                                    {{ page.date|date:"Y" }}
+                                    {{ parts_2.1|linebreaksbr }}
+                                {% endwith %}   
+                            </p>
+                        {% endwith %}
+                    {% elif sub_dir == "conseils" %}
+                        {% with settings.dashboard.PDFSettings.opening_councils|spread:"au premier" as parts %}
+                            <p>
+                                {{ parts.0|linebreaksbr }}{{ position_m }}
+                                {% with parts.1|spread:"XXXX" as parts_2 %}
+                                    {{ parts_2.0|linebreaksbr }}
+                                    {{ page.date|date:"Y" }}
+                                    {{ parts_2.1|linebreaksbr }}
+                                {% endwith %}   
+                            </p>
+                        {% endwith %}
+                    {% endif %}
                 </div>
 
                 <div class="grid-item grid-rdv">
                     <p>
-                        {{ page.date|date:"l d F Y" }} à {{ page.date|date:"H" }} heure{% if page.date|date:"H"|add:"0" > 1 %}s{% endif %} {{ page.date|date:"i" }}
-                        
+                        {{ page.date|date:"l d F Y" }} à {{ page.date|date:"H" }}H{{ page.date|date:"i" }}                        
                     </p>        
                     <p>{{ settings.dashboard.PDFSettings.locality_description }}</p>
                 </div>
 
-                <div class="grid-item grid-odj">
+                <div class="grid-item grid-odj {{ sub_dir }}">
                     <p>A l’ordre du jour sont inscrits les points suivants :</p>
                     <p>{{ page.body|richtext }}</p>
                 </div>
                 
                 <div class="grid-item grid-closing">
-                    <p>{{ settings.dashboard.PDFSettings.closing_councils }}</p>
+                    {% if sub_dir == "bureaux" %}
+                        <p>{{ settings.dashboard.PDFSettings.closing_boards|linebreaksbr }}</p>
+                    {% elif sub_dir == "commissions" %}
+                        <p>{{ settings.dashboard.PDFSettings.closing_commissions|linebreaksbr }}</p>
+                    {% elif sub_dir == "conferences" %}
+                        <p>{{ settings.dashboard.PDFSettings.closing_conferences|linebreaksbr }}</p>
+                    {% elif sub_dir == "conseils" %}
+                        <p>{{ settings.dashboard.PDFSettings.closing_councils|linebreaksbr }}</p>
+                    {% endif %}
                 </div>
 
                 <div class="grid-item grid-signature">
                     {% if hosts %}
                         {% if hosts|length == 1 %}
                             {% for host in hosts %}
-                                {{ host.civility }} {{ host.name }}, {{ host.function }}
+                                <p>{{ host.name }},</p>
+                                <p>{{ host.function }}.</p>
                             {% endfor %}
                         {% else %}
                             {% for host in hosts %}

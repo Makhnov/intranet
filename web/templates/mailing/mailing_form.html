@@ -1,5 +1,4 @@
 {% extends "wagtailadmin/generic/base.html" %}
-
 {% load i18n static wagtailadmin_tags cgs_tags %}
 
 {% block extra_css %}
@@ -7,7 +6,110 @@
 {% endblock %}
 
 {% block main_header %}
-    {% include "wagtailadmin/shared/header.html" with title="Mailing CGS" icon="mail" description="Envoi d'e-mails et génération de PDF" %}
+    <header class="{% classnames "w-header" classname merged|yesno:"w-header--merged," search_form|yesno:"w-header--hasform," %}">
+        <div class="row">
+            <div class="top left">
+                <div class="col">
+                    <h1 class="w-header__title" id="header-title">
+                        {% icon classname="w-header__glyph" name="mail" %}
+                        Communication numérique<span class="w-header__subtitle"></span>
+                    </h1>
+                    <div class="w-header__description">Envoi d'emails et génération de PDF</div>
+                </div>
+                {% comment %}
+                <form
+                    class="col search-form"
+                    action=""
+                    method="get"
+                    novalidate
+                    role="search"
+                >
+                    <div>
+                        <div id="open-search-mail" class="col">
+                            <h2 class="icon icon-form">
+                                {% icon classname="cgs-icon" name="search" %}Recherche <span>"Mail envoyés"</span>
+                            </h2>
+                        </div>
+                        <div id="cgs-search-mail" class="col search-bar cgs-hidden">
+                            <div class="fields rowflush">
+                                <div class="w-field__wrapper " data-field-wrapper="">
+                                    <label class="w-field__label" for="id_date_from" id="id_date_from-label">
+                                        Date from
+                                    </label>
+                                    <div class="w-field w-field--date_time_field w-field--date_input" data-field="" data-contentpath="date_from">
+                                        <div class="w-field__errors" data-field-errors=""></div>
+                                        <div class="w-field__help" data-field-help=""></div>
+                                        <div class="w-field__input" data-field-input="">
+                                            <input type="text" name="date_from" placeholder="A partir de" id="id_date_from" data-dashlane-rid="8ceeae5287da44fb" data-form-type="other">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-field__wrapper " data-field-wrapper="">
+                                    <label class="w-field__label" for="id_date_to" id="id_date_to-label">
+                                        Date to
+                                    </label>
+                                    <div class="w-field w-field--date_time_field w-field--date_input" data-field="" data-contentpath="date_to">
+                                        <div class="w-field__errors" data-field-errors=""></div>
+                                        <div class="w-field__help" data-field-help=""></div>
+                                        <div class="w-field__input" data-field-input="">
+                                            <input type="text" name="date_to" placeholder="Jusqu'à" id="id_date_to" data-dashlane-rid="d12576245a806dcc" data-form-type="other">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit">
+                                <button name="action" value="filter" class="button button-filter" data-dashlane-label="true" data-dashlane-rid="c77aaca7ca8a3b23" data-form-type="other">Filtrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                {% endcomment %}
+            </div>
+            {% comment %}
+            <div class="top right">
+                <form class="cgs-generator pdf" method="POST">
+                    {% csrf_token %}
+                    {# Rendu de la section top #}
+                    {% for field in form.top_section %}
+                        {% with type=field.field.widget.input_type %}
+                            <div 
+                                class="cgs-form-group {% if field.errors %}has-error{% endif %}"
+                                data-type="{{ type }}"
+                                data-id="{{ field.name }}"
+                                {% if type == "radio" %}data-selected=""{% endif %}
+                            >
+                                {% if type != "hidden" %}
+                                    {{ field.label_tag }}
+                                    {% if field.help_text %}
+                                        <span class="help-text">{{ field.help_text }}</span>
+                                    {% endif %}
+                                {% endif %}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <div class="error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                    <div class="cgs-form-group validation">
+                        <button
+                            type="submit"
+                            name="submit_top"
+                            value="1"
+                            class="submit button button-longrunning"
+                            data-controller="w-progress"
+                            data-action="w-progress#activate"
+                            data-w-progress-active-value="{% trans 'Generating PDF…' %}"
+                            >
+                            {% icon name="spinner" %}
+                            <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
+                        </button>
+                    </div>
+                </form>
+            </div>
+             {% endcomment %}
+        </div>
+    </header>
 {% endblock %}
 
 {% block main_content %}
@@ -40,94 +142,89 @@
         <section class="left cgs-pathed">
             <form class="cgs-mailing divers" method="POST">
                 {% csrf_token %}
-                {% for field in form %}
-                    {% if forloop.counter0 < 6 %}
-                        {% with type=field.field.widget.input_type %}
-                            <div 
-                                class="cgs-form-group {% if field.errors %}has-error{% endif %}"
-                                data-type="{{ type }}"
-                                data-id="{{ field.name }}"
-                                {% if type == "radio" %}data-selected=""{% endif %}
-                            >
+                {# Rendu de la section gauche #}
+                {% for field in form.left_section %}
+                    {% with type=field.field.widget.input_type %}
+                        <div 
+                            class="cgs-form-group {% if field.errors %}has-error{% endif %}"
+                            data-type="{{ type }}"
+                            data-id="{{ field.name }}"
+                            {% if type == "radio" %}data-selected=""{% endif %}
+                        >
+                            {% if type != "hidden" %}
                                 {{ field.label_tag }}
-                                {{ field }}
                                 {% if field.help_text %}
                                     <span class="help-text">{{ field.help_text }}</span>
                                 {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="error">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endwith %}
-                    {% endif %}
+                            {% endif %}
+                            {{ field }}
+
+                            {% for error in field.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endwith %}
                 {% endfor %}
                 <div class="cgs-form-group validation">
                     <button
                         type="submit"
+                        name="submit_left"
+                        value="1"
                         class="submit button button-longrunning"
                         data-controller="w-progress"
                         data-action="w-progress#activate"
-                        data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                        data-w-progress-active-value="{% trans 'Sending…' %}"
                     >
                         {% icon name="spinner" %}
-                        <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                        <em data-w-progress-target="label">{% trans 'Send mails' %}</em>
                     </button>
-                    <button
-                        type="button"
-                        class="PDF button button-longrunning"
-                        data-controller="w-progress"
-                        data-w-progress-active-value="{% trans 'Generating…' %}"
-                    >
-                        {% icon name="spinner" %}
-                        <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
-                    </button>
+                    <p class="cgs-warning">
+                        {% trans 'Use carrefully this will send an email to all the people in the "recipient" list !' %}
+                    </p>
                 </div>
             </form>
         </section>
         <section class="right cgs-pathed">
             <form class="cgs-mailing convocation" method="POST">
                 {% csrf_token %}
-                {% for field in form %}
-                    {% if forloop.counter0 > 5 %}
-                        {% with type=field.field.widget.input_type %}
-                            <div 
-                                class="cgs-form-group {% if field.errors %}has-error{% endif %}"
-                                data-type="{{ type }}"
-                                data-id="{{ field.name }}"
-                                {% if type == "radio" %}data-selected=""{% endif %}
-                            >
+                {# Rendu de la section droite #}
+                {% for field in form.right_section %}
+                    {% with type=field.field.widget.input_type %}
+                        <div 
+                            class="cgs-form-group {% if field.errors %}has-error{% endif %}"
+                            data-type="{{ type }}"
+                            data-id="{{ field.name }}"
+                            {% if type == "radio" %}data-selected=""{% endif %}
+                        >
+                            {% if type != "hidden" %}
                                 {{ field.label_tag }}
-                                {{ field }}
                                 {% if field.help_text %}
                                     <span class="help-text">{{ field.help_text }}</span>
                                 {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="error">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endwith %}
-                    {% endif %}
-                {% endfor %}  
+                            {% endif %}
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endwith %}
+                {% endfor %}
                 <div class="cgs-form-group validation">
                     <button
                         type="submit"
+                        name="submit_right"
+                        value="1"
                         class="submit button button-longrunning"
                         data-controller="w-progress"
                         data-action="w-progress#activate"
-                        data-w-progress-active-value="{% trans 'Confirmation…' %}"
+                        data-w-progress-active-value="{% trans 'Sending…' %}"
                     >
                         {% icon name="spinner" %}
-                        <em data-w-progress-target="label">{% trans 'Confirm' %}</em>
+                        <em data-w-progress-target="label">{% trans 'Send mails' %}</em>
                     </button>
-                    <button
-                        type="button"
-                        class="PDF button button-longrunning"
-                        data-controller="w-progress"
-                        data-w-progress-active-value="{% trans 'Generating…' %}"
-                    >
-                        {% icon name="spinner" %}
-                        <em data-w-progress-target="label">{% trans 'PDF Generation' %}</em>
-                    </button>
+                    <p class="cgs-warning">
+                        {% trans 'Use carrefully this will send an email to all the members of the selected instance !' %}
+                    </p>
                 </div>
             </form>
         </section>

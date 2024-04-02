@@ -227,7 +227,7 @@
     position: relative;
 
     &::before {
-        content: "🔸";
+        content:"🔺";
         display: block;
         position: absolute;        
         bottom:0px;
@@ -242,7 +242,26 @@
         hyphens: auto;
     }
 }
+// Messages d'information
+.cgs-info {
+    position: relative;
 
+    &::before {
+        content: "🔹";
+        display: block;
+        position: absolute;        
+        bottom:0px;
+        left:-1.5em;
+        font-size: 1em;
+    }
+    p {
+        margin-bottom: .35em;
+        color:rgb(0, 0, 0);
+        max-width: 100%;
+        text-align: justify;
+        hyphens: auto;
+    }
+}
 // Eléments cachés
 .cgs-hidden {
     display: none;

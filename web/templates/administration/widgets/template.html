@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convocation PDF</title>
+    <link rel="stylesheet" href="/static/css/convocation_pdf.min.css">
+</head>
+<body>
+    <main class="main-content">
+        <div class="container-fluid">
+            <!-- Exemple de contenu pour Watermark et Logo -->
+            <img src="http://localhost:8000/media/original_images/marianne_h.png" alt="Watermark" class="watermark">
+            <img src="http://localhost:8000/media/original_images/COMCOM-CGS.png" alt="COMCOM-CGS" class="logo">
+            <div class="grid-item grid-invitation">
+                <div class="grid-invitation-content">
+                    <!-- Exemple d'insertion de contenu dynamique pour les hôtes -->
+                    <p>Monsieur/Madame Nom Prénom</p>
+                    <p>Fonction de l'hôte</p>
+                    <p>A</p>
+                    <p>Mesdames, Messieurs les</p>
+                    <p>Vice présidents/membres de la commission/Maires/délégués</p>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-informations">
+                <p>Localité</p>
+                <p>Le date de création</p>
+            </div>
+
+            <div class="grid-item grid-opening">
+                <p>Texte d'ouverture personnalisé selon le sous-dir</p>
+            </div>
+
+            <div class="grid-item grid-rdv">
+                <p>Date et heure du RDV</p>
+                <p>Description de la localité</p>
+            </div>
+
+            <div class="grid-item grid-odj sous-dir">
+                <p>A l’ordre du jour sont inscrits les points suivants :</p>
+                <p>Contenu de l'ordre du jour</p>
+            </div>
+            
+            <div class="grid-item grid-closing">
+                <p>Texte de clôture personnalisé selon le sous-dir</p>
+            </div>
+
+            <div class="grid-item grid-signature">
+                <!-- Exemple d'insertion de contenu dynamique pour les signatures -->
+                <p>Nom Prénom,</p>
+                <p>Fonction.</p>
+            </div>
+
+            <div class="grid-item grid-documents">
+                <h3>Documents associés :</h3>
+                <ul>
+                    <!-- Exemple de lien vers un document associé -->
+                    <li><a href="/path/to/document.pdf">Titre du document</a></li>
+                </ul>
+            </div>
+            <!-- Exemple de contenu pour l'image de pied de page -->
+            <img src="http://localhost:8000/media/original_images/admin_pdp.png" alt="Footer Image" class="footer-image">
+        </div>
+    </main>
+</body>
+</html>

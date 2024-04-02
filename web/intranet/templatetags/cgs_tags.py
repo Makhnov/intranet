@@ -42,6 +42,20 @@ def replace(value, args):
 def classname(obj):
     return obj.__class__.__name__
 
+@register.filter(name='spread')
+def spread(value, delimiter):
+    """
+    Divise la chaîne autour de la première occurrence du délimiteur et retourne un tuple de deux éléments.
+    """
+    parts = value.split(delimiter, 1)  # Divise en deux parties au maximum
+    if len(parts) == 2:
+        print(parts)
+        print(parts[0])
+        print(parts[1])
+        # Assurez que le délimiteur soit conservé dans la seconde partie si nécessaire
+        return parts[0], parts[1]
+    return value, ''
+
 ####################################################################################################
 #########################                        FAQ                       #########################
 #################################################################################################### 

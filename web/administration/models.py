@@ -1,7 +1,7 @@
 from termcolor import colored
 import uuid
 from datetime import datetime
-from itertools import groupby
+from django.utils.timezone import now
 from collections import defaultdict
 
 from django.utils.timezone import make_aware
@@ -35,7 +35,7 @@ from modelcluster.fields import ParentalKey
 
 # Page de menu
 from utils.menu_pages import MenuPage, menu_page_save, TYPE_CHOICES
-from utils.variables import TABLE_OPTIONS
+from utils.variables import TABLE_OPTIONS, POSITIONS_TRANSLATIONS
 
 # Custom panels
 from home.views import custom_content_panels, custom_promote_panels
@@ -314,7 +314,6 @@ class CommissionPage(Page):
     
     def get_members(self):
         # Initialisation du dictionnaire pour trier les membres
-        print("get_members")
         members_sorted = {
             "Chargé de commission": [],
             "Chargée de commission": [],            
@@ -454,9 +453,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
 
         if hasattr(parent, 'get_members'):
             members = parent.get_members()
-
             hosts = []
-
             for president in members.get('Président', []) + members.get('Présidente', []):
                 hosts.append({
                     'civility': president.civility,
@@ -464,7 +461,6 @@ class ConvocationPage(PdfViewPageMixin, Page):
                     'name': f"{president.first_name} {president.last_name}",  # Ajout du nom complet
                     'object': president,
                 })
-
             if parent.__class__.__name__ == 'CommissionPage':
                 for charge in members.get('Chargé de commission', []) + members.get('Chargée de commission', []):
                     hosts.append({
@@ -473,9 +469,25 @@ class ConvocationPage(PdfViewPageMixin, Page):
                         'name': f"{charge.first_name} {charge.last_name}",  # Ajout du nom complet
                         'object': charge,
                     })
-
             context['hosts'] = hosts
 
+        if hasattr(parent, 'get_children'):
+            start = self.date.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)            
+            end = self.date
+            
+            # On récupère les convocations précédentes de la même année
+            siblings = ConvocationPage.objects.live().descendant_of(parent).filter(date__range=(start, end)).order_by('date')
+            position = siblings.count()
+            
+            # Traduction littérale (et genrée)
+            position_m = POSITIONS_TRANSLATIONS['M'].get(position, "{}e".format(position))
+            position_f = POSITIONS_TRANSLATIONS['F'].get(position, "{}e".format(position))
+
+            # On ajoute les variables au contexte
+            context['position_m'] = position_m
+            context['position_f'] = position_f
+            
+            
         return context
     
     def get_template(self, request, *args, **kwargs):

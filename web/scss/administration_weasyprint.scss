@@ -2,19 +2,19 @@
     font-family: 'rhino';
     font-weight: 400;
     font-style: normal;
-    src: url("../fonts/CoreRhino45Regular.woff2") format("woff2");
+    src: url("localhost:8000/static/fonts/CoreRhino45Regular.woff2") format("woff2");
 }
 @font-face {
     font-family: 'rhino';
     font-weight: 700;
     font-style: normal;
-    src: url("../fonts/CoreRhino65Bold.woff2") format("woff2");
+    src: url("localhost:8000/static/fonts/CoreRhino65Bold.woff2") format("woff2");
 }
 @font-face {
     font-family: 'rhino';
     font-weight: 800;
     font-style: normal;
-    src: url("../fonts/CoreRhino75Heavy.woff2") format("woff2");
+    src: url("localhost:8000/static/fonts/CoreRhino75Heavy.woff2") format("woff2");
 }
 @page {
     size: A4;

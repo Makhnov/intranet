@@ -7,11 +7,28 @@ document.addEventListener('DOMContentLoaded', function() {
         listenObjectsChange(objects);
     }
 
-    // On récupère le formulaire
-    const form = document.querySelectorAll('form.cgs-mailing');
-    if (form.length > 0) {
+    // On récupère les formulaires droite et gauche
+    const formMain = document.querySelectorAll('form.cgs-mailing');
+    if (formMain.length > 0) {
         displayForm();
     }
+
+    // On récupère le formulaire du haut
+    const formTop = document.querySelector('form.cgs-generator');
+    if (formTop) {
+        getConvocation();
+    }
+
+    // Ouverture et fermeture de la barre de recherche
+    const openMail = document.getElementById('open-search-mail');
+    const searchBar = document.getElementById('cgs-search-mail');
+    if (openMail && searchBar) {
+        openMail.addEventListener('click', function() {
+            searchBar.classList.toggle('cgs-hidden');
+        });
+    }
+
+    //
 });
 
 function listenObjectsChange(obj) {// Choix de la campagne par l'utilisateur (divers ou convocation)
@@ -86,7 +103,7 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
 
     // On récupère tous les selects et tous les radios.
     const selects = document.querySelectorAll('div.cgs-form-group[data-type=select]');
-    const radios = document.querySelectorAll('input[type=radio][name=left_pages], input[type=radio][name=right_pages], input[type=radio][name=commissions]');
+    const radios = document.querySelectorAll('input[type=radio][data-name=left_pages], input[type=radio][data-name=right_pages], input[type=radio][data-name=commissions]');
     
     // On récupère le bloc commissions
     const commissionsPages = document.querySelector('div.cgs-form-group[data-type=radio][data-id=commissions]');
@@ -107,6 +124,7 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
 
     function formRadioChange(section=null, value=null) {
         if (section) {
+
             // On récupère la value actuelle du selected de la section (data-selected)
             let selected = section.getAttribute('data-selected');
             let valueType = 'select';
@@ -125,7 +143,8 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
                 selectedType = 'radio';
                 let hideValue = commissionsPages.getAttribute('data-selected');
                 commissionsPages.setAttribute('data-selected', '');
-                let unCheck = commissionsPages.querySelector(`input[type=radio][name=commissions][value="${hideValue}"]`);
+
+                let unCheck = commissionsPages.querySelector(`input[type=radio][data-name=commissions][value="${hideValue}"]`);
                 if (unCheck) {
                     unCheck.checked = false;
                 }
@@ -135,6 +154,8 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
                     let unSelect = hideCommission.querySelector('select');
                     if (unSelect) {
                         unSelect.selectedIndex = 0;
+                        let event = new Event('change');
+                        unSelect.dispatchEvent(event);                        
                     }
                 }
             }
@@ -143,10 +164,16 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
             const hideSelect = document.querySelector(`div.cgs-form-group[data-type="${selectedType}"][data-id="${selected}"]`);
 
             if (showSelect) {
-                showSelect.classList.remove('cgs-hidden');               
+                showSelect.classList.remove('cgs-hidden');
             }
             if (hideSelect) {
                 hideSelect.classList.add('cgs-hidden');
+                let unSelect = hideSelect.querySelector('select');
+                if (unSelect) {
+                    unSelect.selectedIndex = 0;
+                    let event = new Event('change');
+                    unSelect.dispatchEvent(event);
+                }
             }
 
             section.setAttribute('data-selected', value);
@@ -188,4 +215,25 @@ function displayForm() {// Affichage des champs du formulaire en fonction des s�
             }
         });
     }
+}
+
+function getConvocation() {// Récupération de la convocation sélectionnée
+    const conseils = document.querySelectorAll('div.cgs-form-group[data-type=select][data-id=conseils] select');
+    const bureaux = document.querySelectorAll('div.cgs-form-group[data-type=select][data-id=bureaux] select');
+    const conferences = document.querySelectorAll('div.cgs-form-group[data-type=select][data-id=conferences] select');
+    const commissions = document.querySelectorAll('div.cgs-form-group[data-type=select][data-id*="commission"] select');
+    const SELECTS = [...conseils, ...bureaux, ...conferences, ...commissions];
+    const HIDDEN = document.getElementById('pdf-page');
+    // On boucle sur SELECTS pour mettre un écouteru change et récupérer l'event dans un console.log
+    SELECTS.forEach(select => {
+        select.addEventListener('change', function(event) {
+            const value = event.target.value;
+            console.log(value);
+            if (value === '') {
+                HIDDEN.value = null;
+            } else {                
+                HIDDEN.value = parseInt(value);
+            }
+        });
+    });
 }

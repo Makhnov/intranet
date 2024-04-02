@@ -1,7 +1,7 @@
-from django.core.mail import send_mail, send_mass_mail, get_connection
-from django.conf import settings
+from django.core.mail import EmailMessage, send_mail, send_mass_mail, get_connection
 from django.core.exceptions import PermissionDenied
 from mailing.models import SentMail
+from django.conf import settings
 
 # Gestionnaire d'envoi de mail
 class EmailSender:
@@ -25,20 +25,40 @@ class EmailSender:
             SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataire, sent_successfully=False, error_message=str(e))
             raise
 
-    def send_mass_email(self, email_data):
+    def send_mass_email(self, email_data, attachments=None):
         if not self.can_send_emails():
             raise PermissionDenied("L'utilisateur n'a pas la permission d'envoyer des emails.")
         
         try:
-            cgs_mass_mail(email_data)
-            # Enregistrement du succès pour chaque destinataire dans email_data
             for sujet, contenu, expediteur, destinataires in email_data:
-                for destinataire in destinataires:
-                    SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataire, sent_successfully=True)
+                email = EmailMessage(
+                    subject=sujet,
+                    body=contenu,
+                    from_email=f'{expediteur}@cagiregaronnesalat.fr',
+                    to=destinataires,
+                    connection=get_connection(
+                        backend=settings.EMAIL_BACKEND,
+                        host=settings.EMAIL_HOST,
+                        port=settings.EMAIL_PORT,
+                        use_tls=settings.EMAIL_USE_TLS,
+                        username=settings.EMAIL_HOST_USER,
+                        password=settings.EMAIL_HOST_PASSWORD,
+                    )
+                )
+                # Attacher les pièces jointes
+                if attachments:
+                    for attachment in attachments:
+                        email.attach(attachment[0], attachment[1], attachment[2])
+                
+                email.send()
+
+                # Enregistrement du succès pour chaque destinataire
+                for recipient in destinataires:
+                    SentMail.objects.create(subject=sujet, message=contenu, recipient=recipient, sent_successfully=True)
+        
         except Exception as e:
-            # Enregistrement de l'échec (simplification : enregistre l'échec pour le premier destinataire de chaque tuple)
-            for _, contenu, _, destinataires in email_data:
-                SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataires[0], sent_successfully=False, error_message=str(e))
+            # Enregistrement de l'échec
+            SentMail.objects.create(subject=sujet, message=contenu, recipient=destinataires[0], sent_successfully=False, error_message=str(e))
             raise
         
 # Envoi d'un mail avec les mêmes sujets et messages (plusieurs destinataires possibles).        

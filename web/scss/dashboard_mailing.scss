@@ -1,4 +1,69 @@
+.cgs-icon {
+    max-height: 1.75rem;
+    max-width:  1.75rem;
+}
+.error {
+    color: var(--w-color-text-error)!important;
+}
+.cgs-warning {
+    left:0;
+    max-width: 1.2rem;
+    max-height: 2rem;
+    height: 2rem;
+    padding-left: 1rem;
+
+    color: var(--w-color-critical-200)!important;
+    font-size: .85rem;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 1.2rem;
+
+    &:hover {
+        max-width: 300px;
+        text-wrap: wrap;
+        overflow: visible;
+    }
+    &::before {
+        cursor:help;
+        top:0;
+        left:0;
+        transform-origin: center 30%;
+        animation: blink 3s linear infinite;
+    }
+}
+
+@keyframes blink {
+    0%, 10%, 20%, 30%, 100% { scale: 1; }
+    5%, 25% { scale: 0.5; }
+}
+
+.cgs-info{
+    left:0;
+    max-width: 125px;
+    max-height: 2rem;
+    height: 2rem;
+    padding-left: 1.2rem;
+
+    color: var(--w-color-warning-100)!important;
+    font-size: .85rem;
+    overflow: hidden;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+
+    &:hover {
+        max-width: 325px;
+        text-wrap: wrap;
+        overflow: visible;
+    }
+    &::before {
+        top:0;
+        left: 0;
+    }
+}
+
 div.cgs-main {// Positionnement général des éléments
+    background: hsl(172, 56%, 87%);
     width:100%;
 
     display: grid;
@@ -36,11 +101,75 @@ div.cgs-main {// Positionnement général des éléments
     * {
         color: var(--w-color-text-label);
     }
+
     button * {
         color:var(--w-color-grey-50);
     }
-    *.error {
-        color: var(--w-color-text-error);
+}
+
+header {
+    margin-bottom: .5rem!important;
+
+    div.left {
+        width:75%;
+        flex-direction: row;
+        align-items: flex-start!important;
+        justify-content: space-between!important;
+
+            
+        > div {
+            min-width: fit-content;
+            margin-bottom: 2rem;
+        }
+
+        form {
+            flex: 1 1 auto;
+            justify-self: center;
+            min-width: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            > div {
+                width: fit-content;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            
+            div#open-search-mail {
+                cursor: pointer;
+                height:2rem;
+                margin:0 1rem 1rem 1rem;
+                
+                h2 {
+                    user-select: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    column-gap: .5rem;
+                }
+            }
+
+            div.submit {
+                display: flex;
+                justify-content: center;                
+            }
+        }
+    }
+
+    div.right {
+        width:25%;
+        justify-content: flex-end;
+        align-items: flex-start;
+
+        div.validation {
+            button {
+                width:200px;
+                height: 75px;
+            }
+        }
     }
 }
 
@@ -194,18 +323,43 @@ section.left, section.right {// Les deux formulaires
     transition: clip-path 0.3s ease-in-out;
 
     form {
+        width:96%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: flex-start;
-        row-gap: 1em;
+        row-gap: 2rem;
+
+        > div:first-of-type {
+            > label {
+                display: block;
+                font-weight: 700;
+                font-size: 1.25rem;
+                margin: 1.5rem 0 0 0;
+
+                ~ span {
+                    display: block;
+                    font-size: .8rem;
+                    font-weight: 400;
+                    margin: 0 0 1rem 0;
+                }
+            }            
+        }
+
+        button { 
+            width:150px;
+        }
     }
 }
 
 section.left {// Amicale
-
+    form {
+        margin: 0 0 2rem 4%;
+    }
 }
 
 section.right {// Convocation
-
+    form {
+        margin: 0 0 2rem 0;
+    }
 }
