@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-29 20:30+0100\n"
+"POT-Creation-Date: 2024-04-03 18:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,28 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\administration\models.py:105 .\administration\models.py:159
-#: .\administration\models.py:208 .\administration\models.py:302
+#: .\administration\models.py:97 .\administration\models.py:151
+#: .\administration\models.py:200 .\administration\models.py:294
 msgid "Label"
 msgstr "Étiquette"
 
-#: .\administration\models.py:106 .\administration\models.py:160
-#: .\administration\models.py:209 .\administration\models.py:303
-#, fuzzy
-#| msgid ""
-#| "Le texte qui apparaîtra dans le titre des convocations et des comptes-"
-#| "rendus."
+#: .\administration\models.py:98 .\administration\models.py:152
+#: .\administration\models.py:201 .\administration\models.py:295
 msgid ""
 "Le texte qui apparaitra dans le titre des convocations et des comptes-rendus."
 msgstr ""
 "Le texte qui apparaîtra dans le titre des convocations et des comptes-rendus."
 
-#: .\administration\models.py:274 .\home\models.py:90 .\home\models.py:299
+#: .\administration\models.py:266 .\home\models.py:90 .\home\models.py:299
 #: .\utils\menu_pages.py:110
 msgid "Logo (SVG, png, jpg, etc.)"
 msgstr "Logo (SVG, png, jpg, etc.)"
 
-#: .\administration\models.py:275 .\home\models.py:91 .\home\models.py:300
+#: .\administration\models.py:267 .\home\models.py:91 .\home\models.py:300
 #: .\utils\menu_pages.py:111
 msgid ""
 "𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦: Round or square (1/1). 𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦𝐚𝐭: Filled SVG. 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 "
@@ -48,45 +44,43 @@ msgstr ""
 "Forme conseillée: ronde ou carrée (1/1). Extension conseillée: SVG Plein. "
 "Extension secondaire: PNG avec fond transparent."
 
-#: .\administration\models.py:281 .\administration\models.py:544
-#: .\home\models.py:97 .\home\models.py:306 .\utils\faq.py:71
-#: .\utils\imports.py:72 .\utils\menu_pages.py:117
+#: .\administration\models.py:273 .\administration\models.py:566
+#: .\amicale\models.py:142 .\home\models.py:97 .\home\models.py:306
+#: .\utils\faq.py:76 .\utils\imports.py:72 .\utils\menu_pages.py:117
 msgid "Heading"
 msgstr "Titre"
 
-#: .\administration\models.py:282 .\home\models.py:98 .\home\models.py:307
+#: .\administration\models.py:274 .\home\models.py:98 .\home\models.py:307
 #: .\utils\menu_pages.py:118
-#, fuzzy
-#| msgid "This is the main content of the page."
 msgid "Displayed in menus, the heading is the title of the page."
-msgstr "Ceci est le contenu principal de la page."
+msgstr "Affiché dans les menus, c'est l'intitulé de la page."
 
-#: .\administration\models.py:288 .\agents\models.py:213 .\home\models.py:104
+#: .\administration\models.py:280 .\agents\models.py:213 .\home\models.py:104
 #: .\home\models.py:313 .\utils\menu_pages.py:124
 msgid "Tooltip"
 msgstr "Info-bulle"
 
-#: .\administration\models.py:289 .\home\models.py:105 .\home\models.py:314
+#: .\administration\models.py:281 .\home\models.py:105 .\home\models.py:314
 #: .\utils\menu_pages.py:125
 msgid "Used for accessibility (alt, title) and when user mouse over the icon."
 msgstr ""
 "Utilisé pour l'accessibilité (alt, titre) et lorsque l'utilisateur survole "
 "l'icône."
 
-#: .\administration\models.py:297
+#: .\administration\models.py:289
 msgid "Type"
 msgstr "Type"
 
-#: .\administration\models.py:298
+#: .\administration\models.py:290
 msgid "Choose if this is a commission or a working group."
 msgstr "Choisissez s'il s'agit d'une commission ou d'un groupe de travail."
 
-#: .\administration\models.py:315 .\home\models.py:135 .\home\models.py:325
+#: .\administration\models.py:307 .\home\models.py:135 .\home\models.py:325
 #: .\utils\menu_pages.py:140
 msgid "Menu display options (click to expand)"
 msgstr "Options d'affichage du menu (cliquez pour développer)"
 
-#: .\administration\models.py:316 .\home\models.py:136 .\home\models.py:326
+#: .\administration\models.py:308 .\home\models.py:136 .\home\models.py:326
 #: .\utils\menu_pages.py:141
 msgid ""
 "Choose an icon and a tooltip to display on the index pages. Both optional, "
@@ -96,188 +90,182 @@ msgstr ""
 "deux sont optionnels, si aucun n'est spécifié, le logo CGS sera l'icône et "
 "l'info-bulle fera référence au titre de la page."
 
-#: .\administration\models.py:405
+#: .\administration\models.py:397
 msgid "Old"
 msgstr "Ancien"
 
-#: .\administration\models.py:406 .\amicale\models.py:158 .\home\models.py:124
+#: .\administration\models.py:398 .\amicale\models.py:155 .\home\models.py:124
 msgid "Agenda"
 msgstr "Ordre du jour"
 
-#: .\administration\models.py:413 .\administration\models.py:548
-#: .\administration\models.py:593 .\home\models.py:147 .\home\models.py:231
-#: .\utils\faq.py:75 .\utils\streamfield.py:63 .\utils\streamfield.py:153
+#: .\administration\models.py:405 .\administration\models.py:570
+#: .\administration\models.py:622 .\amicale\models.py:146 .\home\models.py:147
+#: .\home\models.py:231 .\utils\faq.py:85 .\utils\streamfield.py:63
+#: .\utils\streamfield.py:153
 msgid "Document"
 msgstr "Document"
 
-#: .\administration\models.py:414 .\administration\models.py:594
+#: .\administration\models.py:406 .\administration\models.py:623
 #: .\home\models.py:148 .\home\models.py:232
 msgid "Attachments"
 msgstr "Pièces jointes"
 
-#: .\administration\models.py:506 .\administration\models.py:745
+#: .\administration\models.py:528 .\administration\models.py:781
 msgid "Convocation"
 msgstr "Convocation"
 
-#: .\administration\models.py:507
+#: .\administration\models.py:529
 msgid "Sélectionnez la convocation associée."
 msgstr "Sélectionnez la convocation associée."
 
-#: .\administration\models.py:512
+#: .\administration\models.py:534
 msgid "Secrétaire"
 msgstr "Secrétaire"
 
-#: .\administration\models.py:520
+#: .\administration\models.py:542
 msgid "Remplaçants"
 msgstr "Remplaçants"
 
-#: .\administration\models.py:526
+#: .\administration\models.py:548
 msgid "Excusés et remplacés"
 msgstr "Excusés et remplacés"
 
-#: .\administration\models.py:532
+#: .\administration\models.py:554
 msgid "Excusés non remplacés"
 msgstr "Excusés non remplacés"
 
-#: .\administration\models.py:539
+#: .\administration\models.py:561
 msgid "Quorum"
 msgstr "Quorum"
 
-#: .\administration\models.py:540
+#: .\administration\models.py:562
 msgid "Uncheck this box if the quorum isn't reached"
 msgstr "Décochez cette case si le quorum n'est pas atteint"
 
-#: .\administration\models.py:545 .\utils\faq.py:72 .\utils\imports.py:87
+#: .\administration\models.py:567 .\amicale\models.py:143 .\utils\faq.py:79
+#: .\utils\imports.py:87
 msgid "Paragraph"
 msgstr "Paragraphe"
 
-#: .\administration\models.py:546 .\utils\faq.py:73
-#, fuzzy
-#| msgid "Medium"
+#: .\administration\models.py:568 .\amicale\models.py:144 .\utils\faq.py:83
 msgid "Media"
-msgstr "Moyen"
+msgstr "Média"
 
-#: .\administration\models.py:547 .\amicale\models.py:229 .\home\models.py:142
-#: .\utils\faq.py:74 .\utils\imports.py:114
+#: .\administration\models.py:569 .\amicale\models.py:145
+#: .\amicale\models.py:226 .\home\models.py:142 .\utils\faq.py:84
+#: .\utils\imports.py:114
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Image"
 
-#: .\administration\models.py:549 .\utils\faq.py:76 .\utils\streamfield.py:250
+#: .\administration\models.py:571 .\amicale\models.py:147 .\utils\faq.py:86
+#: .\utils\streamfield.py:250
 msgid "Link"
 msgstr "Lien"
 
-#: .\administration\models.py:550
+#: .\administration\models.py:572 .\amicale\models.py:148
 msgid "Embed media"
 msgstr "Intégration média"
 
-#: .\administration\models.py:551 .\utils\faq.py:78
-#, fuzzy
-#| msgid "Next Item"
+#: .\administration\models.py:573 .\utils\faq.py:88
 msgid "List Item"
-msgstr "Élément suivant"
+msgstr "Élément de la liste"
 
-#: .\administration\models.py:551 .\utils\faq.py:78
+#: .\administration\models.py:573 .\amicale\models.py:149 .\utils\faq.py:88
 msgid "List"
 msgstr "Liste"
 
-#: .\administration\models.py:552 .\utils\faq.py:79
+#: .\administration\models.py:574 .\amicale\models.py:150 .\utils\faq.py:89
 msgid "Quote"
 msgstr "Citation"
 
-#: .\administration\models.py:553 .\utils\faq.py:80 .\utils\imports.py:130
+#: .\administration\models.py:575 .\utils\faq.py:90 .\utils\imports.py:130
 msgid "Table"
 msgstr "Tableau"
 
-#: .\administration\models.py:554 .\utils\streamfield.py:236
+#: .\administration\models.py:576 .\utils\streamfield.py:236
 msgid "PDF"
 msgstr "Document PDF"
 
-#: .\administration\models.py:555
+#: .\administration\models.py:577
 msgid "DOCX"
 msgstr "Document DOCX"
 
-#: .\administration\models.py:560
+#: .\administration\models.py:582
 msgid "Main review"
 msgstr "Compte-rendu"
 
-#: .\administration\models.py:561 .\amicale\models.py:159 .\home\models.py:125
+#: .\administration\models.py:583 .\amicale\models.py:156 .\home\models.py:125
 msgid "This is the main content of the page."
 msgstr "Ceci est le contenu principal de la page."
 
-#: .\administration\models.py:571
+#: .\administration\models.py:593
 msgid "Instance management"
 msgstr "Paramètres généraux"
 
-#: .\administration\models.py:587
+#: .\administration\models.py:612
 msgid "Absence management"
 msgstr "Gestion des absences"
 
-#: .\administration\models.py:739
+#: .\administration\models.py:775
 msgid "Présent"
 msgstr "Présent"
 
-#: .\administration\models.py:740
+#: .\administration\models.py:776
 msgid "Remplacé"
 msgstr "Remplacé"
 
-#: .\administration\models.py:741
+#: .\administration\models.py:777
 msgid "Non remplacé"
 msgstr "Non remplacé"
 
-#: .\administration\models.py:746
+#: .\administration\models.py:782
 msgid "User"
 msgstr "Utilisateur"
 
-#: .\administration\models.py:747
+#: .\administration\models.py:783
 msgid "Parent Page"
 msgstr "Page parente"
 
-#: .\administration\models.py:748
+#: .\administration\models.py:784
 msgid "Function Weight"
 msgstr "Poids de la fonction"
 
-#: .\administration\models.py:749
-#, fuzzy
-#| msgid "Convocation"
+#: .\administration\models.py:785
 msgid "Function"
-msgstr "Convocation"
+msgstr "Fonction"
 
-#: .\administration\models.py:750
+#: .\administration\models.py:786
 msgid "Gender"
 msgstr "Genre"
 
-#: .\administration\models.py:751
+#: .\administration\models.py:787
 msgid "Identity"
 msgstr "Identité"
 
-#: .\administration\models.py:752 .\templates\wagtailusers\users\list.html:35
+#: .\administration\models.py:788 .\templates\wagtailusers\users\list.html:35
 msgid "Municipality"
 msgstr "Municipalité"
 
-#: .\administration\models.py:753
+#: .\administration\models.py:789
 msgid "Presence"
 msgstr "Présence"
 
-#: .\administration\models.py:754
+#: .\administration\models.py:790
 msgid "Substitute"
 msgstr "Suppléant"
 
-#: .\administration\models.py:755
+#: .\administration\models.py:791
 msgid "Alternate"
 msgstr "Alternatif"
 
-#: .\administration\models.py:802
-#, fuzzy
-#| msgid "Convocation"
+#: .\administration\models.py:838
 msgid "Convocation User"
-msgstr "Convocation"
+msgstr "Membre de la convocation"
 
-#: .\administration\models.py:803
-#, fuzzy
-#| msgid "Convocation"
+#: .\administration\models.py:839
 msgid "Convocation Users"
-msgstr "Convocation"
+msgstr "Membres de la convocation"
 
 #: .\agents\models.py:116
 msgid "Category"
@@ -318,7 +306,7 @@ msgstr ""
 "Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des FAQ associées à "
 "celle-ci. Les utilisateurs les verront dans la section 'Aller plus loin'."
 
-#: .\agents\models.py:150
+#: .\agents\models.py:150 .\utils\faq.py:40
 msgid "Law texts"
 msgstr "Textes de loi"
 
@@ -388,89 +376,91 @@ msgstr "Auteur"
 msgid "Amicale Tags"
 msgstr "Balises Amicale"
 
-#: .\amicale\models.py:163
+#: .\amicale\models.py:149
+msgid "Item"
+msgstr "Élément"
+
+#: .\amicale\models.py:160
 msgid "Use a map?"
 msgstr "Utiliser une carte ?"
 
-#: .\amicale\models.py:164
+#: .\amicale\models.py:161
 msgid "Check this box if you want to use a map."
 msgstr "Cochez cette case si vous souhaitez utiliser une carte."
 
-#: .\amicale\models.py:170 .\amicale\models.py:243
+#: .\amicale\models.py:167 .\amicale\models.py:240
 msgid "Location"
 msgstr "Emplacement"
 
-#: .\amicale\models.py:171
+#: .\amicale\models.py:168
 msgid "Select location on the map."
 msgstr "Sélectionnez l'emplacement sur la carte."
 
-#: .\amicale\models.py:177 .\amicale\models.py:237
+#: .\amicale\models.py:174 .\amicale\models.py:234
 msgid "Address"
 msgstr "Adresse"
 
-#: .\amicale\models.py:178
+#: .\amicale\models.py:175
 msgid "Address to geocode to get the location."
 msgstr "Adresse à géocoder pour obtenir l'emplacement."
 
-#: .\amicale\models.py:184
+#: .\amicale\models.py:181
 msgid "Name to display for this point on the map."
 msgstr "Nom à afficher pour ce point sur la carte."
 
-#: .\amicale\models.py:189
+#: .\amicale\models.py:186
 msgid "Link for the point on the map."
 msgstr "Lien pour le point sur la carte."
 
-#: .\amicale\models.py:206
+#: .\amicale\models.py:203
 msgid "Form field"
 msgstr "Champ de formulaire"
 
-#: .\amicale\models.py:211
+#: .\amicale\models.py:208
 msgid "Inscription form"
 msgstr "Formulaire d'inscription"
 
-#: .\amicale\models.py:212
+#: .\amicale\models.py:209
 msgid "Add an inscription form for this event."
 msgstr "Ajouter un formulaire d'inscription pour cet événement."
 
-#: .\amicale\models.py:223
-#, fuzzy
-#| msgid "Additional information"
+#: .\amicale\models.py:220
 msgid "Article informations"
-msgstr "Informations supplémentaires"
+msgstr "Informations sur l'article"
 
-#: .\amicale\models.py:226 .\home\models.py:139
+#: .\amicale\models.py:223 .\home\models.py:139
 msgid "Content"
 msgstr "Contenu"
 
-#: .\amicale\models.py:230
+#: .\amicale\models.py:227
 msgid "Gallery images"
 msgstr "Images de la galerie"
 
-#: .\amicale\models.py:245
+#: .\amicale\models.py:242
 msgid "Name (marker)"
 msgstr "Nom (marqueur)"
 
-#: .\amicale\models.py:246
+#: .\amicale\models.py:243
 msgid "Link (marker)"
 msgstr "Lien (marqueur)"
 
-#: .\amicale\models.py:248
+#: .\amicale\models.py:245
 msgid "Map details"
 msgstr "Détails de la carte"
 
-#: .\amicale\models.py:251
+#: .\amicale\models.py:248
 msgid "inscription form"
 msgstr "formulaire d'inscription"
 
-#: .\amicale\models.py:298
+#: .\amicale\models.py:295
 msgid "Author imge"
 msgstr "Image de l'auteur"
 
-#: .\amicale\models.py:310
+#: .\amicale\models.py:307
 msgid "Author"
 msgstr "Auteur"
 
-#: .\amicale\models.py:311
+#: .\amicale\models.py:308
 msgid "Authors"
 msgstr "Auteurs"
 
@@ -487,10 +477,8 @@ msgid "Locality for the letter."
 msgstr "Localité pour la lettre."
 
 #: .\dashboard\models.py:90 .\dashboard\models.py:103
-#, fuzzy
-#| msgid "Location"
 msgid "Locality"
-msgstr "Emplacement"
+msgstr "Commune"
 
 #: .\dashboard\models.py:95
 msgid "Locality description for the letter."
@@ -505,10 +493,8 @@ msgid "Header logo"
 msgstr "Logo d'en-tête"
 
 #: .\dashboard\models.py:101
-#, fuzzy
-#| msgid "Gallery images"
 msgid "Footer image"
-msgstr "Images de la galerie"
+msgstr "Pied de page (image)"
 
 #: .\dashboard\models.py:107 .\dashboard\models.py:133
 msgid "Opening Councils"
@@ -547,7 +533,6 @@ msgid "Closing Conferences"
 msgstr "Conférences"
 
 #: .\dashboard\models.py:122
-#, fuzzy
 msgid "Closings"
 msgstr "Formules de politesse"
 
@@ -605,16 +590,12 @@ msgstr ""
 "associées : 'Calendrier', 'Amicale', 'FAQ', 'Administration'."
 
 #: .\dashboard\models.py:206
-#, fuzzy
-#| msgid "Profile"
 msgid "User profile"
-msgstr "Profil"
+msgstr "Profil utilisateur"
 
 #: .\dashboard\models.py:207 .\dashboard\models.py:549
-#, fuzzy
-#| msgid "Profile"
 msgid "User Profile"
-msgstr "Profil"
+msgstr "Profil utilisateur"
 
 #: .\dashboard\models.py:215 .\dashboard\models.py:550
 msgid "Previous Page"
@@ -667,24 +648,17 @@ msgstr "Toutes les FAQ"
 
 #: .\dashboard\models.py:307 .\dashboard\models.py:308
 #: .\dashboard\models.py:567
-#, fuzzy
-#| msgid "Amicale Tags"
 msgid "Amicale news"
-msgstr "Balises Amicale"
+msgstr "Nouvelles de l'Amicale"
 
 #: .\dashboard\models.py:316 .\dashboard\models.py:317
 #: .\dashboard\models.py:568
-#, fuzzy
-#| msgid "Amicale Tags"
 msgid "Amicale sorties"
-msgstr "Balises Amicale"
+msgstr "Sorties de l'Amicale"
 
 #: .\dashboard\models.py:325 .\dashboard\models.py:326
-#: .\dashboard\models.py:569
-#, fuzzy
-#| msgid "Amicale Tags"
 msgid "Amicale divers"
-msgstr "Balises Amicale"
+msgstr "Infos diverses sur l'Amicale"
 
 #: .\dashboard\models.py:334 .\dashboard\models.py:335
 #: .\dashboard\models.py:570
@@ -770,10 +744,8 @@ msgid "Actual view"
 msgstr "Vue actuelle"
 
 #: .\dashboard\models.py:483 .\dashboard\models.py:604
-#, fuzzy
-#| msgid "Convocation"
 msgid "Convocation page"
-msgstr "Convocation"
+msgstr "Page de convocation"
 
 #: .\dashboard\models.py:491 .\dashboard\models.py:605
 msgid "Compte rendu page"
@@ -810,16 +782,12 @@ msgid "Navigation"
 msgstr "Navigation"
 
 #: .\dashboard\models.py:572
-#, fuzzy
-#| msgid "Display name"
 msgid "Display"
-msgstr "Nom d'affichage"
+msgstr "Afficher"
 
 #: .\dashboard\models.py:586
-#, fuzzy
-#| msgid "Location"
 msgid "Actions"
-msgstr "Emplacement"
+msgstr "Actions"
 
 #: .\dashboard\models.py:599
 msgid "Calendar"
@@ -829,19 +797,17 @@ msgstr "Calendrier"
 msgid "Pages"
 msgstr "Pages"
 
-#: .\dashboard\wagtail_hooks.py:29
+#: .\dashboard\wagtail_hooks.py:30
 msgid "Custom settings"
 msgstr "Paramètres personnalisés"
 
-#: .\dashboard\wagtail_hooks.py:35
+#: .\dashboard\wagtail_hooks.py:36
 msgid "My custom settings"
 msgstr "Mes paramètres personnalisés"
 
 #: .\home\models.py:143
-#, fuzzy
-#| msgid "Gallery images"
 msgid "Gallery"
-msgstr "Images de la galerie"
+msgstr "Carrousel d'images"
 
 #: .\home\models.py:233
 msgid ""
@@ -862,88 +828,243 @@ msgstr "Page de téléchargement instantané"
 msgid "Instant download pages"
 msgstr "Pages de téléchargement instantané"
 
-#: .\intranet\settings\base.py:310
+#: .\intranet\settings\base.py:311
 msgid "French"
 msgstr "Français"
 
-#: .\intranet\settings\base.py:311
+#: .\intranet\settings\base.py:312
 msgid "English"
 msgstr "Anglais"
 
-#: .\intranet\settings\base.py:312
+#: .\intranet\settings\base.py:313
 msgid "Spanish"
 msgstr "Espagnol"
 
-#: .\templates\account\login.html:4 .\templates\account\login.html:14
+#: .\mailing\wagtail_hooks.py:23
+msgid "Mailing"
+msgstr "Envoi de mails"
+
+#: .\templates\account\account_inactive.html:5
+#: .\templates\account\account_inactive.html:9
+msgid "Account Inactive"
+msgstr "Accompte inactif"
+
+#: .\templates\account\account_inactive.html:11
+msgid "This account is inactive."
+msgstr ""
+
+#: .\templates\account\base_reauthenticate.html:5
+#: .\templates\account\base_reauthenticate.html:9
+msgid "Confirm Access"
+msgstr "Confirmer l'accès"
+
+#: .\templates\account\base_reauthenticate.html:11
+msgid "Please reauthenticate to safeguard your account."
+msgstr "Veuillez vous réauthentifier pour sauvegarder votre compte."
+
+#: .\templates\account\base_reauthenticate.html:17
+msgid "Alternative options"
+msgstr "Options alternatives"
+
+#: .\templates\account\email.html:4 .\templates\account\email.html:8
+msgid "Email Addresses"
+msgstr "Adresse mail"
+
+#: .\templates\account\email.html:11
+msgid "The following email addresses are associated with your account:"
+msgstr "Les adresses électroniques suivantes sont associées à votre compte :"
+
+#: .\templates\account\email.html:23
+msgid "Verified"
+msgstr "Vérifié"
+
+#: .\templates\account\email.html:27
+msgid "Unverified"
+msgstr "Non-vérifié"
+
+#: .\templates\account\email.html:32
+msgid "Primary"
+msgstr "Principale"
+
+#: .\templates\account\email.html:42
+msgid "Make Primary"
+msgstr "Passer en principale"
+
+#: .\templates\account\email.html:45 .\templates\account\email_change.html:37
+msgid "Re-send Verification"
+msgstr "Envoyer de nouveau la vérification"
+
+#: .\templates\account\email.html:48
+msgid "Remove"
+msgstr "Supprimer"
+
+#: .\templates\account\email.html:57
+msgid "Add Email Address"
+msgstr "Ajouter une adresse mail"
+
+#: .\templates\account\email.html:70
+msgid "Add Email"
+msgstr "Ajouter un mail"
+
+#: .\templates\account\email.html:79
+msgid "Do you really want to remove the selected email address?"
+msgstr "Souhaitez-vous réellement supprimer l'adresse mail sélectionnée?"
+
+#: .\templates\account\email_change.html:5
+#: .\templates\account\email_change.html:9
+msgid "Email Address"
+msgstr "Adresse mail"
+
+#: .\templates\account\email_change.html:21
+#: .\templates\account\email_change.html:29
+msgid "Current email"
+msgstr "Mail actuel"
+
+#: .\templates\account\email_change.html:31
+msgid "Changing to"
+msgstr "Changer pour"
+
+#: .\templates\account\email_change.html:35
+msgid "Your email address is still pending verification."
+msgstr "Votre adresse est en attente de vérificaiton."
+
+#: .\templates\account\email_change.html:41
+msgid "Cancel Change"
+msgstr "Annuler les modifications"
+
+#: .\templates\account\email_change.html:49
+msgid "Change to"
+msgstr "Changer pour"
+
+#: .\templates\account\email_change.html:55
+msgid "Change Email"
+msgstr "Changer l'adresse Email"
+
+#: .\templates\account\email_confirm.html:4
+#: .\templates\account\email_confirm.html:47
+#: .\templates\account\reauthenticate.html:20
+#: .\templates\account\verification_sent.html:4
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: .\templates\account\email_confirm.html:10
+#: .\templates\account\verification_sent.html:10
+msgid "Mail confirmation"
+msgstr "Confirmation de mail"
+
+#: .\templates\account\email_confirm.html:22
+msgid "Confirm Email Address"
+msgstr "Confirmez votre Email"
+
+#: .\templates\account\email_confirm.html:30
+#, python-format
+msgid ""
+"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
+"address for user %(user_display)s."
+msgstr ""
+"Merci de bien vouloir confirmer que <a href=\"mailto:%(email)s\">%(email)s</a> est bien "
+"l'adresse mail de %(user_display)s."
+
+#: .\templates\account\email_confirm.html:44
+msgid "Confirmation…"
+msgstr "Confirmation…"
+
+#: .\templates\account\email_confirm.html:54
+#, python-format
+msgid ""
+"Unable to confirm %(email)s because it is already confirmed by a different "
+"account."
+msgstr ""
+"Impossible de confirmer %(email)s car cette adresse est déjà associée à un autre "
+"compte."
+
+#: .\templates\account\email_confirm.html:60
+#, python-format
+msgid ""
+"This email confirmation link expired or is invalid. Please <a "
+"href=\"%(email_url)s\">issue a new email confirmation request</a>."
+msgstr ""
+"Ce lien de confirmation est expiré ou invalide. Merci de faire <a "
+"href=\"%(email_url)s\">une nouvelle</a> demande de confirmation."
+
+#: .\templates\account\login.html:4 .\templates\account\login.html:10
 #: .\templates\wagtailadmin\login.html:4
-#, fuzzy
-#| msgid "Sign In"
+#: .\templates\wagtailadmin\login.html:10
 msgid "Sign in"
 msgstr "Se connecter"
 
-#: .\templates\account\login.html:32 .\templates\account\signup.html:32
-#: .\templates\wagtailadmin\login.html:35
+#: .\templates\account\login.html:30 .\templates\account\signup.html:28
+#: .\templates\wagtailadmin\login.html:30
 msgid "Welcome !"
 msgstr "Bienvenue !"
 
-#: .\templates\account\login.html:38
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        <span>If you do not have an account yet, please</"
-#| "span>\n"
-#| "                        <span><a href=\"%(signup_url)s\">sign up</a></"
-#| "span>\n"
-#| "                        <span>before login in.</span>\n"
-#| "                    "
-msgid ""
-"\n"
-"                        <span>You are not allowed to view this page. Please "
-"sign in with authorized account or</span>\n"
-"                        <span><a href=\"/\">return to site</a></span>\n"
-"                    "
-msgstr ""
-"\n"
-"                        <span>Si vous n'avez pas encore de compte, veuillez</"
-"span>\n"
-"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
-"span>\n"
-"                        <span>avant de vous connecter.</span>\n"
-"                    "
+#: .\templates\account\login.html:35
+#: .\templates\account\password_reset.html:29
+#: .\templates\account\signup.html:34 .\templates\wagtailadmin\login.html:36
+msgid "Note"
+msgstr "Remarque"
 
-#: .\templates\account\login.html:57 .\templates\account\signup.html:67
+#: .\templates\account\login.html:40 .\templates\account\signup.html:39
+#: .\templates\wagtailadmin\login.html:41
+#, python-format
+msgid ""
+"As <strong>%(user_display)s</strong> your are not allowed to view this page. "
+"Please "
+msgstr ""
+"En tant que <strong>%(user_display)s</strong> vous n'êtes pas autorisé à voir cette page. "
+"Merci de "
+
+#: .\templates\account\login.html:41 .\templates\account\login.html:48
+#: .\templates\account\signup.html:40 .\templates\account\signup.html:47
+#: .\templates\account\signup.html:127 .\templates\wagtailadmin\login.html:42
+#: .\templates\wagtailadmin\login.html:49
+msgid "sign in."
+msgstr "vous connecter"
+
+#: .\templates\account\login.html:42 .\templates\account\signup.html:41
+#: .\templates\wagtailadmin\login.html:43
+msgid "with authorized account or"
+msgstr ""
+
+#: .\templates\account\login.html:43 .\templates\account\signup.html:42
+#: .\templates\wagtailadmin\login.html:44
+msgid "return to site"
+msgstr "retournez au site"
+
+#: .\templates\account\login.html:47 .\templates\account\signup.html:46
+#: .\templates\wagtailadmin\login.html:48
+msgid "In order to view this page your need to "
+msgstr "Afin de voir cette page vous devez "
+
+#: .\templates\account\login.html:69 .\templates\account\signup.html:76
 #: .\templates\wagtailusers\users\list.html:20
 #: .\templates\wagtailusers\users\list.html:24
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: .\templates\account\login.html:68 .\templates\account\signup.html:77
-#, fuzzy
-#| msgid "Forgot Password?"
+#: .\templates\account\login.html:80 .\templates\account\signup.html:86
 msgid "Password"
-msgstr "Mot de passe oublié ?"
+msgstr "Mot de passe"
 
-#: .\templates\account\login.html:79 .\templates\wagtailadmin\login.html:49
-#, fuzzy
-#| msgid "Forgot Password?"
+#: .\templates\account\login.html:90 .\templates\wagtailadmin\login.html:74
 msgid "Forgotten password?"
-msgstr "Mot de passe oublié ?"
+msgstr "Vous avez oublié votre mot de passe ?"
 
-#: .\templates\account\login.html:81 .\templates\wagtailadmin\login.html:51
+#: .\templates\account\login.html:92 .\templates\wagtailadmin\login.html:76
 msgid "Remember me"
 msgstr "Se souvenir de moi"
 
-#: .\templates\account\login.html:86 .\templates\account\login.html:97
-#: .\templates\wagtailadmin\login.html:56
-#: .\templates\wagtailadmin\login.html:66
+#: .\templates\account\login.html:97 .\templates\account\login.html:108
+#: .\templates\wagtailadmin\login.html:81
+#: .\templates\wagtailadmin\login.html:91
 msgid "Connexion"
 msgstr "Connexion"
 
-#: .\templates\account\login.html:94 .\templates\wagtailadmin\login.html:63
+#: .\templates\account\login.html:105 .\templates\wagtailadmin\login.html:88
 msgid "Connexion…"
 msgstr "Connexion…"
 
-#: .\templates\account\login.html:103
+#: .\templates\account\login.html:114
 #, python-format
 msgid ""
 "\n"
@@ -961,201 +1082,264 @@ msgstr ""
 "                        <span>avant de vous connecter.</span>\n"
 "                    "
 
-#: .\templates\account\logout.html:4 .\templates\account\logout.html:41
-#: .\templates\account\profile.html:92
+#: .\templates\account\logout.html:4 .\templates\account\logout.html:38
+#: .\templates\account\profile.html:44
 msgid "Sign Out"
 msgstr "Se déconnecter"
 
-#: .\templates\account\logout.html:14
-#, fuzzy
-#| msgid "Connexion"
+#: .\templates\account\logout.html:10
 msgid "Deconnexion"
-msgstr "Connexion"
+msgstr "Déconnexion"
 
-#: .\templates\account\logout.html:23
+#: .\templates\account\logout.html:21
 msgid "Goodbye!"
 msgstr "A Bientôt!"
 
-#: .\templates\account\logout.html:29
+#: .\templates\account\logout.html:26
 msgid "Are you sure you want to sign out?"
 msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
 
-#: .\templates\account\logout.html:38
-#, fuzzy
-#| msgid "Connexion…"
+#: .\templates\account\logout.html:35 .\templates\account\profile.html:41
 msgid "Deconnexion…"
-msgstr "Connexion…"
+msgstr "Déconnexion…"
 
-#: .\templates\account\logout.html:47
+#: .\templates\account\logout.html:44
 msgid "No, stay logged in"
 msgstr "Non, rester connecté"
 
-#: .\templates\account\logout.html:49
+#: .\templates\account\logout.html:46
 msgid "Return to site"
 msgstr "Revenir au site"
 
-#: .\templates\account\oldlogin.html:5 .\templates\account\oldlogin.html:8
-#: .\templates\account\oldlogin.html:43
-msgid "Sign In"
-msgstr "Se connecter"
+#: .\templates\account\password_change.html:4
+#: .\templates\account\password_change.html:11
+#: .\templates\account\password_change.html:47
+#: .\templates\account\password_reset_from_key.html:4
+#: .\templates\account\password_reset_from_key.html:14
+#: .\templates\account\password_reset_from_key.html:57
+#: .\templates\account\password_reset_from_key_done.html:4
+#: .\templates\account\password_reset_from_key_done.html:10
+msgid "Change Password"
+msgstr "Changement de mot de passe"
 
-#: .\templates\account\oldlogin.html:15
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "  Please sign in with one of your existing third-party accounts.\n"
-#| "  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account "
-#| "and sign in below:\n"
-#| "  "
+#: .\templates\account\password_change.html:25
+#: .\templates\account\password_reset_from_key.html:28
+msgid "Choose new password"
+msgstr "Choisissez un nouveau mot de passe"
+
+#: .\templates\account\password_change.html:44
+#: .\templates\account\password_reset_from_key.html:54
+#: .\templates\account\profile.html:57
+msgid "Changing…"
+msgstr "Changements…"
+
+#: .\templates\account\password_reset.html:4
+#: .\templates\account\password_reset.html:10
+#: .\templates\account\password_reset_done.html:4
+#: .\templates\account\password_reset_done.html:10
+#: .\templates\account\password_reset_from_key_done.html:22
+msgid "Password Reset"
+msgstr "Réinitialiser le mot de passe"
+
+#: .\templates\account\password_reset.html:22
+msgid "Enter your Email"
+msgstr "Entrez votre adresse Email"
+
+#: .\templates\account\password_reset.html:30
+#, python-format
+msgid "You are already logged in as %(user_display)s."
+msgstr "Vous êtes déjà connecté en tant que %(user_display)s."
+
+#: .\templates\account\password_reset.html:37
 msgid ""
-"\n"
-"  Please sign in with one of your existing third party accounts.\n"
-"  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account and "
-"sign in below:\n"
-"  "
+"Forgotten your password? Enter your email address below, and we'll send you "
+"an email allowing you to reset it."
 msgstr ""
-"\n"
-"  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
-"  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte "
-"%(site_name)s et connectez-vous ci-dessous :\n"
-"  "
+"Vous avez oublié votre mot de passe? Entrez votre adresse mail ci-dessous et nous "
+"vous enverrons un mail pour la réinitialiser."
 
-#: .\templates\account\oldlogin.html:24
-#: .\venv\Lib\site-packages\django\utils\text.py:270
-msgid "or"
-msgstr "ou"
+#: .\templates\account\password_reset.html:55
+#: .\templates\account\profile.html:73
+msgid "Resetting…"
+msgstr "Réinitialisation…"
 
-#: .\templates\account\oldlogin.html:28
+#: .\templates\account\password_reset.html:58
+msgid "Reset My Password"
+msgstr "Réinitialiser mon mot de passe"
+
+#: .\templates\account\password_reset_done.html:22
+msgid "Check your mails to confirm password reset"
+msgstr ""
+
+#: .\templates\account\password_reset_done.html:34
+msgid ""
+"We have sent you an email. If you have not received it please check your "
+"spam folder. Otherwise contact us if you do not receive it in a few minutes."
+msgstr ""
+
+#: .\templates\account\password_reset_from_key.html:12
+msgid "Bad Token"
+msgstr ""
+
+#: .\templates\account\password_reset_from_key.html:35
 #, python-format
 msgid ""
-"\n"
-"  If you have not created an account yet, then please <a "
-"href=\"%(signup_url)s\">sign up</a> first.\n"
-"  "
+"The password reset link was invalid, possibly because it has already been "
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
-"\n"
-"  Si vous n'avez pas encore créé de compte, veuillez d'abord <a "
-"href=\"%(signup_url)s\">vous inscrire</a>.\n"
-"  "
 
-#: .\templates\account\oldlogin.html:41
-msgid "Forgot Password?"
-msgstr "Mot de passe oublié ?"
+#: .\templates\account\password_reset_from_key_done.html:27
+msgid "Your password is now changed."
+msgstr ""
 
-#: .\templates\account\profile.html:7
+#: .\templates\account\password_reset_from_key_done.html:34
+msgid "Congratulations,"
+msgstr ""
+
+#: .\templates\account\password_reset_from_key_done.html:37
+msgid "sign up"
+msgstr "S'inscrire"
+
+#: .\templates\account\password_reset_from_key_done.html:40
+msgid "with your new password to go back to site."
+msgstr ""
+
+#: .\templates\account\password_set.html:5
+#: .\templates\account\password_set.html:9
+#: .\templates\account\password_set.html:20
+msgid "Set Password"
+msgstr ""
+
+#: .\templates\account\profile.html:11
 msgid "Profile"
 msgstr "Profil"
 
-#: .\templates\account\profile.html:13
+#: .\templates\account\profile.html:17
 msgid "Account profile"
 msgstr "Profil du compte"
 
-#: .\templates\account\profile.html:18
+#: .\templates\account\profile.html:60
+msgid "Change Password?"
+msgstr "Modifier votre mot de passe ?"
+
+#: .\templates\account\profile.html:76
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié ?"
+
+#: .\templates\account\profile.html:89
+msgid "Administration…"
+msgstr "Administration…"
+
+#: .\templates\account\profile.html:92
+msgid "Admin panel"
+msgstr "Panneau d'administration"
+
+#: .\templates\account\profile.html:101
 msgid "First name"
 msgstr "Prénom"
 
-#: .\templates\account\profile.html:24
+#: .\templates\account\profile.html:108
 msgid "Last name"
 msgstr "Nom de famille"
 
-#: .\templates\account\profile.html:30
+#: .\templates\account\profile.html:115
 msgid "Display name"
 msgstr "Nom d'affichage"
 
-#: .\templates\account\profile.html:38 .\users\models.py:32
+#: .\templates\account\profile.html:124 .\users\models.py:32
 msgid "Address line 1"
 msgstr "Adresse ligne 1"
 
-#: .\templates\account\profile.html:44 .\users\models.py:35
+#: .\templates\account\profile.html:131 .\users\models.py:35
 msgid "Address line 2"
 msgstr "Adresse ligne 2"
 
-#: .\templates\account\profile.html:50 .\users\models.py:38
+#: .\templates\account\profile.html:138 .\users\models.py:38
 msgid "Postal Code"
 msgstr "Code postal"
 
-#: .\templates\account\profile.html:56 .\users\models.py:41
+#: .\templates\account\profile.html:145 .\users\models.py:41
 msgid "City"
 msgstr "Ville"
 
-#: .\templates\account\profile.html:62
+#: .\templates\account\profile.html:152
 msgid "Country"
 msgstr "Pays"
 
-#: .\templates\account\profile.html:70 .\users\models.py:52
+#: .\templates\account\profile.html:161 .\users\models.py:52
 msgid "Mobile phone"
 msgstr "Téléphone mobile"
 
-#: .\templates\account\profile.html:76
+#: .\templates\account\profile.html:168
 msgid "Additional information"
 msgstr "Informations supplémentaires"
 
-#: .\templates\account\profile.html:82 .\users\models.py:29
+#: .\templates\account\profile.html:175 .\users\models.py:29
 msgid "Date of birth"
 msgstr "Date de naissance"
 
-#: .\templates\account\profile.html:98
-#: .\templates\wagtailusers\users\list.html:79
-msgid "Admin"
-msgstr "Admin"
+#: .\templates\account\reauthenticate.html:5
+msgid "Enter your password:"
+msgstr ""
 
-#: .\templates\account\signup.html:4 .\templates\account\signup.html:14
-#: .\templates\account\signup.html:100 .\templates\account\signup.html:111
+#: .\templates\account\signup.html:4 .\templates\account\signup.html:10
+#: .\templates\account\signup.html:109 .\templates\account\signup.html:120
 msgid "Sign Up"
 msgstr "S'inscrire"
 
-#: .\templates\account\signup.html:38
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        <span>If you do not have an account yet, please</"
-#| "span>\n"
-#| "                        <span><a href=\"%(signup_url)s\">sign up</a></"
-#| "span>\n"
-#| "                        <span>before login in.</span>\n"
-#| "                    "
-msgid ""
-"\n"
-"                        <span>You are not allowed to view this page, please "
-"sign in with an authorized account or<br></span>\n"
-"                        <span><a href=\"/\">return to site</a></span>\n"
-"                    "
-msgstr ""
-"\n"
-"                        <span>Si vous n'avez pas encore de compte, veuillez</"
-"span>\n"
-"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
-"span>\n"
-"                        <span>avant de vous connecter.</span>\n"
-"                    "
-
-#: .\templates\account\signup.html:57
+#: .\templates\account\signup.html:66
 msgid "Email"
 msgstr "E-mail"
 
-#: .\templates\account\signup.html:88
+#: .\templates\account\signup.html:97
 msgid "Password (again)"
 msgstr "Mot de passe (à nouveau)"
 
-#: .\templates\account\signup.html:108
-#, fuzzy
-msgid "Signing Up…"
-msgstr "S'inscrire"
-
 #: .\templates\account\signup.html:117
+msgid "Signing Up…"
+msgstr "Inscription…"
+
+#: .\templates\account\signup.html:126
+msgid "Already have an account? Please"
+msgstr ""
+
+#: .\templates\account\verification_sent.html:22
+#: .\templates\account\verified_email_required.html:5
+#: .\templates\account\verified_email_required.html:9
+msgid "Verify Your Email Address"
+msgstr ""
+
+#: .\templates\account\verification_sent.html:27
+msgid ""
+"We have sent an email to you for verification. Follow the link provided to "
+"finalize the signup process. If you do not see the verification email in "
+"your main inbox, check your spam folder. Please contact us if you do not "
+"receive the verification email within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:13
+msgid ""
+"This part of the site requires us to verify that\n"
+"you are who you claim to be. For this purpose, we require that you\n"
+"verify ownership of your email address. "
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:18
+msgid ""
+"We have sent an email to you for\n"
+"verification. Please click on the link inside that email. If you do not see "
+"the verification email in your main inbox, check your spam folder. "
+"Otherwise\n"
+"contact us if you do not receive it within a few minutes."
+msgstr ""
+
+#: .\templates\account\verified_email_required.html:23
 #, python-format
 msgid ""
-"\n"
-"                        <span>Already have an account? Please</span>\n"
-"                        <span><a href=\"%(login_url)s\">sign in.</a><span>\n"
-"                    "
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
+"email address</a>."
 msgstr ""
-"\n"
-"                        <span>Vous avez déjà un compte ? Veuillez vous</"
-"span>\n"
-"                        <span><a href=\"%(login_url)s\">connecter.</"
-"a><span>\n"
-"                    "
 
 #: .\templates\amicale\widgets\amicale_list.html:53
 msgid "on"
@@ -1229,15 +1413,36 @@ msgstr "Semaine suivante"
 msgid "Google Calendar"
 msgstr "Calendrier Google"
 
+#: .\templates\mailing\mailing_form.html:178
+#: .\templates\mailing\mailing_form.html:222
+msgid "Sending…"
+msgstr "Envoi…"
+
+#: .\templates\mailing\mailing_form.html:181
+#: .\templates\mailing\mailing_form.html:225
+msgid "Send mails"
+msgstr ""
+
+#: .\templates\mailing\mailing_form.html:184
+msgid ""
+"Use carrefully this will send an email to all the people in the "
+"\"recipient\" list !"
+msgstr ""
+
+#: .\templates\mailing\mailing_form.html:228
+msgid ""
+"Use carrefully this will send an email to all the members of the selected "
+"instance !"
+msgstr ""
+
 #: .\templates\streamforms\advanced_settings.html:3
 #, python-format
 msgid "Advanced form settings for %(form_title)s"
 msgstr "Paramètres avancés du formulaire pour %(form_title)s"
 
 #: .\templates\streamforms\advanced_settings.html:7
-#, fuzzy
 msgid "Advanced form settings"
-msgstr "Mes paramètres personnalisés"
+msgstr "Paramètres de formulaire avancés"
 
 #: .\templates\streamforms\advanced_settings.html:20
 msgid "Save"
@@ -1254,9 +1459,8 @@ msgid "Copy"
 msgstr "Copier"
 
 #: .\templates\streamforms\confirm_copy.html:11
-#, fuzzy
 msgid "Are you sure you want to copy this form?"
-msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
+msgstr "Êtes-vous sûr de vouloir copier ce formulaire ?"
 
 #: .\templates\streamforms\confirm_delete.html:3
 #: .\templates\streamforms\index_submissions.html:3
@@ -1286,8 +1490,6 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: .\templates\streamforms\index_submissions.html:74
-#, fuzzy, python-format
-#| msgid "Form data <span>%(form_title)s</span>"
 msgid "Form data <span>\"%(form_title)s\"</span>"
 msgstr "Données du formulaire <span>%(form_title)s</span>"
 
@@ -1466,10 +1668,6 @@ msgstr "Ven"
 msgid "Sat"
 msgstr "Sam"
 
-#: .\templates\wagtailadmin\login.html:15
-msgid "Intranet Dashboard"
-msgstr "Tableau de bord de l'intranet"
-
 #: .\templates\wagtailadmin\pages\add_subpage.html:5
 #, python-format
 msgid "Create a page in %(title)s"
@@ -1511,10 +1709,8 @@ msgid "How to create a page"
 msgstr "Comment créer une page"
 
 #: .\templates\wagtailadmin\pages\add_subpage.html:29
-#, fuzzy
-#| msgid "Question"
 msgid "section."
-msgstr "Question"
+msgstr "section."
 
 #: .\templates\wagtailadmin\pages\add_subpage.html:49
 #, python-format
@@ -1546,10 +1742,12 @@ msgid "status"
 msgstr "statuts"
 
 #: .\templates\wagtailusers\users\list.html:61
-#, fuzzy
-#| msgid "Last name"
 msgid "Last Login"
 msgstr "Dernière connexion"
+
+#: .\templates\wagtailusers\users\list.html:79
+msgid "Admin"
+msgstr "Admin"
 
 #: .\templates\wagtailusers\users\list.html:79
 msgid ", Staff"
@@ -1607,16 +1805,12 @@ msgid "communautary council function"
 msgstr "fonction au conseil communautaire"
 
 #: .\users\forms.py:51 .\users\models.py:81
-#, fuzzy
-#| msgid "commission"
 msgid "commissions"
 msgstr "commission"
 
 #: .\users\forms.py:57 .\users\models.py:86
-#, fuzzy
-#| msgid "Closing Commissions"
 msgid "Functions in Commissions"
-msgstr "Commissions"
+msgstr "Fonctions dans les commissions"
 
 #: .\users\forms.py:62 .\users\models.py:94
 msgid "bureau function"
@@ -1729,17 +1923,15 @@ msgid "There can only be one Mayor for each municipality."
 msgstr "Il ne peut y avoir qu'un seul Maire pour chaque municipalité."
 
 #: .\users\forms.py:181
-#, fuzzy, python-brace-format
-#| msgid "There can only be one President for each commission."
+#, python-brace-format
 msgid "There is already a President ({er}) for the commission : {com}."
-msgstr "Il ne peut y avoir qu'un seul Président pour chaque commission."
+msgstr "Il ne peut y avoir qu'un seul président ({er}) pour chaque commission : {com}."
 
 #: .\users\forms.py:184
-#, fuzzy, python-brace-format
-#| msgid "There can only be one person in charge for each commission."
+#, python-brace-format
 msgid "There is already a person in charge ({er}) for the commission : {com}."
 msgstr ""
-"Il ne peut y avoir qu'une seule personne responsable pour chaque commission."
+"Il ne peut y avoir qu'un seul chargé de commission ({er}) pour la commission : {com}."
 
 #: .\users\forms.py:196
 msgid ""
@@ -1772,19 +1964,23 @@ msgstr "Référence du texte de loi"
 msgid "Law text link"
 msgstr "Lien vers le texte de loi"
 
-#: .\utils\faq.py:77
+#: .\utils\faq.py:39
+msgid "Law text"
+msgstr "Texte de loi"
+
+#: .\utils\faq.py:87
 msgid "Embed"
 msgstr ""
 
-#: .\utils\faq.py:81
+#: .\utils\faq.py:91
 msgid "Simple answer"
 msgstr "Réponse simple"
 
-#: .\utils\faq.py:87
+#: .\utils\faq.py:97
 msgid "Criteria"
 msgstr "Critères"
 
-#: .\utils\faq.py:89
+#: .\utils\faq.py:99
 msgid ""
 "User select the criteria wich fits to his situation, it will allow him to "
 "see related answer(s). Mandatory."
@@ -1792,13 +1988,11 @@ msgstr ""
 "L'utilisateur sélectionne les critères qui correspondent à sa situation, "
 "ceci lui permettra de voir la/les réponse(s) associée(s). Obligatoire."
 
-#: .\utils\faq.py:97
-#, fuzzy
-#| msgid "Last name"
+#: .\utils\faq.py:107
 msgid "Step name"
-msgstr "Nom de famille"
+msgstr "Nom de l'étape"
 
-#: .\utils\faq.py:99
+#: .\utils\faq.py:109
 msgid ""
 "User click on each steps names to open it and see related answer(s). "
 "Mandatory."
@@ -1806,35 +2000,31 @@ msgstr ""
 "L'utilisateur clique sur chaque nom d'étape pour l'ouvrir et voir les "
 "réponse(s) associée(s). Obligatoire."
 
-#: .\utils\faq.py:107
+#: .\utils\faq.py:117
 msgid "Introduction"
 msgstr "Introduction"
 
-#: .\utils\faq.py:118
+#: .\utils\faq.py:128
 msgid "Related answer(s)"
 msgstr "Réponse(s)"
 
-#: .\utils\faq.py:124
+#: .\utils\faq.py:134
 msgid "Click on the + below to add another "
 msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
 
-#: .\utils\faq.py:130 .\utils\faq.py:170
-#, fuzzy
-#| msgid "Last name"
+#: .\utils\faq.py:140 .\utils\faq.py:180
 msgid "Step"
-msgstr "Nom de famille"
+msgstr "Étape"
 
-#: .\utils\faq.py:136 .\utils\faq.py:156
-#, fuzzy
-#| msgid "Convocation"
+#: .\utils\faq.py:146 .\utils\faq.py:166
 msgid "Condition"
-msgstr "Convocation"
+msgstr "Condition"
 
-#: .\utils\faq.py:143 .\utils\faq.py:163
+#: .\utils\faq.py:153 .\utils\faq.py:173
 msgid "Conditonnal answer"
 msgstr "Réponse conditionnelle"
 
-#: .\utils\faq.py:150 .\utils\faq.py:178
+#: .\utils\faq.py:160 .\utils\faq.py:188
 msgid "Step answer"
 msgstr "Réponse à étapes"
 
@@ -1860,10 +2050,8 @@ msgstr "alignement"
 
 #: .\utils\imports.py:51 .\utils\imports.py:79 .\utils\imports.py:94
 #: .\utils\imports.py:121
-#, fuzzy
-#| msgid "Content"
 msgid "content"
-msgstr "Contenu"
+msgstr "contenu"
 
 #: .\utils\imports.py:55
 msgid "Heading 1"
@@ -1918,16 +2106,12 @@ msgid "size"
 msgstr "taille"
 
 #: .\utils\menu_pages.py:133
-#, fuzzy
-#| msgid "Title of the page, automatically generated, cannot be changed."
 msgid "Title of the page, automaticaly generated, cannot be changed."
 msgstr "Titre de la page, généré automatiquement, ne peut pas être modifié."
 
 #: .\utils\menu_pages.py:151
-#, fuzzy
-#| msgid "Slug of the page, automatically generated, cannot be changed."
 msgid "Slug of the page, automaticaly generated, cannot be changed."
-msgstr "Slug de la page, généré automatiquement, ne peut pas être modifié."
+msgstr "Slug (dans les liens internet) de la page, généré automatiquement, ne peut pas être modifié."
 
 #: .\utils\menu_pages.py:155
 msgid "Uncheck to hide this page from the menus."
@@ -1948,10 +2132,8 @@ msgstr ""
 "section."
 
 #: .\utils\streamfield.py:81
-#, fuzzy
-#| msgid "Answer content"
 msgid "Aperçu du contenu"
-msgstr "Contenu de la réponse"
+msgstr "Aperçu du contenu"
 
 #: .\utils\streamfield.py:82
 msgid ""
@@ -2114,1158 +2296,8 @@ msgid "Neutre"
 msgstr "Neutre"
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
-#, fuzzy
-#| msgid "Pages"
 msgid "Messages"
-msgstr "Pages"
-
-#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
-msgid "Site Maps"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
-msgid "Static Files"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
-#, fuzzy
-#| msgid "Convocation"
-msgid "Syndication"
-msgstr "Convocation"
-
-#. Translators: String used to replace omitted page numbers in elided page
-#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
-#: .\venv\Lib\site-packages\django\core\paginator.py:30
-msgid "…"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:32
-msgid "That page number is not an integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:33
-msgid "That page number is less than 1"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\paginator.py:34
-msgid "That page contains no results"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:22
-msgid "Enter a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:104
-#: .\venv\Lib\site-packages\django\forms\fields.py:760
-#, fuzzy
-#| msgid "Enter the URL."
-msgid "Enter a valid URL."
-msgstr "Entrez l'URL."
-
-#: .\venv\Lib\site-packages\django\core\validators.py:165
-msgid "Enter a valid integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:176
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: .\venv\Lib\site-packages\django\core\validators.py:259
-msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:267
-msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:279
-#: .\venv\Lib\site-packages\django\core\validators.py:306
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:286
-#: .\venv\Lib\site-packages\django\core\validators.py:307
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:298
-#: .\venv\Lib\site-packages\django\core\validators.py:305
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:341
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:347
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:382
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:391
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:400
-#, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:407
-#, python-format
-msgid ""
-"Ensure this value is a multiple of step size %(limit_value)s, starting from "
-"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:439
-#, python-format
-msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:457
-#, python-format
-msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:480
-#: .\venv\Lib\site-packages\django\forms\fields.py:355
-#: .\venv\Lib\site-packages\django\forms\fields.py:394
-msgid "Enter a number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:482
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:487
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:492
-#, python-format
-msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:563
-#, python-format
-msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\core\validators.py:624
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1465
-#: .\venv\Lib\site-packages\django\forms\models.py:902
-msgid "and"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\base.py:1467
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\constraints.py:20
-#, python-format
-msgid "Constraint “%(name)s” is violated."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:133
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
-msgid "This field cannot be null."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
-msgid "This field cannot be blank."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or
-#. 'month'. Eg: "Title must be unique for pub_date year"
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:140
-#, python-format
-msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:179
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1150
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1151
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1153
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1203
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1205
-msgid "String (unlimited)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1309
-msgid "Comma-separated integers"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1410
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1414
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1549
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1418
-msgid "Date (without time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1545
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1553
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1558
-msgid "Date (with time)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1685
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1687
-#, fuzzy
-#| msgid "December"
-msgid "Decimal number"
-msgstr "Décembre"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1848
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
-"uuuuuu] format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1852
-#, fuzzy
-#| msgid "Caption"
-msgid "Duration"
-msgstr "Légende"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1904
-#, fuzzy
-#| msgid "Address"
-msgid "Email address"
-msgstr "Adresse"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1929
-#, fuzzy
-#| msgid "File"
-msgid "File path"
-msgstr "Fichier"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2007
-#, python-format
-msgid "“%(value)s” value must be a float."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2009
-msgid "Floating point number"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2049
-#, python-format
-msgid "“%(value)s” value must be an integer."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2051
-msgid "Integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2147
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2164
-msgid "Small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2172
-#, fuzzy
-#| msgid "Address"
-msgid "IPv4 address"
-msgstr "Adresse"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2203
-#, fuzzy
-#| msgid "Address"
-msgid "IP address"
-msgstr "Adresse"
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2296
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2297
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2299
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2350
-msgid "Positive big integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2365
-msgid "Positive integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2380
-msgid "Positive small integer"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2396
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2432
-msgid "Text"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2507
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2511
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2515
-msgid "Time"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2647
-msgid "Raw binary data"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2712
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2714
-msgid "Universally unique identifier"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
-msgid "A JSON object"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\json.py:28
-msgid "Value must be valid JSON."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:939
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:941
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1235
-msgid "One-to-one relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1292
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1294
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1342
-msgid "Many-to-many relationship"
-msgstr ""
-
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
-msgid ":?.!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:95
-#, fuzzy
-#| msgid "A valid timezone is required."
-msgid "This field is required."
-msgstr "Un fuseau horaire valide est requis"
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:304
-msgid "Enter a whole number."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:475
-#: .\venv\Lib\site-packages\django\forms\fields.py:1252
-msgid "Enter a valid date."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:498
-#: .\venv\Lib\site-packages\django\forms\fields.py:1253
-msgid "Enter a valid time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:525
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:559
-msgid "Enter a valid duration."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:560
-#, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:629
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:630
-msgid "No file was submitted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:631
-msgid "The submitted file is empty."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:633
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:638
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:702
-msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:874
-#: .\venv\Lib\site-packages\django\forms\fields.py:960
-#: .\venv\Lib\site-packages\django\forms\models.py:1581
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:962
-#: .\venv\Lib\site-packages\django\forms\fields.py:1081
-#: .\venv\Lib\site-packages\django\forms\models.py:1579
-msgid "Enter a list of values."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1082
-msgid "Enter a complete value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1321
-msgid "Enter a valid UUID."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\fields.py:1351
-msgid "Enter a valid JSON."
-msgstr ""
-
-#. Translators: This is the default suffix added to form field labels
-#: .\venv\Lib\site-packages\django\forms\forms.py:94
-msgid ":"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\forms.py:231
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:61
-#, python-format
-msgid ""
-"ManagementForm data is missing or has been tampered with. Missing fields: "
-"%(field_names)s. You may need to file a bug report if the issue persists."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:65
-#, python-format
-msgid "Please submit at most %(num)d form."
-msgid_plural "Please submit at most %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:70
-#, python-format
-msgid "Please submit at least %(num)d form."
-msgid_plural "Please submit at least %(num)d forms."
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\forms\formsets.py:484
-#: .\venv\Lib\site-packages\django\forms\formsets.py:491
-msgid "Order"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:895
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:900
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:907
-#, python-format
-msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:916
-msgid "Please correct the duplicate values below."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1353
-msgid "The inline value did not match the parent instance."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1444
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\models.py:1583
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\utils.py:227
-#, python-format
-msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:457
-msgid "Clear"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:458
-msgid "Currently"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:459
-msgid "Change"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:796
-msgid "Unknown"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:797
-#: .\venv\Lib\site-packages\telepath\tests.py:243
-msgid "Yes"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\forms\widgets.py:798
-msgid "No"
-msgstr ""
-
-#. Translators: Please do not add spaces around commas.
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:875
-msgid "yes,no,maybe"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:905
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\template\defaultfilters.py:932
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:73
-msgid "p.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
-msgid "a.m."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:79
-msgid "PM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
-msgid "AM"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:152
-#, fuzzy
-#| msgid "Right"
-msgid "midnight"
-msgstr "Droite"
-
-#: .\venv\Lib\site-packages\django\utils\dateformat.py:154
-msgid "noon"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:39
-msgid "jan"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:40
-msgid "feb"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:41
-msgid "mar"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:42
-msgid "apr"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:43
-#, fuzzy
-#| msgid "May"
-msgid "may"
-msgstr "Mai"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:44
-#, fuzzy
-#| msgid "Sun"
-msgid "jun"
-msgstr "Dim"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:45
-msgid "jul"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:46
-msgid "aug"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:47
-msgid "sep"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:48
-msgid "oct"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:49
-msgid "nov"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:50
-msgid "dec"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:53
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:54
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:55
-#, fuzzy
-#| msgid "March"
-msgctxt "abbrev. month"
-msgid "March"
-msgstr "Mars"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:56
-#, fuzzy
-#| msgid "April"
-msgctxt "abbrev. month"
-msgid "April"
-msgstr "Avril"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:57
-#, fuzzy
-#| msgid "May"
-msgctxt "abbrev. month"
-msgid "May"
-msgstr "Mai"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:58
-#, fuzzy
-#| msgid "June"
-msgctxt "abbrev. month"
-msgid "June"
-msgstr "Juin"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:59
-#, fuzzy
-#| msgid "July"
-msgctxt "abbrev. month"
-msgid "July"
-msgstr "Juillet"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:60
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:61
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:62
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:63
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:64
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:67
-#, fuzzy
-#| msgid "January"
-msgctxt "alt. month"
-msgid "January"
-msgstr "Janvier"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:68
-#, fuzzy
-#| msgid "February"
-msgctxt "alt. month"
-msgid "February"
-msgstr "Février"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:69
-#, fuzzy
-#| msgid "March"
-msgctxt "alt. month"
-msgid "March"
-msgstr "Mars"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:70
-#, fuzzy
-#| msgid "April"
-msgctxt "alt. month"
-msgid "April"
-msgstr "Avril"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:71
-#, fuzzy
-#| msgid "May"
-msgctxt "alt. month"
-msgid "May"
-msgstr "Mai"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:72
-#, fuzzy
-#| msgid "June"
-msgctxt "alt. month"
-msgid "June"
-msgstr "Juin"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:73
-#, fuzzy
-#| msgid "July"
-msgctxt "alt. month"
-msgid "July"
-msgstr "Juillet"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:74
-#, fuzzy
-#| msgid "August"
-msgctxt "alt. month"
-msgid "August"
-msgstr "Août"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:75
-#, fuzzy
-#| msgid "September"
-msgctxt "alt. month"
-msgid "September"
-msgstr "Septembre"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:76
-#, fuzzy
-#| msgid "October"
-msgctxt "alt. month"
-msgid "October"
-msgstr "Octobre"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:77
-#, fuzzy
-#| msgid "November"
-msgctxt "alt. month"
-msgid "November"
-msgstr "Novembre"
-
-#: .\venv\Lib\site-packages\django\utils\dates.py:78
-#, fuzzy
-#| msgid "December"
-msgctxt "alt. month"
-msgid "December"
-msgstr "Décembre"
-
-#: .\venv\Lib\site-packages\django\utils\ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\text.py:70
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: .\venv\Lib\site-packages\django\utils\text.py:289
-#: .\venv\Lib\site-packages\django\utils\timesince.py:135
-msgid ", "
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:8
-#, python-format
-msgid "%(num)d year"
-msgid_plural "%(num)d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:9
-#, python-format
-msgid "%(num)d month"
-msgid_plural "%(num)d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:10
-#, python-format
-msgid "%(num)d week"
-msgid_plural "%(num)d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:11
-#, python-format
-msgid "%(num)d day"
-msgid_plural "%(num)d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:12
-#, python-format
-msgid "%(num)d hour"
-msgid_plural "%(num)d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\utils\timesince.py:13
-#, python-format
-msgid "%(num)d minute"
-msgid_plural "%(num)d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:29
-msgid "Forbidden"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:30
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:34
-msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:40
-msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:45
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the “Referrer-Policy: no-referrer” header, please remove them. The "
-"CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a "
-"rel=\"noreferrer\" …> for links to third-party sites."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:54
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:60
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\csrf.py:66
-msgid "More information is available with DEBUG=True."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
-msgid "No year specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
-#, fuzzy
-#| msgid "Date of birth"
-msgid "Date out of range"
-msgstr "Date de naissance"
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
-msgid "No month specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
-msgid "No day specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
-msgid "No week specified"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:349
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:380
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:652
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\dates.py:692
-#, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:70
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:77
-#, fuzzy, python-format
-#| msgid "Page %(page_num)s of %(total_pages)s."
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr "Page %(page_num)s sur %(total_pages)s."
-
-#: .\venv\Lib\site-packages\django\views\generic\list.py:169
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:48
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:50
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\static.py:67
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
-#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:220
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:221
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" "
-"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
-"configured any URLs."
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:229
-msgid "Django Documentation"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:230
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:238
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:239
-msgid "Get started with Django"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:247
-msgid "Django Community"
-msgstr ""
-
-#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:248
-msgid "Connect, get help, or contribute"
-msgstr ""
+msgstr "Messages"
 
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:19
 msgid "Confirm selection"
@@ -3322,6 +2354,79 @@ msgstr "Créer un élément"
 msgid "A valid timezone is required."
 msgstr "Un fuseau horaire valide est requis"
 
+#~ msgid ""
+#~ "\n"
+#~ "                        <span>You are not allowed to view this page. "
+#~ "Please sign in with authorized account or</span>\n"
+#~ "                        <span><a href=\"/\">return to site</a></span>\n"
+#~ "                    "
+#~ msgstr ""
+#~ "\n"
+#~ "                        <span>Vous n'êtes pas autorisé à voir cette page. "
+#~ "Merci de vous reconnecter avec un autre compte ou</span>\n"
+#~ "                        <span><a href=\"/\">revenez au site.</a></span>\n"
+#~ "                    "
+
+#~ msgid "Sign In"
+#~ msgstr "Se connecter"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "  Please sign in with one of your existing third party accounts.\n"
+#~ "  Or, <a href=\"%(signup_url)s\">sign up</a> for a %(site_name)s account "
+#~ "and sign in below:\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "  Veuillez vous connecter avec l'un de vos comptes tiers existants.\n"
+#~ "  Ou, <a href=\"%(signup_url)s\">inscrivez-vous</a> pour un compte "
+#~ "%(site_name)s et connectez-vous ci-dessous :\n"
+#~ "  "
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "  If you have not created an account yet, then please <a "
+#~ "href=\"%(signup_url)s\">sign up</a> first.\n"
+#~ "  "
+#~ msgstr ""
+#~ "\n"
+#~ "  Si vous n'avez pas encore créé de compte, veuillez d'abord <a "
+#~ "href=\"%(signup_url)s\">vous inscrire</a>.\n"
+#~ "  "
+
+#~ msgid ""
+#~ "\n"
+#~ "                        <span>You are not allowed to view this page, "
+#~ "please sign in with an authorized account or<br></span>\n"
+#~ "                        <span><a href=\"/\">return to site</a></span>\n"
+#~ "                    "
+#~ msgstr ""
+#~ "\n"
+#~ "                        <span>Vous n'êtes pas autorisés à voir cette page, "
+#~ "merci de vous connecter avec un autre compte ou<br></span>\n"
+#~ "                        <span><a href=\"/\">revenez au site.</a></span>\n"
+#~ "                    "
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "                        <span>Already have an account? Please</span>\n"
+#~ "                        <span><a href=\"%(login_url)s\">sign in.</"
+#~ "a><span>\n"
+#~ "                    "
+#~ msgstr ""
+#~ "\n"
+#~ "                        <span>Vous avez déjà un compte ? Veuillez vous</"
+#~ "span>\n"
+#~ "                        <span><a href=\"%(login_url)s\">connecter.</"
+#~ "a><span>\n"
+#~ "                    "
+
+#~ msgid "Intranet Dashboard"
+#~ msgstr "Tableau de bord de l'intranet"
+
 #~ msgid "Base item"
 #~ msgstr "Élément de base"
 
@@ -3331,20 +2436,11 @@ msgstr "Un fuseau horaire valide est requis"
 #~ msgid "Administration page"
 #~ msgstr "Page d'administration"
 
-#, fuzzy
-#~| msgid "introduction"
-#~ msgid "Administration"
-#~ msgstr "introduction"
-
-#, fuzzy
-#~| msgid "Amicale Tags"
 #~ msgid "Amicale page"
-#~ msgstr "Balises Amicale"
+#~ msgstr "Page de l'Amicale"
 
-#, fuzzy
-#~| msgid "Amicale Tags"
 #~ msgid "Amicale"
-#~ msgstr "Balises Amicale"
+#~ msgstr "Amicale"
 
 #~ msgid "FAQ page"
 #~ msgstr "Page FAQ"
@@ -3435,9 +2531,6 @@ msgstr "Un fuseau horaire valide est requis"
 
 #~ msgid "Post date"
 #~ msgstr "Date de publication"
-
-#~ msgid "Blog information"
-#~ msgstr "Informations sur le blog"
 
 #~ msgid "Page informations"
 #~ msgstr "Informations sur la page"
