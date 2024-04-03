@@ -1416,12 +1416,12 @@ msgstr "Calendrier Google"
 #: .\templates\mailing\mailing_form.html:178
 #: .\templates\mailing\mailing_form.html:222
 msgid "Sending…"
-msgstr "Envoi…"
+msgstr "Envoi de mails…"
 
 #: .\templates\mailing\mailing_form.html:181
 #: .\templates\mailing\mailing_form.html:225
 msgid "Send mails"
-msgstr ""
+msgstr "Envoyer les mails"
 
 #: .\templates\mailing\mailing_form.html:184
 msgid ""
