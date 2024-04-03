@@ -1421,7 +1421,7 @@ msgstr "Envoi de mails…"
 #: .\templates\mailing\mailing_form.html:181
 #: .\templates\mailing\mailing_form.html:225
 msgid "Send mails"
-msgstr "Envoyer les mails"
+msgstr "Envoi des mails"
 
 #: .\templates\mailing\mailing_form.html:184
 msgid ""
