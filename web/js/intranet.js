@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const profile = document.querySelector('ul.profile > .avatar');
     if (profile) {
         profile.addEventListener('click', function (event) {
-            console.log('click')
             profile.closest('ul').classList.toggle('cgs-open');
         });
     }
@@ -214,5 +213,24 @@ document.addEventListener('DOMContentLoaded', function () {
             searchIn.classList.add('cgs-hidden');
             searchOut.classList.remove('cgs-hidden');
         });
+    }
+
+    // Gestion de la courbure du formulaire de recherche
+    const recherche = document.getElementById('searchColumn');
+    if (recherche) {
+        const resizeObserver = new ResizeObserver(VerticalWave);
+        resizeObserver.observe(recherche);        
+    }
+        
+    // Mise en forme de la vague du formulaire de recherche
+    function VerticalWave() {
+        const width = recherche.offsetWidth;
+        const height = recherche.offsetHeight;
+
+        const Yscale = 1.1 / (160 / width);
+        const Xscale = 1 / (800 / height);
+
+        document.documentElement.style.setProperty('--courbure-scaling-x', Xscale);
+        document.documentElement.style.setProperty('--courbure-scaling-y', Yscale);        
     }
 });

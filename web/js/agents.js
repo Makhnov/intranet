@@ -1,6 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Fichier agents.js chargé");
 
+    const bodyClass = document.body.classList;
+
+    if (bodyClass.contains('page')) {
+        console.log("Liste chargée")
+        cgsPage();
+    }
+    if (bodyClass.contains('item')) {
+        console.log("Item chargé")
+        cgsItem();
+    }
+});
+
+function cgsPage() {
     const urlParams = new URLSearchParams(window.location.search);    
     const selectedCategory = urlParams.get('category');
     const selectedTags = urlParams.getAll('tag');
@@ -13,11 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const activeCategoryDiv = document.getElementById('activeCategory');
         const activeTagsDiv = document.getElementById('activeTags');
         const activeQueryDiv = document.getElementById('activeQuery');
-
-        // console log de toutes les variables fixes : 
-        console.log("selectedTags : ", selectedTags);
-        console.log("selectedCategory : ", selectedCategory);
-        console.log("selectedQuery : ", selectedQuery);    
     
         // Afficher la catégorie active
         if (selectedCategory) {
@@ -123,4 +131,37 @@ document.addEventListener('DOMContentLoaded', function() {
             faqFilterForm.submit();
         }
     }
-});
+}
+
+function cgsItem() {
+    const choiceBlock = document.querySelectorAll('div.cgs-choice-container:not(.reduced)');
+    const choiceBlockReduced = document.querySelectorAll('div.cgs-choice-container.reduced');
+
+    // on itere sur tous les blocks de choix
+    choiceBlock.forEach((block) => manageChoiceBlock(block));
+    choiceBlockReduced.forEach((block) => manageChoiceBlockReduced(block));
+
+    function manageChoiceBlock(block) {
+        const options = block.querySelector("ul.choice-list");
+        const content = block.querySelector("div.cgs-choice-content");
+    
+        // Créer un nouvel observateur de redimensionnement
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                const {width} = entry.contentRect;
+                console.log(`La nouvelle largeur des options est : ${width}`);
+                content.style.maxWidth = `${width}px`;
+            }
+        });
+    
+        // Commencer à observer l'élément options
+        resizeObserver.observe(options);
+    }
+    
+
+    function manageChoiceBlockReduced(block) {
+        console.log("reduced", block);
+        const options = block.querySelector("ul.choice-list");
+        console.log(options);
+    }
+}

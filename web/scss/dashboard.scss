@@ -1,5 +1,5 @@
 :root {
-    --wptest1:hsl(170, 100%, 20%);
+    --wptest1:hsl(170, 90%, 20%);
     --w-color-primary-hue: 170;
     --w-color-primary-saturation: 90%;
     --w-color-primary-lightness: 20%;
@@ -220,6 +220,10 @@
     .w-form-width {
         max-width: none!important;
     }
+    .w-field__wrapper {
+        max-width: none!important;
+    }
+
 }
 
 // Message d'avertissement
@@ -322,42 +326,45 @@ div.handsontable.htRowHeaders.htColumnHeaders {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: stretch;
+    justify-content: space-evenly;
+    column-gap: 5%;
 }
 
-.cgs-col0, .cgs-col1, .cgs-col2, .cgs-col3, .cgs-col4, .cgs-col6, .cgs-col8, .cgs-col9, .cgs-col10, .cgs-col11, .cgs-col12 {
-    display: inline-block;    
+.cgs-column0, .cgs-column1, .cgs-column2, .cgs-column3, .cgs-column4, .cgs-column6, .cgs-column8, .cgs-column9, .cgs-column10, .cgs-column11, .cgs-column12 {
+    display: inline-block;
+    height:100%;    
 }
 
-.cgs-col12, .cgs-col11 {
+.cgs-column12, .cgs-column11 {
     width: 100%;   
 }
-.col12 {
+.column12, .cgs-column11 {
     padding-inline-end: 0!important;
     padding-inline-start: 0!important;
 }
-.cgs-col10 {
-    width: 83.3333333333%;   
+.cgs-column10 {
+    width: calc(500% / 6 - 5%);   
 }
-.cgs-col9 {
-    width: 75%;   
+.cgs-column9 {
+    width: 70%;
 }
-.cgs-col8 {
-    width: 66.6666666667%;   
+.cgs-column8 {
+    width: calc(200% / 3 - 5%);   
 }
-.cgs-col6 {
-    width: 50%;   
+.cgs-column6 {
+    width: 47.5%;
 }
-.cgs-col4 {
-    width: 33.3333333333%;   
+.cgs-column4 {
+    max-width: calc(90% / 3);   
 }
-.cgs-col3 {
-    width: 25%;   
+.cgs-column3 {
+    max-width: 20%;
 }
-.cgs-col2 {
-    width: 16.6666666667%;   
+.cgs-column2 {
+    max-width:calc(100% / 6);
 }
-.cgs-col0, .cgs-col1 {
-    width: 0%;   
+.cgs-column0, .cgs-column1 {
+    max-width: 0%;
 }
 
 // EDITION DES USERS

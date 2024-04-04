@@ -1,33 +1,29 @@
 {% extends "agents/faq_base.html" %}
 {% load wagtailcore_tags wagtailimages_tags %}
 
-{% block body_class %}cgs-faq page{% endblock %}
+{% block body_class %}cgs-faq item{% endblock %}
 
 {% block content %}
     <main class="main-content">
         <div class="cgs-container cgs-faq">
-            <div class="cgs-page">
-                <!-- Affiche le titre de la FAQ -->
-                <h2>{{ page.title }}</h2>
+            <div class="cgs-page">                
+                {% comment %} Affiche le titre de la page (La question dans le CMS) {% endcomment %}
+                <div class="faq-question">
+                    <h1>{{ page.question }}</h1>
+                </div>
                 
-                <!-- Affiche la catégorie de la FAQ, si elle existe -->
+                {% comment %} Affiche la catégorie de la FAQ, si elle existe {% endcomment %}
                 {% if page.category %}
                     <div class="faq-category">
                         Catégorie: {{ page.category }}
                     </div>
                 {% endif %}
                 
-                <!-- Affiche la question de la FAQ -->
-                <div class="faq-question">
-                    <h3>Question : {{ page.question }}</h3>
-                </div>
-                
-                <!-- Affiche la(es) réponse(s) de la FAQ -->
+                {% comment %} Affiche la(es) réponse(s) de la FAQ {% endcomment %}
                 <div class="faq-answers">
-                    <h3>Réponse(s) :</h3>
                     {% for block in page.answer %}
                         {% if block.block_type == 'single_answer' %}
-                            <div class="cgs-single cgs-answer">
+                            <div class="single-container cgs-single cgs-answer">
                                 {% include "widgets/blocks/streamfield.html" with value=block.value %}
                             </div>                        
                         {% elif block.block_type == 'multiple_answer' %}
@@ -38,30 +34,34 @@
                     {% endfor %}
                 </div>
                 
-                <!-- Affiche les FAQ liées, si elles existent -->
+                {% comment %} Affiche les FAQ liées, si elles existent {% endcomment %}
                 {% if page.related %}
                     <div class="faq-related">
-                        <h3>Thèmes similaires</h3>
+                        <h2>Thèmes similaires</h2>
                         {% for block in page.related %}
                             {% include_block block %}
                         {% endfor %}
                     </div>
                 {% endif %}
                 
-                <!-- Affiche les textes de loi liés, si ils existent -->
+                {% comment %} Affiche les textes de loi liés, si ils existent {% endcomment %}
                 {% if page.law_texts %}
-                    <div class="faq-law-texts">
-                        <h3>Textes de loi</h3>
-                        {% for block in page.law_texts %}
-                            {% include_block block %}
-                        {% endfor %}
+                    <div class="faq-law-texts">                        
+                        <div class="law-block primary">
+                            <h2 class="cgs-button faq-law" title="Afficher">Textes de loi</h2>                            
+                            <div class="law-content">
+                                {% for block in page.law_texts %}                                    
+                                    <div><a href="{{ block.value.text_link }}">{{ block.value.text_name }}</a></div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
                 
-                <!-- Affiche les tags liés à la FAQ, si ils existent -->
+                {% comment %} Affiche les tags liés à la FAQ, si ils existent {% endcomment %}
                 {% if page.tags.all %}
                     <div class="faq-tags">
-                        <h3>Tags</h3>
+                        <h2>Tags</h2>
                         {% for tag in page.tags.all %}
                             <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">
                                 <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
@@ -73,7 +73,7 @@
                 {% endif %}
             </div>
 
-            <!-- Affiche les pages de FAQ par catégorie -->
+            {% comment %} Affiche les pages de FAQ par catégorie {% endcomment %}
             <div class="faq-category-index">
                 {% for category in page.faqpages %}
                     <div class="faq-category-item">
@@ -82,7 +82,7 @@
                 {% endfor %}
             </div>
 
-            <!-- Affiche les pages de FAQ par tag -->
+            {% comment %} Affiche les pages de FAQ par tag {% endcomment %}
             <div class="faq-tag-index">
                 {% for tag in page.faqpages %}
                     <div class="faq-tag-item">

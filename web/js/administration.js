@@ -9,11 +9,6 @@ document.addEventListener("DOMContentLoaded", function() {
         cgsMenu();
     }
 
-    // Page de listing et de recherche des convocations et des comptes-rendus
-    if (bodyClass.includes('list')) {
-        cgsList();
-    }
-
     // Page de visualisation des convocations et des comptes-rendus
     if (bodyClass.includes('doc')) {
         cgsDoc();
@@ -39,13 +34,6 @@ function cgsList() {
         actionButtons();
     }
 
-    // Gestion de la courbure du formulaire de recherche
-    const recherche = document.getElementById('searchColumn');
-    if (recherche) {
-        const resizeObserver = new ResizeObserver(VerticalWave);
-        resizeObserver.observe(recherche);        
-    }
-
     // Gestion des boutons d'actions
     function actionButtons() {
         const copy = document.getElementById("cgs-copy");
@@ -56,7 +44,7 @@ function cgsList() {
             copy.addEventListener("click", copyMails);
         }
     }
-
+    
     // Copie des emails
     function copyMails() {
         const emailSpans = document.querySelectorAll("#emailsContainer .email");
@@ -70,18 +58,6 @@ function cgsList() {
             console.error('Erreur lors de la copie', err);
         });
     }  
-    
-    // Mise en forme de la vague du formulaire de recherche
-    function VerticalWave() {
-        const width = recherche.offsetWidth;
-        const height = recherche.offsetHeight;
-
-        const Yscale = 1.1 / (160 / width);
-        const Xscale = 1 / (800 / height);
-
-        document.documentElement.style.setProperty('--courbure-scaling-x', Xscale);
-        document.documentElement.style.setProperty('--courbure-scaling-y', Yscale);        
-    }
 }
 
 // Gestion des documents

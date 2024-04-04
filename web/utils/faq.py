@@ -2,6 +2,7 @@
 from wagtail.blocks import (
     URLBlock,
     CharBlock,
+    BooleanBlock,
     RichTextBlock,
     StreamBlock,
     StructBlock,
@@ -20,6 +21,7 @@ from utils.streamfield import (
     CustomEmbedBlock as EmbedBlock,
     CustomPDFBlock as PDFBlock,
     CustomDOCXBlock as DOCXBlock,
+    CustomButtonBlock as ButtonBlock,
 )
 
 # Tables
@@ -35,6 +37,11 @@ class FaqLaw(StructBlock):
     text_name = CharBlock(required=True, max_length=255, label=_("Law text reference"))
     text_link = URLBlock(required=True, label=_("Law text link"))
     
+    class Meta:
+        verbose_name = _("Law text")
+        verbose_name_plural = _("Law texts")
+        icon = "doc-full"
+        
 ############################
 ## STRUCTURE DES REPONSES ##
 ############################ 
@@ -69,17 +76,25 @@ class SimpleAnswerBlock(StreamBlock):
     def __init__(self, *args, **kwargs):
         super().__init__([
             ("heading", CharBlock(classname="title", icon="title", label=_("Heading"))),
-            ("paragraph", RichTextBlock(icon="pilcrow", label=_("Paragraph"))),
+            ("paragraph", RichTextBlock(
+                icon="pilcrow", 
+                label=_("Paragraph"),
+                editor="full",
+                )),
             ("media", MediaBlock(icon="media", label=_("Media"))),
             ("image", ImageChooserBlock(icon="image", label=_("Image"))),
             ("document", DocumentChooserBlock(icon="doc-full", label=_("Document"))),
             ("link", LinkBlock(icon="link", label=_("Link"))),
+            ("button", ButtonBlock(icon="button", label=_("Button"))),
             ("embed", EmbedBlock(icon="media", label=_("Embed"))),
             ("list", ListBlock(CharBlock(icon="list-ul", label=_("List Item")), icon="list-ul", label=_("List"))),
             ("quote", BlockQuoteBlock(icon="openquote", label=_("Quote"))),
             ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table", label=_("Table"))),
-        ], icon="doc-full", label=_("Simple answer"), required=False, *args, **kwargs)
-
+        ], icon="doc-full", label=_("Simple answer"), required=False *args, **kwargs)
+        
+    class Meta:
+        form_classname = 'simple-block' 
+        
 def choice_block():
     return CharBlock(
         required=False,
@@ -100,12 +115,18 @@ def step_block():
         ),
     )    
 
-def intro_block():
-    return CharBlock(
+def reduce_chooice_block():
+    return BooleanBlock(
         required=False,
-        search_index=True,
-        label=_("Introduction"),
-        icon="pilcrow",
+        label=_("Size reduction"),
+        help_text=_("Check this box if you want to create a smaller version of choice answer (Perfect for the choices inside another choice answer)"),
+    )
+
+def ordonnated_step_block():
+    return BooleanBlock(
+        required=False,
+        label=_("Ordonnated steps"),
+        help_text=_("Check this box if you want to create an ordonnated version of step answer (Step 1, Step 2, Step 3, etc.)"),
     )
 
 def multiple_answer_block(f1, f2):
@@ -120,31 +141,32 @@ def multiple_answer_block(f1, f2):
         search_index=True,
     )
 
-def list_block(f, str):
-    return ListBlock(f, label=_("Click on the + below to add another " + str))
+def list_block(f, element, liste):
+    return ListBlock(f, label=("Ajouter " + element), help_text=("Cliquez sur le + ci-dessous pour ajouter " + element + liste))
 
-class StepBlockSecondary(StructBlock):
-    step_item = step_block()
-    step_answer = SimpleAnswerBlock()
-    class Meta:
-        label = _("Step")
-        
+
 class ChoiceBlockSecondary(StructBlock):
     choice_item = choice_block()
     choice_answer = SimpleAnswerBlock()
     class Meta:
         label = _("Condition")
         
-class ChoiceAnswerBlockSecondary(StructBlock):
-    choices_intro = intro_block()
-    choices = list_block(ChoiceBlockSecondary, "condition")  
+class StepBlockSecondary(StructBlock):
+    step_item = step_block()
+    step_answer = SimpleAnswerBlock()
     class Meta:
-        icon = "help"
+        label = _("Step")
+        
+class ChoiceAnswerBlockSecondary(StructBlock):
+    reduction = reduce_chooice_block()
+    choices = list_block(ChoiceBlockSecondary, "une option", " dans vos conditions")  
+    class Meta:
+        icon = "choice"
         label = _("Conditonnal answer")
         
 class StepAnswerBlockSecondary(StructBlock):
-    steps_intro = intro_block()
-    steps = list_block(StepBlockSecondary, "step")
+    ordonnated = ordonnated_step_block()
+    steps = list_block(StepBlockSecondary, "un élément", " dans votre liste")
     class Meta:
         icon = "tasks"
         label = _("Step answer")
@@ -156,23 +178,21 @@ class ChoiceBlock(StructBlock):
         label = _("Condition")
     
 class ChoiceAnswerBlock(StructBlock):
-    choices_intro = intro_block()
-    choices = list_block(ChoiceBlock, "condition")
+    reduction = reduce_chooice_block()
+    choices = list_block(ChoiceBlock, "une option", " dans vos conditions")
     class Meta:
-        icon = "help"
+        icon = "choice"
         label = _("Conditonnal answer")
         
-# Bloc de réponse par étape
 class StepBlock(StructBlock):
     step_item = step_block()
     step_answer = multiple_answer_block(ChoiceAnswerBlockSecondary(), StepAnswerBlockSecondary())
     class Meta:
         label = _("Step")
         
-# Bloc de réponse à choix multiples
 class StepAnswerBlock(StructBlock):
-    steps_intro = intro_block()
-    steps = list_block(StepBlock, "step")
+    ordonnated = ordonnated_step_block()
+    steps = list_block(StepBlock, "un élément", " dans votre liste")
     class Meta:
         icon = "tasks"
         label = _("Step answer")

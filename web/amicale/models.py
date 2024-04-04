@@ -224,7 +224,7 @@ class AmicalePage(Page):
         InlinePanel(
             "amicale_gallery",
             label=_("Image"),
-            heading=_("Gallery images"),
+            heading=_("Gallery"),
             classname="collapsible",
         ),
         FieldPanel("use_map"),

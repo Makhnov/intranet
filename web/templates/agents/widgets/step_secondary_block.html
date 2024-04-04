@@ -1,26 +1,39 @@
 {% load wagtailcore_tags %}
 
 {% with value as block %}
-    <div class="faq-step-secondary cgs-secondary cgs-step">
-        <div class="steps-intro">
-            <!-- Affiche l'introduction des sous-étapes si elle existe -->
-            INTRO : {{ block.steps_intro|richtext }}
-        </div>
-        <ol class="steps-list">
+    {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
+    <div class="container faq-step-answers secondary cgs-step secondary">
+        {% comment %} CONTENEUR DES ETAPES {% endcomment %}
+        {% if block.ordonnated %}
+            <div class="cgs-step-container secondary ordonnated">
+                <ol class="step-list secondary">
+        {% else %}
+            <div class="cgs-step-container secondary">
+                <ul class="step-list secondary">
+        {% endif %}
+
+            {% comment %} ETAPES {% endcomment %}
             {% for item in block.steps %}
-                <li class="step-item">
-                    <div class="step-name cgs-swap">
+                <li class="step-item secondary">
+                    <div class="step-name cgs-swap secondary">
                         {{ item.step_item }}
-                        <a class="cgs-button cgs-swapable" title="Afficher">
+                        <a class="cgs-button cgs-swapable secondary" title="Afficher">
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
                         </a>
                     </div>
-                    <div class="step-answer cgs-answer cgs-swap-hidden">
+                    <div class="single-container step-answer cgs-answer tertiary cgs-swap-hidden">
                         {% include "widgets/blocks/streamfield.html" with value=item.step_answer %}
                     </div>
                 </li>
             {% endfor %}
-        </ol>
+
+        {% if block.ordonnated %}
+                </ol>
+            </div>                    
+        {% else %}
+                </ul>
+            </div>
+        {% endif %}  
     </div>
 {% endwith %}

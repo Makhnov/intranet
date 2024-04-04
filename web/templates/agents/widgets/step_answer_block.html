@@ -1,25 +1,30 @@
 {% load wagtailcore_tags %}
 
 {% with value as block %}
-    <div class="faq-step-answers cgs-primary cgs-step">
-        <div class="steps-intro">
-            <!-- Affiche l'introduction des étapes si elle existe -->
-            INTRO : {{ block.steps_intro|richtext }}
-        </div>
-        <ol class="steps-list">
+    {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
+    <div class="container faq-step-answers primary cgs-step">
+        {% comment %} CONTENEUR DES ETAPES {% endcomment %}
+        {% if block.ordonnated %}
+            <div class="cgs-step-container primary ordonnated">
+                <ol class="step-list primary">   
+        {% else %}
+            <div class="cgs-step-container primary">
+                <ul class="step-list primary">
+        {% endif %}
+            {% comment %} ETAPES {% endcomment %}
             {% for item in block.steps %}
-                <li class="step-item">
-                    <div class="step-name cgs-swap">
+                <li class="step-item primary">
+                    <div class="step-name cgs-swap primary">
                         {{ item.step_item }}
-                        <a class="cgs-button cgs-swapable" title="Afficher">
+                        <a class="cgs-button cgs-swapable primary" title="Afficher">
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
                         </a>
                     </div>
-                    <div class="step-answer cgs-answer cgs-swap-hidden">
+                    <div class="step-answer cgs-answer primary cgs-swap-hidden">
                         {% for inner_block in item.step_answer %}
                             {% if inner_block.block_type == 'single_answer' %}
-                                <div class="cgs-single cgs-answer">
+                                <div class="single-container cgs-single cgs-answer secondary">
                                     {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
                                 </div>     
                             {% elif inner_block.block_type == 'multiple_answer' %}
@@ -31,6 +36,13 @@
                     </div>
                 </li>
             {% endfor %}
-        </ol>
+
+        {% if block.ordonnated %}
+                </ol>
+            </div>                    
+        {% else %}
+                </ul>
+            </div>
+        {% endif %}  
     </div>
 {% endwith %}

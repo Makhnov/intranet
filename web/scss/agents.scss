@@ -1,23 +1,87 @@
-.cgs-button img, .cgs-button svg {
-    cursor: pointer;
-    height: 1.5em;
-    width: auto;
-    aspect-ratio: 1/1;
+body.item .cgs-page {
+    margin:0 5%;
 }
 
+li.choice-item, li.step-item {
+    list-style: none;
+}
 
-.choices-tabs {
-    .choice-tab {
-        display: inline-block;
-        margin-right: 10px;
-        cursor: pointer;
+code {
+    display: block;
+    font-size: .75rem;        
+}
 
-        &:hover {
-            background-color: #f0f0f0;
-        }
+h1 {
+    width: 100%;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+div.faq-category {
+    margin: 1rem 0;
+}
+
+.container {    
+    &.primary {
+        margin: 0 0 3rem 0;
+    }
+    &.secondary {
+        margin: 0 0 2rem 1rem;
+    }
+}
+.single-container {
+    &.primary {
+        margin: 0 0 2rem 0;
+    }
+    &.secondary {
+        margin: 0 0 1rem 0;
+    }
+    &.tertiary {
+        margin: 0 0 .5rem 0;
     }
 }
 
+div.cgs-multiple {
+    width: fit-content;
+}
+
+.cgs-choice-container{
+    &:not(.reduced).primary {
+
+    }
+    &:not(.reduced).secondary {
+    }
+    &.reduced.primary {
+    }
+    &.reduced.secondary {
+    }
+}
+
+.cgs-choice-options:not(.reduced) {    
+    ul.choice-list {
+        width: fit-content;
+        min-width:400px;
+        display:flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        background-color: red;
+        margin:0;
+        padding:5px 0;
+
+        li.choice-item {
+            cursor: pointer;
+            width:190px;
+            margin: 0 5px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            &:hover {
+                background-color: #e0e0e0;
+            }
+        }
+    }
+}
 cgs-quickbar {
     .cgs-search-menu {
         display: flex;
@@ -30,4 +94,11 @@ cgs-quickbar {
         width: auto;
         aspect-ratio: 1/1;
     }
+}
+
+.cgs-button img, .cgs-button svg {
+    cursor: pointer;
+    height: 1.5em;
+    width: auto;
+    aspect-ratio: 1/1;
 }

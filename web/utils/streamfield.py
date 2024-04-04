@@ -312,3 +312,58 @@ class CustomMediaBlock(AbstractMediaChooserBlock):
             value.width,
             value.height,
         )
+
+# Bloc bouton
+class CustomButtonBlock(StructBlock):
+    url = URLBlock(
+        required=True,
+        label=_("URL"),
+        help_text=_("Enter the URL."),
+    )
+    text = CharBlock(
+        required=False,
+        label=_("Button text"),
+        help_text=_("Enter the visible text for this link (optional)."),
+    )
+    position = ChoiceBlock(
+        choices=[
+            ("cgs-center", _("Center")),
+            ("cgs-left", _("Left")),
+            ("cgs-right", _("Right")),
+        ],
+        default="center",
+        label=_("Button position"),
+        help_text=_("Horizontal alignment."),
+    )
+    color = ChoiceBlock(
+        choices=[
+            ("cgs-green", _("Green")),
+            ("cgs-darkgreen", _("Dark Green")),
+            ("cgs-cyan", _("Cyan")),
+            ("cgs-light", _("Light")),
+            ("cgs-orange", _("Orange")),
+        ],
+        default="cgs-green",
+        label=_("Button color"),
+        help_text=_("Optionnal, default is green."),
+    )
+    icon = ImageChooserBlock(
+        required=False,
+        icon="image", 
+        label=_("Button image"),
+        help_text=_("Optionnal"),
+    )
+
+    class Meta:
+        icon = "button"
+        label = _("Button")
+        form_classname = "button-block"
+        
+        
+# # Couleur des bouton et des H 
+# BUTTON_COLORS = {
+#     'cgs-green': "Vert", #008770   
+#     'cgs-cyan': "Cyan", #00b3be
+#     'cgs-light': "Vert d'eau", #b7e5df
+#     'cgs-orange' : "", #fa8647
+# }

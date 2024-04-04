@@ -1970,7 +1970,7 @@ msgstr "Texte de loi"
 
 #: .\utils\faq.py:87
 msgid "Embed"
-msgstr ""
+msgstr "Intégration"
 
 #: .\utils\faq.py:91
 msgid "Simple answer"
@@ -1978,27 +1978,27 @@ msgstr "Réponse simple"
 
 #: .\utils\faq.py:97
 msgid "Criteria"
-msgstr "Critères"
+msgstr "Critère"
 
 #: .\utils\faq.py:99
 msgid ""
 "User select the criteria wich fits to his situation, it will allow him to "
 "see related answer(s). Mandatory."
 msgstr ""
-"L'utilisateur sélectionne les critères qui correspondent à sa situation, "
-"ceci lui permettra de voir la/les réponse(s) associée(s). Obligatoire."
+"L'utilisateur clique sur le critère qui l'intéresse ce qui lui permet, "
+"d'afficher la/les réponse(s) associée(s), c'est un champ obligatoire."
 
 #: .\utils\faq.py:107
 msgid "Step name"
-msgstr "Nom de l'étape"
+msgstr "Intitulé"
 
 #: .\utils\faq.py:109
 msgid ""
 "User click on each steps names to open it and see related answer(s). "
 "Mandatory."
 msgstr ""
-"L'utilisateur clique sur chaque nom d'étape pour l'ouvrir et voir les "
-"réponse(s) associée(s). Obligatoire."
+"L'utilisateur clique sur un intitulé pour afficher ou masquer la/es "
+"réponse(s) associée(s), c'est un champ obligatoire."
 
 #: .\utils\faq.py:117
 msgid "Introduction"
@@ -2014,19 +2014,19 @@ msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
 
 #: .\utils\faq.py:140 .\utils\faq.py:180
 msgid "Step"
-msgstr "Étape"
+msgstr "Élément"
 
 #: .\utils\faq.py:146 .\utils\faq.py:166
 msgid "Condition"
-msgstr "Condition"
+msgstr "Option"
 
 #: .\utils\faq.py:153 .\utils\faq.py:173
 msgid "Conditonnal answer"
-msgstr "Réponse conditionnelle"
+msgstr "Réponse optionnelle"
 
 #: .\utils\faq.py:160 .\utils\faq.py:188
 msgid "Step answer"
-msgstr "Réponse à étapes"
+msgstr "Réponse en liste"
 
 #: .\utils\imports.py:38
 msgid "Left"

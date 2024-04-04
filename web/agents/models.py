@@ -142,7 +142,7 @@ class FaqPage(Page):
     )
     law_texts = StreamField(
         [
-            ('law_text', FaqLaw()),
+            ('law_text', FaqLaw(label=_("Law text"))),
         ],
         use_json_field=True,
         null=True,
@@ -158,10 +158,10 @@ class FaqPage(Page):
 
     content_panels = custom_content_panels(["title"]) + [
         FieldPanel("category"),
-        FieldPanel("question", icon="help"),
-        FieldPanel("answer", icon="doc-full"),
-        FieldPanel("related", icon="link"),
-        FieldPanel("law_texts", icon="doc-full-inverse"),
+        FieldPanel("question", icon="question"),
+        FieldPanel("answer", icon="answer"),
+        FieldPanel("related", icon="related"),
+        FieldPanel("law_texts", icon="law"),
         FieldPanel("tags"),
     ]
 

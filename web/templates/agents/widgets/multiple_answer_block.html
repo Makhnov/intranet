@@ -1,36 +1,69 @@
 {% load wagtailcore_tags %}
 
 {% with value as block %}
-    <div class="faq-multiple-answers cgs-primary cgs-multiple">
-        <div class="choices-intro">
-            <!-- Affiche l'introduction des choix si elle existe -->
-            INTRO : {{ block.choices_intro|richtext }}
-        </div>
-        <div class="choices-tabs">
-            {% for item in block.choices %}
-                <div class="choice-tab" data-target="primary-answer-{{ forloop.counter }}">
-                    <!-- Affiche le critère/la condition pour ce choix -->
-                    {{ item.choice_item }}
-                </div>
-            {% endfor %}
-        </div>
-        <div class="choices-content">
-            {% for item in block.choices %}
-                <div class="choice-answer cgs-answer" id="primary-answer-{{ forloop.counter }}">
-                    {% for inner_block in item.choice_answer %}
-                        <!-- Détermine le type de réponse et inclut le template correspondant -->
-                        {% if inner_block.block_type == 'single_answer' %}
-                            <div class="cgs-single cgs-answer">
-                                {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
-                            </div>     
-                        {% elif inner_block.block_type == 'multiple_answer' %}
-                                {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}
-                        {% elif inner_block.block_type == 'step_answer' %}
-                                {% include "agents/widgets/step_secondary_block.html" with value=inner_block.value %}
+    {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
+    <div class="container faq-multiple-answers primary cgs-multiple">
+        {% comment %} CONTENEUR GENERAL {% endcomment %}
+        {% if block.reduction %}
+            <div class="cgs-choice-container primary reduced">
+        {% else %}
+            <div class="cgs-choice-container primary">
+        {% endif %}            
+                
+            {% comment %} CONTENEUR DES OPTIONS {% endcomment %}
+            {% if block.reduction %}
+                <div class="cgs-choice-options primary reduced">
+            {% else %}
+                <div class="cgs-choice-options primary">
+            {% endif %}
+                {% comment %} OPTIONS {% endcomment %}
+                <ul class="choice-list primary">
+                    {% for item in block.choices %}
+                        {% if forloop.counter == 1 %}
+                            <li class="choice-item cgs-selected primary">
+                        {% else %}
+                            <li class="choice-item primary">
                         {% endif %}
+                            <div class="option primary" data-target="option-{{ forloop.counter }}">                                    
+                                {{ item.choice_item }}
+                            </div>
+                        </li>
                     {% endfor %}
+                </ul>
+            </div>
+
+            {% comment %} CONTENEUR DU CONTENU {% endcomment %}
+            {% for item in block.choices %}
+                {% if forloop.counter == 1 %}
+                    {% if block.reduction %}
+                        <div class="cgs-choice-content primary reduced">
+                    {% else %}
+                        <div class="cgs-choice-content primary">
+                    {% endif %}  
+                {% else %}
+                    {% if block.reduction %}
+                        <div class="cgs-choice-content cgs-hidden primary reduced">
+                    {% else %}
+                        <div class="cgs-choice-content cgs-hidden primary">
+                    {% endif %}  
+                {% endif %}
+              
+                {% comment %}CONTENU {% endcomment %}
+                    <div class="choice-answer cgs-answer primary" id="content-{{ forloop.counter }}">
+                        {% for inner_block in item.choice_answer %}
+                            {% if inner_block.block_type == 'single_answer' %}
+                                <div class="single-container cgs-single cgs-answer secondary">
+                                    {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
+                                </div>     
+                            {% elif inner_block.block_type == 'multiple_answer' %}
+                                    {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}
+                            {% elif inner_block.block_type == 'step_answer' %}
+                                    {% include "agents/widgets/step_secondary_block.html" with value=inner_block.value %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             {% endfor %}
-        </div>
+        </div>        
     </div>
 {% endwith %}

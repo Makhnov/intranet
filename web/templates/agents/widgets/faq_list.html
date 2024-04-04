@@ -8,10 +8,10 @@
     <h2>Toutes les FAQs</h2>
 {% endif %}
 
-<!-- Itérer directement sur les FAQs regroupées par catégorie depuis le contexte -->
+{% comment %} Itérer directement sur les FAQs regroupées par catégorie depuis le contexte {% endcomment %}
 {% for category, faqs_in_category in faqs.items %}
     <div class="faqCategoryList">
-        <!-- Affichage du titre de la catégorie -->
+        {% comment %} Affichage du titre de la catégorie {% endcomment %}
         <h3 class="mt-4 mb-3 thematique" id="{{ category.id }}">{{ category.title }}</h3>
         <div class="thematique-block">
             {% for faq in faqs_in_category %}

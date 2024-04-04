@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // Fonction de routage lors du chargement d'une page
 function whereAmI() {
     const bodyClass = document.body ? document.body.getAttribute('class') : '';
-    const header = document.querySelector('header');
-    const headerText = header && header.querySelector('h1') ? header.querySelector('h1').textContent : '';    
+    const TITRE = document.title;
+    console.log(TITRE);
     console.log(bodyClass);
 
     // Page d'accueil du Dashboard
@@ -16,7 +16,7 @@ function whereAmI() {
     }
 
     // Pages de l'Amicale (création et édition)
-    if (document.querySelector('#id_use_map')) {
+    if (TITRE.includes('Amicale page')) {
         console.log("Page de l'amicale détectée");
         amicale();
     }
@@ -28,9 +28,9 @@ function whereAmI() {
     }
 
     // Page des FAQ (listes de toutes les questions)
-    if (headerText.includes('Agents') && header.closest('header').classList.contains('w-slim-header')) {
-        console.log("Page de FAQ détectée");
-        faq();
+    if (TITRE.includes('Exploring: Agents (FAQ)')) {
+        console.log("Liste de la FAQ détectée");
+        faqList();
     }
 
     // Page de listing des utilisateurs
@@ -46,23 +46,29 @@ function whereAmI() {
         userElectedUpdate(); 
     }
 
-    // Page de création/édition d'un évènmenet joyous (formulaire action contient joyous/simpleeventpage/)
+    // Page de création/édition d'un évènemenet joyous
     if (document.querySelector("form[action*='joyous/simpleeventpage/'][method='post']")) {
         console.log("Création/édition d'évènement détectée");
         joyousSingleEvent();
     }
 
-    // Page de convocation (vérification de la date)
-    if (headerText.includes('Convocation') && header.closest('header').classList.contains('w-slim-header')) {
+    // Page de convocation
+    if (TITRE.includes('Convocation')) {
         console.log("Page de convocation détectée");
         convocationDate();
     }
 
     // Page de Compte-rendu (Récupération des users de la convocation et import de documents type PDF ou DOCX)
-    if (headerText.includes('Compte-rendu') && header.closest('header').classList.contains('w-slim-header')) {
+    if (TITRE.includes('Compte-rendu')) {
         console.log("Page de compte-rendu détectée");
         compteRenduUsers();
         compteRenduImportBloc();
+    }
+
+    // Page de FAQ
+    if (TITRE.includes('Faq page')) {
+        console.log("Page de FAQ détectée");
+        faqPage();
     }
 }
 
@@ -229,7 +235,7 @@ function quickcreate() {
 }
 
 // Page des FAQ (listes de toutes les questions)
-function faq() {
+function faqList() {
     // On boucle sur les <a> du thead pour modifier le titre
     const As = document.querySelectorAll("thead th a");
     As.forEach(a => {        
@@ -305,6 +311,59 @@ function usersList() {
     
         const rowsTxt = temp + '' + param + '=' + paramVal;
         return baseURL + '?' + newAdditionalURL + rowsTxt;
+    }
+}
+
+// Page de FAQ 
+function faqPage() {
+
+    // Sélectionner le conteneur principal et appliquer le processus
+    const answerSection = document.getElementById('panel-child-contenu-answer-section');
+    if (answerSection) {
+        processButtonBlocks(answerSection);
+    } else {
+        console.warn('Container #panel-child-contenu-answer-section not found');
+    }
+
+    // Fonction pour appliquer les modifications sur les buttonBlock
+    function reworkingButtonBlock(element) {
+        const URLBlock = element.querySelector('[data-contentpath="url"]');        
+        const textBlock = element.querySelector('[data-contentpath="text"]');
+        const positionBlock = element.querySelector('[data-contentpath="position"]');
+        const colorBlock = element.querySelector('[data-contentpath="color"]');
+        const iconBlock = element.querySelector('[data-contentpath="icon"]');
+
+        URLBlock.classList.add('cgs-column6');        
+        textBlock.classList.add('cgs-column6');
+        positionBlock.classList.add('cgs-column4');
+        iconBlock.classList.add('cgs-column4');
+        colorBlock.classList.add('cgs-column4');
+        element.classList.add('cgs-colbox');       
+    }
+
+
+    function processButtonBlocks(container) {
+        // Traiter immédiatement tous les buttonBlock existants
+        container.querySelectorAll('.button-block').forEach(reworkingButtonBlock);
+
+        // Utiliser MutationObserver pour écouter les nouveaux buttonBlock
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1) { // ELEMENT_NODE
+                        if (node.matches('.button-block')) {
+                            reworkingButtonBlock(node);
+                        }
+                        node.querySelectorAll('.button-block').forEach(reworkingButtonBlock);
+                    }
+                });
+            });
+        });
+
+        observer.observe(container, {
+            childList: true,
+            subtree: true
+        });
     }
 }
 
@@ -1140,89 +1199,37 @@ function compteRenduUsers() {
 
 // On remplace les inputs (PDF et Words) par la copie du bouton pour enregistrer un brouillon
 function compteRenduImportBloc() {
-    // On récupère le bloc du streamfield
-    const streamBloc = document.querySelector('#panel-child-contenu-body-content [data-streamfield-stream-container]');
-
-    // Sélectionner tous les éléments du Streamfield (body) qui ont un attribut data-contentpath
-    const initialElements = streamBloc.querySelectorAll(':scope > [data-contentpath]');
-
-    // Filtrer ces éléments pour ne garder que ceux qui contiennent un input[type="hidden"] avec value="PDF" ou "DOCX"
-    const filteredElements = Array.from(initialElements).filter(e => 
-        e.querySelector('input[type="hidden"][value="PDF"]') || e.querySelector('input[type="hidden"][value="DOCX"]')
-    );
-
-    // Ajouter manuellement l'attribut data-observed="true" aux éléments filtrés
-    filteredElements.forEach(e => {
-        e.dataset.observed = true;
-    });
-
-    // Créer un observateur d'intersection
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            // Vérifier si l'élément a un attribut data-contentpath
-            const element = entry.target;
-            if (element.dataset.contentpath && (element.querySelector('input[type="hidden"][value="PDF"]') || element.querySelector('input[type="hidden"][value="DOCX"]'))) {
-                reworking_PDF_DOCX(element);
-                // Arrêter d'observer l'élément car il a déjà été traité
-                observer.unobserve(element);
-            }
-        });
-    }, {
-        // Configurer l'observateur pour qu'il détecte les nouveaux éléments
-        threshold: 0
-    });
-
-    // Observer les enfants directs de streamBloc
-    const children = streamBloc.children;
-    for (let i = 0; i < children.length; i++) {
-        observer.observe(children[i]);
+    const streamBlock = document.querySelector('#panel-child-contenu-body-content [data-streamfield-stream-container]');
+    if (!streamBlock) {
+        console.warn('StreamBlock not found');
+        return;
     }
-    
-    // Créer une fonction pour observer les nouveaux éléments ajoutés à streamBloc
-    const observeNewChildren = () => {
-        const newChildren = streamBloc.querySelectorAll(':scope > *:not([data-observed])');
-        for (let i = 0; i < newChildren.length; i++) {
-            newChildren[i].dataset.observed = true;
-            observer.observe(newChildren[i]);
-        }
-    };
-
-    // Observer les modifications de streamBloc pour détecter les nouveaux éléments ajoutés
-    const mutationObserver = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-            if (mutation.addedNodes.length) {
-                observeNewChildren();
-            }
-        });
-    });
-    mutationObserver.observe(streamBloc, { childList: true });
 
     // Fonction générale pour modifier les blocs d'importation (PDF et DOCS)
-    function reworking_PDF_DOCX(element) {
-        const importBloc = (element.querySelector('[data-contentpath="pdf_import"]') || element.querySelector('[data-contentpath="docx_import"]'));
-        const structBloc = importBloc.parentElement;
+    function reworkingImportBlock(element) {
+        const importBlock = (element.querySelector('[data-contentpath="pdf_import"]') || element.querySelector('[data-contentpath="docx_import"]'));
+        const structBlock = importBlock.parentElement;
 
-        // on récupere la valeur précédent le "_" du contentpath de importBloc
-        const type = importBloc.dataset.contentpath.split('_')[0];
+        // on récupere la valeur précédent le "_" du contentpath de importBlock
+        const type = importBlock.dataset.contentpath.split('_')[0];
 
-        import_display(structBloc, type);
-        import_button(structBloc, type);
+        importDisplay(structBlock, type);
+        importButton(structBlock, type);
     }
-    
+        
     // Mise en page des blocs
-    function import_display(bloc, type) {
-        bloc.classList.add('cgs-colbox');
-        bloc.querySelector(`[data-contentpath="${type}_document"]`).classList.add('cgs-col8');
-        bloc.querySelector(`[data-contentpath="${type}_import"]`).classList.add('cgs-col4');
-        const contentBloc = (bloc.querySelector(`[data-contentpath="pdf_images"]`) || bloc.querySelector(`[data-contentpath="docx_content"]`));
+    function importDisplay(block, type) {
+        block.classList.add('cgs-colbox');
+        block.querySelector(`[data-contentpath="${type}_document"]`).classList.add('cgs-column8');
+        block.querySelector(`[data-contentpath="${type}_import"]`).classList.add('cgs-column4');
+        const contentBloc = (block.querySelector(`[data-contentpath="pdf_images"]`) || block.querySelector(`[data-contentpath="docx_content"]`));
         contentBloc.classList.add('cgs-col12', 'cgs-collapsible', 'cgs-collapsed');
         const contentLabel = contentBloc.querySelector('label');
-        console.log(contentLabel);
         contentLabel.addEventListener('click', () => collapsible(contentLabel));
     }    
 
     // Modification des inputs
-    function import_button(bloc, type) {
+    function importButton(bloc, type) {
         const input = bloc.querySelector(`[id^="body-"][id$="-value-${type}_import"]`);  
         const submit = document.querySelector('form#page-edit-form footer nav button[type="submit"].action-save');
         const button = submit.cloneNode(true);
@@ -1254,4 +1261,38 @@ function compteRenduImportBloc() {
             });
         }
     }
+
+    function processImportBlocks(container) {
+        // Appliquer immédiatement reworkingImportBlock à tous les éléments filtrés existants
+        const initialElements = container.querySelectorAll('[data-contentpath]');
+        initialElements.forEach(element => {
+            if (element.querySelector('input[type="hidden"][value="PDF"], input[type="hidden"][value="DOCX"]')) {
+                element.dataset.observed = true;
+                reworkingImportBlock(element);
+            }
+        });
+
+        // Observer les modifications pour traiter les nouveaux éléments
+        const observer = new MutationObserver(mutations => {
+            mutations.forEach(mutation => {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.matches('[data-contentpath]')) { // ELEMENT_NODE
+                        if (node.querySelector('input[type="hidden"][value="PDF"], input[type="hidden"][value="DOCX"]')) {
+                            if (!node.dataset.observed) {
+                                node.dataset.observed = true;
+                                reworkingImportBlock(node);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        observer.observe(container, {
+            childList: true,
+            subtree: true
+        });
+    }
+    // Appliquer le traitement au streamBlock
+    processImportBlocks(streamBlock);
 }

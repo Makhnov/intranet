@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     # "wagtail_content_import.pickers.google", # Requis par wagtail content import (API Google)
     # "wagtail_content_import.pickers.microsoft", # Requis par wagtail content import (API Microsoft)
     # "wagtail_content_import.pickers.local", # Requis par wagtail content import (API locale)
-    
+
     # Charts 
     # "wagtailcharts", # https://github.com/overcastsoftware/wagtailcharts?tab=readme-ov-file#wagtail-charts
     # Charts
@@ -450,16 +450,16 @@ WAGTAILADMIN_RICH_TEXT_EDITORS = {
     'default': {
         'WIDGET': 'wagtail.admin.rich_text.DraftailRichTextArea',
         'OPTIONS': {
-            'features': ['h2', 'h3', 'h4', 'bold', 'italic', 'link', 'ol', 'ul']
+            'features': ['h2', 'h3', 'h4', 'h5', 'h6', 'bold', 'italic', 'link', 'ol', 'ul', 'hr']
         }
     },
-    'faq_answer': {
+    'full': {
         'WIDGET': 'wagtail.admin.rich_text.DraftailRichTextArea',
         'OPTIONS': {
             'features': [
-                'bold', 'italic', 'h2', 'h3', 'h4', 'ol', 'ul', 
-                'image', 'embed', 'link', 'document-link', 
-                'blockquote', 'code', 'strikethrough'
+                'bold', 'italic', 'code', 'strikethrough' , 
+                'h2', 'h3', 'h4', 'h5', 'h6', 'ol', 'ul',
+                'blockquote', 'hr', 'link'
             ]
         }
     }

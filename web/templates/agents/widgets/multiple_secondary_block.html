@@ -1,25 +1,60 @@
 {% load wagtailcore_tags %}
 
 {% with value as block %}
-    <div class="faq-multiple-secondary cgs-secondary cgs-multiple">
-        <div class="choices-intro">
-            <!-- Affiche l'introduction des choix conditionnels si elle existe -->
-            INTRO : {{ block.choices_intro|richtext }}
-        </div>
-        <div class="choices-tabs">
+    {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
+    <div class="container faq-multiple-secondary secondary cgs-multiple">
+        {% comment %} CONTENEUR DU BLOC {% endcomment %}
+        {% if block.reduction %}
+            <div class="cgs-choice-container secondary reduced">
+        {% else %}
+            <div class="cgs-choice-container secondary">
+        {% endif %}      
+
+            {% comment %} CONTENEUR DES OPTIONS {% endcomment %}
+            {% if block.reduction %}
+                <div class="cgs-choice-options secondary reduced">
+            {% else %}
+                <div class="cgs-choice-options secondary">
+            {% endif %}
+                {% comment %} OPTIONS {% endcomment %}
+                <ul class="choice-list secondary">
+                    {% for item in block.choices %}
+                        {% if forloop.counter == 1 %}
+                            <li class="choice-item cgs-selected secondary">
+                        {% else %}
+                            <li class="choice-item primary">
+                        {% endif %}
+                            <div class="option secondary" data-target="option-{{ forloop.counter }}">                                    
+                                {{ item.choice_item }}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            {% comment %} CONTENEUR DU CONTENU {% endcomment %}
             {% for item in block.choices %}
-                <div class="choice-tab" data-target="secondary-answer-{{ forloop.counter }}">
-                    <!-- Affiche le critère/la condition pour ce choix -->
-                    {{ item.choice_item }}
-                </div>
-            {% endfor %}
-        </div>
-        <div class="choices-content">
-            {% for item in block.choices %}
-                <div class="choice-answer cgs-answer" id="secondary-answer-{{ forloop.counter }}">
+                {% if forloop.counter == 1 %}
+                    {% if block.reduction %}
+                        <div class="cgs-choice-content secondary reduced">
+                    {% else %}
+                        <div class="cgs-choice-content secondary">
+                    {% endif %}  
+                {% else %}
+                    {% if block.reduction %}
+                        <div class="cgs-choice-content cgs-hidden secondary reduced">
+                    {% else %}
+                        <div class="cgs-choice-content cgs-hidden secondary">
+                    {% endif %}  
+                {% endif %}
+              
+                {% comment %}CONTENU {% endcomment %}
+                <div class="choice-answer cgs-answer tertiary" id="content-{{ forloop.counter }}">
                     {% include "widgets/blocks/streamfield.html" with value=item.choice_answer %}
                 </div>
             {% endfor %}
+            </div>
+
         </div>
     </div>
 {% endwith %}
