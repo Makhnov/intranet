@@ -143,7 +143,7 @@
         --courbure-scaling-y:0.7;
 
         // Epaisseur du trait des icones
-        --cgs-stroke-width: .6px;
+        --cgs-stroke-width: 1px;
 
         // HAUTEUR DU CONTENU
         --container-height: calc(100vh - var(--header-height) - 80px);

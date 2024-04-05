@@ -22,13 +22,15 @@
             <a href="{{ block.value.url }}">{{ block.value.text }}</a>
         </div>
     {% elif block.block_type == 'button' %}
-    <button
-        type="button"
-        class="cgs-block-button cgs-{{block.value.position}} cgs-{{block.value.color}}"
-        data-href="{{ block.value.url }}"
-    >
-        {% image block.value.icon fill-100x100 %}{{ block.value.text }}
-    </button>
+    <div class="button-block {{block.value.position}} {{block.value.color}}">
+        <button
+            type="button"
+            class="cgs-block-button"
+            data-href="{{ block.value.url }}"
+        >
+            {% image block.value.icon fill-100x100 %}{{ block.value.text }}
+        </button>
+    </div>
     {% elif block.block_type == 'embed' %}
         <div class="cgs-block-embed">
             {% include "widgets/images/embed_block.html" with embed_block=block.value %}

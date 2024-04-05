@@ -2,14 +2,14 @@
 
 {% with value as block %}
     {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
-    <div class="container faq-multiple-secondary secondary cgs-multiple">
-        {% comment %} CONTENEUR DU BLOC {% endcomment %}
+    <div class="container faq-multiple-answers secondary cgs-multiple">
+        {% comment %} CONTENEUR GENERAL {% endcomment %}
         {% if block.reduction %}
             <div class="cgs-choice-container secondary reduced">
         {% else %}
             <div class="cgs-choice-container secondary">
-        {% endif %}      
-
+        {% endif %}  
+        
             {% comment %} CONTENEUR DES OPTIONS {% endcomment %}
             {% if block.reduction %}
                 <div class="cgs-choice-options secondary reduced">
@@ -20,41 +20,41 @@
                 <ul class="choice-list secondary">
                     {% for item in block.choices %}
                         {% if forloop.counter == 1 %}
-                            <li class="choice-item cgs-selected secondary">
+                            <li class="choice-item cgs-selected secondary" data-target="content-{{ forloop.counter }}">
                         {% else %}
-                            <li class="choice-item primary">
+                            <li class="choice-item secondary" data-target="content-{{ forloop.counter }}">
                         {% endif %}
-                            <div class="option secondary" data-target="option-{{ forloop.counter }}">                                    
+                            <div class="option secondary">                                    
                                 {{ item.choice_item }}
                             </div>
                         </li>
                     {% endfor %}
                 </ul>
+                {% comment %} FIN DES OPTIONS {% endcomment %}
             </div>
+            {% comment %} FIN DU CONTENEUR DES OPTIONS {% endcomment %}
 
             {% comment %} CONTENEUR DU CONTENU {% endcomment %}
-            {% for item in block.choices %}
+            {% if block.reduction %}
+                <div class="cgs-choice-content primary reduced">
+            {% else %}
+                <div class="cgs-choice-content primary">
+            {% endif %}
+
+            {% comment %} CONTENU {% endcomment %}
+            {% for item in block.choices %}            
                 {% if forloop.counter == 1 %}
-                    {% if block.reduction %}
-                        <div class="cgs-choice-content secondary reduced">
-                    {% else %}
-                        <div class="cgs-choice-content secondary">
-                    {% endif %}  
+                    <div class="choice-answer cgs-answer primary" id="content-{{ forloop.counter }}">
                 {% else %}
-                    {% if block.reduction %}
-                        <div class="cgs-choice-content cgs-hidden secondary reduced">
-                    {% else %}
-                        <div class="cgs-choice-content cgs-hidden secondary">
-                    {% endif %}  
-                {% endif %}
+                    <div class="choice-answer cgs-answer primary cgs-hidden" id="content-{{ forloop.counter }}">
+                {% endif %}  
               
-                {% comment %}CONTENU {% endcomment %}
-                <div class="choice-answer cgs-answer tertiary" id="content-{{ forloop.counter }}">
-                    {% include "widgets/blocks/streamfield.html" with value=item.choice_answer %}
+                    {% comment %}CONTENU {% endcomment %}
+                    <div class="choice-answer cgs-answer tertiary" id="content-{{ forloop.counter }}">
+                        {% include "widgets/blocks/streamfield.html" with value=item.choice_answer %}
+                    </div>
                 </div>
             {% endfor %}
-            </div>
-
         </div>
     </div>
 {% endwith %}

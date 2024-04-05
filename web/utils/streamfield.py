@@ -331,17 +331,17 @@ class CustomButtonBlock(StructBlock):
             ("cgs-left", _("Left")),
             ("cgs-right", _("Right")),
         ],
-        default="center",
+        default="cgs-center",
         label=_("Button position"),
         help_text=_("Horizontal alignment."),
     )
     color = ChoiceBlock(
         choices=[
-            ("cgs-green", _("Green")),
-            ("cgs-darkgreen", _("Dark Green")),
-            ("cgs-cyan", _("Cyan")),
-            ("cgs-light", _("Light")),
-            ("cgs-orange", _("Orange")),
+            ("cgs-green", _("Green")), #00b3be
+            ("cgs-darkgreen", _("Dark Green")), #008770
+            ("cgs-cyan", _("Cyan")), #00b3be
+            ("cgs-lightgreen", _("Vert d'eau")), #b7e5df
+            ("cgs-orange", _("Orange")), #fa8647
         ],
         default="cgs-green",
         label=_("Button color"),
@@ -358,12 +358,4 @@ class CustomButtonBlock(StructBlock):
         icon = "button"
         label = _("Button")
         form_classname = "button-block"
-        
-        
-# # Couleur des bouton et des H 
-# BUTTON_COLORS = {
-#     'cgs-green': "Vert", #008770   
-#     'cgs-cyan': "Cyan", #00b3be
-#     'cgs-light': "Vert d'eau", #b7e5df
-#     'cgs-orange' : "", #fa8647
-# }
+

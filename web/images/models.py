@@ -51,11 +51,31 @@ class CustomImage(AbstractImage):
         return content
 
     def modify_stroke_width(self, content):
-        pattern = r'(stroke-width)\s*([:=])\s*"?\s*(\d+(?:\.\d+)?)\s*"?'
-        replacement = lambda m: f"{m.group(1)}{m.group(2)} calc(var(--cgs-stroke-width) * {m.group(3)})" + ('"' if m.group(2) == '=' else '')
+        # Étape 1: Trouver 'stroke-width'
+        print("Contenu original:", content)
+        
+        def replacement(match):
+            # Étape 2: Vérifier le caractère suivant qui n'est pas un espace
+            after_stroke_width = match.group(1)
+            value = match.group(2)
+            print(f"Caractère après 'stroke-width': '{after_stroke_width}'", f"Valeur détectée: {value}")
 
-        return re.sub(pattern, replacement, content)    
-    
+            # Étape 3 et 4: Construire la nouvelle chaîne de caractères
+            new_value = f'calc(var(--cgs-stroke-width) * {value})'
+            if after_stroke_width == ':':
+                # 3a et 4a: Cas où on a trouvé ':', reconstruire la chaîne pour un style CSS
+                return f'stroke-width: {new_value};'
+            else:
+                # 3b et 4b: Cas où on a trouvé '=', reconstruire la chaîne pour un attribut HTML
+                return f'stroke-width="{new_value}"'
+
+        # Cette expression régulière capture 'stroke-width' suivi par ':' ou '=' (avec gestion des espaces),
+        # puis capture la valeur numérique jusqu'au prochain ';' ou espace ou guillemet.
+        pattern = r'stroke-width\s*([:=])\s*["\']?\s*(\d+(?:\.\d+)?)(?=[;\s"\'\n])'
+        modified_content = re.sub(pattern, replacement, content)
+        
+        print("Contenu modifié:", modified_content)
+        return modified_content
 
 class CustomRendition(AbstractRendition):
     image = models.ForeignKey(CustomImage, on_delete=models.CASCADE, related_name='renditions')

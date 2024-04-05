@@ -1,87 +1,557 @@
+/***************************************************************************************************************************************************************
+ * VARIABLES SUPPLEMENTAIRES : \intranet\scss\intranet_variables.scss
+ **************************************************************************************************************************************************************/
+
+:root {
+    --vert: #2c9b85;
+    --vert-off: #518d81;
+    --cyan: #00b3be;
+    --vert-fonce: #046b56; // #008770
+    --vert-clair: #b7e5df;
+    --orange: #fa8647;
+    --gris: #f0f0f0;
+    --gris-clair: #e0e0e0;
+    --texte-clair:gainsboro;
+    --texte-moyen-clair:lightgray;
+    --texte-moten-fonce:dimgray;
+    --texte-fonce:darkslategray;
+    --texte-tres-clair:whitesmoke;
+    --texte-tres-fonce:black;    
+    --content-clair: #e5f2f2;
+    --padding-choice:.75rem;
+}
+
+/***************************************************************************************************************************************************************
+ * GENERAL
+ **************************************************************************************************************************************************************/
+
+ // Initialisation
 body.item .cgs-page {
     margin:0 5%;
+    width: 90%!important;
+
+    li.choice-item, li.step-item {
+        list-style: none;
+    }
+    
+    code {
+        display: block;
+        font-size: .75rem;        
+    }
+    
+    h1 {
+        width: 100%;
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    div.faq-category {
+        margin: 1rem 0;
+    }
+
+    .cgs-button img, .cgs-button svg, div.step-name p svg, div.step-name p img {
+        cursor: pointer;
+        height: 1.5rem;
+        width: auto;
+        aspect-ratio: 1/1;
+    }
 }
 
-li.choice-item, li.step-item {
-    list-style: none;
+// MISE EN FORME (ESPACEMENTS)
+body.item {
+    .container {    
+        &.primary {
+            margin: 0 0 3rem 0;
+        }
+        &.secondary {
+            margin: 0 0 2rem 0;
+        }
+    }
+    .single-container {
+        &.primary {
+            margin: 2rem 0;
+        }
+        &.secondary {
+            margin: 0 0 0 0;
+        }
+        &.tertiary {
+            margin: 0 0 0 0;
+        }
+    }    
 }
 
-code {
-    display: block;
-    font-size: .75rem;        
-}
-
-h1 {
+// BOUTONS
+body.item div.button-block {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 1rem;
     width: 100%;
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 2rem;
+    margin:0 0 1rem 0;
+
+    button {
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        -moz-appearance: none;
+        appearance: none;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        row-gap: .25em;
+
+        height: fit-content;
+        min-height: 3em;
+        line-height: calc(3em - 2px);
+        margin: 1em 0 0 0;
+        padding: .7em 1.4em;
+        outline-offset: 3px;
+        border-radius: .1875rem;
+
+        font-size: calc(var(--header-font-size) + .3em);
+        font-weight: bold;
+        vertical-align: middle;
+        white-space: nowrap;
+        text-decoration: none;
+
+        transition: background-color .1s ease;
+
+        &:hover {
+            filter:brightness(1.2);
+        }
+    }
+
+    &.cgs-center {
+        justify-content: center;
+    }
+    &.cgs-right {
+        justify-content: flex-end;
+    }
+    &.cgs-left {
+        justify-content: flex-start;
+    }
+    &.cgs-start {
+        justify-content: flex-start;
+    }
+    &.cgs-end {
+        justify-content: flex-end;
+    }
+    &.cgs-between {
+        justify-content: space-between;
+    }
+    &.cgs-around {
+        justify-content: space-around;
+    }
+    &.cgs-evenly {
+        justify-content: space-evenly;
+    }
+    &.cgs-green button {
+        background-color: var(--vert);
+        color:var(--texte-tres-clair);        
+        border: 1px solid var(--vert);
+        * {
+            color:var(--texte-tres-clair);
+        }
+    }
+    &.cgs-darkgreen button {
+        background-color: var(--vert-fonce);        
+        color:var(--texte-clair);
+        border: 1px solid var(--vert-fonce);
+        * {
+            color:var(--texte-clair);
+        }
+    }
+    &.cgs-cyan button {
+        background-color: var(--cyan);
+        color:white;
+        border: 1px solid var(--cyan);
+        * {
+            color:white;
+        }
+    }
+    &.cgs-lightgreen button {
+        background-color: var(--vert-clair);
+        color:var(--texte-fonce);
+        border: 1px solid var(--vert-clair);
+        * {
+            color:var(--texte-fonce);
+        }
+    }    
+    &.cgs-orange button {
+        background-color: var(--orange);
+        color:var(--texte-tres-fonce);
+        border: 1px solid var(--orange);
+        * {
+            color:var(--texte-tres-fonce);
+        }
+    }
+    &.cgs-grey button {
+        background-color: var(--gris);
+        color:var(--texte-clair);
+        border: 1px solid var(--gris);
+        * {
+            color:var(--texte-clair);
+        }
+    }
+    &.cgs-darkgrey button {
+        background-color: var(--gris-clair);
+        color:var(--texte-tres-clair);
+        border: 1px solid var(--gris-clair);
+        * {
+            color:var(--texte-tres-clair);
+        }
+    }
 }
 
-div.faq-category {
-    margin: 1rem 0;
-}
+/***************************************************************************************************************************************************************
+ * REPONSES SIMPLES
+ **************************************************************************************************************************************************************/
 
-.container {    
-    &.primary {
-        margin: 0 0 3rem 0;
-    }
-    &.secondary {
-        margin: 0 0 2rem 1rem;
-    }
-}
-.single-container {
-    &.primary {
-        margin: 0 0 2rem 0;
-    }
-    &.secondary {
-        margin: 0 0 1rem 0;
-    }
-    &.tertiary {
-        margin: 0 0 .5rem 0;
-    }
-}
+ /***************************************************************************************************************************************************************
+ * REPONSES A CHOIX MULTIPLE
+ **************************************************************************************************************************************************************/
 
-div.cgs-multiple {
+div.container.cgs-multiple {
     width: fit-content;
+    max-width: 100%;
 }
 
-.cgs-choice-container{
-    &:not(.reduced).primary {
-
-    }
-    &:not(.reduced).secondary {
-    }
-    &.reduced.primary {
-    }
-    &.reduced.secondary {
-    }
+// CHOIX MULTIPLES TAILLE STANDARD
+.cgs-choice-container:not(.reduced) {
+    width: fit-content;
+    max-width: 100%;
 }
+.cgs-choice-options:not(.reduced) {
+    width: fit-content;
+    max-width: 100%;
 
-.cgs-choice-options:not(.reduced) {    
-    ul.choice-list {
-        width: fit-content;
-        min-width:400px;
+    > ul.choice-list {
+        user-select: none;
+
+        width: 100%;
+        min-width:calc(200% / 3 - 2 * var(--padding-choice) - 2px);
+        max-width: 100%;    
+        min-height: 40px;
         display:flex;
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: flex-start;
-        background-color: red;
         margin:0;
-        padding:5px 0;
+        padding:0;
+    }
 
-        li.choice-item {
-            cursor: pointer;
-            width:190px;
-            margin: 0 5px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
+    > ul > li.choice-item {
+        width: 250px;
+        max-width: calc(100% / 3 - 2 * var(--padding-choice) - 2px);
+        padding: var(--padding-choice);        
+
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+
+            font-size: .9rem;
+            font-weight: bold;
+        }
+
+        &:not(.cgs-selected) {
+            // li pairs
+           
+            background-color: var(--vert-fonce);
+            color: var(--texte-moyen-clair);
+            border: 1px solid transparent;
+            border-bottom: 1px solid var(--vert-fonce);
+
             &:hover {
-                background-color: #e0e0e0;
+                cursor: pointer;
+                background-color: var(--vert);
+                color: var(--texte-tres-clair); 
+
+                div {
+                    background-color: var(--vert);
+                    color: var(--texte-clair);
+                }           
+            }
+        }
+
+        &.cgs-selected {
+            background-color: var(--vert-clair);
+            color: var(--texte-tres-fonce);
+
+            border-top: 4px solid var(--vert);
+            border-right: 1px solid var(--vert-fonce);
+            border-left: 1px solid var(--vert-fonce);
+            border-bottom: none;
+        }
+    }
+}
+.cgs-choice-content:not(.reduced) {
+    padding:var(--padding-choice);
+    background-color: var(--vert-clair);    
+    --cgs-theme-light: var(--vert-clair);
+    border-left: 1px solid var(--vert-fonce);
+    border-right: 1px solid var(--vert-fonce);
+    border-bottom: 1px solid var(--vert-fonce);
+    border-top: none;
+    max-width: 100%;
+}
+
+// CHOIX MULTIPLES TAILLE REDUITE
+.cgs-choice-container.reduced {
+    width:100%;
+}
+.cgs-choice-options.reduced {
+    width:100%;
+}
+.cgs-choice-content.reduced {
+    width:100%;
+}
+
+ /***************************************************************************************************************************************************************
+ * REPONSES A ETAPE
+ **************************************************************************************************************************************************************/
+
+// ORDONNES ET NON-ORDONNES
+.cgs-step-container {
+
+    ul.step-list, ol.step-list {
+        width:100%;
+        margin:0;
+        padding:0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        row-gap: 1rem;
+        
+        li.step-item {
+            
+            width: 100%;
+
+            > div.step-name {
+                position:relative;
+                display:flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;             
+
+                p {
+                    position: relative;
+                    padding: 1rem 1rem;
+                    z-index: 1;
+                    user-select: none;
+                    pointer-events: none;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    column-gap: .5em;
+                }
+
+                a {              
+                    cursor: pointer;      
+                    position:absolute;
+                    width: calc(100% - 2rem);
+                    padding: 1rem 1rem;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    // Les hover et les a dont le "title" est : Masquer
+                    &:hover, &[title="Masquer"] {
+
+                        background-color: var(--content-clair);
+                        border: 1px solid var(--vert);
+                        color: var(--texte-fonce);
+                    }
+                    &[title="Masquer"] {
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            > div.step-answer {    
+                background-color: var(--content-clair);
+                border-left: 1px solid var(--vert);
+                border-right: 1px solid var(--vert);
+                border-bottom: 1px solid var(--vert);
+                margin-bottom: 1rem!important;
+                padding:0 1rem;
+                width: calc(100% - 2rem);
+        
+                > div.cgs-answer {
+                    border-top: 4px solid var(--vert-fonce);
+                    padding:1rem;
+                    width: calc(100% - 2rem);
+        
+                    div.cgs-block {
+                
+                    }
+                }
+            }
+        
+        }
+    }
+}
+
+ // DIFFERENCES ORDONNEES ET NON-ORDONNEES
+.cgs-step-container.ordonnated {
+    ul.step-list {
+
+        li.step-item {
+
+            div.step-name {
+
+            }
+        }
+    }
+
+    .cgs-step-container div.step-answer {
+
+        div.cgs-block {
+
+        }
+    }
+}
+ .cgs-step-container:not(.ordonnated) {
+
+    ul.step-list {
+
+        li.step-item {
+    
+            div.step-name {
+    
+            }
+        }
+    }
+    
+    .cgs-step-container div.step-answer {
+    
+        div.cgs-block {
+    
+        }
+    }
+}
+
+
+  /***************************************************************************************************************************************************************
+ * TEXTES DE LOI
+ **************************************************************************************************************************************************************/
+
+div.faq-law-texts, div.faq-tags-list {
+    margin-bottom: 2rem;
+    
+    div.faq-law, div.faq-tags {
+        position:relative;
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;   
+
+        a {              
+            cursor: pointer;      
+            position:absolute;
+            width: calc(100% - 2rem);
+            height: 2rem;
+            padding: 1rem 1rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+        
+            // Les hover et les a dont le "title" est : Masquer
+            &:hover, &[title="Masquer"] {        
+                background-color: var(--content-clair);
+                border: 1px solid var(--vert);
+                color: var(--texte-fonce);
+            }
+
+            &[title="Masquer"] {
+                border-bottom: none;
+            }
+        }
+
+        h2 {    
+            position: relative;
+            height: 2rem;
+            width: calc(100% - 2rem);
+            padding: 1rem 1rem;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            column-gap: .5em;
+            margin:0;
+            padding:1rem;
+            width: calc(100% - 2rem);
+        }
+    }
+
+    div.law-content, div.tags-content {
+        padding:1rem;
+        width: calc(100% - 2rem);
+        background-color: var(--content-clair);
+        border-left: 1px solid var(--vert);
+        border-right: 1px solid var(--vert);
+        border-bottom: 1px solid var(--vert);
+
+        div {
+            padding:1rem;
+        }
+
+        > div {   
+            
+            &:first-child {
+                border-top: 4px solid var(--vert-fonce);
+            }
+        }
+    }
+
+    div.tags-content div {
+        width: calc(100% - 2rem)!important;
+        button {
+            width: 200px;
+            height: 60px;
+            
+            a {
+                text-decoration: none;
+                font-size: 1.1rem;
+                font-weight: bold;
+                position: absolute;
+                padding-left: 1rem;
+                width: calc(200px - 1rem);
+                height: 60px;
+
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;    
+                column-gap: 1rem;            
             }
         }
     }
 }
+
+  /***************************************************************************************************************************************************************
+ * TAGS
+ **************************************************************************************************************************************************************/
+
+
+  /***************************************************************************************************************************************************************
+ * BARRE D'ACCES RAPIDE
+ **************************************************************************************************************************************************************/
+
 cgs-quickbar {
     .cgs-search-menu {
         display: flex;
@@ -94,11 +564,4 @@ cgs-quickbar {
         width: auto;
         aspect-ratio: 1/1;
     }
-}
-
-.cgs-button img, .cgs-button svg {
-    cursor: pointer;
-    height: 1.5em;
-    width: auto;
-    aspect-ratio: 1/1;
 }

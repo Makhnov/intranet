@@ -163,6 +163,9 @@ class ChoiceAnswerBlockSecondary(StructBlock):
     class Meta:
         icon = "choice"
         label = _("Conditonnal answer")
+        block_counts = {
+            'choices': {'min_num': 1, 'max_num': 4},
+        }
         
 class StepAnswerBlockSecondary(StructBlock):
     ordonnated = ordonnated_step_block()
@@ -183,6 +186,9 @@ class ChoiceAnswerBlock(StructBlock):
     class Meta:
         icon = "choice"
         label = _("Conditonnal answer")
+        block_counts = {
+            'choices': {'min_num': 1, 'max_num': 4},
+        }
         
 class StepBlock(StructBlock):
     step_item = step_block()

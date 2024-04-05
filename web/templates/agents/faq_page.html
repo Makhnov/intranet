@@ -23,7 +23,7 @@
                 <div class="faq-answers">
                     {% for block in page.answer %}
                         {% if block.block_type == 'single_answer' %}
-                            <div class="single-container cgs-single cgs-answer">
+                            <div class="single-container cgs-single cgs-answer primary">
                                 {% include "widgets/blocks/streamfield.html" with value=block.value %}
                             </div>                        
                         {% elif block.block_type == 'multiple_answer' %}
@@ -47,11 +47,17 @@
                 {% comment %} Affiche les textes de loi liés, si ils existent {% endcomment %}
                 {% if page.law_texts %}
                     <div class="faq-law-texts">                        
-                        <div class="law-block primary">
-                            <h2 class="cgs-button faq-law" title="Afficher">Textes de loi</h2>                            
-                            <div class="law-content">
-                                {% for block in page.law_texts %}                                    
-                                    <div><a href="{{ block.value.text_link }}">{{ block.value.text_name }}</a></div>
+                        <div class="faq-law cgs-swap">
+                            <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.law_text %}Textes de loi</h2>
+                            <a class="cgs-button cgs-swapable" title="Afficher">
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
+                            </a>
+                        </div>                            
+                        <div class="law-content cgs-swap-hidden">
+                            <div>
+                                {% for block in page.law_texts %}
+                                    <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}<a href="{{ block.value.text_link }}">{{ block.value.text_name }}</a></p></div>
                                 {% endfor %}
                             </div>
                         </div>
@@ -60,36 +66,43 @@
                 
                 {% comment %} Affiche les tags liés à la FAQ, si ils existent {% endcomment %}
                 {% if page.tags.all %}
-                    <div class="faq-tags">
-                        <h2>Tags</h2>
-                        {% for tag in page.tags.all %}
-                            <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">
-                                <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
-                                    {{ tag.name }}
-                                </button>
+                    <div class="faq-tags-list">
+                        <div class="faq-tags cgs-swap">
+                            <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.tags %}Tags</h2>
+                            <a class="cgs-button cgs-swapable" title="Afficher">
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
                             </a>
-                        {% endfor %}
+                        </div>
+                        <div class="tags-content cgs-swap-hidden">
+                            <div class="button-block cgs-start cgs-darkgreen">
+                                {% for tag in page.tags.all %}
+                                    <button type="button" class="cgs-block-button">
+                                        <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.tags %}{{ tag.name }}</a>
+                                    </button>    
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
-            </div>
-
-            {% comment %} Affiche les pages de FAQ par catégorie {% endcomment %}
-            <div class="faq-category-index">
-                {% for category in page.faqpages %}
-                    <div class="faq-category-item">
-                        <a href="{{ category.url }}">{{ category }}</a>
-                    </div>
-                {% endfor %}
-            </div>
-
-            {% comment %} Affiche les pages de FAQ par tag {% endcomment %}
-            <div class="faq-tag-index">
-                {% for tag in page.faqpages %}
-                    <div class="faq-tag-item">
-                        <a href="{{ tag.url }}">{{ tag }}</a>
-                    </div>
-                {% endfor %}
             </div>
         </div>
     </main> 
 {% endblock %}
+
+
+{% comment %} <div class="faq-category-index">
+    {% for category in page.faqpages %}
+        <div class="faq-category-item">
+            <a href="{{ category.url }}">{{ category }}</a>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="faq-tag-index">
+    {% for tag in page.faqpages %}
+        <div class="faq-tag-item">
+            <a href="{{ tag.url }}">{{ tag }}</a>
+        </div>
+    {% endfor %}
+</div> {% endcomment %}

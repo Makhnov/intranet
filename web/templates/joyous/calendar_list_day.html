@@ -10,13 +10,13 @@
 {% block cal_subtitle %}
 <div class="joy-title joy-title--list">
   <h2>
-    <a href="{{ yesterdayUrl }}" title="Jour précédent">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.previous_page %}</a>
+    <a href="{{ yesterdayUrl }}" title="Jour précédent">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.calendar_previous_page %}</a>
     {% if day != today %}
         {% blocktrans with day=day|date:"l j F Y" %}Events on {{ day }}{% endblocktrans %}
     {% else %}
         {% blocktrans with day=day|date:"l j F Y" %}Aujourd'hui {{ day }}{% endblocktrans %}     
     {% endif %}
-    <a href="{{ tomorrowUrl }}" title="Jour suivant">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.next_page %}</a>
+    <a href="{{ tomorrowUrl }}" title="Jour suivant">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.calendar_next_page %}</a>
   </h2>
 </div>
 {% endblock cal_subtitle %}

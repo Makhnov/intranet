@@ -1,0 +1,22 @@
+{% comment %}ol.html{% endcomment %}
+{% if item_number == 1 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_1 %}{{ item_value }}</p>
+{% elif item_number == 2 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_2 %}{{ item_value }}</p>
+{% elif item_number == 3 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_3 %}{{ item_value }}</p>
+{% elif item_number == 4 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_4 %}{{ item_value }}</p>
+{% elif item_number == 5 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_5 %}{{ item_value }}</p>
+{% elif item_number == 6 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_6 %}{{ item_value }}</p>
+{% elif item_number == 7 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_7 %}{{ item_value }}</p>
+{% elif item_number == 8 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_8 %}{{ item_value }}</p>
+{% elif item_number == 9 %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ol_item_9 %}{{ item_value }}</p>
+{% else %}
+    <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}{{ item_value }}</p>
+{% endif %}

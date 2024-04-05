@@ -8,8 +8,8 @@
             <div class="cgs-choice-container primary reduced">
         {% else %}
             <div class="cgs-choice-container primary">
-        {% endif %}            
-                
+        {% endif %}  
+        
             {% comment %} CONTENEUR DES OPTIONS {% endcomment %}
             {% if block.reduction %}
                 <div class="cgs-choice-options primary reduced">
@@ -20,36 +20,34 @@
                 <ul class="choice-list primary">
                     {% for item in block.choices %}
                         {% if forloop.counter == 1 %}
-                            <li class="choice-item cgs-selected primary">
+                            <li class="choice-item cgs-selected primary" data-target="content-{{ forloop.counter }}">
                         {% else %}
-                            <li class="choice-item primary">
+                            <li class="choice-item primary" data-target="content-{{ forloop.counter }}">
                         {% endif %}
-                            <div class="option primary" data-target="option-{{ forloop.counter }}">                                    
+                            <div class="option primary">                                    
                                 {{ item.choice_item }}
                             </div>
                         </li>
                     {% endfor %}
                 </ul>
+                {% comment %} FIN DES OPTIONS {% endcomment %}
             </div>
+            {% comment %} FIN DU CONTENEUR DES OPTIONS {% endcomment %}
 
             {% comment %} CONTENEUR DU CONTENU {% endcomment %}
-            {% for item in block.choices %}
+            {% if block.reduction %}
+                <div class="cgs-choice-content primary reduced">
+            {% else %}
+                <div class="cgs-choice-content primary">
+            {% endif %}
+
+            {% comment %} CONTENU {% endcomment %}
+            {% for item in block.choices %}            
                 {% if forloop.counter == 1 %}
-                    {% if block.reduction %}
-                        <div class="cgs-choice-content primary reduced">
-                    {% else %}
-                        <div class="cgs-choice-content primary">
-                    {% endif %}  
-                {% else %}
-                    {% if block.reduction %}
-                        <div class="cgs-choice-content cgs-hidden primary reduced">
-                    {% else %}
-                        <div class="cgs-choice-content cgs-hidden primary">
-                    {% endif %}  
-                {% endif %}
-              
-                {% comment %}CONTENU {% endcomment %}
                     <div class="choice-answer cgs-answer primary" id="content-{{ forloop.counter }}">
+                {% else %}
+                    <div class="choice-answer cgs-answer primary cgs-hidden" id="content-{{ forloop.counter }}">
+                {% endif %}  
                         {% for inner_block in item.choice_answer %}
                             {% if inner_block.block_type == 'single_answer' %}
                                 <div class="single-container cgs-single cgs-answer secondary">
@@ -62,8 +60,14 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                </div>
-            {% endfor %}
-        </div>        
+                {% endfor %}
+                {% comment %} FIN DU CONTENU {% endcomment %}                
+            </div>
+            {% comment %} FIN DU CONTENEUR DU CONTENU {% endcomment %}
+
+
+        </div>
+        {% comment %} FIN DU CONTENEUR GENERAL {% endcomment %}     
     </div>
+    {% comment %} FIN DU CONTENEUR DE LA SECTION {% endcomment %}
 {% endwith %}

@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags cgs_tags %}
 
 {% with value as block %}
     {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
@@ -16,14 +16,20 @@
             {% for item in block.steps %}
                 <li class="step-item secondary">
                     <div class="step-name cgs-swap secondary">
-                        {{ item.step_item }}
+                        {% if block.ordonnated %}
+                            {% include "agents/widgets/ol.html" with item_value=item.step_item item_number=forloop.counter %}
+                        {% else %}
+                            <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}{{ item.step_item }}</p>
+                        {% endif %}
                         <a class="cgs-button cgs-swapable secondary" title="Afficher">
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
                         </a>
                     </div>
-                    <div class="single-container step-answer cgs-answer tertiary cgs-swap-hidden">
-                        {% include "widgets/blocks/streamfield.html" with value=item.step_answer %}
+                    <div class="step-answer cgs-answer primary cgs-swap-hidden">                    
+                        <div class="single-container step-answer cgs-answer tertiary">
+                            {% include "widgets/blocks/streamfield.html" with value=item.step_answer %}
+                        </div>
                     </div>
                 </li>
             {% endfor %}

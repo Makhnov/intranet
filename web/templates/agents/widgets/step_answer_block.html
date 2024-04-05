@@ -11,11 +11,16 @@
             <div class="cgs-step-container primary">
                 <ul class="step-list primary">
         {% endif %}
+        
             {% comment %} ETAPES {% endcomment %}
             {% for item in block.steps %}
                 <li class="step-item primary">
                     <div class="step-name cgs-swap primary">
-                        {{ item.step_item }}
+                        {% if block.ordonnated %}
+                            {% include "agents/widgets/ol.html" with item_value=item.step_item item_number=forloop.counter %}
+                        {% else %}
+                            <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}{{ item.step_item }}</p>
+                        {% endif %}
                         <a class="cgs-button cgs-swapable primary" title="Afficher">
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
