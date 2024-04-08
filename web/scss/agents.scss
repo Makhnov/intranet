@@ -488,10 +488,10 @@ div.container.cgs-multiple {
  * TAGS ET TEXTES DE LOI
  **************************************************************************************************************************************************************/
 
-div.faq-law-texts, div.faq-tags-list {
+div.faq-law-list, div.faq-tags-list, div.faq-related-list {
     margin-bottom: 2rem;
 
-    div.faq-law, div.faq-tags {
+    div.faq-law, div.faq-tags, div.faq-related {
         position:relative;
         display:flex;
         flex-direction: row;
@@ -537,10 +537,16 @@ div.faq-law-texts, div.faq-tags-list {
             margin:0;
             padding:1rem;
             width: calc(100% - 2rem);
+            
+            svg, img {
+                height: 2.5rem;
+                width: 2.5rem;
+                aspect-ratio: 1/1;
+            }
         }
     }
 
-    div.law-content, div.tags-content {
+    div.law-content, div.tags-content, div.related-content {
         padding:1rem;
         width: calc(100% - 2rem);
         background-color: var(--content-clair);
@@ -550,6 +556,20 @@ div.faq-law-texts, div.faq-tags-list {
 
         div {
             padding:1rem;
+
+            p {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                column-gap: .5rem;
+
+                a {
+                    text-decoration: none;
+                }
+            }
         }
 
         > div {   

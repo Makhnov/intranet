@@ -204,6 +204,15 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Compte rendu page")
     )
+    categories = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Themes"),
+        help_text=_("Related theme icon for numerous pages"),
+    )
     all_faq = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -659,6 +668,7 @@ class IntranetIcons(BaseSiteSetting):
             [
                 FieldPanel('convocation', heading=_("Convocation page")),
                 FieldPanel('compte_rendu', heading=_("Compte rendu page")),
+                FieldPanel('categories', heading=_("Related themes")),
                 FieldPanel('all_faq', heading=_("All FAQ")),
                 FieldPanel('law_text', heading=_("Law text")),
                 FieldPanel('tags', heading=_("Tags")),

@@ -9,6 +9,6 @@
     {% image intranet_icon original as img %}
     <img src="{{ img.url }}" alt="{{ intranet_icon.title }}" class="{{ class_type }}">
 {% else %}
-    {% image intranet.root_page.specific.logo height-200 as img %}
+    {% image intranet.root_page.specific.logo height-32 as img %}
     <img src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="Image par défaut" class={{ class_type }} />
 {% endif %}

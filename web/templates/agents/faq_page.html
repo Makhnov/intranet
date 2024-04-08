@@ -36,17 +36,27 @@
                 
                 {% comment %} Affiche les FAQ liées, si elles existent {% endcomment %}
                 {% if page.related %}
-                    <div class="faq-related">
-                        <h2>Thèmes similaires</h2>
-                        {% for block in page.related %}
-                            {% include_block block %}
-                        {% endfor %}
+                    <div class="faq-related-list">                        
+                        <div class="faq-related cgs-swap">
+                            <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}Thèmes similaires</h2>
+                            <a class="cgs-button cgs-swapable" title="Afficher">
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
+                            </a>
+                        </div>                            
+                        <div class="related-content cgs-swap-hidden">
+                            <div>
+                                {% for block in page.related %}
+                                    <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}<a href="{{ block.value.url }}">{{ block.value.question }}</a></p></div>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
                 {% endif %}
                 
                 {% comment %} Affiche les textes de loi liés, si ils existent {% endcomment %}
                 {% if page.law_texts %}
-                    <div class="faq-law-texts">                        
+                    <div class="faq-law-list">                        
                         <div class="faq-law cgs-swap">
                             <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.law_text %}Textes de loi</h2>
                             <a class="cgs-button cgs-swapable" title="Afficher">
@@ -57,7 +67,7 @@
                         <div class="law-content cgs-swap-hidden">
                             <div>
                                 {% for block in page.law_texts %}
-                                    <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}<a href="{{ block.value.text_link }}">{{ block.value.text_name }}</a></p></div>
+                                    <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.law_text %}<a href="{{ block.value.text_link }}" target="_blank">{{ block.value.text_name }}</a></p></div>
                                 {% endfor %}
                             </div>
                         </div>
