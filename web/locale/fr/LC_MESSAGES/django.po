@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-03 18:35+0200\n"
+"POT-Creation-Date: 2024-04-08 06:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 
 #: .\administration\models.py:273 .\administration\models.py:566
 #: .\amicale\models.py:142 .\home\models.py:97 .\home\models.py:306
-#: .\utils\faq.py:76 .\utils\imports.py:72 .\utils\menu_pages.py:117
+#: .\utils\faq.py:78 .\utils\imports.py:72 .\utils\menu_pages.py:117
 msgid "Heading"
 msgstr "Titre"
 
@@ -100,7 +100,7 @@ msgstr "Ordre du jour"
 
 #: .\administration\models.py:405 .\administration\models.py:570
 #: .\administration\models.py:622 .\amicale\models.py:146 .\home\models.py:147
-#: .\home\models.py:231 .\utils\faq.py:85 .\utils\streamfield.py:63
+#: .\home\models.py:231 .\utils\faq.py:86 .\utils\streamfield.py:63
 #: .\utils\streamfield.py:153
 msgid "Document"
 msgstr "Document"
@@ -142,23 +142,23 @@ msgstr "Quorum"
 msgid "Uncheck this box if the quorum isn't reached"
 msgstr "Décochez cette case si le quorum n'est pas atteint"
 
-#: .\administration\models.py:567 .\amicale\models.py:143 .\utils\faq.py:79
+#: .\administration\models.py:567 .\amicale\models.py:143 .\utils\faq.py:81
 #: .\utils\imports.py:87
 msgid "Paragraph"
 msgstr "Paragraphe"
 
-#: .\administration\models.py:568 .\amicale\models.py:144 .\utils\faq.py:83
+#: .\administration\models.py:568 .\amicale\models.py:144 .\utils\faq.py:84
 msgid "Media"
 msgstr "Média"
 
 #: .\administration\models.py:569 .\amicale\models.py:145
-#: .\amicale\models.py:226 .\home\models.py:142 .\utils\faq.py:84
+#: .\amicale\models.py:226 .\home\models.py:142 .\utils\faq.py:85
 #: .\utils\imports.py:114
 #: .\venv\Lib\site-packages\django\db\models\fields\files.py:393
 msgid "Image"
 msgstr "Image"
 
-#: .\administration\models.py:571 .\amicale\models.py:147 .\utils\faq.py:86
+#: .\administration\models.py:571 .\amicale\models.py:147 .\utils\faq.py:87
 #: .\utils\streamfield.py:250
 msgid "Link"
 msgstr "Lien"
@@ -167,19 +167,20 @@ msgstr "Lien"
 msgid "Embed media"
 msgstr "Intégration média"
 
-#: .\administration\models.py:573 .\utils\faq.py:88
+#: .\administration\models.py:573 .\utils\faq.py:90
 msgid "List Item"
 msgstr "Élément de la liste"
 
-#: .\administration\models.py:573 .\amicale\models.py:149 .\utils\faq.py:88
+#: .\administration\models.py:573 .\amicale\models.py:149
+#: .\dashboard\models.py:728 .\utils\faq.py:90
 msgid "List"
 msgstr "Liste"
 
-#: .\administration\models.py:574 .\amicale\models.py:150 .\utils\faq.py:89
+#: .\administration\models.py:574 .\amicale\models.py:150 .\utils\faq.py:91
 msgid "Quote"
 msgstr "Citation"
 
-#: .\administration\models.py:575 .\utils\faq.py:90 .\utils\imports.py:130
+#: .\administration\models.py:575 .\utils\faq.py:92 .\utils\imports.py:130
 msgid "Table"
 msgstr "Tableau"
 
@@ -306,7 +307,12 @@ msgstr ""
 "Vous pouvez cliquer sur le ⊕ ci-dessous pour ajouter des FAQ associées à "
 "celle-ci. Les utilisateurs les verront dans la section 'Aller plus loin'."
 
-#: .\agents\models.py:150 .\utils\faq.py:40
+#: .\agents\models.py:145 .\dashboard\models.py:222 .\dashboard\models.py:663
+#: .\utils\faq.py:41
+msgid "Law text"
+msgstr "Texte de loi"
+
+#: .\agents\models.py:150 .\utils\faq.py:42
 msgid "Law texts"
 msgstr "Textes de loi"
 
@@ -432,9 +438,9 @@ msgstr "Informations sur l'article"
 msgid "Content"
 msgstr "Contenu"
 
-#: .\amicale\models.py:227
-msgid "Gallery images"
-msgstr "Images de la galerie"
+#: .\amicale\models.py:227 .\home\models.py:143
+msgid "Gallery"
+msgstr "Carrousel d'images"
 
 #: .\amicale\models.py:242
 msgid "Name (marker)"
@@ -577,11 +583,87 @@ msgid "Closing text for conferences."
 msgstr ""
 "Formule de politesse pour clore une convocation aux conférences des maires."
 
-#: .\dashboard\models.py:197 .\dashboard\models.py:548
+#: .\dashboard\models.py:197 .\dashboard\models.py:660
+msgid "Convocation page"
+msgstr "Page de convocation"
+
+#: .\dashboard\models.py:205 .\dashboard\models.py:661
+msgid "Compte rendu page"
+msgstr "Page de compte rendu"
+
+#: .\dashboard\models.py:213 .\dashboard\models.py:214
+#: .\dashboard\models.py:662
+msgid "All FAQ"
+msgstr "Toutes les FAQ"
+
+#: .\dashboard\models.py:223
+msgid "FAQ page, law text icon"
+msgstr "Icon pour les textes de loi"
+
+#: .\dashboard\models.py:231 .\dashboard\models.py:664
+msgid "Tags"
+msgstr "Balises"
+
+#: .\dashboard\models.py:232
+msgid "Tag icon for numerous pages"
+msgstr "Icone pour les tags (balises)"
+
+#: .\dashboard\models.py:240 .\dashboard\models.py:665
+msgid "Amicale news"
+msgstr "Nouvelles de l'Amicale"
+
+#: .\dashboard\models.py:248 .\dashboard\models.py:666
+msgid "Amicale sorties"
+msgstr "Sorties de l'Amicale"
+
+#: .\dashboard\models.py:256 .\dashboard\models.py:667
+msgid "Amicale divers"
+msgstr "Infos diverses sur l'Amicale"
+
+#: .\dashboard\models.py:264 .\dashboard\models.py:668
+msgid "Amicale unknown"
+msgstr "Amicale inconnue"
+
+#: .\dashboard\models.py:265
+msgid "Amicale unknown page type icon"
+msgstr "Page de l'amicale de type inconnu"
+
+#: .\dashboard\models.py:273 .\dashboard\models.py:274
+#: .\dashboard\models.py:669
+msgid "Web page"
+msgstr "Page Web"
+
+#: .\dashboard\models.py:282 .\dashboard\models.py:670
+msgid "Documents (InstantDownload)"
+msgstr "Documents (Téléchargement instantané)"
+
+#: .\dashboard\models.py:283 .\dashboard\models.py:468
+#: .\dashboard\models.py:469 .\dashboard\models.py:709
+msgid "Download"
+msgstr "Télécharger"
+
+#: .\dashboard\models.py:291 .\dashboard\models.py:292
+#: .\dashboard\models.py:671
+msgid "Form"
+msgstr "Formulaire"
+
+#: .\dashboard\models.py:300 .\dashboard\models.py:672
+msgid "Site web officiel"
+msgstr "Site web officiel"
+
+#: .\dashboard\models.py:308 .\dashboard\models.py:673
+msgid "Office de tourisme"
+msgstr "Office de tourisme"
+
+#: .\dashboard\models.py:316 .\dashboard\models.py:674
+msgid "Facebook"
+msgstr "Facebook"
+
+#: .\dashboard\models.py:326 .\dashboard\models.py:681
 msgid "Home"
 msgstr "Accueil"
 
-#: .\dashboard\models.py:198
+#: .\dashboard\models.py:327
 msgid ""
 "'Home' symbol to back to the index section. Related Index Pages : "
 "'Calendar', 'Amicale', 'FAQ', 'Administration'. "
@@ -589,213 +671,257 @@ msgstr ""
 "Symbole 'Accueil' pour revenir à la section d'index. Pages d'index "
 "associées : 'Calendrier', 'Amicale', 'FAQ', 'Administration'."
 
-#: .\dashboard\models.py:206
+#: .\dashboard\models.py:335
 msgid "User profile"
 msgstr "Profil utilisateur"
 
-#: .\dashboard\models.py:207 .\dashboard\models.py:549
-msgid "User Profile"
-msgstr "Profil utilisateur"
+#: .\dashboard\models.py:336
+msgid "Header top-right icon"
+msgstr "Logo utilisateur (Menu en haut à droite)"
 
-#: .\dashboard\models.py:215 .\dashboard\models.py:550
-msgid "Previous Page"
-msgstr "Page précédente"
+#: .\dashboard\models.py:344 .\dashboard\models.py:683
+msgid "Previous Item"
+msgstr "Éléments précédents"
 
-#: .\dashboard\models.py:223 .\dashboard\models.py:551
-msgid "Next Page"
-msgstr "Page suivante"
+#: .\dashboard\models.py:345
+msgid "Footer icon to nvaigate (left) in the list"
+msgstr "Icone (pied de page) pour naviguer vers la gauche d'une liste"
 
-#: .\dashboard\models.py:233 .\dashboard\models.py:558
+#: .\dashboard\models.py:353 .\dashboard\models.py:684
+msgid "Next Item"
+msgstr "Éléments suivants"
+
+#: .\dashboard\models.py:354
+msgid "Footer icon to nvaigate (right) in the list"
+msgstr "Icone (pied de page) pour naviguer vers la droite d'une liste"
+
+#: .\dashboard\models.py:364 .\dashboard\models.py:691
 msgid "Open"
 msgstr "Ouvrir"
 
-#: .\dashboard\models.py:241 .\dashboard\models.py:559
+#: .\dashboard\models.py:372 .\dashboard\models.py:692
 msgid "Close"
 msgstr "Fermer"
 
-#: .\dashboard\models.py:249 .\dashboard\models.py:560
+#: .\dashboard\models.py:380 .\dashboard\models.py:693
 msgid "More"
 msgstr "Plus"
 
-#: .\dashboard\models.py:257 .\dashboard\models.py:561
+#: .\dashboard\models.py:388 .\dashboard\models.py:694
 msgid "Less"
 msgstr "Moins"
 
-#: .\dashboard\models.py:265 .\dashboard\models.py:562
+#: .\dashboard\models.py:396 .\dashboard\models.py:695
 msgid "More (right)"
 msgstr "Plus (droite)"
 
-#: .\dashboard\models.py:273 .\dashboard\models.py:563
+#: .\dashboard\models.py:404 .\dashboard\models.py:696
 msgid "Less (left)"
 msgstr "Moins (gauche)"
 
-#: .\dashboard\models.py:281 .\dashboard\models.py:564
-msgid "Previous Item"
-msgstr "Élément précédent"
-
-#: .\dashboard\models.py:289
-msgid "Next item"
-msgstr "Élément suivant"
-
-#: .\dashboard\models.py:290 .\dashboard\models.py:565
-msgid "Next Item"
-msgstr "Élément suivant"
-
-#: .\dashboard\models.py:298 .\dashboard\models.py:299
-#: .\dashboard\models.py:566
-msgid "All FAQ"
-msgstr "Toutes les FAQ"
-
-#: .\dashboard\models.py:307 .\dashboard\models.py:308
-#: .\dashboard\models.py:567
-msgid "Amicale news"
-msgstr "Nouvelles de l'Amicale"
-
-#: .\dashboard\models.py:316 .\dashboard\models.py:317
-#: .\dashboard\models.py:568
-msgid "Amicale sorties"
-msgstr "Sorties de l'Amicale"
-
-#: .\dashboard\models.py:325 .\dashboard\models.py:326
-msgid "Amicale divers"
-msgstr "Infos diverses sur l'Amicale"
-
-#: .\dashboard\models.py:334 .\dashboard\models.py:335
-#: .\dashboard\models.py:570
-msgid "Amicale unknown"
-msgstr "Amicale inconnue"
-
-#: .\dashboard\models.py:345 .\dashboard\models.py:346
-#: .\dashboard\models.py:577
+#: .\dashboard\models.py:414 .\dashboard\models.py:415
+#: .\dashboard\models.py:703
 #: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:9
 #: .\venv\Lib\site-packages\generic_chooser\views.py:338
 #: .\venv\Lib\site-packages\generic_chooser\views.py:339
 msgid "Search"
 msgstr "Recherche"
 
-#: .\dashboard\models.py:354 .\dashboard\models.py:355
-#: .\dashboard\models.py:578
+#: .\dashboard\models.py:423 .\dashboard\models.py:424
+#: .\dashboard\models.py:704
 msgid "Zoom in"
 msgstr "Zoomer"
 
-#: .\dashboard\models.py:363 .\dashboard\models.py:364
-#: .\dashboard\models.py:579
+#: .\dashboard\models.py:432 .\dashboard\models.py:433
+#: .\dashboard\models.py:705
 msgid "Zoom out"
 msgstr "Dézoomer"
 
-#: .\dashboard\models.py:372 .\dashboard\models.py:373
-#: .\dashboard\models.py:580
+#: .\dashboard\models.py:441 .\dashboard\models.py:442
+#: .\dashboard\models.py:706
 msgid "Apply filter"
 msgstr "Appliquer le filtre"
 
-#: .\dashboard\models.py:381 .\dashboard\models.py:382
-#: .\dashboard\models.py:581
+#: .\dashboard\models.py:450 .\dashboard\models.py:451
+#: .\dashboard\models.py:707
 msgid "Reset filter"
 msgstr "Réinitialiser le filtre"
 
-#: .\dashboard\models.py:390 .\dashboard\models.py:391
-#: .\dashboard\models.py:582
+#: .\dashboard\models.py:459 .\dashboard\models.py:460
+#: .\dashboard\models.py:708
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papier"
 
-#: .\dashboard\models.py:399 .\dashboard\models.py:400
-#: .\dashboard\models.py:509 .\dashboard\models.py:583
-msgid "Download"
-msgstr "Télécharger"
-
-#: .\dashboard\models.py:408 .\dashboard\models.py:409
-#: .\dashboard\models.py:584
+#: .\dashboard\models.py:477 .\dashboard\models.py:478
+#: .\dashboard\models.py:710
 msgid "Print"
 msgstr "Imprimer"
 
-#: .\dashboard\models.py:418 .\dashboard\models.py:419
-#: .\dashboard\models.py:591
+#: .\dashboard\models.py:488 .\dashboard\models.py:717
+msgid "Unordered list item"
+msgstr "Élément d'une liste non-ordonnée"
+
+#: .\dashboard\models.py:489
+msgid "Icon preceding the item label"
+msgstr "Icone précédent l'intitulé de l'élément"
+
+#: .\dashboard\models.py:497
+msgid "OL-1"
+msgstr "LO-1"
+
+#: .\dashboard\models.py:498
+msgid "Ordered list first item"
+msgstr "Premier élément d'une liste ordonnée"
+
+#: .\dashboard\models.py:506
+msgid "OL-2"
+msgstr "LO-2"
+
+#: .\dashboard\models.py:507 .\dashboard\models.py:516
+#: .\dashboard\models.py:525 .\dashboard\models.py:534
+#: .\dashboard\models.py:543 .\dashboard\models.py:552
+#: .\dashboard\models.py:561 .\dashboard\models.py:570
+msgid "Ordered list item"
+msgstr "Éléments de liste ordonnée"
+
+#: .\dashboard\models.py:515
+msgid "OL-3"
+msgstr "LO-3"
+
+#: .\dashboard\models.py:524
+msgid "OL-4"
+msgstr "LO-4"
+
+#: .\dashboard\models.py:533
+msgid "OL-5"
+msgstr "LO-5"
+
+#: .\dashboard\models.py:542
+msgid "OL-6"
+msgstr "LO-6"
+
+#: .\dashboard\models.py:551
+msgid "OL-7"
+msgstr "LO-7"
+
+#: .\dashboard\models.py:560
+msgid "OL-8"
+msgstr "LO-8"
+
+#: .\dashboard\models.py:569
+msgid "OL-9"
+msgstr "LO-9"
+
+#: .\dashboard\models.py:580 .\dashboard\models.py:581
+#: .\dashboard\models.py:733
 msgid "List view"
 msgstr "Vue en liste"
 
-#: .\dashboard\models.py:427 .\dashboard\models.py:428
-#: .\dashboard\models.py:592
-msgid "Upcoming view"
-msgstr "Vue à venir"
-
-#: .\dashboard\models.py:436 .\dashboard\models.py:437
-#: .\dashboard\models.py:593
-msgid "Past view"
-msgstr "Vue précédente"
-
-#: .\dashboard\models.py:445 .\dashboard\models.py:446
-#: .\dashboard\models.py:594
+#: .\dashboard\models.py:589 .\dashboard\models.py:590
+#: .\dashboard\models.py:734
 msgid "Day view"
 msgstr "Vue journalière"
 
-#: .\dashboard\models.py:454 .\dashboard\models.py:455
-#: .\dashboard\models.py:595
+#: .\dashboard\models.py:598 .\dashboard\models.py:599
+#: .\dashboard\models.py:735
 msgid "Week view"
 msgstr "Vue hebdomadaire"
 
-#: .\dashboard\models.py:463 .\dashboard\models.py:464
-#: .\dashboard\models.py:596
+#: .\dashboard\models.py:607 .\dashboard\models.py:608
+#: .\dashboard\models.py:736
 msgid "Month view"
 msgstr "Vue mensuelle"
 
-#: .\dashboard\models.py:472 .\dashboard\models.py:473
-#: .\dashboard\models.py:597
+#: .\dashboard\models.py:616 .\dashboard\models.py:617
+#: .\dashboard\models.py:737
 msgid "Actual view"
 msgstr "Vue actuelle"
 
-#: .\dashboard\models.py:483 .\dashboard\models.py:604
-msgid "Convocation page"
-msgstr "Page de convocation"
+#: .\dashboard\models.py:625 .\dashboard\models.py:738
+msgid "Previous Page"
+msgstr "Page précédente"
 
-#: .\dashboard\models.py:491 .\dashboard\models.py:605
-msgid "Compte rendu page"
-msgstr "Page de compte rendu"
+#: .\dashboard\models.py:626
+msgid "Icon in the calendar section to go to the previous page"
+msgstr "Icone pour afficher le jour précédent"
 
-#: .\dashboard\models.py:499 .\dashboard\models.py:500
-#: .\dashboard\models.py:606
-msgid "Web page"
-msgstr "Page Web"
+#: .\dashboard\models.py:634 .\dashboard\models.py:739
+msgid "Next Page"
+msgstr "Page suivante"
 
-#: .\dashboard\models.py:508 .\dashboard\models.py:607
-msgid "Documents (InstantDownload)"
-msgstr "Documents (Téléchargement instantané)"
+#: .\dashboard\models.py:635
+msgid "Icon in the calendar section to go to the next page"
+msgstr "Icone pour afficher le jour suivant"
 
-#: .\dashboard\models.py:517 .\dashboard\models.py:518
-#: .\dashboard\models.py:608
-msgid "Form"
-msgstr "Formulaire"
+#: .\dashboard\models.py:643 .\dashboard\models.py:644
+#: .\dashboard\models.py:740
+msgid "Upcoming view"
+msgstr "Évènements à venir"
 
-#: .\dashboard\models.py:526 .\dashboard\models.py:609
-msgid "Site web officiel"
-msgstr "Site web officiel"
+#: .\dashboard\models.py:652 .\dashboard\models.py:653
+#: .\dashboard\models.py:741
+msgid "Past view"
+msgstr "Évènements précédents"
 
-#: .\dashboard\models.py:534 .\dashboard\models.py:610
-msgid "Office de tourisme"
-msgstr "Office de tourisme"
+#: .\dashboard\models.py:676
+msgid "Pages"
+msgstr "Pages"
 
-#: .\dashboard\models.py:542 .\dashboard\models.py:611
-msgid "Facebook"
-msgstr "Facebook"
+#: .\dashboard\models.py:682
+msgid "User Profile"
+msgstr "Profil utilisateur"
 
-#: .\dashboard\models.py:553
+#: .\dashboard\models.py:686
 msgid "Navigation"
 msgstr "Navigation"
 
-#: .\dashboard\models.py:572
+#: .\dashboard\models.py:698
 msgid "Display"
 msgstr "Afficher"
 
-#: .\dashboard\models.py:586
+#: .\dashboard\models.py:712
 msgid "Actions"
 msgstr "Actions"
 
-#: .\dashboard\models.py:599
+#: .\dashboard\models.py:718
+msgid "Ordered list item 1"
+msgstr "Liste ordonnée (Item 1)"
+
+#: .\dashboard\models.py:719
+msgid "Ordered list item 2"
+msgstr "Liste ordonnée (Item 2)"
+
+#: .\dashboard\models.py:720
+msgid "Ordered list item 3"
+msgstr "Liste ordonnée (Item 3)"
+
+#: .\dashboard\models.py:721
+msgid "Ordered list item 4"
+msgstr "Liste ordonnée (Item 4)"
+
+#: .\dashboard\models.py:722
+msgid "Ordered list item 5"
+msgstr "Liste ordonnée (Item 5)"
+
+#: .\dashboard\models.py:723
+msgid "Ordered list item 6"
+msgstr "Liste ordonnée (Item 6)"
+
+#: .\dashboard\models.py:724
+msgid "Ordered list item 7"
+msgstr "Liste ordonnée (Item 7)"
+
+#: .\dashboard\models.py:725
+msgid "Ordered list item 8"
+msgstr "Liste ordonnée (Item 8)"
+
+#: .\dashboard\models.py:726
+msgid "Ordered list item 9"
+msgstr "Liste ordonnée (Item 9)"
+
+#: .\dashboard\models.py:743
 msgid "Calendar"
 msgstr "Calendrier"
-
-#: .\dashboard\models.py:613
-msgid "Pages"
-msgstr "Pages"
 
 #: .\dashboard\wagtail_hooks.py:30
 msgid "Custom settings"
@@ -804,10 +930,6 @@ msgstr "Paramètres personnalisés"
 #: .\dashboard\wagtail_hooks.py:36
 msgid "My custom settings"
 msgstr "Mes paramètres personnalisés"
-
-#: .\home\models.py:143
-msgid "Gallery"
-msgstr "Carrousel d'images"
 
 #: .\home\models.py:233
 msgid ""
@@ -843,503 +965,6 @@ msgstr "Espagnol"
 #: .\mailing\wagtail_hooks.py:23
 msgid "Mailing"
 msgstr "Envoi de mails"
-
-#: .\templates\account\account_inactive.html:5
-#: .\templates\account\account_inactive.html:9
-msgid "Account Inactive"
-msgstr "Accompte inactif"
-
-#: .\templates\account\account_inactive.html:11
-msgid "This account is inactive."
-msgstr ""
-
-#: .\templates\account\base_reauthenticate.html:5
-#: .\templates\account\base_reauthenticate.html:9
-msgid "Confirm Access"
-msgstr "Confirmer l'accès"
-
-#: .\templates\account\base_reauthenticate.html:11
-msgid "Please reauthenticate to safeguard your account."
-msgstr "Veuillez vous réauthentifier pour sauvegarder votre compte."
-
-#: .\templates\account\base_reauthenticate.html:17
-msgid "Alternative options"
-msgstr "Options alternatives"
-
-#: .\templates\account\email.html:4 .\templates\account\email.html:8
-msgid "Email Addresses"
-msgstr "Adresse mail"
-
-#: .\templates\account\email.html:11
-msgid "The following email addresses are associated with your account:"
-msgstr "Les adresses électroniques suivantes sont associées à votre compte :"
-
-#: .\templates\account\email.html:23
-msgid "Verified"
-msgstr "Vérifié"
-
-#: .\templates\account\email.html:27
-msgid "Unverified"
-msgstr "Non-vérifié"
-
-#: .\templates\account\email.html:32
-msgid "Primary"
-msgstr "Principale"
-
-#: .\templates\account\email.html:42
-msgid "Make Primary"
-msgstr "Passer en principale"
-
-#: .\templates\account\email.html:45 .\templates\account\email_change.html:37
-msgid "Re-send Verification"
-msgstr "Envoyer de nouveau la vérification"
-
-#: .\templates\account\email.html:48
-msgid "Remove"
-msgstr "Supprimer"
-
-#: .\templates\account\email.html:57
-msgid "Add Email Address"
-msgstr "Ajouter une adresse mail"
-
-#: .\templates\account\email.html:70
-msgid "Add Email"
-msgstr "Ajouter un mail"
-
-#: .\templates\account\email.html:79
-msgid "Do you really want to remove the selected email address?"
-msgstr "Souhaitez-vous réellement supprimer l'adresse mail sélectionnée?"
-
-#: .\templates\account\email_change.html:5
-#: .\templates\account\email_change.html:9
-msgid "Email Address"
-msgstr "Adresse mail"
-
-#: .\templates\account\email_change.html:21
-#: .\templates\account\email_change.html:29
-msgid "Current email"
-msgstr "Mail actuel"
-
-#: .\templates\account\email_change.html:31
-msgid "Changing to"
-msgstr "Changer pour"
-
-#: .\templates\account\email_change.html:35
-msgid "Your email address is still pending verification."
-msgstr "Votre adresse est en attente de vérificaiton."
-
-#: .\templates\account\email_change.html:41
-msgid "Cancel Change"
-msgstr "Annuler les modifications"
-
-#: .\templates\account\email_change.html:49
-msgid "Change to"
-msgstr "Changer pour"
-
-#: .\templates\account\email_change.html:55
-msgid "Change Email"
-msgstr "Changer l'adresse Email"
-
-#: .\templates\account\email_confirm.html:4
-#: .\templates\account\email_confirm.html:47
-#: .\templates\account\reauthenticate.html:20
-#: .\templates\account\verification_sent.html:4
-msgid "Confirm"
-msgstr "Confirmer"
-
-#: .\templates\account\email_confirm.html:10
-#: .\templates\account\verification_sent.html:10
-msgid "Mail confirmation"
-msgstr "Confirmation de mail"
-
-#: .\templates\account\email_confirm.html:22
-msgid "Confirm Email Address"
-msgstr "Confirmez votre Email"
-
-#: .\templates\account\email_confirm.html:30
-#, python-format
-msgid ""
-"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an email "
-"address for user %(user_display)s."
-msgstr ""
-"Merci de bien vouloir confirmer que <a href=\"mailto:%(email)s\">%(email)s</a> est bien "
-"l'adresse mail de %(user_display)s."
-
-#: .\templates\account\email_confirm.html:44
-msgid "Confirmation…"
-msgstr "Confirmation…"
-
-#: .\templates\account\email_confirm.html:54
-#, python-format
-msgid ""
-"Unable to confirm %(email)s because it is already confirmed by a different "
-"account."
-msgstr ""
-"Impossible de confirmer %(email)s car cette adresse est déjà associée à un autre "
-"compte."
-
-#: .\templates\account\email_confirm.html:60
-#, python-format
-msgid ""
-"This email confirmation link expired or is invalid. Please <a "
-"href=\"%(email_url)s\">issue a new email confirmation request</a>."
-msgstr ""
-"Ce lien de confirmation est expiré ou invalide. Merci de faire <a "
-"href=\"%(email_url)s\">une nouvelle</a> demande de confirmation."
-
-#: .\templates\account\login.html:4 .\templates\account\login.html:10
-#: .\templates\wagtailadmin\login.html:4
-#: .\templates\wagtailadmin\login.html:10
-msgid "Sign in"
-msgstr "Se connecter"
-
-#: .\templates\account\login.html:30 .\templates\account\signup.html:28
-#: .\templates\wagtailadmin\login.html:30
-msgid "Welcome !"
-msgstr "Bienvenue !"
-
-#: .\templates\account\login.html:35
-#: .\templates\account\password_reset.html:29
-#: .\templates\account\signup.html:34 .\templates\wagtailadmin\login.html:36
-msgid "Note"
-msgstr "Remarque"
-
-#: .\templates\account\login.html:40 .\templates\account\signup.html:39
-#: .\templates\wagtailadmin\login.html:41
-#, python-format
-msgid ""
-"As <strong>%(user_display)s</strong> your are not allowed to view this page. "
-"Please "
-msgstr ""
-"En tant que <strong>%(user_display)s</strong> vous n'êtes pas autorisé à voir cette page. "
-"Merci de "
-
-#: .\templates\account\login.html:41 .\templates\account\login.html:48
-#: .\templates\account\signup.html:40 .\templates\account\signup.html:47
-#: .\templates\account\signup.html:127 .\templates\wagtailadmin\login.html:42
-#: .\templates\wagtailadmin\login.html:49
-msgid "sign in."
-msgstr "vous connecter"
-
-#: .\templates\account\login.html:42 .\templates\account\signup.html:41
-#: .\templates\wagtailadmin\login.html:43
-msgid "with authorized account or"
-msgstr ""
-
-#: .\templates\account\login.html:43 .\templates\account\signup.html:42
-#: .\templates\wagtailadmin\login.html:44
-msgid "return to site"
-msgstr "retournez au site"
-
-#: .\templates\account\login.html:47 .\templates\account\signup.html:46
-#: .\templates\wagtailadmin\login.html:48
-msgid "In order to view this page your need to "
-msgstr "Afin de voir cette page vous devez "
-
-#: .\templates\account\login.html:69 .\templates\account\signup.html:76
-#: .\templates\wagtailusers\users\list.html:20
-#: .\templates\wagtailusers\users\list.html:24
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: .\templates\account\login.html:80 .\templates\account\signup.html:86
-msgid "Password"
-msgstr "Mot de passe"
-
-#: .\templates\account\login.html:90 .\templates\wagtailadmin\login.html:74
-msgid "Forgotten password?"
-msgstr "Vous avez oublié votre mot de passe ?"
-
-#: .\templates\account\login.html:92 .\templates\wagtailadmin\login.html:76
-msgid "Remember me"
-msgstr "Se souvenir de moi"
-
-#: .\templates\account\login.html:97 .\templates\account\login.html:108
-#: .\templates\wagtailadmin\login.html:81
-#: .\templates\wagtailadmin\login.html:91
-msgid "Connexion"
-msgstr "Connexion"
-
-#: .\templates\account\login.html:105 .\templates\wagtailadmin\login.html:88
-msgid "Connexion…"
-msgstr "Connexion…"
-
-#: .\templates\account\login.html:114
-#, python-format
-msgid ""
-"\n"
-"                        <span>If you do not have an account yet, please</"
-"span>\n"
-"                        <span><a href=\"%(signup_url)s\">sign up</a></span>\n"
-"                        <span>before login in.</span>\n"
-"                    "
-msgstr ""
-"\n"
-"                        <span>Si vous n'avez pas encore de compte, veuillez</"
-"span>\n"
-"                        <span><a href=\"%(signup_url)s\">vous inscrire</a></"
-"span>\n"
-"                        <span>avant de vous connecter.</span>\n"
-"                    "
-
-#: .\templates\account\logout.html:4 .\templates\account\logout.html:38
-#: .\templates\account\profile.html:44
-msgid "Sign Out"
-msgstr "Se déconnecter"
-
-#: .\templates\account\logout.html:10
-msgid "Deconnexion"
-msgstr "Déconnexion"
-
-#: .\templates\account\logout.html:21
-msgid "Goodbye!"
-msgstr "A Bientôt!"
-
-#: .\templates\account\logout.html:26
-msgid "Are you sure you want to sign out?"
-msgstr "Êtes-vous sûr de vouloir vous déconnecter ?"
-
-#: .\templates\account\logout.html:35 .\templates\account\profile.html:41
-msgid "Deconnexion…"
-msgstr "Déconnexion…"
-
-#: .\templates\account\logout.html:44
-msgid "No, stay logged in"
-msgstr "Non, rester connecté"
-
-#: .\templates\account\logout.html:46
-msgid "Return to site"
-msgstr "Revenir au site"
-
-#: .\templates\account\password_change.html:4
-#: .\templates\account\password_change.html:11
-#: .\templates\account\password_change.html:47
-#: .\templates\account\password_reset_from_key.html:4
-#: .\templates\account\password_reset_from_key.html:14
-#: .\templates\account\password_reset_from_key.html:57
-#: .\templates\account\password_reset_from_key_done.html:4
-#: .\templates\account\password_reset_from_key_done.html:10
-msgid "Change Password"
-msgstr "Changement de mot de passe"
-
-#: .\templates\account\password_change.html:25
-#: .\templates\account\password_reset_from_key.html:28
-msgid "Choose new password"
-msgstr "Choisissez un nouveau mot de passe"
-
-#: .\templates\account\password_change.html:44
-#: .\templates\account\password_reset_from_key.html:54
-#: .\templates\account\profile.html:57
-msgid "Changing…"
-msgstr "Changements…"
-
-#: .\templates\account\password_reset.html:4
-#: .\templates\account\password_reset.html:10
-#: .\templates\account\password_reset_done.html:4
-#: .\templates\account\password_reset_done.html:10
-#: .\templates\account\password_reset_from_key_done.html:22
-msgid "Password Reset"
-msgstr "Réinitialiser le mot de passe"
-
-#: .\templates\account\password_reset.html:22
-msgid "Enter your Email"
-msgstr "Entrez votre adresse Email"
-
-#: .\templates\account\password_reset.html:30
-#, python-format
-msgid "You are already logged in as %(user_display)s."
-msgstr "Vous êtes déjà connecté en tant que %(user_display)s."
-
-#: .\templates\account\password_reset.html:37
-msgid ""
-"Forgotten your password? Enter your email address below, and we'll send you "
-"an email allowing you to reset it."
-msgstr ""
-"Vous avez oublié votre mot de passe? Entrez votre adresse mail ci-dessous et nous "
-"vous enverrons un mail pour la réinitialiser."
-
-#: .\templates\account\password_reset.html:55
-#: .\templates\account\profile.html:73
-msgid "Resetting…"
-msgstr "Réinitialisation…"
-
-#: .\templates\account\password_reset.html:58
-msgid "Reset My Password"
-msgstr "Réinitialiser mon mot de passe"
-
-#: .\templates\account\password_reset_done.html:22
-msgid "Check your mails to confirm password reset"
-msgstr ""
-
-#: .\templates\account\password_reset_done.html:34
-msgid ""
-"We have sent you an email. If you have not received it please check your "
-"spam folder. Otherwise contact us if you do not receive it in a few minutes."
-msgstr ""
-
-#: .\templates\account\password_reset_from_key.html:12
-msgid "Bad Token"
-msgstr ""
-
-#: .\templates\account\password_reset_from_key.html:35
-#, python-format
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
-msgstr ""
-
-#: .\templates\account\password_reset_from_key_done.html:27
-msgid "Your password is now changed."
-msgstr ""
-
-#: .\templates\account\password_reset_from_key_done.html:34
-msgid "Congratulations,"
-msgstr ""
-
-#: .\templates\account\password_reset_from_key_done.html:37
-msgid "sign up"
-msgstr "S'inscrire"
-
-#: .\templates\account\password_reset_from_key_done.html:40
-msgid "with your new password to go back to site."
-msgstr ""
-
-#: .\templates\account\password_set.html:5
-#: .\templates\account\password_set.html:9
-#: .\templates\account\password_set.html:20
-msgid "Set Password"
-msgstr ""
-
-#: .\templates\account\profile.html:11
-msgid "Profile"
-msgstr "Profil"
-
-#: .\templates\account\profile.html:17
-msgid "Account profile"
-msgstr "Profil du compte"
-
-#: .\templates\account\profile.html:60
-msgid "Change Password?"
-msgstr "Modifier votre mot de passe ?"
-
-#: .\templates\account\profile.html:76
-msgid "Forgot Password?"
-msgstr "Mot de passe oublié ?"
-
-#: .\templates\account\profile.html:89
-msgid "Administration…"
-msgstr "Administration…"
-
-#: .\templates\account\profile.html:92
-msgid "Admin panel"
-msgstr "Panneau d'administration"
-
-#: .\templates\account\profile.html:101
-msgid "First name"
-msgstr "Prénom"
-
-#: .\templates\account\profile.html:108
-msgid "Last name"
-msgstr "Nom de famille"
-
-#: .\templates\account\profile.html:115
-msgid "Display name"
-msgstr "Nom d'affichage"
-
-#: .\templates\account\profile.html:124 .\users\models.py:32
-msgid "Address line 1"
-msgstr "Adresse ligne 1"
-
-#: .\templates\account\profile.html:131 .\users\models.py:35
-msgid "Address line 2"
-msgstr "Adresse ligne 2"
-
-#: .\templates\account\profile.html:138 .\users\models.py:38
-msgid "Postal Code"
-msgstr "Code postal"
-
-#: .\templates\account\profile.html:145 .\users\models.py:41
-msgid "City"
-msgstr "Ville"
-
-#: .\templates\account\profile.html:152
-msgid "Country"
-msgstr "Pays"
-
-#: .\templates\account\profile.html:161 .\users\models.py:52
-msgid "Mobile phone"
-msgstr "Téléphone mobile"
-
-#: .\templates\account\profile.html:168
-msgid "Additional information"
-msgstr "Informations supplémentaires"
-
-#: .\templates\account\profile.html:175 .\users\models.py:29
-msgid "Date of birth"
-msgstr "Date de naissance"
-
-#: .\templates\account\reauthenticate.html:5
-msgid "Enter your password:"
-msgstr ""
-
-#: .\templates\account\signup.html:4 .\templates\account\signup.html:10
-#: .\templates\account\signup.html:109 .\templates\account\signup.html:120
-msgid "Sign Up"
-msgstr "S'inscrire"
-
-#: .\templates\account\signup.html:66
-msgid "Email"
-msgstr "E-mail"
-
-#: .\templates\account\signup.html:97
-msgid "Password (again)"
-msgstr "Mot de passe (à nouveau)"
-
-#: .\templates\account\signup.html:117
-msgid "Signing Up…"
-msgstr "Inscription…"
-
-#: .\templates\account\signup.html:126
-msgid "Already have an account? Please"
-msgstr ""
-
-#: .\templates\account\verification_sent.html:22
-#: .\templates\account\verified_email_required.html:5
-#: .\templates\account\verified_email_required.html:9
-msgid "Verify Your Email Address"
-msgstr ""
-
-#: .\templates\account\verification_sent.html:27
-msgid ""
-"We have sent an email to you for verification. Follow the link provided to "
-"finalize the signup process. If you do not see the verification email in "
-"your main inbox, check your spam folder. Please contact us if you do not "
-"receive the verification email within a few minutes."
-msgstr ""
-
-#: .\templates\account\verified_email_required.html:13
-msgid ""
-"This part of the site requires us to verify that\n"
-"you are who you claim to be. For this purpose, we require that you\n"
-"verify ownership of your email address. "
-msgstr ""
-
-#: .\templates\account\verified_email_required.html:18
-msgid ""
-"We have sent an email to you for\n"
-"verification. Please click on the link inside that email. If you do not see "
-"the verification email in your main inbox, check your spam folder. "
-"Otherwise\n"
-"contact us if you do not receive it within a few minutes."
-msgstr ""
-
-#: .\templates\account\verified_email_required.html:23
-#, python-format
-msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"email address</a>."
-msgstr ""
 
 #: .\templates\amicale\widgets\amicale_list.html:53
 msgid "on"
@@ -1428,12 +1053,16 @@ msgid ""
 "Use carrefully this will send an email to all the people in the "
 "\"recipient\" list !"
 msgstr ""
+"Utiliser avec précaution cela envoi un email à toutes les adresses de la section "
+"\"destinataires\" !"
 
 #: .\templates\mailing\mailing_form.html:228
 msgid ""
 "Use carrefully this will send an email to all the members of the selected "
 "instance !"
 msgstr ""
+"Utiliser avec précaution cela envoi une email à tous les membres de l'instance "
+"sélectionnée !"
 
 #: .\templates\streamforms\advanced_settings.html:3
 #, python-format
@@ -1490,6 +1119,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 #: .\templates\streamforms\index_submissions.html:74
+#, python-format
 msgid "Form data <span>\"%(form_title)s\"</span>"
 msgstr "Données du formulaire <span>%(form_title)s</span>"
 
@@ -1925,13 +1555,16 @@ msgstr "Il ne peut y avoir qu'un seul Maire pour chaque municipalité."
 #: .\users\forms.py:181
 #, python-brace-format
 msgid "There is already a President ({er}) for the commission : {com}."
-msgstr "Il ne peut y avoir qu'un seul président ({er}) pour chaque commission : {com}."
+msgstr ""
+"Il ne peut y avoir qu'un seul président ({er}) pour chaque commission : "
+"{com}."
 
 #: .\users\forms.py:184
 #, python-brace-format
 msgid "There is already a person in charge ({er}) for the commission : {com}."
 msgstr ""
-"Il ne peut y avoir qu'un seul chargé de commission ({er}) pour la commission : {com}."
+"Il ne peut y avoir qu'un seul chargé de commission ({er}) pour la "
+"commission : {com}."
 
 #: .\users\forms.py:196
 msgid ""
@@ -1956,31 +1589,31 @@ msgstr ""
 msgid "With country code and no spaces"
 msgstr "Avec le code pays et sans espaces"
 
-#: .\utils\faq.py:35
+#: .\utils\faq.py:37
 msgid "Law text reference"
 msgstr "Référence du texte de loi"
 
-#: .\utils\faq.py:36
+#: .\utils\faq.py:38
 msgid "Law text link"
 msgstr "Lien vers le texte de loi"
 
-#: .\utils\faq.py:39
-msgid "Law text"
-msgstr "Texte de loi"
+#: .\utils\faq.py:88 .\utils\streamfield.py:359
+msgid "Button"
+msgstr ""
 
-#: .\utils\faq.py:87
+#: .\utils\faq.py:89
 msgid "Embed"
 msgstr "Intégration"
 
-#: .\utils\faq.py:91
+#: .\utils\faq.py:93
 msgid "Simple answer"
 msgstr "Réponse simple"
 
-#: .\utils\faq.py:97
+#: .\utils\faq.py:102
 msgid "Criteria"
 msgstr "Critère"
 
-#: .\utils\faq.py:99
+#: .\utils\faq.py:104
 msgid ""
 "User select the criteria wich fits to his situation, it will allow him to "
 "see related answer(s). Mandatory."
@@ -1988,11 +1621,11 @@ msgstr ""
 "L'utilisateur clique sur le critère qui l'intéresse ce qui lui permet, "
 "d'afficher la/les réponse(s) associée(s), c'est un champ obligatoire."
 
-#: .\utils\faq.py:107
+#: .\utils\faq.py:112
 msgid "Step name"
 msgstr "Intitulé"
 
-#: .\utils\faq.py:109
+#: .\utils\faq.py:114
 msgid ""
 "User click on each steps names to open it and see related answer(s). "
 "Mandatory."
@@ -2000,43 +1633,56 @@ msgstr ""
 "L'utilisateur clique sur un intitulé pour afficher ou masquer la/es "
 "réponse(s) associée(s), c'est un champ obligatoire."
 
-#: .\utils\faq.py:117
-msgid "Introduction"
-msgstr "Introduction"
+#: .\utils\faq.py:121
+msgid "Size reduction"
+msgstr "Taille réduite"
+
+#: .\utils\faq.py:122
+msgid ""
+"Check this box if you want to create a smaller version of choice answer "
+"(Perfect for the choices inside another choice answer)"
+msgstr "Cochez cette case si vous souhaitez une version optionnelle réduite "
+"(Idéal si cette réponse est incluse dans une autre réponse optionnelle)"
 
 #: .\utils\faq.py:128
+msgid "Ordonnated steps"
+msgstr "Liste a étape"
+
+#: .\utils\faq.py:129
+msgid ""
+"Check this box if you want to create an ordonnated version of step answer "
+"(Step 1, Step 2, Step 3, etc.)"
+msgstr "Cochez cette case si vous souhaitez ordonner votre liste (Étape 1, Étape 2, etc.)"
+
+#: .\utils\faq.py:139
 msgid "Related answer(s)"
 msgstr "Réponse(s)"
 
-#: .\utils\faq.py:134
-msgid "Click on the + below to add another "
-msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
-
-#: .\utils\faq.py:140 .\utils\faq.py:180
-msgid "Step"
-msgstr "Élément"
-
-#: .\utils\faq.py:146 .\utils\faq.py:166
+#: .\utils\faq.py:152 .\utils\faq.py:181
 msgid "Condition"
 msgstr "Option"
 
-#: .\utils\faq.py:153 .\utils\faq.py:173
+#: .\utils\faq.py:158 .\utils\faq.py:197
+msgid "Step"
+msgstr "Élément"
+
+#: .\utils\faq.py:165 .\utils\faq.py:188
 msgid "Conditonnal answer"
 msgstr "Réponse optionnelle"
 
-#: .\utils\faq.py:160 .\utils\faq.py:188
+#: .\utils\faq.py:175 .\utils\faq.py:204
 msgid "Step answer"
 msgstr "Réponse en liste"
 
-#: .\utils\imports.py:38
+#: .\utils\imports.py:38 .\utils\streamfield.py:331
 msgid "Left"
 msgstr "Gauche"
 
-#: .\utils\imports.py:39
+#: .\utils\imports.py:39 .\utils\streamfield.py:330
 msgid "Center"
 msgstr "Centre"
 
-#: .\utils\imports.py:40
+#: .\utils\imports.py:40 .\utils\streamfield.py:332
 msgid "Right"
 msgstr "Droite"
 
@@ -2111,7 +1757,9 @@ msgstr "Titre de la page, généré automatiquement, ne peut pas être modifié.
 
 #: .\utils\menu_pages.py:151
 msgid "Slug of the page, automaticaly generated, cannot be changed."
-msgstr "Slug (dans les liens internet) de la page, généré automatiquement, ne peut pas être modifié."
+msgstr ""
+"Slug (dans les liens internet) de la page, généré automatiquement, ne peut "
+"pas être modifié."
 
 #: .\utils\menu_pages.py:155
 msgid "Uncheck to hide this page from the menus."
@@ -2181,12 +1829,12 @@ msgstr ""
 msgid "The file '%(filename)s' is not a PDF document."
 msgstr "Le fichier '%(filename)s' n'est pas un document PDF."
 
-#: .\utils\streamfield.py:241
+#: .\utils\streamfield.py:241 .\utils\streamfield.py:320
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2623
 msgid "URL"
 msgstr "URL"
 
-#: .\utils\streamfield.py:241
+#: .\utils\streamfield.py:241 .\utils\streamfield.py:321
 msgid "Enter the URL."
 msgstr "Entrez l'URL."
 
@@ -2194,7 +1842,7 @@ msgstr "Entrez l'URL."
 msgid "Replacement Text"
 msgstr "Texte de remplacement"
 
-#: .\utils\streamfield.py:245
+#: .\utils\streamfield.py:245 .\utils\streamfield.py:326
 msgid "Enter the visible text for this link (optional)."
 msgstr "Entrez le texte visible pour ce lien (facultatif)."
 
@@ -2270,6 +1918,54 @@ msgstr ""
 "            </div>\n"
 "            "
 
+#: .\utils\streamfield.py:325
+msgid "Button text"
+msgstr "Texte du bouton"
+
+#: .\utils\streamfield.py:335
+msgid "Button position"
+msgstr "Position du bouton"
+
+#: .\utils\streamfield.py:336
+msgid "Horizontal alignment."
+msgstr "Alignement horizontal"
+
+#: .\utils\streamfield.py:340
+msgid "Green"
+msgstr "Vert"
+
+#: .\utils\streamfield.py:341
+msgid "Dark Green"
+msgstr "Vert foncé"
+
+#: .\utils\streamfield.py:342
+msgid "Cyan"
+msgstr "Cyan"
+
+#: .\utils\streamfield.py:343
+msgid "Vert d'eau"
+msgstr "Vert d'eau"
+
+#: .\utils\streamfield.py:344
+msgid "Orange"
+msgstr "Orange"
+
+#: .\utils\streamfield.py:347
+msgid "Button color"
+msgstr "Couleur du bouton"
+
+#: .\utils\streamfield.py:348
+msgid "Optionnal, default is green."
+msgstr "Facultatif, vert par défaut"
+
+#: .\utils\streamfield.py:353
+msgid "Button image"
+msgstr "Icone du bouton"
+
+#: .\utils\streamfield.py:354
+msgid "Optionnal"
+msgstr "Facultatif"
+
 #: .\utils\widgets.py:22
 msgid "Caption"
 msgstr "Légende"
@@ -2295,64 +1991,14 @@ msgstr "Madame"
 msgid "Neutre"
 msgstr "Neutre"
 
-#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
-msgid "Messages"
-msgstr "Messages"
+#~ msgid "Gallery images"
+#~ msgstr "Images de la galerie"
 
-#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_listing_tab.html:19
-msgid "Confirm selection"
-msgstr "Confirmez la sélection"
+#~ msgid "Next item"
+#~ msgstr "Élément suivant"
 
-#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:10
-msgid "Select"
-msgstr "Sélectionner"
-
-#: .\venv\Lib\site-packages\generic_chooser\templates\generic_chooser\_results.html:20
-#, python-format
-msgid "Select %(title)s"
-msgstr "Sélectionner les %(title)s"
-
-#: .\venv\Lib\site-packages\generic_chooser\views.py:419
-#: .\venv\Lib\site-packages\generic_chooser\views.py:421
-msgid "Create"
-msgstr "Créer"
-
-#: .\venv\Lib\site-packages\generic_chooser\views.py:423
-msgid "Uploading…"
-msgstr "Téléchargement…"
-
-#: .\venv\Lib\site-packages\generic_chooser\views.py:489
-#, python-format
-msgid "Add %s"
-msgstr "Ajouter %s"
-
-#: .\venv\Lib\site-packages\generic_chooser\views.py:513
-msgid "Choose"
-msgstr "Choisir"
-
-#: .\venv\Lib\site-packages\generic_chooser\widgets.py:17
-msgid "Choose an item"
-msgstr "Choisir un élément"
-
-#: .\venv\Lib\site-packages\generic_chooser\widgets.py:18
-msgid "Choose another item"
-msgstr "Choisissez un autre élément"
-
-#: .\venv\Lib\site-packages\generic_chooser\widgets.py:19
-msgid "Clear choice"
-msgstr "Effacer le choix"
-
-#: .\venv\Lib\site-packages\generic_chooser\widgets.py:20
-msgid "Edit this item"
-msgstr "Modifier cet élément"
-
-#: .\venv\Lib\site-packages\generic_chooser\widgets.py:21
-msgid "Create an item"
-msgstr "Créer un élément"
-
-#: .\venv\Lib\site-packages\timezone_field\rest_framework.py:10
-msgid "A valid timezone is required."
-msgstr "Un fuseau horaire valide est requis"
+#~ msgid "Click on the + below to add another "
+#~ msgstr "Cliquez sur le + ci-dessous pour ajouter un autre "
 
 #~ msgid ""
 #~ "\n"
@@ -2404,8 +2050,8 @@ msgstr "Un fuseau horaire valide est requis"
 #~ "                    "
 #~ msgstr ""
 #~ "\n"
-#~ "                        <span>Vous n'êtes pas autorisés à voir cette page, "
-#~ "merci de vous connecter avec un autre compte ou<br></span>\n"
+#~ "                        <span>Vous n'êtes pas autorisés à voir cette "
+#~ "page, merci de vous connecter avec un autre compte ou<br></span>\n"
 #~ "                        <span><a href=\"/\">revenez au site.</a></span>\n"
 #~ "                    "
 
