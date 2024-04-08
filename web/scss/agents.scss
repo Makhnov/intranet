@@ -13,7 +13,7 @@
     --gris-clair: #e0e0e0;
     --texte-clair:gainsboro;
     --texte-moyen-clair:lightgray;
-    --texte-moten-fonce:dimgray;
+    --texte-moyen-fonce:dimgray;
     --texte-fonce:darkslategray;
     --texte-tres-clair:whitesmoke;
     --texte-tres-fonce:black;    
@@ -308,9 +308,51 @@ div.container.cgs-multiple {
 }
 .cgs-choice-options.reduced {
     width:100%;
+
+    > ul {
+        padding:0;
+        margin: 0;
+
+        > li {
+        
+            padding-left: calc(2 * var(--padding-choice));
+            width: calc(100% - 3 * var(--padding-choice));
+
+            > div {
+                position: relative;
+            }
+    
+            &:not(.cgs-selected) {              
+                color: var(--texte-moyen-fonce);
+    
+                &:hover {
+                    cursor: pointer;
+                    background-color: var(--content-clair);
+                    color: var(--texte-tres-fonce);        
+                }
+            }
+    
+            &.cgs-selected {
+                color: var(--texte-tres-fonce);
+    
+                border-bottom: none;
+    
+                div::before {                
+                    content: "✔️";
+                    position: absolute;
+                    left: calc(-2 * var(--padding-choice));
+                }
+            }
+        }
+    }
 }
 .cgs-choice-content.reduced {
-    width:100%;
+    width:calc(100% - 4 * var(--padding-choice) - 2px);
+    margin:var(--padding-choice);
+    padding:var(--padding-choice);    
+    background-color: var(--content-clair);    
+    --cgs-theme-light: var(--vert-clair);
+    border: 1px solid var(--vert-fonce);
 }
 
  /***************************************************************************************************************************************************************
