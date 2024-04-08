@@ -58,7 +58,7 @@ class CustomImage(AbstractImage):
             # Étape 2: Vérifier le caractère suivant qui n'est pas un espace
             after_stroke_width = match.group(1)
             value = match.group(2)
-            print(f"Caractère après 'stroke-width': '{after_stroke_width}'", f"Valeur détectée: {value}")
+            # print(f"Caractère après 'stroke-width': '{after_stroke_width}'", f"Valeur détectée: {value}")
 
             # Étape 3 et 4: Construire la nouvelle chaîne de caractères
             new_value = f'calc(var(--cgs-stroke-width) * {value})'
@@ -74,7 +74,7 @@ class CustomImage(AbstractImage):
         pattern = r'stroke-width\s*([:=])\s*["\']?\s*(\d+(?:\.\d+)?)(?=[;\s"\'\n])'
         modified_content = re.sub(pattern, replacement, content)
         
-        print("Contenu modifié:", modified_content)
+        # print("Contenu modifié:", modified_content)
         return modified_content
 
 class CustomRendition(AbstractRendition):
