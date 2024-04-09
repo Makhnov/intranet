@@ -2,7 +2,7 @@ import json
 import os
 from django.conf import settings
 from users.models import User
-from utils.widgets import CiviliteListe, FonctionsConseilListe
+from utils.widgets import CiviliteListe
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -31,7 +31,6 @@ class Command(BaseCommand):
                     'last_name': user_info['nom'],
                     'email': user_info['mail'],
                     'civility': civility,
-                    'function_council': FonctionsConseilListe.MEMBRE,
                     'is_superuser': False,
                     'is_staff': False,
                     'is_active': False
@@ -44,3 +43,6 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(f'Successfully created user {user.username}'))
             else:
                 self.stdout.write(self.style.SUCCESS(f'Successfully updated user {user.username}'))
+
+user = User.objects.get(username='albaladejojessica')
+print(user.function_council)

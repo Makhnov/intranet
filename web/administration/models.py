@@ -404,7 +404,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
             "convocation_documents",
             label=_("Document"),
             heading=_("Attachments"),
-            classname="collapsible collapsed",
+            classname="collapsible",
             attrs={'data-id': "attachments"},
         ),
     ]
@@ -621,7 +621,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             "compte_rendu_documents",
             label=_("Document"),
             heading=_("Attachments"),
-            classname="collapsible collapsed",
+            classname="collapsible",
             attrs={'data-id': "attachments"},
         ),
     ]

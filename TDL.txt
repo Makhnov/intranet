@@ -1,3 +1,7 @@
+# Convocation / compte rendu si slug change.
+# Convocation / compte rendu si slug change.
+# Convocation / compte rendu si slug change.
+
 # Nouveautés (FAQ)
 RECHERCHE FAQ + RECHERCHE AMICALE NONE
 Internal server error
@@ -11,7 +15,6 @@ Internal server error
 # 403 404
 # Contact
 
-# Convocation / compte rendu si slug change.
 # Barre de chargement a revoir.
 # Collection des pdf et docx
 # Logo sans rotation pour le CGS
