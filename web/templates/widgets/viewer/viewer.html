@@ -10,15 +10,84 @@
 {% endblock %}
 
 {% block header %}
-    <header class="cgs">
+    <header class="cgs">        
         <ul class="header-menu">
             <a href="/" class="header-link" title="{{ intranet.root_page.specific.tooltip }}">
                 <img src="{% static 'images/cgs-logo.png' %}" alt="Custom Project" />
-            </a>
+            </a>   
             <div class="cgs-progress">
-                <p class="doc">Chargement {{doc}} du {{ page.date|date:"d F Y" }}</p>
+                {% with doc|split:"_" as docparts %}
+                    <p class="doc">Chargement, veuillez patienter... ({% for part in docparts %}{{part}} {% endfor %}du {{ page.date|date:"d F Y" }})</p>
+                {% endwith %}
                 <p class="progress-value"></p>
             </div>
+            <nav class="viewer" style="display:none;">
+                <ul class="nav-box">
+                    <li class="nav-group pages">
+                        <ul class="nav-box">
+                            <li class="nav-item" id="last-page">
+                                <button class="nav-link" title="Dernière page" alt="Dernière page">                            
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.page_down_max class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="next-page">
+                                <button class="nav-link" title="Page suivante" alt="Page suivante">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.page_down class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="prev-page">
+                                <button class="nav-link" title="Page précédente" alt="Page précédente">                            
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.page_up class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="first-page">
+                                <button class="nav-link" title="Première page" alt="Première page">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.page_up_max class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="page-num">
+                                <input type="number" class="nav-link" title="Page" alt="Page" value="1" max="1" min="1" />
+                                <p><span class="nav-link">sur </span><span class="nav-link max-page">1</span></p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-group zoom">
+                        <ul class="nav-box">
+                            <li class="nav-item" id="zoom-in">
+                                <button class="nav-link" title="Zoom avant" alt="Zoom avant">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="zoom-out">
+                                <button class="nav-link" title="Zoom arrière" alt="Zoom arrière">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out class_type="cgs-nofill" %}
+                                </button>
+                            </li>
+                            <li class="nav-item" id="fullscreen">
+                                <button class="nav-link" title="Passer en mode plein écran" alt="Passer en mode plein écran">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.maximize class_type="cgs-nofill expand" %}
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.minimize class_type="cgs-nofill compress cgs-hidden" %}
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-group misc">
+                        <ul class="nav-box">
+                            <li class="nav-item" id="download">
+                                {% for document in page|get_doc:doc %}
+                                    {% with file=document.document %}
+                                        {% if file %}
+                                            <a href="{{ file.url }}" download title="Télécharger {{ file.title }}" alt="Télécharger le document">
+                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill" %}
+                                            </a>                                        
+                                        {% endif %}
+                                    {% endwith %}
+                                {% endfor %}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         </ul>
     </header> 
 {% endblock %}

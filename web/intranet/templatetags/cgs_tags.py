@@ -33,6 +33,15 @@ register = template.Library()
 #########################                     GENERAUX                     #########################
 #################################################################################################### 
 
+@register.filter
+def get_doc(page, doc):
+    return getattr(page, f"{doc}_documents").all()
+
+@register.filter(name='split')
+def split(value, key):  
+    value.split("key")
+    return value.split(key)
+
 @register.filter(name='replace')
 def replace(value, args):
     search, replace = args.split(',')

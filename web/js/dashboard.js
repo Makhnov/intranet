@@ -112,7 +112,7 @@ function createInfoBlock(id, message) {
         div.setAttribute('id', id);
         const p = document.createElement('p');
         p.classList.add('warning-message');
-        p.textContent = message;
+        p.innerHTML  = message;
         div.appendChild(p);
         return div;
     }
@@ -686,27 +686,115 @@ function convocationDate() {
         checkConvocationDate(this);
     });
 
-    function checkConvocationDate(e) {
+    function checkConvocationDate(date_section) {
         console.log("Fonction checkConvocationDate");
-        // On récupère la date de la convocation
-        const DateValue = e.value;
-        // On récupère la date du jour
-        const today = new Date();
-        const dd = String(today.getDate()).padStart(2, '0');
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const yyyy = today.getFullYear();
-        const date = yyyy + '-' + mm + '-' + dd;
-        
-        // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
-        if (DateValue < date) {
-            agendaSection.classList.add('cgs-hidden');
-            const infoBlock = createInfoBlock("cv-date", "La date de la convocation est antérieure à la date du jour. Ajoutez simplement l'ancienne convocation en pièce jointe 🔗 (format PDF ou DOCX).");
-            if (infoBlock) {
-                PJSection.appendChild(infoBlock);        
+        // On récupère la valeur "old" de la convocation en fetchant son ID
+        const form = document.querySelector('form#page-edit-form');
+
+        if (form) {
+            const action = form.getAttribute('action');
+            const convocationId = action.split('/')[3];
+            const ID = parseInt(convocationId);
+            console.log(convocationId);
+
+            if (convocationId == "add") {
+                console.log("CREATION DE CONVOCATION");
+                manageConvocationDate('create');
+            } else if (ID) {
+                console.log("EDITION DE CONVOCATION");
+                fetch('/api/v2/pages/' + convocationId + '/')
+                .then(response => response.json())
+                .then(data => {
+                    // On vérifie l'ancieneté de la convocation
+                    const old = data.old ? data.old : false;                
+                    console.log(old);
+                    if (old) {
+                        throw new Error("Ancienne convocation détectée");
+                    } else {
+                        console.log("Nouvelle convocation détectée");
+                        manageConvocationDate('new');
+                    }
+                })
+                .catch(error => {
+                    if (error.message === "Ancienne convocation détectée") {                    
+                        console.log(error.message);
+                        manageConvocationDate('old');
+                    } else {
+                        console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+                        manageConvocationDate('error');
+                    }
+                });
+            } else {
+                return
             }
-        } else {
-            removeInfoBlock("cv-date");
-            agendaSection.classList.remove('cgs-hidden');
+        } 
+
+        function manageConvocationDate(state) {
+
+            // On récupère la date de la convocation
+            const selectedDate = date_section.value;
+            // On récupère la date du jour
+            const datetime = new Date();
+            const dd = String(datetime.getDate()).padStart(2, '0');
+            const mm = String(datetime.getMonth() + 1).padStart(2, '0');
+            const yyyy = datetime.getFullYear();
+            // Formatage de la date du jour
+            const today = yyyy + '-' + mm + '-' + dd;
+
+            switch (state) {
+                case 'create':
+                    console.log("CREATE STEP 2");
+                    
+                    // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
+                    if (selectedDate < today) {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.add('cgs-hidden');
+                        const infoBlock = createInfoBlock("cv-date", "La date de la convocation est antérieure à la date du jour. Ajoutez donc simplement l'ancienne convocation en pièce jointe 🔗 (format PDF ou DOCX).<br> Si vous souhaitez remplir vous-même la convocation, choisissez une date adaptée.");
+                        if (infoBlock) {
+                            PJSection.appendChild(infoBlock);        
+                        }
+                    } else {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.remove('cgs-hidden');
+                    }
+
+                    break;
+                case 'new':
+                    console.log("NEW STEP 2");
+                    // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
+                    if (selectedDate < today) {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.remove('cgs-hidden');
+                        const infoNewBlock = createInfoBlock("cv-date", "Attention, lors de sa création, cette convocation a été enregistrée comme 'Nouvelle' même si vous en modifiez la date il faudra toujours la remplir vous même. <br> Si vous souhaitez une 'ancienne' convocation il faut en créer une autre.");
+                        if (infoNewBlock) {
+                            PJSection.appendChild(infoNewBlock);        
+                        }
+                    } else {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.remove('cgs-hidden');
+                    }
+                    break;
+                case 'old':
+                    console.log("OLD STEP 2");
+                    // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
+                    if (selectedDate < today) {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.add('cgs-hidden');
+                    } else {
+                        removeInfoBlock("cv-date");
+                        agendaSection.classList.add('cgs-hidden');
+                        const infoOldBlock = createInfoBlock("cv-date", "Lors de sa création, cette convocation a été enregistrée comme 'Ancienne'. Ajoutez donc simplement l'ordre du jour de la convocation 'originelle' en pièce jointe 🔗 (format PDF ou DOCX).<br> Si vous souhaitez remplir vous même la convocation il faut en créer une nouvelle avec la bonne date (postèrieure à la date en cours), le cas échéant pensez à supprimer celle-ci.");
+                        if (infoOldBlock) {
+                            PJSection.appendChild(infoOldBlock);        
+                        }
+                    }
+                    break;
+                case 'error':
+                    console.log("ERROR STEP 2");
+                    removeInfoBlock("cv-date");
+                    agendaSection.classList.remove('cgs-hidden');
+                    break;
+            }
         }
     }
 }
@@ -1084,10 +1172,10 @@ function compteRenduUsers() {
             quorumSection.classList.add('cgs-hidden');
             agendaSection.classList.add('cgs-hidden');
             // Création du bloc d'information
-            const infoBlock = createInfoBlock("cr-old", "Cette page est liée à une ancienne convocation. Ajoutez simplement le compte-rendu en pièce jointe 🔗 (format PDF ou DOCX).");
+            const infoBlock = createInfoBlock("cr-old", "Cette page est liée à une ancienne convocation. Ajoutez donc simplement le compte-rendu en pièce jointe 🔗 (format PDF ou DOCX).");
             // On l'ajoute apres le premier enfant de PJSection    
             if (infoBlock) {               
-                PJSection.insertBefore(infoBlock, PJSection.firstChild.nextSibling);
+                PJSection.appendChild(infoBlock);
             }
         } else {
             secretarySection.classList.remove('cgs-hidden');

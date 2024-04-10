@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const chartButtons = document.querySelectorAll('button.chartButton');
     const canvas = document.querySelectorAll('.block-chart_block > canvas');
     const img = document.querySelectorAll('.chartpng');
-
-    if (chartButtons) {
+    if (chartButtons.length > 0) {
         console.log(canvas);
         console.log(chartButtons);
         for (let i = 0; i < chartButtons.length; i++) {

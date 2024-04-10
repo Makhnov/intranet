@@ -74,60 +74,246 @@ function cgsViewer(container) {
     }
     console.log('URL du PDF : ' + url);
 
-    // Initialiser la barre de progression
+    // Mesure du temps de chargement total
+    console.time("Temps de chargement total");
+
+    
+    // const padding = document.querySelector('header').offsetHeight + document.querySelector('footer').offsetHeight;
+
+    // Barre de progression
     const progressBox = document.querySelector('div.cgs-progress');
     const progressValue = progressBox.querySelector('p.progress-value');
 
-    // on set --progress à 0
+    // Initialisation des variables
+    let currentPage = 1;
     let progress = 0;
     updateProgress(progress);
 
-    // Charger le document PDF
+    // ECOUTEURS D'EVENEMENTS Apres le chargement du PDF
+
+    // CHARGEMENT DU PDF
     pdfjsLib.getDocument(url).promise.then(pdf => {
         console.log('PDF chargé');
+        console.timeEnd("Temps de chargement du PDF");
 
         // Valeur d'une page en %
         const progressPage = 100 / pdf.numPages;
-
         let lastRenderedPagePromise = Promise.resolve(); // Promesse pour chaîner les rendus
+        const initialPagesToRender = 3; // Nombre de premières pages à charger rapidement
 
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            // Créez un élément canvas pour chaque page dans l'ordre
-            let canvas = document.createElement('canvas');
-            canvas.id = 'page-' + pageNum;
-            container.appendChild(canvas);
-
-            // Chaîner le rendu des pages pour maintenir l'ordre
-            lastRenderedPagePromise = lastRenderedPagePromise.then(() => {
-                return pdf.getPage(pageNum).then(page => {
-                    console.log('Page ' + pageNum + ' chargée');
-                    const viewport = page.getViewport({scale: 1});
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-    
-                    const renderContext = {
-                        canvasContext: canvas.getContext('2d'),
-                        viewport: viewport
-                    };
-                    return page.render(renderContext).promise.then(() => {
-                        console.log('Page ' + pageNum + ' rendue');
-                        progress += progressPage; 
-                        console.log('Progression : ' + progress);
-                        updateProgress(progress);
-                        if(pageNum === pdf.numPages) {
-                            console.log('Progression terminée');
-                            progressBox.style.display = 'none';
-                        }
-                    });
-                });
-            });
+        // Chargement rapide des premières pages
+        console.time("Temps de chargement des premières pages");
+        for (let pageNum = 1; pageNum <= initialPagesToRender; pageNum++) {
+            lastRenderedPagePromise = renderPage(pdf, pageNum, lastRenderedPagePromise, progressPage, container, true);
         }
+        lastRenderedPagePromise.then(() => {
+            console.timeEnd("Temps de chargement des premières pages");
+
+            // Chargement du reste des pages
+            for (let pageNum = initialPagesToRender + 1; pageNum <= pdf.numPages; pageNum++) {
+                lastRenderedPagePromise = renderPage(pdf, pageNum, lastRenderedPagePromise, progressPage, container, false);
+            }
+        });
     }, reason => {
         console.error(reason);
     });
 
+    // Fonction pour le rendu des pages
+    function renderPage(pdf, pageNum, lastRenderedPromise, progressPage, container, isFirstBatch) {
+        return lastRenderedPromise.then(() => {
+            return pdf.getPage(pageNum).then(page => {
+                console.time(`Temps de chargement de la page ${pageNum}`);
+                const scale = Math.max(window.devicePixelRatio || 1, 3);
+                const viewport = page.getViewport({scale: scale});
+                let canvas = document.createElement('canvas');
+                canvas.id = 'page-' + pageNum;
+                container.appendChild(canvas);
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: canvas.getContext('2d'),
+                    viewport: viewport
+                };
+
+                return page.render(renderContext).promise.then(() => {
+                    console.timeEnd(`Temps de chargement de la page ${pageNum}`);
+                    progress += progressPage; 
+                    updateProgress(progress);
+                    if(pageNum === pdf.numPages) {
+                        console.log('Progression terminée');
+                        console.timeEnd("Temps de chargement total");
+                        progressBox.style.display = 'none';
+                        viewerAction(pdf.numPages);
+                    }
+                });
+            });
+        });
+    }
+
+    // Mise à jour de la barre de progression (pour le chargement du pdf)
     function updateProgress(progress) {
         document.documentElement.style.setProperty('--progress', `${progress}%`);
         progressValue.textContent = `${Math.floor(progress)}%`;
     }
+
+    // Gestion des actions de navigation
+    function viewerAction(maxPage) {
+        // On récupère le container de la barre d'actions
+        const actionBox = document.querySelector('nav.viewer');
+        actionBox.style.display = 'block';
+
+        // On défini la valeur maximale de l'input de sélection de page
+        const pageAction = actionBox.querySelector('input');
+        pageAction.max = maxPage;
+
+        // On affiche le nombre total de pages
+        const maxPageBox = actionBox.querySelector('span.max-page');
+        maxPageBox.textContent = maxPage;
+        
+        // On récupère tous les canvas ainsi que leur currentWidth
+        const canvas = container.querySelectorAll('canvas');
+        const initialWaidth = canvas[0].offsetWidth;
+        let currentWidth = initialWaidth;
+
+        // Boutons
+        const firstAction = document.getElementById('first-page');
+        const nextAction = document.getElementById('next-page');
+        const lastAction = document.getElementById('last-page');
+        const prevAction = document.getElementById('prev-page');
+        const zoomIn = document.getElementById('zoom-in');
+        const zoomOut = document.getElementById('zoom-out');
+        const fullscreen = document.getElementById('fullscreen');
+
+        // Elements divers
+        const fsButton = fullscreen.querySelector('button');
+        
+
+        // Actions de page (première, précédente, suivante, dernière)
+        firstAction.addEventListener('click', () => {
+            if (currentPage != 1) {
+                currentPage = 1;
+                pageAction.value = currentPage;
+                const scroll = scrollToPage(currentPage);
+                console.log(scroll);
+            }
+        });
+        prevAction.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                pageAction.value = currentPage;
+                const scroll = scrollToPage(currentPage);
+                console.log(scroll);
+            }
+        });        
+        lastAction.addEventListener('click', () => {
+            if (currentPage != maxPage) {
+                currentPage = maxPage;
+                pageAction.value = currentPage;
+                const scroll = scrollToPage(currentPage);
+                console.log(scroll);
+            }
+        });
+        nextAction.addEventListener('click', () => {
+            if (currentPage < maxPage) {
+                currentPage++;
+                pageAction.value = currentPage;
+                const scroll = scrollToPage(currentPage);
+                console.log(scroll);
+            }
+        });
+        // Action de saisie de la page
+        pageAction.addEventListener('change', () => {
+            const requestedPage = parseInt(pageAction.value);
+            if (!isNaN(requestedPage) && requestedPage >= 1 && requestedPage <= pageAction.max) {
+                currentPage = requestedPage;
+                const scroll = scrollToPage(currentPage);
+                console.log(scroll);
+            } else {
+                // Si la valeur entrée est hors des limites, réinitialiser à la valeur actuelle
+                pageAction.value = currentPage;
+            }
+        });
+
+        // ACTIONS DE ZOOM
+        fullscreen.addEventListener('click', () => {
+            if (fsButton.expanded) {
+                fullScreen(false);
+            } else {
+                fullScreen(true);
+            }            
+        });
+        zoomIn.addEventListener('click', () => {
+            currentWidth *= 1.1;
+            if (currentWidth > canvas[0].width) {
+                currentWidth = canvas[0].width;
+            }
+            applyZoom(currentWidth);
+        });
+        zoomOut.addEventListener('click', () => {
+            currentWidth *= 0.9;
+            if (currentWidth < 350) {
+                currentWidth = 350;
+            }
+            applyZoom(currentWidth);
+        });
+
+        function scrollToPage(pageNum) {
+            const pageElement = document.getElementById(`page-${pageNum}`);
+            if (pageElement) {
+                const beforeScrollTop = container.scrollTop;
+                const elementTopRelativeToContainer = pageElement.offsetTop - container.offsetTop;
+                
+                pageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+                // Cette ligne est juste indicative pour comprendre le calcul
+                console.log('Position attendue après défilement : ' + elementTopRelativeToContainer);
+                
+                return elementTopRelativeToContainer;
+            }
+        }
+
+        function fullScreen(bool) {
+            const expand = fsButton.querySelector('.expand');
+            const compress = fsButton.querySelector('.compress');
+
+            // On met à jour l'attribut expanded du bouton
+            fsButton.expanded = bool;
+
+            if (bool) {// On entre en mode plein écran                
+                container.style.setProperty('--canvas-max-width', '100%');
+                container.style.setProperty('--canvas-max-height', 'none');
+                container.style.setProperty('--canvas-width', 'initial');
+                currentWidth = initialWaidth;
+                expand.classList.add('cgs-hidden');
+                compress.classList.remove('cgs-hidden');
+                fsButton.setAttribute('title', 'Quitter le mode plein écran');
+                fsButton.setAttribute('alt', 'Quitter le mode plein écran');
+            } else {// On quitte le mode plein écran
+                container.style.setProperty('--canvas-max-width', '100%');
+                container.style.setProperty('--canvas-max-height', 'calc(100vh - (var(--header-height) + var(--footer-height) + var(--header-padding)))');
+                container.style.setProperty('--canvas-width', 'initial');
+                currentWidth = initialWaidth;
+                expand.classList.remove('cgs-hidden');
+                compress.classList.add('cgs-hidden');
+                fsButton.setAttribute('title', 'Passer en mode plein écran');
+                fsButton.setAttribute('alt', 'Passer en mode plein écran');
+            }
+        }
+
+        function applyZoom() {
+            console.log('currentWidth : ' + currentWidth);
+            console.log('container width : ' + container.offsetWidth);
+            if (currentWidth > container.offsetWidth) {
+                container.style.justifyContent = 'flex-start';
+                container.style.overflowX = 'scroll';                
+            } else {
+                container.style.justifyContent = 'center';
+                container.style.overflowX = 'initial';                
+            }
+            container.style.setProperty('--canvas-width', `${currentWidth}px`);
+            container.style.setProperty('--canvas-max-height', 'none');
+            container.style.setProperty('--canvas-max-width', 'none');
+        }
+    }    
 }

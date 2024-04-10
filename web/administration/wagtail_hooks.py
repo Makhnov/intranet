@@ -80,7 +80,6 @@ def before_edit_page_hook(request, page):
 @hooks.register("after_create_page")
 def after_create_page_handler(request, page):
     after_edit_and_create(request, page)
-    page.specific.save()
     after_create_only(request, page)
 
 @hooks.register("after_edit_page")
@@ -104,37 +103,42 @@ def after_edit_and_create(request, page):
 def after_create_only(request, page):
     page_specific_administration = page.specific
     if isinstance(page_specific_administration, ConvocationPage):
-        create_convocation_users(request, page)    
+        convocation_old(request, page)
+        create_convocation_users(request, page)
 
 # AFTER (EDIT ONLY)
 def after_edit_only(request, page):
-    pass
-
+    if isinstance(page.specific, ConvocationPage):
+        convocation_old(request, page)
+        
 #############
 # FONCTIONS #
 #############
 
-# Comparaison des dates
-def compare_dates(request, page):
-    request = request.POST.copy()
-    published = page.first_published_at
+# On vérifie l'ancienneté de la convocation à sa création
+def convocation_old(request, page):
+    print(colored(f"Starting convocation_old for: {page}", "green"))
     
-    if published:
-        now = published.replace(tzinfo=None)
-    else:
-        now = datetime.now()
-    
-    then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
-    print(now)
-    print(then)
-    
-    if now > then:
-        # print("La date est passée")
-        return True
-    else:
-        # print("La date n'est pas passée")
-        return False
-    
+    if page.specific.old:
+        return
+    else:    
+        request = request.POST.copy()
+        now = datetime.now()    
+        then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
+        
+        print(now)
+        print(then)
+        
+        if now > then:
+            print("La date est passée")
+            page.specific.old = True
+        else:
+            print("La date n'est pas passée")
+            page.specific.old = False
+
+        page.specific.save()
+        page.save_revision().publish()
+
 # Définition des champs par défaut pour les pages de type CompteRenduPage (before)
 def set_cr_defaults(request, parent_page, page=None, page_class=None):
     """
@@ -195,19 +199,12 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
     # print(colored(f"Starting title and slugs status update for: {page}", "green"))
-
-    # Si on sauvegarde une convocation on vérifie la date
-    if isinstance(page.specific, ConvocationPage):
-        if compare_dates(request, page):
-            page.specific.old = True
-        else:
-            page.specific.old = False
         
     # Copie de la requête
     request = request.POST.copy()        
        
     user_date = request.get("date")    
-    print(f'Date utilisateur : {user_date}')
+    # print(f'Date utilisateur : {user_date}')
     if user_date:
         try:
             # Formatage de la date pour le titre et le slug
@@ -242,17 +239,12 @@ def update_convoc_and_cr_defaults(request, page):
 # Fonction pour récupérer les utilisateurs en fonction de la page parente
 def create_convocation_users(request, page):
     # print(colored(f"Starting convc_users status update for: {page}", "green"))
-
-    try:
-        # On vérifie la date de la convocation, on la signifie comme "ancienne" le cas échéant
-        if compare_dates(request, page):
-            page.specific.old = True
-            page.specific.save()
-            return
-        else:
-            page.specific.old = False
-            page.specific.save()
-            
+    # On vérifie la date de la convocation, on la signifie comme "ancienne" le cas échéant
+    if page.specific.old:
+        print("La convocation est marquée comme ancienne.")
+        return
+    
+    try:            
         parent_page = page.get_parent().specific
         # print(f"Le type de parent_page est: {type(parent_page)}")
         
@@ -358,12 +350,13 @@ def update_presence_status(request, page):
         convocation_id = request.POST.get('convocation')                        
         
         if convocation_id is not None:
-            # Récupère l'objet ConvocationPage
-            convocation = get_object_or_404(ConvocationPage, id=convocation_id)
+            
             # On vérifie si la convocation est spécifiée comme ancienne
+            convocation = get_object_or_404(ConvocationPage, id=convocation_id)
             if convocation.old:
-                # print(f"La convocation {convocation_id} est marquée comme ancienne.")
+                print(f"La convocation {convocation_id} est marquée comme ancienne.")
                 return
+            
             # print(f"La convocation {convocation_id} n'est pas marquée comme ancienne.")            
             # On récupère toutes les données nécessaires au traitement de la requête
             replaced_user_ids = request.POST.getlist('replaced_users')
@@ -522,6 +515,11 @@ def import_file(request, page):
     page_specific = page.specific
     # print(f'Import file for {page_specific}')
     
+    request = request.POST.copy()
+    convocation_id = request.get('convocation') 
+    if convocation_id is None:
+        return
+    
     # tentative d'import PDF ou DOCX
     no_import = True
     
@@ -553,199 +551,208 @@ def import_file(request, page):
         else:
             pass
         
-    # Pas de fichier à importer
-    if no_import:            
+    if no_import: # Pas de fichier à importer      
         # print("Aucun fichier à importer")
-        return
-    # Un fichier à importer
-    else:
-        try:
-            # On récupèr les données nécessaires pour le traitement
-            cr_date = page_specific.date
-            collection_restrictions = page.get_view_restrictions()
+        return    
+    else: # Un fichier à importer
+        # On vérifie si la convocation est spécifiée comme ancienne
+        convocation = get_object_or_404(ConvocationPage, id=convocation_id)
+        if convocation.old:
+            print(f"La convocation {convocation_id} est marquée comme ancienne.")
+            messages.error(
+                request,
+                mark_safe(
+                    "Vous ne pouvez pas importer de fichiers pour une compte-rendu lié à une convocation passée."
+                )
+            )
+            return
+    try:
+        # On récupèr les données nécessaires pour le traitement
+        cr_date = page_specific.date
+        collection_restrictions = page.get_view_restrictions()
 
-            if cr_date:
-                formatted_date = cr_date.strftime('%d/%m/%Y')
-                collection_date = f"CR {formatted_date}"
-            else:
-                collection_date = "CR Date unknown"
-            
-            # Initialiser une nouvelle liste pour stocker les blocs mis à jour
-            new_blocks = []
+        if cr_date:
+            formatted_date = cr_date.strftime('%d/%m/%Y')
+            collection_date = f"CR {formatted_date}"
+        else:
+            collection_date = "CR Date unknown"
+        
+        # Initialiser une nouvelle liste pour stocker les blocs mis à jour
+        new_blocks = []
 
-            # Itérer sur tous les blocs du StreamField
-            for block in page_specific.body:     
-                        
-                # Le bloc est un type de bloc PDF
-                if block.block_type == 'PDF':
-                    # print(colored(f"PDF BLOCK", "white", "on_green"))
+        # Itérer sur tous les blocs du StreamField
+        for block in page_specific.body:     
                     
-                    # L'utilisateur souhaite importer le PDF
-                    if block.value.get('pdf_import'):                
-                        # print(colored(f"IMPORTED BLOCK", "yellow"))
-                        document = block.value.get('pdf_document')
-                        
-                        # Le document est un fichier PDF
-                        if document and document.filename.split(".")[-1].lower() == 'pdf':
-                            # print(colored(f"FILE IS PDF", "green"))                                        
-                            
-                            # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
-                            image_ids = block.block.get_content(document, collection_date, collection_restrictions)
-
-                            # Convertir les IDs en une ListValue pour le bloc
-                            images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
-                            
-                            # On met à jour le champ images du bloc avec la ListValue
-                            block.value['pdf_images'] = images_list_value
-                            
-                            # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
-                            new_blocks.append((block.block_type, block.value))
-                        
-                        else: # Le BLOC est un PDF, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un PDF
-                            # print(colored(f"FILE IS NOT A PDF : {document.filename}", "magenta", "on_white"))                
-                            new_blocks.append((block.block_type, block.value))
+            # Le bloc est un type de bloc PDF
+            if block.block_type == 'PDF':
+                # print(colored(f"PDF BLOCK", "white", "on_green"))
+                
+                # L'utilisateur souhaite importer le PDF
+                if block.value.get('pdf_import'):                
+                    # print(colored(f"IMPORTED BLOCK", "yellow"))
+                    document = block.value.get('pdf_document')
                     
-                    else:# Le BLOC est un PDF, MAIS l'utilisateur ne souhaite PAS l'importer
-                        # print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
+                    # Le document est un fichier PDF
+                    if document and document.filename.split(".")[-1].lower() == 'pdf':
+                        # print(colored(f"FILE IS PDF", "green"))                                        
+                        
+                        # Appeler la méthode pour obtenir les images du PDF et récupérer les IDs des images
+                        image_ids = block.block.get_content(document, collection_date, collection_restrictions)
+
+                        # Convertir les IDs en une ListValue pour le bloc
+                        images_list_value = ListBlock(ImageChooserBlock()).to_python(image_ids)
+                        
+                        # On met à jour le champ images du bloc avec la ListValue
+                        block.value['pdf_images'] = images_list_value
+                        
+                        # Ajouter le bloc PDF mis à jour à la liste des nouveaux blocs
+                        new_blocks.append((block.block_type, block.value))
+                    
+                    else: # Le BLOC est un PDF, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un PDF
+                        # print(colored(f"FILE IS NOT A PDF : {document.filename}", "magenta", "on_white"))                
                         new_blocks.append((block.block_type, block.value))
                 
-                # Le bloc est un bloc de type DOCX
-                elif block.block_type == 'DOCX':
-                    # print(colored(f"DOCX BLOCK", "white", "on_green"))
+                else:# Le BLOC est un PDF, MAIS l'utilisateur ne souhaite PAS l'importer
+                    # print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
+                    new_blocks.append((block.block_type, block.value))
+            
+            # Le bloc est un bloc de type DOCX
+            elif block.block_type == 'DOCX':
+                # print(colored(f"DOCX BLOCK", "white", "on_green"))
 
-                    # L'utilisateur souhaite importer le DOCX
-                    if block.value.get('docx_import'):
-                        # print(colored(f"IMPORTED BLOCK", "yellow"))
-                        document = block.value.get('docx_document')
+                # L'utilisateur souhaite importer le DOCX
+                if block.value.get('docx_import'):
+                    # print(colored(f"IMPORTED BLOCK", "yellow"))
+                    document = block.value.get('docx_document')
 
-                        # Le document est un fichier DOCX
-                        if document and document.filename.split(".")[-1].lower() == 'docx':
-                            # print(colored(f"FILE IS DOCX", "green"))
-                            
-                            # Appeler la méthode pour obtenir le contenu HTML du DOCX et récupérer l'ID de l'image
-                            content = block.block.get_content(document, collection_date, collection_restrictions)
-
-                            stream_block = StreamBlock([
-                                ('heading', HeadingDOCXBlock()),
-                                ('paragraph', ParagraphDOCXBlock()),
-                                ('image', ImageDOCXBlock()),
-                                ('table', TableDOCXBlock()),                        
-                            ])
-                            
-                            # Créer une liste de dictionnaires pour chaque élément de contenu
-                            stream_data = []
-                            
-                            i = 0
-                            bg_colors = ITER_COLORS
-                            for element in content:
-                                
-                                i += 1
-                                color_index = (i - 1) % 6
-                                # print(colored(f"ELEMENT {i}: {element[0]}", "white", bg_colors[color_index]))
-                                
-                                if element[0] == 'heading':
-                                    stream_data.append({
-                                        'type': 'heading',
-                                        'value': {
-                                            'heading': element[1][1],  
-                                            'heading_level': element[1][0],
-                                        }
-                                    })
-                                elif element[0] == 'paragraph':
-                                    stream_data.append({
-                                        'type': 'paragraph',
-                                        'value': {
-                                            'paragraph': element[1],  
-                                            # 'position': 'justify',  
-                                        }
-                                    })
-                                elif element[0] == 'image':                            
-                                    stream_data.append({
-                                        'type': 'image',
-                                        'value': {
-                                            'image': element[1],  
-                                            # 'size': 'medium',
-                                            # 'position': 'center',
-                                        }
-                                    })
-                                elif element[0] == 'table':
-                                    stream_data.append({
-                                        'type': 'table',
-                                        'value': {
-                                            'table': element[1], 
-                                            # 'size': 'medium',
-                                            # 'position': 'center',
-                                        }
-                                    })                   
-                                                        
-                            # Créer un StreamValue basé sur le StreamBlock et les données dynamiques
-                            stream_value = stream_block.to_python(stream_data)
-
-                            # Mettre à jour 'docx_content' avec le nouveau StreamValue
-                            block.value['docx_content'] = stream_value
-
-                            # # Ajouter le bloc DOCX mis à jour à la liste du streamfield
-                            new_blocks.append((block.block_type, block.value))
+                    # Le document est un fichier DOCX
+                    if document and document.filename.split(".")[-1].lower() == 'docx':
+                        # print(colored(f"FILE IS DOCX", "green"))
                         
-                        else: # Le BLOC est un DOCX, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un DOCX
-                            # print(colored(f"FILE IS NOT A DOCX : {document.filename}", "magenta", "on_white"))
-                            new_blocks.append((block.block_type, block.value))
+                        # Appeler la méthode pour obtenir le contenu HTML du DOCX et récupérer l'ID de l'image
+                        content = block.block.get_content(document, collection_date, collection_restrictions)
+
+                        stream_block = StreamBlock([
+                            ('heading', HeadingDOCXBlock()),
+                            ('paragraph', ParagraphDOCXBlock()),
+                            ('image', ImageDOCXBlock()),
+                            ('table', TableDOCXBlock()),                        
+                        ])
                         
-                    else:# Le BLOC est un DOCX, l'utilisateur ne souhaite PAS l'importer
-                        # print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
+                        # Créer une liste de dictionnaires pour chaque élément de contenu
+                        stream_data = []
+                        
+                        i = 0
+                        bg_colors = ITER_COLORS
+                        for element in content:
+                            
+                            i += 1
+                            color_index = (i - 1) % 6
+                            # print(colored(f"ELEMENT {i}: {element[0]}", "white", bg_colors[color_index]))
+                            
+                            if element[0] == 'heading':
+                                stream_data.append({
+                                    'type': 'heading',
+                                    'value': {
+                                        'heading': element[1][1],  
+                                        'heading_level': element[1][0],
+                                    }
+                                })
+                            elif element[0] == 'paragraph':
+                                stream_data.append({
+                                    'type': 'paragraph',
+                                    'value': {
+                                        'paragraph': element[1],  
+                                        # 'position': 'justify',  
+                                    }
+                                })
+                            elif element[0] == 'image':                            
+                                stream_data.append({
+                                    'type': 'image',
+                                    'value': {
+                                        'image': element[1],  
+                                        # 'size': 'medium',
+                                        # 'position': 'center',
+                                    }
+                                })
+                            elif element[0] == 'table':
+                                stream_data.append({
+                                    'type': 'table',
+                                    'value': {
+                                        'table': element[1], 
+                                        # 'size': 'medium',
+                                        # 'position': 'center',
+                                    }
+                                })                   
+                                                    
+                        # Créer un StreamValue basé sur le StreamBlock et les données dynamiques
+                        stream_value = stream_block.to_python(stream_data)
+
+                        # Mettre à jour 'docx_content' avec le nouveau StreamValue
+                        block.value['docx_content'] = stream_value
+
+                        # # Ajouter le bloc DOCX mis à jour à la liste du streamfield
                         new_blocks.append((block.block_type, block.value))
-                        
-                # Le bloc est un bloc de type CHART
-                elif block.block_type == 'chart':
-                    # print(colored(f"CHART BLOCK", "white", "on_green"))
-                    # print(colored(f"BLOCK VALUE: {block.value[0]}", "white", "on_green"))
                     
-                    from bs4 import BeautifulSoup
-                    import json
-
-                    # Votre chaîne HTML du bloc 'chart', obtenue de block.value
-                    html_content = str(block.value)
-
-                    # Analyser le HTML avec BeautifulSoup
-                    soup = BeautifulSoup(html_content, 'html.parser')
-
-                    # Trouver l'élément canvas et extraire l'attribut 'data-datasets'
-                    canvas = soup.find('canvas')
-                    data_datasets = canvas['data-datasets'] if canvas else '{}'
-
-                    # Assurez-vous que data_datasets est une chaîne avant de l'analyser avec json.loads()
-                    if isinstance(data_datasets, str):
-                        data_json = json.loads(data_datasets)
-                        # print("DATAJSON", data_json)
-                    else:
-                        # Si data_datasets est déjà un dictionnaire (ou tout objet non chaîne), pas besoin de json.loads()
-                        # print("DATASET", data_datasets)
-
-                        
-                        # # L'utilisateur souhaite importer le CHART
-                        # if block.value.get('chart_import'):
-                        #     print(colored(f"IMPORTED BLOCK", "yellow"))
-                        #     document = block.value.get('chart_document')
-
-                        # # Appeler la méthode pour obtenir le contenu HTML du CHART et récupérer l'ID de l'image
-                        # content = block.block.get_content(document, collection_date, collection_restrictions)
-
-                        # # Mettre à jour 'chart_content' avec le contenu HTML
-                        # block.value['chart_content'] = content
-                        # print(colored(f"CONTENT: {content}", "white", "on_green"))
-                        
-                        # # Ajouter le bloc CHART mis à jour à la liste du streamfield
+                    else: # Le BLOC est un DOCX, l'utilisateur souhaite lancer l'import, MAIS le FICHIER n'est PAS un DOCX
+                        # print(colored(f"FILE IS NOT A DOCX : {document.filename}", "magenta", "on_white"))
                         new_blocks.append((block.block_type, block.value))
-
-                # Le BLOC n'est ni un PDF ni un DOCX ni un CHART
-                else:
-                    # print(colored(f"NOT PDF BLOCK", "red", "on_white"))
+                    
+                else:# Le BLOC est un DOCX, l'utilisateur ne souhaite PAS l'importer
+                    # print(colored(f"NOT IMPORTED BLOCK", "yellow", "on_white"))
                     new_blocks.append((block.block_type, block.value))
                     
-            # Mise à jour du StreamField avec les blocs mis à jour
-            page_specific.body = new_blocks
-            # page_specific.save()
-            page_specific.save_revision().publish()        
-        except Exception as e:
+            # Le bloc est un bloc de type CHART
+            elif block.block_type == 'chart':
+                # print(colored(f"CHART BLOCK", "white", "on_green"))
+                # print(colored(f"BLOCK VALUE: {block.value[0]}", "white", "on_green"))
+                
+                from bs4 import BeautifulSoup
+                import json
+
+                # Votre chaîne HTML du bloc 'chart', obtenue de block.value
+                html_content = str(block.value)
+
+                # Analyser le HTML avec BeautifulSoup
+                soup = BeautifulSoup(html_content, 'html.parser')
+
+                # Trouver l'élément canvas et extraire l'attribut 'data-datasets'
+                canvas = soup.find('canvas')
+                data_datasets = canvas['data-datasets'] if canvas else '{}'
+
+                # Assurez-vous que data_datasets est une chaîne avant de l'analyser avec json.loads()
+                if isinstance(data_datasets, str):
+                    data_json = json.loads(data_datasets)
+                    # print("DATAJSON", data_json)
+                else:
+                    # Si data_datasets est déjà un dictionnaire (ou tout objet non chaîne), pas besoin de json.loads()
+                    # print("DATASET", data_datasets)
+
+                    
+                    # # L'utilisateur souhaite importer le CHART
+                    # if block.value.get('chart_import'):
+                    #     print(colored(f"IMPORTED BLOCK", "yellow"))
+                    #     document = block.value.get('chart_document')
+
+                    # # Appeler la méthode pour obtenir le contenu HTML du CHART et récupérer l'ID de l'image
+                    # content = block.block.get_content(document, collection_date, collection_restrictions)
+
+                    # # Mettre à jour 'chart_content' avec le contenu HTML
+                    # block.value['chart_content'] = content
+                    # print(colored(f"CONTENT: {content}", "white", "on_green"))
+                    
+                    # # Ajouter le bloc CHART mis à jour à la liste du streamfield
+                    new_blocks.append((block.block_type, block.value))
+
+            # Le BLOC n'est ni un PDF ni un DOCX ni un CHART
+            else:
+                # print(colored(f"NOT PDF BLOCK", "red", "on_white"))
+                new_blocks.append((block.block_type, block.value))
+                
+        # Mise à jour du StreamField avec les blocs mis à jour
+        page_specific.body = new_blocks
+        # page_specific.save()
+        page_specific.save_revision().publish()        
+    except Exception as e:
             print(f'Erreur lors de l\'import du fichier : {e}')
             return False

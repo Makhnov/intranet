@@ -362,7 +362,43 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Next Item"),
         help_text=_("Footer icon to nvaigate (right) in the list"),
     )
-
+    page_down = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Page Down"),
+        help_text=_("Header icon to go to the next page in viewers (PDF, etc.)"),
+    )
+    page_up = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Page Up"),
+        help_text=_("Header icon to go to the previous page in viewers (PDF, etc.)"),
+    )
+    page_down_max = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Page Down Max"),
+        help_text=_("Header icon to go to the last page in viewers (PDF, etc.)"),
+    )
+    page_up_max = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Page Up Max"),
+        help_text=_("Header icon to go to the first page in viewers (PDF, etc.)"),
+    )
+    
     # DISPLAY
     open = models.ForeignKey(
         get_image_model_string(),
@@ -440,6 +476,38 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         help_text=_("Zoom out"),
         verbose_name=_("Zoom out")
+    )
+    maximize = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Maximize")
+    )
+    minimize = models.ForeignKey(   
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Minimize")
+    )
+    expand = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Expand")
+    )
+    compress = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Compress")
     )
     apply_filter = models.ForeignKey(
         get_image_model_string(),
@@ -692,6 +760,10 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('user_profile', heading=_("User Profile")),
                 FieldPanel('previous_item', heading=_("Previous Item")),
                 FieldPanel('next_item', heading=_("Next Item")),
+                FieldPanel('page_down', heading=_("Page Down")),
+                FieldPanel('page_up', heading=_("Page Up")),
+                FieldPanel('page_down_max', heading=_("Page Down Max")),
+                FieldPanel('page_up_max', heading=_("Page Up Max")),                
             ],
             heading=_("Navigation"),
             classname="collapsible, collapsed"
@@ -713,6 +785,10 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('search', heading=_("Search")),
                 FieldPanel('zoom_in', heading=_("Zoom in")),
                 FieldPanel('zoom_out', heading=_("Zoom out")),
+                FieldPanel('maximize', heading=_("Maximize")),
+                FieldPanel('minimize', heading=_("Minimize")),
+                FieldPanel('expand', heading=_("Expand")),
+                FieldPanel('compress', heading=_("Compress")),
                 FieldPanel('apply_filter', heading=_("Apply filter")),
                 FieldPanel('reset_filter', heading=_("Reset filter")),
                 FieldPanel('copy', heading=_("Copy to clipboard")),
