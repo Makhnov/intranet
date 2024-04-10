@@ -1,3 +1,7 @@
+html, body {
+	overscroll-behavior: none;
+}
+
 body.cgs-administration div.cgs-content {
 	width:100vw!important;
 	height: fit-content!important;

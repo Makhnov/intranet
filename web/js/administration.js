@@ -66,7 +66,13 @@ function cgsDoc() {
 }
 
 // Gestion de la visualisation des documents
-function cgsViewer(container) {    
+async function cgsViewer(container) {
+    console.time("Temps de chargement du PDF");
+    console.time("Temps de chargement total");
+
+    const isSmartphone = isMobileDevice();
+    console.log(isSmartphone ? 'Appareil mobile détecté' : 'Grand écran détecté');
+
     const url = container.getAttribute('data-url');
     if (!url) {
         console.error('URL du PDF non définie');
@@ -74,84 +80,54 @@ function cgsViewer(container) {
     }
     console.log('URL du PDF : ' + url);
 
-    // Mesure du temps de chargement total
-    console.time("Temps de chargement total");
-
-    
-    // const padding = document.querySelector('header').offsetHeight + document.querySelector('footer').offsetHeight;
-
     // Barre de progression
     const progressBox = document.querySelector('div.cgs-progress');
     const progressValue = progressBox.querySelector('p.progress-value');
-
-    // Initialisation des variables
-    let currentPage = 1;
     let progress = 0;
     updateProgress(progress);
 
-    // ECOUTEURS D'EVENEMENTS Apres le chargement du PDF
-
-    // CHARGEMENT DU PDF
-    pdfjsLib.getDocument(url).promise.then(pdf => {
+    try {
+        const pdf = await pdfjsLib.getDocument(url).promise;
         console.log('PDF chargé');
         console.timeEnd("Temps de chargement du PDF");
 
-        // Valeur d'une page en %
         const progressPage = 100 / pdf.numPages;
-        let lastRenderedPagePromise = Promise.resolve(); // Promesse pour chaîner les rendus
-        const initialPagesToRender = 3; // Nombre de premières pages à charger rapidement
 
-        // Chargement rapide des premières pages
-        console.time("Temps de chargement des premières pages");
-        for (let pageNum = 1; pageNum <= initialPagesToRender; pageNum++) {
-            lastRenderedPagePromise = renderPage(pdf, pageNum, lastRenderedPagePromise, progressPage, container, true);
+        // Chargez et affichez toutes les pages du PDF
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            await renderPage(pdf, pageNum, progressPage, container);
         }
-        lastRenderedPagePromise.then(() => {
-            console.timeEnd("Temps de chargement des premières pages");
+        console.log('Toutes les pages sont chargées');
+        console.timeEnd("Temps de chargement total");
+        progressBox.style.display = 'none';        
+        viewerAction(pdf.numPages);
 
-            // Chargement du reste des pages
-            for (let pageNum = initialPagesToRender + 1; pageNum <= pdf.numPages; pageNum++) {
-                lastRenderedPagePromise = renderPage(pdf, pageNum, lastRenderedPagePromise, progressPage, container, false);
-            }
-        });
-    }, reason => {
+    } catch (reason) {
         console.error(reason);
-    });
-
-    // Fonction pour le rendu des pages
-    function renderPage(pdf, pageNum, lastRenderedPromise, progressPage, container, isFirstBatch) {
-        return lastRenderedPromise.then(() => {
-            return pdf.getPage(pageNum).then(page => {
-                console.time(`Temps de chargement de la page ${pageNum}`);
-                const scale = Math.max(window.devicePixelRatio || 1, 3);
-                const viewport = page.getViewport({scale: scale});
-                let canvas = document.createElement('canvas');
-                canvas.id = 'page-' + pageNum;
-                container.appendChild(canvas);
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-
-                const renderContext = {
-                    canvasContext: canvas.getContext('2d'),
-                    viewport: viewport
-                };
-
-                return page.render(renderContext).promise.then(() => {
-                    console.timeEnd(`Temps de chargement de la page ${pageNum}`);
-                    progress += progressPage; 
-                    updateProgress(progress);
-                    if(pageNum === pdf.numPages) {
-                        console.log('Progression terminée');
-                        console.timeEnd("Temps de chargement total");
-                        progressBox.style.display = 'none';
-                        viewerAction(pdf.numPages);
-                    }
-                });
-            });
-        });
     }
 
-    // Mise à jour de la barre de progression (pour le chargement du pdf)
+    async function renderPage(pdf, pageNum, progressPage, container) {
+        const page = await pdf.getPage(pageNum);
+        console.time(`Temps de chargement de la page ${pageNum}`);
+        const scale = isSmartphone ? window.devicePixelRatio : Math.max(window.devicePixelRatio || 1, 3);
+        const viewport = page.getViewport({scale: scale});
+        let canvas = document.createElement('canvas');
+        canvas.id = 'page-' + pageNum;
+        container.appendChild(canvas);
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+            canvasContext: canvas.getContext('2d'),
+            viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+        console.timeEnd(`Temps de chargement de la page ${pageNum}`);
+        progress += progressPage;
+        updateProgress(progress);
+    }
+
     function updateProgress(progress) {
         document.documentElement.style.setProperty('--progress', `${progress}%`);
         progressValue.textContent = `${Math.floor(progress)}%`;
@@ -284,6 +260,7 @@ function cgsViewer(container) {
                 container.style.setProperty('--canvas-max-width', '100%');
                 container.style.setProperty('--canvas-max-height', 'none');
                 container.style.setProperty('--canvas-width', 'initial');
+                container.style.justifyContent = 'center';
                 currentWidth = initialWaidth;
                 expand.classList.add('cgs-hidden');
                 compress.classList.remove('cgs-hidden');
@@ -293,6 +270,7 @@ function cgsViewer(container) {
                 container.style.setProperty('--canvas-max-width', '100%');
                 container.style.setProperty('--canvas-max-height', 'calc(100vh - (var(--header-height) + var(--footer-height) + var(--header-padding)))');
                 container.style.setProperty('--canvas-width', 'initial');
+                container.style.justifyContent = 'center';
                 currentWidth = initialWaidth;
                 expand.classList.remove('cgs-hidden');
                 compress.classList.add('cgs-hidden');
@@ -316,4 +294,8 @@ function cgsViewer(container) {
             container.style.setProperty('--canvas-max-width', 'none');
         }
     }    
+}
+
+function isMobileDevice() {
+    return /Mobi/i.test(navigator.userAgent);
 }
