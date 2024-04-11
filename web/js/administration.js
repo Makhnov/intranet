@@ -83,18 +83,20 @@ function cgsViewer(container) {
     let currentPage = 1;
     let maxPages = 1;
 
+    // Observer pour les éléments entrant et sortant du viewport
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             const pageNum = parseInt(entry.target.getAttribute('data-page'));
-            if (entry.isIntersecting && !preloadedPages[pageNum].rendered) {
+            if (entry.isIntersecting && !preloadedPages[pageNum]?.rendered) {
                 renderPage(pageNum);
                 preloadedPages[pageNum].rendered = true;
             }
         });
-    });
+    }, {root: container, threshold: 0.1});
 
     const spinner = document.getElementById('spinner_svg');
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
+    
     baseViewer(container);
 
     // Gestion de la visualisation des documents
@@ -113,8 +115,7 @@ function cgsViewer(container) {
 
             // Préchargez les pages sans les rendre
             for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                const pageData = await preloadPage(pdf, pageNum, container);
-                preloadedPages[pageNum] = pageData;
+                await preloadPage(pdf, pageNum, container);                
             }
 
             viewerAction(maxPages);
@@ -153,7 +154,7 @@ function cgsViewer(container) {
         container.appendChild(div);
         observer.observe(div);
 
-        return { page, viewport, placeholder };
+        preloadedPages[pageNum] = { page, viewport, placeholder, rendered: false };
     }
 
     // Fonction pour rendre une page unique basée sur les données préchargées
