@@ -116,8 +116,16 @@ function cgsViewer(container) {
             for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
                 const pageData = await preloadPage(pdf, pageNum, container);
                 preloadedPages[pageNum] = pageData;
-                // Observer chaque page dès qu'elle est créée
-                observer.observe(document.querySelector(`#block-${pageNum}`));
+            }
+
+            // On attache l'observateur à chaque page
+            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+                const element = document.querySelector(`#block-${pageNum}`);
+                if (element) {
+                    observer.observe(element);
+                } else {
+                    console.error(`Élément #block-${pageNum} non trouvé.`);
+                }
             }
 
             viewerAction(maxPages);
