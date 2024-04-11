@@ -83,6 +83,16 @@ function cgsViewer(container) {
     let currentPage = 1;
     let maxPages = 1;
 
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const pageNum = parseInt(entry.target.getAttribute('data-page'));
+            if (entry.isIntersecting && !preloadedPages[pageNum].rendered) {
+                renderPage(pageNum);
+                preloadedPages[pageNum].rendered = true;
+            }
+        });
+    });
+
     const spinner = document.getElementById('spinner_svg');
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
     baseViewer(container);
@@ -100,32 +110,11 @@ function cgsViewer(container) {
             const pdf = await pdfjsLib.getDocument(url).promise;
             maxPages = pdf.numPages;
             console.timeEnd("Chargement du PDF");
-            
-
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    const pageNum = parseInt(entry.target.getAttribute('data-page'));
-                    if (entry.isIntersecting && !preloadedPages[pageNum].rendered) {
-                        renderPage(pageNum);
-                        preloadedPages[pageNum].rendered = true;
-                    }
-                });
-            });
 
             // Préchargez les pages sans les rendre
             for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
                 const pageData = await preloadPage(pdf, pageNum, container);
                 preloadedPages[pageNum] = pageData;
-            }
-
-            // On attache l'observateur à chaque page
-            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                const element = document.querySelector(`#block-${pageNum}`);
-                if (element) {
-                    observer.observe(element);
-                } else {
-                    console.error(`Élément #block-${pageNum} non trouvé.`);
-                }
             }
 
             viewerAction(maxPages);
@@ -159,8 +148,11 @@ function cgsViewer(container) {
 
         // Ajout du spinner de chargement
         div.appendChild(spinner.cloneNode(true));
+
+        // On ajoute l'élément dans le viewer et on l'observe
         container.appendChild(div);
-    
+        observer.observe(div);
+
         return { page, viewport, placeholder };
     }
 
