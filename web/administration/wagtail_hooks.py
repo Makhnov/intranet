@@ -33,6 +33,7 @@ def get_active_users():
 
 # Date en français
 from datetime import datetime, date
+from django.utils.timezone import is_naive, make_aware, get_default_timezone, localtime
 import calendar
 import locale
 
@@ -117,7 +118,7 @@ def after_edit_only(request, page):
 
 # On vérifie l'ancienneté de la convocation à sa création
 def convocation_old(request, page):
-    print(colored(f"Starting convocation_old for: {page}", "green"))
+    # print(colored(f"Starting convocation_old for: {page}", "green"))
     
     if page.specific.old:
         return
@@ -125,15 +126,12 @@ def convocation_old(request, page):
         request = request.POST.copy()
         now = datetime.now()    
         then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
-        
-        print(now)
-        print(then)
-        
+
         if now > then:
-            print("La date est passée")
+            # print("La date est passée")
             page.specific.old = True
         else:
-            print("La date n'est pas passée")
+            # print("La date n'est pas passée")
             page.specific.old = False
 
         page.specific.save()
@@ -193,23 +191,20 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
         return HttpResponseRedirect(request.path)
 
     # Définition temporaire de la date pour CompteRenduPage à partir de la convocation associée (pour le hook.after)
-    # print(f"Date de la convocation : {convocation.date}")
-    request.POST["date"] = convocation.date       
+    local_date = localtime(convocation.date)
+    print(colored(f"Date de la convocation : {local_date}", "green"))
+    request.POST["date"] = local_date
 
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
     # print(colored(f"Starting title and slugs status update for: {page}", "green"))
-        
-    # Copie de la requête
-    request = request.POST.copy()        
-       
-    user_date = request.get("date")    
-    # print(f'Date utilisateur : {user_date}')
-    if user_date:
+    request = request.POST.copy()      
+    date = request.get("date")
+    print(f"Date : {date}")
+    if date:
         try:
             # Formatage de la date pour le titre et le slug
-            formatted_date_for_title, formatted_date_for_slug = get_formatted_date(user_date)
-
+            formatted_date_for_title, formatted_date_for_slug = get_formatted_date(date)
             # Le préfixe est toujours basé sur le type spécifique de la page
             prefix = page.specific._meta.verbose_name.capitalize()
             
@@ -219,19 +214,28 @@ def update_convoc_and_cr_defaults(request, page):
 
             # Construction du nouveau titre et slug
             # print(f'Suffixe : {suffix}')
-            new_title = f"{prefix} {suffix} {formatted_date_for_title}"
-            # print(f'Nouveau titre : {new_title}')
+            new_title = f"{prefix} {suffix} {formatted_date_for_title}"            
             new_slug = slugify(f"{prefix}-{suffix}-{formatted_date_for_slug}")
-            # print(f'Nouveau slug : {new_slug}')
             
+            # Le cas échéant on convertit la date en objet datetime
+            if isinstance(date, str):                
+                date_naive = datetime.strptime(date, "%Y-%m-%d %H:%M")
+            else:
+                date_naive = date
+
+            # Le cas échéant on convertit la date en un objet conscient
+            if is_naive(date_naive):
+                date_aware = make_aware(date_naive, get_default_timezone())
+            else:
+                date_aware = date_naive
+                
             # Mise à jour du titre, slug et date de la page
             page.title = new_title
             page.slug = new_slug            
-            page.specific.date = user_date
+            page.specific.date = date_aware
             page.save()  # Sauvegarde du modèle Wagtail (titre et slug)
             page.specific.save()  # Sauvegarde du modèle CR et Convoc (date)
             page.save_revision().publish()
-
         except ValueError:
             print("Erreur lors de la mise à jour des titres et slugs")
             pass

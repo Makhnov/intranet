@@ -849,7 +849,13 @@ footer nav.footer.cgs-nav {
     }*/
 }
 
-/***********************************************    SEARCHBAR                                               ***************************************************/
+/***********************************************                       SEARCHBAR SEARCHBLOCK                         ***************************************************/
+#searchColumn {
+    .cgs-close {
+        margin-left:3px;
+    }
+}
+
 cgs-search {
     align-self: flex-start;
 
@@ -876,11 +882,13 @@ cgs-search {
             all:initial;
             border-bottom: 2px solid var(--cgs-logo-1);
             height: 100%;
-            width: 100%;
+            width: 0%;
+            transition: all .3s ease-in-out;
 
             &.cgs-open {                
-                width:500px;
-                max-width:calc(100vw - ((var(--nav-icon-margin) * .75) + 4em));
+                width:100%;
+                min-width: 300px;
+                // max-width:calc(100vw - ((var(--nav-icon-margin) * .75) + 4em));
             }
         }
     }

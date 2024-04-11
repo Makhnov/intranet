@@ -15,13 +15,7 @@
             <a href="/" class="header-link" title="{{ intranet.root_page.specific.tooltip }}">
                 <img src="{% static 'images/cgs-logo.png' %}" alt="Custom Project" />
             </a>   
-            <div class="cgs-progress">
-                {% with doc|split:"_" as docparts %}
-                    <p class="doc">Chargement, veuillez patienter... ({% for part in docparts %}{{part}} {% endfor %}du {{ page.date|date:"d F Y" }})</p>
-                {% endwith %}
-                <p class="progress-value"></p>
-            </div>
-            <nav class="viewer" style="display:none;">
+            <nav class="viewer">
                 <ul class="nav-box">
                     <li class="nav-group pages">
                         <ul class="nav-box">
@@ -88,6 +82,12 @@
                     </li>
                 </ul>
             </nav>
+            <div class="cgs-progress">
+                {% with doc|split:"_" as docparts %}
+                    <p class="doc">Chargement, veuillez patienter... ({% for part in docparts %}{{part}} {% endfor %}du {{ page.date|date:"d F Y" }})</p>
+                {% endwith %}
+                <p class="progress-value"></p>
+            </div>
         </ul>
     </header> 
 {% endblock %}
@@ -125,8 +125,8 @@
 {% endblock %}
 
 {% block extra_js %}
-    <script type="module" src="{% static 'js/'|add:doc|add:'.min.js' %}"></script>
-    <script type="module" src="{% static 'js/'|add:main_dir|add:'.min.js' %}"></script>
     <script type="module" src="{% static 'js/pdf.min.js' %}"></script>
     <script type="module" src="{% static 'js/pdf_worker.min.js' %}"></script>
+    <script type="module" src="{% static 'js/'|add:doc|add:'.min.js' %}"></script>
+    <script type="module" src="{% static 'js/'|add:main_dir|add:'.min.js' %}"></script>
 {% endblock %}

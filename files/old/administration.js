@@ -1,16 +1,12 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Page d'administration chargée");
     // On récupère le type de menu
     const bodyClass = document.body ? document.body.getAttribute('class') : '';
+    console.log(bodyClass);
 
     // Page de menu
     if (bodyClass.includes('menu')) {
         cgsMenu();
-    }
-
-    if (bodyClass.includes('list')) {
-        cgsList();
     }
 
     // Page de visualisation des convocations et des comptes-rendus
@@ -52,6 +48,7 @@ function cgsList() {
     // Copie des emails
     function copyMails() {
         const emailSpans = document.querySelectorAll("#emailsContainer .email");
+        console.log(emailSpans);
         const emails = Array.from(emailSpans).map(span => span.textContent.trim());
         const emailText = emails.join(", ");
     
@@ -68,136 +65,79 @@ function cgsDoc() {
     console.log("Document chargé");
 }
 
-// Affichage des documents PDF
-function cgsViewer(container) {
-    console.time("Chargement du PDF");
-    console.time("Préchargement");
-    console.time("Chargement initial");
-    const smartphone = isMobileDevice();
-    console.log(smartphone ? 'Appareil mobile détecté' : 'Grand écran détecté');
+// Gestion de la visualisation des documents
+async function cgsViewer(container) {     
+    console.time("Temps de chargement du PDF");
+    console.time("Temps de chargement total");
 
-    let progress = 1;
-    let preloadedPages = {};
-    let pagesInRendering = 0;
-    let pagesRendered = 0;
-    let currentPage = 1;
-    let maxPages = 1;
-
-    const spinner = document.getElementById('spinner_svg');
+    // Barre de progression
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
-    baseViewer(container);
+    let progress = 1;
+    updateProgress(progress);
 
-    // Gestion de la visualisation des documents
-    async function baseViewer(container) {
-        const url = container.getAttribute('data-url');
-        if (!url) {
-            console.error('URL du PDF non définie');
-            return;
-        }
-        console.log('URL du PDF : ' + url);
+    const isSmartphone = isMobileDevice();
+    console.log(isSmartphone ? 'Appareil mobile détecté' : 'Grand écran détecté');
 
-        try {
-            const pdf = await pdfjsLib.getDocument(url).promise;
-            maxPages = pdf.numPages;
-            console.timeEnd("Chargement du PDF");
-            
-
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    const pageNum = parseInt(entry.target.getAttribute('data-page'));
-                    if (entry.isIntersecting && !preloadedPages[pageNum].rendered) {
-                        renderPage(pageNum);
-                        preloadedPages[pageNum].rendered = true;
-                    }
-                });
-            });
-
-            // Préchargez les pages sans les rendre
-            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                const pageData = await preloadPage(pdf, pageNum, container);
-                preloadedPages[pageNum] = pageData;
-                // Observer chaque page dès qu'elle est créée
-                observer.observe(document.querySelector(`#block-${pageNum}`));
-            }
-
-            viewerAction(maxPages);
-            console.timeEnd("Préchargement");
-
-
-        } catch (reason) {
-            console.error(reason);
-        }
+    const url = container.getAttribute('data-url');
+    if (!url) {
+        console.error('URL du PDF non définie');
+        return;
     }
-    
-    // Préchargement des pages
-    async function preloadPage(pdf, pageNum, container) {
+    console.log('URL du PDF : ' + url);
+
+    try {
+        const pdf = await pdfjsLib.getDocument(url).promise;
+        console.log('PDF chargé');
+        console.timeEnd("Temps de chargement du PDF");
+
+        const progressPage = 100 / pdf.numPages;
+
+        // Chargez et affichez toutes les pages du PDF
+        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            await renderPage(pdf, pageNum, progressPage, container);
+        }
+        console.log('Toutes les pages sont chargées');
+        console.timeEnd("Temps de chargement total");
+        viewerAction(pdf.numPages);
+
+    } catch (reason) {
+        console.error(reason);
+    }
+
+    async function renderPage(pdf, pageNum, progressPage, container) {
         const page = await pdf.getPage(pageNum);
-        const scale = smartphone ? window.devicePixelRatio : Math.max(window.devicePixelRatio || 1, 3);
-        const viewport = page.getViewport({ scale: scale });
-    
-        // Création d'un emplacement visuel pour la page
-        const div = document.createElement('div');
-        div.classList.add('cgs-page');
-        div.setAttribute('data-page', pageNum);
-        div.setAttribute('id', `block-${pageNum}`);
-        div.classList.add('cgs-placeholder');
+        console.time(`Temps de chargement de la page ${pageNum}`);
+        const scale = isSmartphone ? window.devicePixelRatio : Math.max(window.devicePixelRatio || 1, 3);
+        const viewport = page.getViewport({scale: scale});
+        let canvas = document.createElement('canvas');
+        canvas.id = 'page-' + pageNum;
+        container.appendChild(canvas);
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-        // Création d'un élément canvas pour le rendu de la page
-        let placeholder = document.createElement('canvas');
-        placeholder.width = viewport.width;
-        placeholder.height = viewport.height;
-        placeholder.setAttribute('id', `page-${pageNum}`);
-        div.appendChild(placeholder);
-
-        // Ajout du spinner de chargement
-        div.appendChild(spinner.cloneNode(true));
-        container.appendChild(div);
-    
-        return { page, viewport, placeholder };
-    }
-
-    // Fonction pour rendre une page unique basée sur les données préchargées
-    async function renderPage(pageNum) {
-        console.time(`Rendu de la page ${pageNum}`);
-        if (!preloadedPages[pageNum] || preloadedPages[pageNum].rendering) return;
-    
-        pagesInRendering += 1; // Commencer le rendu d'une page
-        preloadedPages[pageNum].rendering = true; // Marquez le début du rendu
-        
-        const { page, viewport, placeholder } = preloadedPages[pageNum];
-        let context = placeholder.getContext('2d');
-        let renderContext = {
-            canvasContext: context,
+        const renderContext = {
+            canvasContext: canvas.getContext('2d'),
             viewport: viewport
         };
-    
-        try {
-            await page.render(renderContext).promise;
-            placeholder.closest('div').classList.remove('cgs-placeholder');
-            preloadedPages[pageNum].rendered = true;
-            console.log(`Page ${pageNum} rendue`);
-            pagesRendered += 1; // Une page de plus est rendue
-        } catch (error) {
-            console.error(`Erreur lors du rendu de la page ${pageNum}:`, error);
-        } finally {
-            pagesInRendering -= 1; // Fin du rendu d'une page
-            preloadedPages[pageNum].rendering = false;
-            updateProgress(); // Mise à jour de la barre de progression
+
+        await page.render(renderContext).promise;
+        console.timeEnd(`Temps de chargement de la page ${pageNum}`);
+        progress += progressPage;        
+        if (progress < 1) {
+            progress = 1;
+        } else if (progress >= 99.5) {
+            progress = 100;
         }
-
-        console.timeEnd(`Rendu de la page ${pageNum}`);
+        updateProgress(progress);
     }
 
-    // Mise à jour de la barre de progression
-    function updateProgress() {
-        let total = Object.keys(preloadedPages).length;
-        let progress = (pagesRendered / total) * 100;
+    function updateProgress(progress) {
         document.documentElement.style.setProperty('--progress', `${progress}%`);
-        progressValue.textContent = `${Math.round(progress)}%`;
+        progressValue.textContent = `${Math.floor(progress)}%`;
     }
 
-    // Actions de navigation
-    function viewerAction(maxPages) {
+    // Gestion des actions de navigation
+    function viewerAction(maxPage) {
         // On récupère le container de la barre d'actions
         const actionBox = document.querySelector('nav.viewer');
         if (!actionBox) {
@@ -207,17 +147,18 @@ function cgsViewer(container) {
 
         // On défini la valeur maximale de l'input de sélection de page
         const pageAction = actionBox.querySelector('input');
-        pageAction.max = maxPages;
+        pageAction.max = maxPage;
 
         // On affiche le nombre total de pages
-        const maxPagesBox = actionBox.querySelector('span.max-page');
-        maxPagesBox.textContent = maxPages;
+        const maxPageBox = actionBox.querySelector('span.max-page');
+        maxPageBox.textContent = maxPage;
         
         // On récupère tous les canvas ainsi que leur currentWidth
         const canvas = container.querySelectorAll('canvas');
         const initialWaidth = canvas[0].offsetWidth;
         let currentWidth = initialWaidth;
-
+        let currentPage = 1;
+        
         // Boutons
         const firstAction = document.getElementById('first-page');
         const nextAction = document.getElementById('next-page');
@@ -249,15 +190,15 @@ function cgsViewer(container) {
             }
         });        
         lastAction.addEventListener('click', () => {
-            if (currentPage != maxPages) {
-                currentPage = maxPages;
+            if (currentPage != maxPage) {
+                currentPage = maxPage;
                 pageAction.value = currentPage;
                 const scroll = scrollToPage(currentPage);
                 console.log(scroll);
             }
         });
         nextAction.addEventListener('click', () => {
-            if (currentPage < maxPages) {
+            if (currentPage < maxPage) {
                 currentPage++;
                 pageAction.value = currentPage;
                 const scroll = scrollToPage(currentPage);
@@ -360,9 +301,8 @@ function cgsViewer(container) {
             container.style.setProperty('--canvas-max-width', 'none');
         }
     }    
+}
 
-    // Type d'appaareil utilisé
-    function isMobileDevice() {
-        return /Mobi/i.test(navigator.userAgent);
-    }
+function isMobileDevice() {
+    return /Mobi/i.test(navigator.userAgent);
 }

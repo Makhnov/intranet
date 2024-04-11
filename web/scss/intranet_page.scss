@@ -109,8 +109,8 @@ div.cgs-page section.cgs-members {
     transform-origin: top;
     overflow: hidden;
 
-    background-color: lightblue;
-    border: 2px solid blue;
+    background-color: var(--texte-tres-clair);
+    border: 1px solid var(--texte-clair);
     border-radius: 1.25rem;
     
     overflow-y: scroll;
@@ -122,6 +122,10 @@ div.cgs-page section.cgs-members {
     }
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    li {
+        background-color: var(--wrapper-color-menu);
+    }
 } 
 
 div.cgs-page > div.cgs-list {
@@ -168,6 +172,7 @@ div.cgs-page > div.cgs-list {
             margin: .5rem;
             border: 1px solid #000;
         }
+
         a {
             cursor: pointer;
             width: 100%;
@@ -227,20 +232,25 @@ div.cgs-page > div.cgs-list {
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
-            align-items: center;
-            padding: .5rem;
+            align-items: center;            
             margin: .5rem;
             border: 1px solid #000;
+            
+            &:hover {
+                background-color: var(--vert-clair);
+            }
+
+            a {
+                cursor: pointer;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                padding: .5rem;
+            }
         }
-        a {
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-        }
-    
+
         div.cgs-tags {
             width:30%;
             display: flex;

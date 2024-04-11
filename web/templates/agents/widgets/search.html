@@ -1,12 +1,12 @@
 {% load static i18n wagtailcore_tags cgs_tags %}
 
 <div class="cgs-search cgs-swap-visible" id="searchColumn">           
-    <form id="faqFilterForm" action="{% pageurl page %}" method="get"> 
+    <form id="cgs-search-form" action="{% pageurl page %}" method="get"> 
         {% include "widgets/header/vague.html" with vertical=True %}
         <fieldset class="active">
             <legend>Filtres actifs :</legend>
             <div id="activeQuery"></div>
-            <div id="activeCategory"></div>
+            <div id="activeCategory" data-nom="Catégorie" data-name="category"></div>
             <div id="activeTags"></div>
         </fieldset>
         <fieldset class="themes">

@@ -113,6 +113,14 @@
     </div>
   </cgs-quickbar>
 
+  <cgs-utils class="cgs-hidden">
+    <div id="cgs-close">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type="cgs-nofill" %}
+    </div>
+    <div class="cgs-spinner">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.spinner class_type="cgs-nofill" %}
+    </div>
+  </cgs-utils>
   {# Global javascript #}
   <script src="{% static 'js/intranet.min.js' %}"></script>
   <script src="{% static 'js/quickbar.min.js' %}"></script>

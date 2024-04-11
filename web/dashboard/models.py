@@ -448,7 +448,15 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Less (left)")
     )
-
+    spinner = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Spinner")
+    )
+    
     # ACTION$
     search = models.ForeignKey(
         get_image_model_string(),
@@ -770,6 +778,7 @@ class IntranetIcons(BaseSiteSetting):
         ),
         MultiFieldPanel(
             [
+                FieldPanel('spinner', heading=_("Spinner")),
                 FieldPanel('open', heading=_("Open")),
                 FieldPanel('close', heading=_("Close")),
                 FieldPanel('more', heading=_("More")),

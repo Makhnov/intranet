@@ -641,7 +641,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     search_fields = Page.search_fields + [ 
         index.SearchField('title'),
         index.SearchField('body'),
-        index.SearchField('convocation'),                                                 
+        index.SearchField('convocation'),
         index.FilterField('date'),
         index.RelatedFields('secretary', [
             index.SearchField('username'),
@@ -849,17 +849,20 @@ def cv_cr_filter(page, request):
     search_query = request.GET.get('query', None)
     start_date = request.GET.get('start_date', None)
     end_date = request.GET.get('end_date', None)
-    type_filter = request.GET.get('type', 'all')
+    type_filter = request.GET.get('type', '*')
     
     convocations = ConvocationPage.objects.none()
     comptes_rendus = CompteRenduPage.objects.none()
 
     # Filtre conditionnel en fonction du type sélectionné
-    if type_filter in ['all', 'convocations']:
+    if type_filter in ['*', 'convocations']:
         convocations = ConvocationPage.objects.live().descendant_of(page).order_by('date')
-    if type_filter in ['all', 'comptes_rendus']:
+    if type_filter in ['*', 'comptes_rendus']:
         comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('date')
 
+    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    
     # Filtre conditionnel en fonction de la date sélectionnée
     if start_date:
         start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
@@ -870,12 +873,23 @@ def cv_cr_filter(page, request):
         convocations = convocations.filter(date__lte=end_date)
         comptes_rendus = comptes_rendus.filter(date__lte=end_date)
 
+
+    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    
     # Filtre conditionnel en fonction de la recherche
     if search_query:
         search_backend = get_search_backend()
-        convocations = search_backend.search(search_query, convocations)
-        comptes_rendus = search_backend.search(search_query, comptes_rendus)
+        if convocations:
+            convocations = search_backend.search(search_query, convocations)
+        
+        if comptes_rendus:
+            comptes_rendus = search_backend.search(search_query, comptes_rendus)
 
+
+    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    
     # Regroupez et triez les pages par année
     convocation_pages_by_year = defaultdict(list)
     compterendu_pages_by_year = defaultdict(list)

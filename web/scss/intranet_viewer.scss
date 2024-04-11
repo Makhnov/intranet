@@ -8,36 +8,7 @@ body.cgs-administration div.cgs-content {
 }
 
 nav.footer, nav.viewer {
-	background: gainsboro !important;
-}
-a.header-link {
-	position: fixed;
-	cursor: pointer;
-	z-index: 9999;
-	top: calc(var(--header-padding) + var(--header-height));
-	left: calc((100vw - var(--container-width)) / 2 + var(--header-padding));
-	height: var(--quickbar-button-size);
-	width: var(--quickbar-button-size);
-
-	box-sizing: border-box;
-	border: 2px solid #0000;
-	border-radius: 50%;
-	box-shadow: 0 0 1px 0 #6bd6e6,0 1px 10px 0 #6bd6e6b3;
-	background-color: var(--wrapper-color-menu);
-
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 0;
-	padding: 0;
-	font-size: 1rem;
-	text-decoration: none;
-  
-	img, svg {
-		padding: .5em;
-		height: calc(var(--quickbar-button-size) - 1em);
-		width: calc(var(--quickbar-button-size) - 1em);
-	}
+	background: var(--wrapper-color-menu) !important;
 }
 
 header {
@@ -58,53 +29,73 @@ header {
 	ul.header-menu {
 		justify-content: center!important;
 		background-color: var(--wrapper-color-menu);
+		flex-direction: column;
+
 		
-		div.cgs-progress {
-			position: absolute;	
-			align-self: center;		
-			height: .5em;
-			left: 5em;
-			width: calc(100% - 10em);
+		a.header-link {
+			position: fixed;
+			cursor: pointer;
+			z-index: 9999;
+			top: calc(var(--header-padding) + var(--header-height));
+			left: calc((100vw - var(--container-width)) / 2 + var(--header-padding));
+			height: var(--quickbar-button-size);
+			width: var(--quickbar-button-size);
 
-			border-radius: .25em;
 			box-sizing: border-box;
-			border: 1px solid darkslategray;
+			border: 2px solid #0000;
+			border-radius: 50%;
+			box-shadow: 0 0 1px 0 #6bd6e6,0 1px 10px 0 #6bd6e6b3;
+			background-color: var(--wrapper-color-menu);
 
-			background: 
-				linear-gradient(
-					to right,
-					var(--wrapper-color-menu) var(--progress), 
-					var(--wrapper-color-menu) var(--progress), 
-					transparent var(--progress),
-					transparent 100%
-				),
-				var(--content-color-menu);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+			padding: 0;
+			font-size: 1rem;
+			text-decoration: none;
+		
+			img, svg {
+				padding: .5em;
+				height: calc(var(--quickbar-button-size) - 1em);
+				width: calc(var(--quickbar-button-size) - 1em);
+			}
+		}
+
+		div.cgs-progress {
+			align-self: flex-start;		
+			height: 10px;
+			padding-left: 35px;
+			width: calc(var(--progress) - 35px);
+
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+
+			background: var(--content-color-menu);	
 
 			display: flex;
   			justify-content: flex-end;
 
-			p {
-				position: relative;
-				display: flex!important;
-				align-items: center;				
-				
-				font-weight: bold;
-				white-space: nowrap;
-				overflow: visible;
-			  
+			p {			  
 				&.progress-value {
+					position: relative;
 					flex:none;
 					align-self: center;
-					transform: translateX(calc(100% + .5em));
-					height: 56px;
-					width: 62px;
+					height: fit-content;
+					width: fit-content;
 
-					font-size: calc(var(--header-font-size) + .5em);
+					display: flex!important;
 					justify-content: flex-start;
+					align-items: center;				
+				
+					font-weight: bold;
+					white-space: nowrap;
+					overflow: visible;
+					font-size: calc(var(--header-font-size) + .5em);
 					color: var(--progress-color);
 				}
 				&.doc {
-					flex:none;					
+					display:none;					
 					width: 100%!important;
 					height: fit-content;
 					left: 62px;
@@ -264,11 +255,55 @@ main {
 	row-gap: 1em;
 }
 
-canvas {
+canvas, div.textLayer {
 	scroll-margin-top:calc(var(--header-height) + var(--header-padding));
 	border: 1px solid black;
 	box-sizing: border-box;
 	width: var(--canvas-width);
 	max-width: var(--canvas-max-width);
   	max-height: var(--canvas-max-height);
+}
+
+// .textLayer {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     pointer-events: none;
+// }
+
+// .textItem {
+//     position: absolute;
+//     white-space: pre;
+//     font-size: 14px;
+//     font-family: sans-serif;
+//     color: #000;
+//     text-align: justify;
+//     hyphens: auto;
+// }
+
+
+// SPINNERS
+
+.cgs-placeholder {
+	position: relative;
+
+	svg {
+		display: initial !important;
+	}
+
+	svg path {
+		animation: spinner 2.4s linear infinite;
+		@for $i from 1 through 12 {
+			&:nth-child(#{$i}) {
+			  animation-delay: calc(0.2s * (#{$i} - 1) * -1);
+			}
+		  }
+	}
+}
+
+@keyframes spinner {
+	0%, 100% { opacity: 0; }
+	50% { opacity: 1; }
 }

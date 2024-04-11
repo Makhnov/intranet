@@ -75,11 +75,12 @@ class FaqIndexPage(MenuPage):
             # faqs = faqs.filter(tags__slug__in=tags).distinct()
             for tag in tags:
                 faqs = faqs.filter(tags__slug=tag)
+                
         if query:
             faqs = faqs.search(query)
-
-        # Tri par catégories
-        faqs = faqs.order_by('category__title', 'category__slug')
+            faqs = sorted(faqs, key=lambda x: (x.category.title.lower(), x.category.slug.lower()))
+        else:
+            faqs = faqs.order_by('category__title', 'category__slug')
 
         # Grouper les faq
         grouped_faqs = {k: list(v) for k, v in groupby(faqs, lambda x: x.category)}
