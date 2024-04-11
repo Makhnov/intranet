@@ -85,7 +85,6 @@ function cgsViewer(container) {
 
     const spinner = document.getElementById('spinner_svg');
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
-
     baseViewer(container);
 
     // Gestion de la visualisation des documents
@@ -101,15 +100,7 @@ function cgsViewer(container) {
             const pdf = await pdfjsLib.getDocument(url).promise;
             maxPages = pdf.numPages;
             console.timeEnd("Chargement du PDF");
-
-            let preloadPromises = [];
-            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                preloadPromises.push(preloadPage(pdf, pageNum, container));
-            }
-            await Promise.all(preloadPromises);
-
-            viewerAction(maxPages);
-            console.timeEnd("Préchargement");
+            
 
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
@@ -120,12 +111,18 @@ function cgsViewer(container) {
                     }
                 });
             });
-            
-            // Commencez à observer les éléments
+
+            // Préchargez les pages sans les rendre
             for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                const element = document.querySelector(`#block-${pageNum}`);
-                if (element) observer.observe(element);
+                const pageData = await preloadPage(pdf, pageNum, container);
+                preloadedPages[pageNum] = pageData;
+                // Observer chaque page dès qu'elle est créée
+                observer.observe(document.querySelector(`#block-${pageNum}`));
             }
+
+            viewerAction(maxPages);
+            console.timeEnd("Préchargement");
+
 
         } catch (reason) {
             console.error(reason);
@@ -154,12 +151,9 @@ function cgsViewer(container) {
 
         // Ajout du spinner de chargement
         div.appendChild(spinner.cloneNode(true));
-
-        // On ajoute l'élément dans le viewer et on l'observe
         container.appendChild(div);
-        observer.observe(div);
-
-        preloadedPages[pageNum] = { page, viewport, placeholder, rendered: false };
+    
+        return { page, viewport, placeholder };
     }
 
     // Fonction pour rendre une page unique basée sur les données préchargées
@@ -182,13 +176,13 @@ function cgsViewer(container) {
             placeholder.closest('div').classList.remove('cgs-placeholder');
             preloadedPages[pageNum].rendered = true;
             console.log(`Page ${pageNum} rendue`);
-            pagesRendered += 1;
+            pagesRendered += 1; // Une page de plus est rendue
         } catch (error) {
             console.error(`Erreur lors du rendu de la page ${pageNum}:`, error);
         } finally {
-            pagesInRendering -= 1;
+            pagesInRendering -= 1; // Fin du rendu d'une page
             preloadedPages[pageNum].rendering = false;
-            updateProgress(); 
+            updateProgress(); // Mise à jour de la barre de progression
         }
 
         console.timeEnd(`Rendu de la page ${pageNum}`);
