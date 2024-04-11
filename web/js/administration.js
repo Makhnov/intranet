@@ -92,11 +92,11 @@ function cgsViewer(container) {
                 preloadedPages[pageNum].rendered = true;
             }
         });
-    }, {root: container, threshold: 0.1});
+    });
 
     const spinner = document.getElementById('spinner_svg');
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
-    
+
     baseViewer(container);
 
     // Gestion de la visualisation des documents
@@ -177,13 +177,13 @@ function cgsViewer(container) {
             placeholder.closest('div').classList.remove('cgs-placeholder');
             preloadedPages[pageNum].rendered = true;
             console.log(`Page ${pageNum} rendue`);
-            pagesRendered += 1; // Une page de plus est rendue
+            pagesRendered += 1;
         } catch (error) {
             console.error(`Erreur lors du rendu de la page ${pageNum}:`, error);
         } finally {
-            pagesInRendering -= 1; // Fin du rendu d'une page
+            pagesInRendering -= 1;
             preloadedPages[pageNum].rendering = false;
-            updateProgress(); // Mise à jour de la barre de progression
+            updateProgress(); 
         }
 
         console.timeEnd(`Rendu de la page ${pageNum}`);
