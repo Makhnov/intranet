@@ -83,17 +83,6 @@ function cgsViewer(container) {
     let currentPage = 1;
     let maxPages = 1;
 
-    // Observer pour les éléments entrant et sortant du viewport
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            const pageNum = parseInt(entry.target.getAttribute('data-page'));
-            if (entry.isIntersecting && !preloadedPages[pageNum]?.rendered) {
-                renderPage(pageNum);
-                preloadedPages[pageNum].rendered = true;
-            }
-        });
-    });
-
     const spinner = document.getElementById('spinner_svg');
     const progressValue = document.querySelector('div.cgs-progress p.progress-value');
 
@@ -113,14 +102,30 @@ function cgsViewer(container) {
             maxPages = pdf.numPages;
             console.timeEnd("Chargement du PDF");
 
-            // Préchargez les pages sans les rendre
+            let preloadPromises = [];
             for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
-                await preloadPage(pdf, pageNum, container);                
+                preloadPromises.push(preloadPage(pdf, pageNum, container));
             }
+            await Promise.all(preloadPromises);
 
             viewerAction(maxPages);
             console.timeEnd("Préchargement");
 
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const pageNum = parseInt(entry.target.getAttribute('data-page'));
+                    if (entry.isIntersecting && !preloadedPages[pageNum].rendered) {
+                        renderPage(pageNum);
+                        preloadedPages[pageNum].rendered = true;
+                    }
+                });
+            });
+            
+            // Commencez à observer les éléments
+            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+                const element = document.querySelector(`#block-${pageNum}`);
+                if (element) observer.observe(element);
+            }
 
         } catch (reason) {
             console.error(reason);
