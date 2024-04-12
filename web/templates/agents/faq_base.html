@@ -11,10 +11,6 @@
   <script type="module" src="{% static 'js/agents.min.js' %}"></script>
 {% endblock %}
 
-{% block footer_left %}
-  {% include 'widgets/search/faq_search.html' %}
-{% endblock %}
-
 {% block footer_mid %}
 	{% faq_themes class_type="nav" index=True %}
 {% endblock %}

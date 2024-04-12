@@ -18,6 +18,7 @@ from wagtail.search import index
 from wagtail.api import APIField
 
 
+
 # Liste de choix pour CommissionPage
 TYPE_CHOICES = [
     ('commission', 'Commission'),
@@ -169,14 +170,18 @@ class MenuPage(Page):
     def get_context(self, request):
         context = super().get_context(request)
         menu_pages = getattr(settings, "WAGTAIL_MENU_PAGES", [])    
-        admin_page = Page.objects.get(slug="administration")    
+        admin_page = Page.objects.get(slug="administration").specific
+
+
         commissions_index_page = Page.objects.get(slug="commissions")
         context['is_menu'] = self.__class__.__name__ in menu_pages
         context['menu_type'] = self.slug
         context['admin_menu'] = admin_page.get_children().live()
         context['commissions_menu'] = commissions_index_page.get_children().live()
         context['children'] = self.get_children().live()
-        
+        if self == admin_page or self.is_descendant_of(admin_page):
+            context['fields'] = ['type', 'date']
+            context['section'] = 'administration'
         return context
     
     class Meta:

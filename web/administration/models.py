@@ -363,6 +363,8 @@ class CommissionPage(Page):
         context['children'] = cv_cr_filter(self, request)
         context['commissions_menu'] = commissions_index_page.get_children().live()
         context['members'] = self.get_members()
+        context['fields'] = ['type', 'date']
+        
         return context
         
     def __str__(self):
@@ -860,8 +862,8 @@ def cv_cr_filter(page, request):
     if type_filter in ['*', 'comptes_rendus']:
         comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('date')
 
-    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
-    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
     
     # Filtre conditionnel en fonction de la date sélectionnée
     if start_date:
@@ -874,8 +876,8 @@ def cv_cr_filter(page, request):
         comptes_rendus = comptes_rendus.filter(date__lte=end_date)
 
 
-    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
-    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
     
     # Filtre conditionnel en fonction de la recherche
     if search_query:
@@ -887,8 +889,8 @@ def cv_cr_filter(page, request):
             comptes_rendus = search_backend.search(search_query, comptes_rendus)
 
 
-    print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
-    print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
+    # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
+    # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
     
     # Regroupez et triez les pages par année
     convocation_pages_by_year = defaultdict(list)

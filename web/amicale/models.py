@@ -69,7 +69,6 @@ class AmicaleIndexPage(MenuPage):
         # print(colored(start_date, 'green'))
         # print(colored(end_date, 'green'))
         # print(colored(query, 'green'))
-                              
                       
         if query:
             amicalepages = amicalepages.filter(title__icontains=query)
@@ -80,12 +79,14 @@ class AmicaleIndexPage(MenuPage):
         if end_date:
             amicalepages = amicalepages.filter(date__lte=end_date)
 
-        if article_type and article_type != 'all':
+        if article_type and article_type != '*':
             amicalepages = amicalepages.filter(type=article_type)
 
         # Tri par type pour regroupement dans le template
         amicalepages = amicalepages.order_by('type', '-date')
 
+        is_root = not (start_date or end_date or article_type or query)
+        
         # Préparation des blocs par type
         context['search_query'] = query
         context['start_date'] = start_date
@@ -94,7 +95,10 @@ class AmicaleIndexPage(MenuPage):
         context['amicale_news'] = amicalepages.filter(type='news')
         context['amicale_sorties'] = amicalepages.filter(type='sorties')
         context['amicale_divers'] = amicalepages.filter(type='autres')
-
+        context['is_root'] = is_root
+        context['fields'] = ['type', 'date']
+        context['section'] = 'amicale'
+        
         return context
 
 #######################
@@ -109,8 +113,8 @@ class AmicalePage(Page):
         max_length=10,
         choices=[
             ('autres', 'Divers'),
-            ('sorties', 'Sortie'),
-            ('news', 'News'),
+            ('sorties', 'Sorties'),
+            ('news', 'Nouvelles'),
         ],
         null=True,
         blank=True,

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static menu_tags %}
+{% load static menu_tags cgs_tags %}
 
-{% block body_class %}cgs-amicale list{% endblock %}
+{% block body_class %}cgs-amicale {% if is_root %}menu{% else %}list{% endif %}{% endblock %}
 
 {% block extra_css %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/amicale.min.css' %}">
@@ -23,4 +23,12 @@
     crossorigin=""></script>
     <script type="module" src="{% static 'js/amicale.min.js' %}"></script>
     {% endif %}
+{% endblock %}
+
+{% block footer_left %}
+  {% include 'widgets/search/query.html' %}
+{% endblock %}
+
+{% block footer_mid %}
+	{% amicale_themes class_type="nav" index=True %}
 {% endblock %}

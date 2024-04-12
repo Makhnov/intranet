@@ -11,10 +11,6 @@
     <script type="module" src="{% static 'js/administration.min.js' %}"></script>
 {% endblock extra_js %}
 
-{% block footer_left %}
-    {% include 'widgets/search/admin_search.html' %}
-{% endblock %}
-
 {% block footer_mid %}
     {% with class_type="nav" item_type="administration" menu=admin_menu logo_type=True %}
         {% include 'administration/widgets/ul_item.html' %}

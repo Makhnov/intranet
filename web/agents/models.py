@@ -96,6 +96,8 @@ class FaqIndexPage(MenuPage):
             'selected_tags': tags,
             'is_root': is_root,
             'query': query,
+            'section': 'agents',
+            'fields': ['category', 'tags'],
         })
         
         return context

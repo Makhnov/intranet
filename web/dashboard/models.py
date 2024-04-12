@@ -213,7 +213,7 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Themes"),
         help_text=_("Related theme icon for numerous pages"),
     )
-    all_faq = models.ForeignKey(
+    faq_all = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -240,6 +240,15 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Tags"),
         help_text=_("Tag icon for numerous pages"),
     )
+    amicale_all = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Amicale all"),
+        help_text=_("All Amicale pages"),
+    )        
     amicale_news = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -272,8 +281,26 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Amicale unknown"),
         help_text=_("Amicale unknown page type icon"),
-    )      
-    generic = models.ForeignKey(
+    )
+    home_all = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Home all"),
+        help_text=_("All cloud pages"),
+    )
+    home_none = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Home unknown"),
+        help_text=_("Home unknown page type"),
+    )  
+    home_generic = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -282,7 +309,7 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Web page"),
         verbose_name=_("Web page")
     )
-    instant_download = models.ForeignKey(
+    home_download = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -291,7 +318,7 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Documents (InstantDownload)"),
         verbose_name=_("Download")
     )
-    form = models.ForeignKey(
+    home_form = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
@@ -455,6 +482,15 @@ class IntranetIcons(BaseSiteSetting):
         on_delete=models.SET_NULL,
         related_name='+',
         verbose_name=_("Spinner")
+    )
+    star = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Star"),
+        help_text=_("New informations added in the last 14 days"),
     )
     
     # ACTION$
@@ -745,16 +781,19 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('convocation', heading=_("Convocation page")),
                 FieldPanel('compte_rendu', heading=_("Compte rendu page")),
                 FieldPanel('categories', heading=_("Related themes")),
-                FieldPanel('all_faq', heading=_("All FAQ")),
+                FieldPanel('faq_all', heading=_("All FAQ")),
                 FieldPanel('law_text', heading=_("Law text")),
                 FieldPanel('tags', heading=_("Tags")),
+                FieldPanel('amicale_all', heading=_("Amicale all")),
                 FieldPanel('amicale_news', heading=_("Amicale news")),
                 FieldPanel('amicale_sorties', heading=_("Amicale sorties")),
                 FieldPanel('amicale_divers', heading=_("Amicale divers")),
                 FieldPanel('amicale_none', heading=_("Amicale unknown")),
-                FieldPanel('generic', heading=_("Web page")),
-                FieldPanel('instant_download', heading=_("Documents (InstantDownload)")),
-                FieldPanel('form', heading=_("Form")),
+                FieldPanel('home_all', heading=_("Home all")),
+                FieldPanel('home_none', heading=_("Home unknown")),
+                FieldPanel('home_generic', heading=_("Web page")),
+                FieldPanel('home_download', heading=_("Documents (InstantDownload)")),
+                FieldPanel('home_form', heading=_("Form")),
                 FieldPanel('site_web', heading=_("Site web officiel")),
                 FieldPanel('office_tourisme', heading=_("Office de tourisme")),
                 FieldPanel('facebook_icon', heading=_("Facebook")),
@@ -777,14 +816,15 @@ class IntranetIcons(BaseSiteSetting):
             classname="collapsible, collapsed"
         ),
         MultiFieldPanel(
-            [
-                FieldPanel('spinner', heading=_("Spinner")),
+            [                                
                 FieldPanel('open', heading=_("Open")),
                 FieldPanel('close', heading=_("Close")),
                 FieldPanel('more', heading=_("More")),
                 FieldPanel('less', heading=_("Less")),
                 FieldPanel('more_right', heading=_("More (right)")),
                 FieldPanel('less_left', heading=_("Less (left)")),
+                FieldPanel('spinner', heading=_("Spinner")),
+                FieldPanel('star', heading=_("Star")),
             ],
             heading=_("Display"),
             classname="collapsible, collapsed"

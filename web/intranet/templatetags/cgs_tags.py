@@ -1,11 +1,20 @@
+from termcolor import colored
 from taggit.models import Tag
 from django import template
-from django.utils.timezone import now
+from django.conf import settings
+from django.utils import timezone
+from datetime import timedelta
 
 from utils.auth import check_page_access
+from home.models import generic_search
+from amicale.models import (
+    AmicaleIndexPage, 
+    AmicalePage,
+)
 from agents.models import (
     FaqIndexPage, 
-    FaqCategory
+    FaqCategory,
+    FaqPage,
 )
 from administration.models import (
     AdministrationIndexPage, 
@@ -34,8 +43,16 @@ register = template.Library()
 #################################################################################################### 
 
 @register.filter
+def get_field(dictionary, key):
+    return dictionary.get(key, '')
+
+@register.filter
 def get_doc(page, doc):
     return getattr(page, f"{doc}_documents").all()
+
+@register.filter(name='getlist')
+def getlist(value, arg):
+    return value.getlist(arg)
 
 @register.filter(name='split')
 def split(value, key):  
@@ -62,7 +79,7 @@ def spread(value, delimiter):
     return value, ''
 
 ####################################################################################################
-#########################                        FAQ                       #########################
+#########################      AMICALE, FAQ, RESSOURCES & PUBLIQUES        #########################
 #################################################################################################### 
 
 # FAQ INDEX
@@ -94,35 +111,106 @@ def faq_themes(context, class_type=None, index=None):
     settings = context['settings']
     selected = request.GET.get('category', '')
     themes = FaqCategory.objects.all().order_by('title')
+    
+    delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
+    new_faqs = {}
+    news = 0
+    
+    for theme in themes:
+        count = FaqPage.objects.filter(category=theme, latest_revision_created_at__gte=delta).count()
+        new_faqs[theme.id] = count
+        news += count
+
     return {
         'request': request,
-        'settings':settings,
+        'settings': settings,
         'selected': selected,
         'themes': themes,
         'class_type': class_type,
         'index': index,
+        'new': new_faqs,
+        'news': news,
+    }
+
+# AMICALE THEMES
+@register.inclusion_tag('amicale/widgets/themes.html', takes_context=True)
+def amicale_themes(context, class_type=None, index=None):
+    request = context['request']
+    settings = context['settings']
+    
+    selected = request.GET.get('type', '')   
+    delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
+    new_amicale = {}
+    news = 0
+    types = {
+        'autres': 'Informations diverses',
+        'sorties': 'Sorties',
+        'news': 'Nouvelles',
     }
     
-# REQUEST LIST
-@register.filter(name='getlist')
-def getlist(value, arg):
-    return value.getlist(arg)
+    for key, field in types.items():
+        count = AmicalePage.objects.filter(type=key, latest_revision_created_at__gte=delta).count()
+        new_amicale[key] = count
+        news += count
 
-# # FILTRES (TAGS, CATEGORIES)
-# @register.filter
-# def without(querystring, parameter):
-#     """Returns the URL parameters without the specified parameter."""
-#     query = QueryDict(querystring, mutable=True)
-#     query.pop(parameter, None)
-#     return query.urlencode()
+    print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
+    print(colored(f"news: {news}", "yellow", 'on_black'))
+    print(colored(f"selected: {selected}", "yellow", 'on_black'))
+    print(colored(f"types: {types}", "yellow", 'on_black'))    
 
+    return {
+        'request': request,
+        'settings': settings,
+        'selected': selected,
+        'themes': types,
+        'class_type': class_type,
+        'index': index,
+        'new': new_amicale,
+        'news': news,
+    }
+
+# CLOUD (PAGES PUBLIQUES ET RESSOURCES)
+@register.inclusion_tag('home/widgets/themes.html', takes_context=True)
+def cgs_cloud(context, class_type=None, index=None):
+    request = context['request']
+    settings = context['settings']
+    page = context['page']
+    
+    slug = page.slug  
+    selected = request.GET.get('type', '')
+    grouped_subpages, search_query, page_type = generic_search(request, context.get('page'))
+    new_home = {}
+    news = 0
+    types = {
+        'generic': 'Pages diverses',
+        'download': 'Fichiers et téléchargements',
+        'form': 'Formulaires',
+    }
+    
+    for type_key in grouped_subpages:
+        count = len(grouped_subpages[type_key])
+        new_home[type_key] = count
+        news += count
+
+    return {
+        'request': request,
+        'settings': settings,
+        'selected': selected,
+        'item_type':slug,
+        'themes': types,
+        'class_type': class_type,
+        'index': index,
+        'new': new_home,
+        'news': news,
+    }
+    
 ####################################################################################################
 #########################                  ADMINISTRATION                  #########################
 ####################################################################################################
 
 # ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)
-@register.inclusion_tag('administration/widgets/cv_cr.html', takes_context=True)
-def cv_cr(context):
+@register.inclusion_tag('administration/widgets/quickbar.html', takes_context=True)
+def administration_quickbar(context):
     request = context['request']
     user = request.user
     page = context['page']
@@ -149,8 +237,8 @@ def cv_cr(context):
         # print(colored(f"pg: {pg}", "yellow", 'on_black'))
         if check_page_access(user, pg, False):
             # Récupère la prochaine convocation et le dernier compte-rendu
-            next_convocations = ConvocationPage.objects.live().descendant_of(pg).filter(date__gte=now()).order_by('date').first()
-            last_compte_rendus = CompteRenduPage.objects.live().descendant_of(pg).filter(date__lte=now()).order_by('-date').first()
+            next_convocations = ConvocationPage.objects.live().descendant_of(pg).filter(date__gte=timezone.now()).order_by('date').first()
+            last_compte_rendus = CompteRenduPage.objects.live().descendant_of(pg).filter(date__lte=timezone.now()).order_by('-date').first()
 
             # Met à jour convocation et compte_rendu si nécessaire
             if next_convocations and (not convocation or next_convocations.date < convocation.date):
@@ -169,3 +257,37 @@ def cv_cr(context):
         'settings': settings,
     }
 
+
+# AGENTS FAQ QUICKBAR (Les trois dernières FAQ)
+@register.inclusion_tag('agents/widgets/quickbar.html', takes_context=True)
+def agents_quickbar(context):
+    request = context['request']
+    category = request.GET.get('category', '')
+    
+    # on récupère l'ID de la catégorie en fonction de son nom
+    if category and category != "*":
+        category = FaqCategory.objects.get(slug=category).id
+    else:
+        category = "*"
+
+    # on récupere les 3 dernières faq dont la catégorie est celle de la page (si "*" alors toutes les catégories)
+    if category == "*":
+        faqs = FaqPage.objects.live().order_by('-latest_revision_created_at')[:3]
+    else:
+        faqs = FaqPage.objects.live().filter(category=category).order_by('-latest_revision_created_at')[:3]   
+     
+    print(colored(f"faq: {faqs}", "yellow", 'on_black'))
+    
+    # On crée un receptacle pour les contextes
+    items = []
+    
+    for faq in faqs:
+        print(colored(f"faq: {faq}", "yellow", 'on_black'))
+        name = faq.question
+        print(colored(f"name: {name}", "yellow", 'on_black'))
+        url = faq.get_url()
+        print(colored(f"url: {url}", "yellow", 'on_black'))
+        category = faq.category
+        items.append({'name': name, 'url': url, 'category': category})
+    
+    return  {'items': items}

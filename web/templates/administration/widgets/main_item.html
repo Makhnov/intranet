@@ -3,47 +3,7 @@
         {% if not is_menu %}
             <div class="cgs-page">  
                 {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
-                <div class="cgs-search cgs-swap-visible" id="searchColumn"> 
-                    <form id="cgs-search-form" action="{{ request.path }}" method="get">
-                        {% include "widgets/header/vague.html" with vertical=True %}
-
-                        <fieldset class="active">
-                            <legend>Filtres actifs :</legend>
-                            <div id="activeQuery"></div>
-                            <div id="activeCategory" data-nom="Objet" data-name="type"></div>
-                            <div id="activeDate"></div>
-                        </fieldset>
-
-                        <fieldset>
-                            <legend>Recherche</legend>
-                            <input type="text" name="query" placeholder="Rechercher..." value="{% if request.GET.query %}{{ request.GET.query }}{% endif %}">
-                        </fieldset>
-                        
-                        <fieldset>
-                            <legend>Dates</legend>
-                            <input type="date" name="start_date" value="{% if request.GET.start_date %}{{ request.GET.start_date }}{% endif %}">
-                            <input type="date" name="end_date" value="{% if request.GET.end_date %}{{ request.GET.end_date }}{% endif %}">
-                        </fieldset>
-                        
-                        <fieldset>
-                            <legend>Type</legend>
-                            <label>
-                                <input type="radio" name="type" value="*" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
-                                Tout
-                            </label>
-                            <label>
-                                <input type="radio" name="type" value="convocations" {% if request.GET.type == "convocations" %}checked{% endif %}>
-                                Convocations
-                            </label>
-                            <label>
-                                <input type="radio" name="type" value="comptes_rendus" {% if request.GET.type == "comptes_rendus" %}checked{% endif %}>
-                                Comptes rendus
-                            </label>
-                        </fieldset>
-                        
-                        <button type="submit">Rechercher</button>
-                    </form>                        
-                </div>
+                {% include "widgets/search/filters.html" %}
                 <div class="cgs-list">
         {% endif %}
         {% if members %}

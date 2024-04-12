@@ -1,0 +1,142 @@
+{% load static i18n wagtailcore_tags cgs_tags %}
+
+<div class="cgs-search cgs-swap-visible" id="searchColumn">           
+    <form id="cgs-search-form" action="{% pageurl page %}" method="get"> 
+        {% include "widgets/header/vague.html" with vertical=True %}
+
+        <fieldset class="active">
+            <legend>Filtres actifs :</legend>
+            <div id="activeQuery"></div>
+            {% for field in fields %}
+                {% if field == "category" %}
+                    <div id="activeCategory" data-nom="Catégorie" data-name="category"></div>
+                {% elif field == "type" %}
+                    {% if section == "administration" or section == "home" %}
+                        <div id="activeCategory" data-nom="Document" data-name="type"></div>
+                    {% elif section == "amicale" %}
+                        <div id="activeCategory" data-nom="Section" data-name="type"></div>
+                    {% endif %}
+                {% elif field == "tags" %}
+                    <div id="activeTags"></div>
+                {% elif field == "date" %}
+                    <div id="activeDate"></div>
+                {% endif %}
+            {% endfor %}
+        </fieldset>
+
+        <fieldset>
+            <legend>Recherche</legend>
+            <input type="text" name="query" placeholder="Rechercher..." value="{% if request.GET.query %}{{ request.GET.query }}{% endif %}">
+        </fieldset>
+        
+        {% for field in fields %}
+            {% if field == "tags" %}
+                <fieldset class="tags">
+                    <legend>Filtrer par tag:</legend>
+                    {% for tag in popular_tags %}
+                        <button type="button" class="btn btn-outline-primary tag-button" data-tag="{{ tag.tag.name }}">{{ tag.tag.name }}</button>
+                    {% endfor %}
+                </fieldset>    
+            {% elif field == "category" %}
+                <fieldset class="themes">
+                    <legend>Filtrer par catégorie:</legend>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" value="*" id="allCategories" {% if not request.GET.category or request.GET.category == "*" %}checked{% endif %}>
+                        <label class="form-check-label" for="allCategories">
+                            Toutes
+                        </label>
+                    </div>
+                    {% for category in categories %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="category" value="{{ category.slug }}" id="category{{ category.id }}" {% if request.GET.category == category.slug %}checked{% endif %}>
+                        <label class="form-check-label" for="category{{ category.id }}">
+                            {{ category.title }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </fieldset> 
+            {% elif field == "type" %}
+                <fieldset class="types">
+                    <legend>Filtrer par type:</legend>
+                    {% if section == "administration" %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+                            <label class="form-check" for="allTypes">
+                                Tous les documents
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="convocations" id="convocations" {% if request.GET.type == "convocations" %}checked{% endif %}>
+                            <label class="form-check" for="convocations">
+                                Convocations
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="comptes_rendus" id="comptesRendus" {% if request.GET.type == "comptes_rendus" %}checked{% endif %}>
+                            <label class="form-check" for="comptesRendus">
+                                Comptes rendus
+                            </label>
+                        </div>
+                    {% elif section == "amicale" %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+                            <label class="form-check" for="allTypes">
+                                Toutes les actualités
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="sorties" id="sorties" {% if request.GET.type == "sorties" %}checked{% endif %}>
+                            <label class="form-check" for="sorties">
+                                Prochaines sorties
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check" type="radio" name="type" value="news" id="news" {% if request.GET.type == "news" %}checked{% endif %}>
+                            <label class="form-check" for="news">
+                                Nouvelles du Cagire
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check" type="radio" name="type" value="autres" id="autres" {% if request.GET.type == "autres" %}checked{% endif %}>
+                            <label class="form-check" for="autres">
+                                Informations diverses
+                            </label>
+                        </div>
+                    {% elif section == "home" %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+                            <label class="form-check" for="allTypes">
+                                Voir tout
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="generic" id="generic" {% if request.GET.type == "generic" %}checked{% endif %}>
+                            <label class="form-check" for="generic">
+                                Pages diverses
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="download" id="download" {% if request.GET.type == "download" %}checked{% endif %}>
+                            <label class="form-check" for="download">
+                                Documents
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="type" value="form" id="form" {% if request.GET.type == "form" %}checked{% endif %}>
+                            <label class="form-check" for="form">
+                                Formulaires
+                            </label>
+                        </div>
+                    {% endif %}                                                
+                </fieldset>
+            {% elif field == "date" %}
+                <fieldset class="dates">
+                    <legend>Filtrer par date:</legend>
+                    <input type="date" name="start_date" value="{% if request.GET.start_date %}{{ request.GET.start_date }}{% endif %}">
+                    <input type="date" name="end_date" value="{% if request.GET.end_date %}{{ request.GET.end_date }}{% endif %}">
+                </fieldset>
+            {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Rechercher</button>
+    </form>
+</div>

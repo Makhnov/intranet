@@ -1,4 +1,4 @@
-body.cgs-amicale, body.cgs-docs, body.cgs-events, body.cgs-commissions, body.list.cgs-faq {
+body.cgs-amicale, body.cgs-ressources, body.cgs-public, body.cgs-events, body.cgs-commissions, body.list.cgs-faq {
     div.cgs-content {
         height: fit-content!important;
         min-height: 100vh!important;
@@ -301,7 +301,8 @@ div.cgs-page > div.cgs-search {
         border: 1px solid #000;
 
         display: flex;
-
+        flex-wrap: wrap;
+        
         &.active {
             flex-direction: column;
             justify-content: center;

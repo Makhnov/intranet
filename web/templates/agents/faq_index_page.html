@@ -9,7 +9,7 @@
             {% else %}
                 <div class="cgs-page">
                     {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
-                    {% include "agents/widgets/search.html" %}
+                    {% include "widgets/search/filters.html" %}
                     <div class="cgs-list">
                         {% include "agents/widgets/faq_list.html" with faqs=faqs %}
                     </div>
@@ -19,5 +19,10 @@
     </main>
 {% endblock %}
 
+{% block footer_left %}
+  {% include 'widgets/search/query.html' %}
+{% endblock %}
+
 {% block quickbar %}
+    {% agents_quickbar %}
 {% endblock %}

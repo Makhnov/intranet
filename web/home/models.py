@@ -190,11 +190,21 @@ class RessourcesPage(MenuPage):
 
     def get_context(self, request):
         context = super().get_context(request)
-        grouped_subpages, search_query, page_type = generic_search(request, self)
+        grouped_subpages, search_query, page_type = generic_search(request, self)       
+        
+        query = request.GET.get('query', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        type = request.GET.get('type', None)
+        tags = request.GET.getlist('tag')
+        is_root = not (start_date or end_date or type or tags or query)
         
         context['grouped_subpages'] = grouped_subpages
         context['search_query'] = search_query
         context['type'] = page_type
+        context['is_root'] = is_root
+        context['fields'] = ['type', 'date', 'tags']
+        context['section'] = 'home'
         return context
 
 # Section pages publiques
@@ -211,9 +221,19 @@ class PublicPage(MenuPage):
         context = super().get_context(request)
         grouped_subpages, search_query, page_type = generic_search(request, self)
         
+        query = request.GET.get('query', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        type = request.GET.get('type', None)
+        tags = request.GET.getlist('tag')
+        is_root = not (start_date or end_date or type or tags or query)
+        
         context['grouped_subpages'] = grouped_subpages
         context['search_query'] = search_query
         context['type'] = page_type
+        context['is_root'] = is_root
+        context['fields'] = ['type', 'date', 'tags']
+        context['section'] = 'home'
         return context
 
 # Page pour document à télécharger
@@ -393,13 +413,13 @@ class FormField(AbstractFormField):
 # Recherche générique (RessourcesPage, PublicPage)
 def generic_search(request, parent_page):
     search_query = request.GET.get('query', '')
-    page_type = request.GET.get('type', 'all')
+    page_type = request.GET.get('type', '*')
 
     # On récupère toutes les sous-pages
     subpages = Page.objects.child_of(parent_page).specific()
 
     # On applique le filtrage par type
-    if page_type != 'all':
+    if page_type != '*':
         filtered_subpages = []
         for subpage in subpages:
             if page_type == 'generic' and isinstance(subpage, GenericPage):

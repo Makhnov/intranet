@@ -1,4 +1,4 @@
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags cgs_tags %}
 
 <ul class="{{ class_type }}-box theme">
     {% for theme in themes %}
@@ -14,6 +14,14 @@
                 {% endif %}
                 </a>
                 {% if class_type == "menu" %}
+                    {% with count=new|get_field:theme.id %}
+                        {% if count %}
+                            <new title="theme.title" data-count="{{ count }}">
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                                <span>{{ count }}</span>
+                            </new>
+                        {% endif %}
+                    {% endwith %}
                     <p>{{ theme.title }}</p>
                 {% endif %}
             </li>
@@ -22,17 +30,23 @@
         <a 
         href="{% slugurl 'faq' %}?category=*"
         class="{{ class_type }}-link theme" 
-        title="Voire toutes les questions/réponses" 
+        title="Voir toutes les questions/réponses" 
         alt="Toutes les FAQ"
     >
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.all_faq %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.faq_all %}
     </a>
     {% if class_type == "menu" %}
+        <new title="Toutes les FAQ" data-count="{{ news }}">
+            {% if news != 0 %}            
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                <span>{{ news }}</span>
+            {% endif %}
+        </new>
         <p>Toutes</p>
     {% endif %}
     </li>
     {% if index %}    
-        <li class="nav-item theme index{% if index %} cgs-selected{% endif %}">
+        <li class="nav-item theme index">
             <a 
                 href="{% slugurl 'faq' %}"
                 class="nav-link theme" 

@@ -1,0 +1,66 @@
+{% load wagtailcore_tags cgs_tags %}
+
+<ul class="{{ class_type }}-box theme">
+    {% for key, field in themes.items %}
+        <li class="{{ class_type }}-item theme {% if key == selected %}cgs-selected{% endif %}">
+            <a 
+                href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}?type={{key}}{% else %}{% slugurl 'public' %}?type={{key}}{% endif %}"
+                class="{{ class_type }}-link theme" 
+                title="{{ field }}" 
+                alt="{{ field }}"
+            >
+            {% if key == "generic" %}
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic %}
+            {% elif key == "download" %}
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download %}
+            {% elif key == "form" %}
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form %}
+            {% else %}
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_none %}
+            {% endif %}
+            </a>
+            {% if class_type == "menu" %}
+                {% with count=new|get_field:key %}
+                    {% if count %}
+                        <new title="{{ field }}" data-count="{{ count }}">
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                            <span>{{ count }}</span>
+                        </new>
+                    {% endif %}
+                {% endwith %}
+                <p>{{ field }}</p>
+            {% endif %}
+        </li>
+    {% endfor %}
+    <li class="{{ class_type }}-item theme {% if '*' == selected %}cgs-selected{% endif %}">
+        <a 
+            href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}?type=*{% else %}{% slugurl 'public' %}?type=*{% endif %}"
+            class="{{ class_type }}-link theme" 
+            title="Voir toutes les ressources" 
+            alt="Toutes les ressources"
+        >
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_all %}
+        </a>
+        {% if class_type == "menu" %}
+            <new title="Toutes les ressources" data-count="{{ news }}">
+                {% if news != 0 %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                    <span>{{ news }}</span>
+                {% endif %}
+            </new>
+            <p>Tout</p>
+        {% endif %}
+    </li>
+    {% if index %}
+        <li class="nav-item theme index">
+            <a 
+                href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}{% else %}{% slugurl 'public' %}{% endif %}"
+                class="nav-link theme" 
+                title="Retour à l'index des ressources" 
+                alt="Index des ressources"
+            >
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            </a>
+        </li>
+    {% endif %}
+</ul>

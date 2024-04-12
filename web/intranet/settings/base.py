@@ -410,6 +410,9 @@ WAGTAIL_USER_CUSTOM_FIELDS = [
 # PAGES DE MENU GENERAL
 WAGTAIL_MENU_PAGES = ['HomePage', 'AdministrationIndexPage', 'CommissionsIndexPage']
 
+# Nombre de jours avant qu'une nouvelle page ne soit considérée comme ancienne
+DELTA_NEWS = 14
+
 # Geowidget
 GEO_WIDGET_DEFAULT_LOCATION = {"lat": 43.08366, "lng": 0.947}
 GEO_WIDGET_ZOOM = 12

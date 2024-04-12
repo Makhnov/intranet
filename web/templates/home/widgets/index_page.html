@@ -1,47 +1,21 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags static %}
+{% load wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags cgs_tags static %}
 
 {% block extra_css %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/divers.min.css' %}">
 {% endblock extra_css %}
 
-{% block body_class %}cgs-{{ item_type }} {{ class_type }}{% endblock %}
+{% block body_class %}cgs-{{ item_type }} {% if is_root %}menu{% else %}{{ class_type }}{% endif %}{% endblock %}
 
 {% block content %}
 <main class="main-content">          
     <div class="cgs-container cgs-{{ item_type }}">
+        {% if is_root %}   
+            {% cgs_cloud class_type="menu" %}
+        {% else %}
             <div class="cgs-page">  
                 {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
-                <div class="cgs-search cgs-swap-visible" id="searchColumn">                             
-                    <form action="{{ request.path }}" method="get">
-                        {% include "widgets/header/vague.html" with vertical=True %}
-                        <fieldset>
-                            <legend>Recherche</legend>
-                            <input type="text" name="query" placeholder="Rechercher..." value="{% if search_query %}{{ search_query }}{% endif %}">
-                        </fieldset>
-                        <fieldset>
-                            <legend>Type</legend>
-                            <label>
-                                <input type="radio" name="type" value="all" {% if type != "generic" and type != "download" and type != "form" %}checked{% endif %}>
-                                Tout
-                            </label>
-                            <label>
-                                <input type="radio" name="type" value="generic" {% if type == "generic" %}checked{% endif %}>
-                                Pages web
-                            </label>
-                            <label>
-                                <input type="radio" name="type" value="download" {% if type == "download" %}checked{% endif %}>
-                                Documents
-                            </label>
-                            <label>
-                                <input type="radio" name="type" value="form" {% if type == "form" %}checked{% endif %}>
-                                Formulaire
-                            </label>
-                        </fieldset>
-                        
-                        <button type="submit">Rechercher</button>
-                    </form>                        
-                </div>
+                {% include "widgets/search/filters.html" %}
                 
                 <div class="cgs-{{ class_type }}">
                     {% for type, pages in grouped_subpages.items %}
@@ -58,7 +32,7 @@
                                                 alt="{{ page.title|default_if_none:'' }}"
                                                 target="_blank"
                                             >                                            
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.generic class_type="cgs-nofill cgs-small-icon" %}
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-small-icon" %}
                                             <p>{{ page.title }}</p>
                                             </a>
                                         </li>
@@ -77,7 +51,7 @@
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
                                                 alt="{{ page.title|default_if_none:'' }}"
                                             > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.instant_download class_type="cgs-nofill cgs-small-icon" %}
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-small-icon" %}
                                             <p>{{ page.title }}</p>
                                             </a>
                                         </li>
@@ -96,7 +70,7 @@
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
                                                 alt="{{ page.title|default_if_none:'' }}"
                                             > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.form class_type="cgs-nofill cgs-small-icon" %}
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-nofill cgs-small-icon" %}
                                             <p>{{ page.title }}</p>
                                             </a>
                                         </li>
@@ -108,10 +82,18 @@
                 </div>
                 
             </div>
-        </main>    
+        </main>   
+    {% endif %} 
 {% endblock content %}
 
+{% block footer_left %}
+  {% include 'widgets/search/query.html' %}
+{% endblock %}
+
+{% block footer_mid %}
+	{% cgs_cloud class_type="nav" index=True %}
+{% endblock %}
 
 {% block extra_js %}
-  <script type="module" src="{% static 'js/divers.min.js' %}"></script>
+    <script type="module" src="{% static 'js/divers.min.js' %}"></script>
 {% endblock %}

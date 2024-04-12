@@ -31,6 +31,12 @@
     {% endif %}
 {% endblock %}
 
+{% block footer_left %}
+    {% if item_type != "commissions" %}
+        {% include 'widgets/search/query.html' %}
+    {% endif %}
+{% endblock %}
+
 {% block quickbar %}
-    {% cv_cr %}     
+    {% administration_quickbar %}     
 {% endblock %}

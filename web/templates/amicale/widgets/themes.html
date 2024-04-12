@@ -1,0 +1,66 @@
+{% load wagtailcore_tags cgs_tags %}
+
+<ul class="{{ class_type }}-box theme">
+    {% for key, type in themes.items %}
+            <li class="{{ class_type }}-item theme {% if key == selected %}cgs-selected{% endif %}">
+                <a 
+                    href="{% slugurl 'amicale' %}?type={{ key }}"
+                    class="{{ class_type }}-link theme" 
+                    title="Voir toutes les {{ type|default_if_none:'' }}" 
+                    alt="{{ type|default_if_none:'' }}"
+                >
+                {% if key == "autres" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers %}
+                {% elif key == "news" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news %}
+                {% elif key == "sorties" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_sorties %}
+                {% else %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_none %}
+                {% endif %}
+                </a>
+                {% if class_type == "menu" %}
+                    {% with count=new|get_field:key %}
+                        {% if count %}
+                            <new title="{{type}}" data-count="{{ count }}">
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                                <span>{{ count }}</span>
+                            </new>
+                        {% endif %}
+                    {% endwith %}
+                    <p>{{ type.title }}</p>
+                {% endif %}
+            </li>
+    {% endfor %}
+    <li class="{{ class_type }}-item theme {% if request.GET.type == "*" %}cgs-selected{% endif %}">
+        <a 
+        href="{% slugurl 'amicale' %}?type=*"
+        class="{{ class_type }}-link theme" 
+        title="Voir toutes les nouvelles et sorties de l'amicale" 
+        alt="Tous les articles"
+    >
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_all %}
+    </a>
+    {% if class_type == "menu" %}
+        <new title="Toutes les FAQ" data-count="{{ news }}">
+            {% if news != 0 %}            
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                <span>{{ news }}</span>
+            {% endif %}
+        </new>
+        <p>Toutes</p>
+    {% endif %}
+    </li>
+    {% if index %}
+        <li class="nav-item theme index">
+            <a 
+                href="{% slugurl 'amicale' %}"
+                class="nav-link theme" 
+                title="Retour à l'index" 
+                alt="Accueil de l'amicale"
+            >
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            </a>
+        </li>
+    {% endif %}
+</ul>

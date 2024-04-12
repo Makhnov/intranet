@@ -1,0 +1,26 @@
+{% load wagtailcore_tags cgs_tags %}
+
+<cgs-search>
+	{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.search class_type="cgs-nofill" %}
+	{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out class_type="cgs-nofill cgs-hidden" %}
+	{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in class_type="cgs-nofill cgs-hidden" %}
+	<form id="search-form" action="{% pageurl page %}" method="get">
+        <input type="text" name="query" placeholder="Rechercher..." value="{% if request.GET.query %}{{ request.GET.query }}{% endif %}">
+        {% for field in fields %}
+			{% if field == "tags" %}
+				{% for tag in request.GET|getlist:"tag" %}
+					<input type="hidden" name="tag" value="{{ tag }}">
+				{% endfor %}
+			{% elif field == "date" %}
+				<input type="hidden" name="start_date" value="{% if request.GET.start_date %}{{ request.GET.start_date }}{% endif %}">
+				<input type="hidden" name="end_date" value="{% if request.GET.end_date %}{{ request.GET.end_date }}{% endif %}">
+			{% else %}
+				{% with request.GET|get_field:field as value %}
+					{% if value %}
+						<input type="hidden" name="{{ field }}" value="{{ value }}">
+					{% endif %}
+				{% endwith %}
+			{% endif %}
+        {% endfor %}
+    </form>
+</cgs-search>

@@ -26,9 +26,9 @@ cgs-quickbar nav.cgs-nav {
         &.single {
             li.nav-item {
                 margin:0;
-                &:first-child:not(:last-child) {
-                    border-right: calc(5 * var(--cgs-stroke-width)) solid #000;
-                }
+                &:not(:last-child) {
+                    border-right: calc(3 * var(--cgs-stroke-width)) solid #000;
+                }                
             }
         }
         > p {
@@ -127,7 +127,7 @@ div.cgs-quickbar-content {
 
     width: fit-content;
     max-width: calc(var(--container-width) - (var(--quickbar-button-size) * 2) - 3.5em);
-    min-height: calc(var(--quickbar-button-size) - (var(--nav-icon-margin) / 4) - (var(--cgs-stroke-width) * 10));
+    min-height: calc(var(--quickbar-button-size) - (var(--nav-icon-margin) / 4) - (var(--cgs-stroke-width) * 6));
     padding: calc(var(--nav-icon-margin) / 8) calc(var(--nav-icon-margin) / 4);
 
     display: flex!important;
@@ -135,7 +135,7 @@ div.cgs-quickbar-content {
     align-items: center;
 
     background-color: white;
-    border: calc(5 * var(--cgs-stroke-width)) solid black;
+    border: calc(3 * var(--cgs-stroke-width)) solid black;
     border-radius: .5em;
     
     clip-path: inset(0 100% 0 0); /* Commence comme une ligne verticale au milieu */
