@@ -95,16 +95,16 @@ header {
 					color: var(--progress-color);
 				}
 				&.doc {
-					display:none;					
-					width: 100%!important;
-					height: fit-content;
-					left: 62px;
-					align-self: end;
-					top:-10px;
+					display:none!important;					
+					// width: 100%!important;
+					// height: fit-content;
+					// left: 62px;
+					// align-self: end;
+					// top:-10px;
 
-					font-size: calc(var(--header-font-size) + .25em);
-					justify-content: center;
-					color: var(--wrapper-color-list);
+					// font-size: calc(var(--header-font-size) + .25em);
+					// justify-content: center;
+					// color: var(--wrapper-color-list);
 				}
 			}
 		}

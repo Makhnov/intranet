@@ -1,12 +1,13 @@
 {% load wagtailcore_tags i18n %}
-<nav class="cgs-nav quickbar">
-   <ul class="joy-view-choices nav-box events">
-      {% if 'L' in page.view_choices %}
+{% load wagtailcore_tags i18n %}
+<ul class="nav-box events">
+   {% if 'L' in page.view_choices %}
       <li class="nav-item events">
-      <a class="joy-view-choices__link nav-link events"
-         href="{{ listUrl }}"
-         title={% if is_upcoming %}"Evenements précédents"{% elif is_past %}"Evenements à venir"{% else %}"Vue en liste"{% endif %}
-      >
+         <a 
+            class="joy-view-choices__link nav-link events"
+            href="{{ listUrl }}"
+            title={% if is_upcoming %}"Evenements précédents"{% elif is_past %}"Evenements à venir"{% else %}"Vue en liste"{% endif %}
+         >
          {% if is_upcoming %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.past_view class_type="cgs-nofill" %}      
          {% elif is_past %} 
@@ -17,14 +18,15 @@
          </a>
       </li>
       {% if page.view_choices|length > 1 %} | {% endif %}
-      {% endif %}
+   {% endif %}
 
-      {% if 'W' in page.view_choices %}
+   {% if 'W' in page.view_choices %}
       <li class="nav-item events">
-      <a class="joy-view-choices__link nav-link events"
-         href="{{ weeklyUrl }}"
-         title={% if is_week %}"Semaine actuelle"{% else %}"Vue hedomadaire"{% endif %}
-      >
+         <a 
+            class="joy-view-choices__link nav-link events"
+            href="{{ weeklyUrl }}"
+            title={% if is_week %}"Semaine actuelle"{% else %}"Vue hedomadaire"{% endif %}
+         >
          {% if is_week %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.this_view class_type="cgs-nofill" %}      
          {% else %}
@@ -33,37 +35,48 @@
          </a>
       </li>
       {% if 'M' in page.view_choices %} | {% endif %}
-      {% endif %}
+   {% endif %}
 
-      {% if 'M' in page.view_choices %}
+   {% if 'M' in page.view_choices %}
       <li class="nav-item events">
-      <a class="joy-view-choices__link nav-link events"
-         href="{{ monthlyUrl }}"
-         title={% if is_month %}"Mois actuel"{% else %}"Vue mensuelle"{% endif %}
-      >
+         <a 
+            class="joy-view-choices__link nav-link events"
+            href="{{ monthlyUrl }}"
+            title={% if is_month %}"Mois actuel"{% else %}"Vue mensuelle"{% endif %}
+         >
          {% if is_month %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.this_view class_type="cgs-nofill" %}      
          {% else %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.month_view class_type="cgs-nofill" %}
          {% endif %}
-      </a> 
-   </li>
+         </a> 
+      </li>
       {% if 'D' in page.view_choices %} | {% endif %}
-      {% endif %}
+   {% endif %}
 
-      {% if 'D' in page.view_choices %}
+   {% if 'D' in page.view_choices %}
       <li class="nav-item events">
-      <a class="joy-view-choices__link nav-link events" 
-         href="{{ dailyUrl }}"
-         title={% if is_day %}"Aujourd'hui"{% else %}"Vue journalière"{% endif %}
-      >
+         <a
+            class="joy-view-choices__link nav-link events" 
+            href="{{ dailyUrl }}"
+            title={% if is_day %}"Aujourd'hui"{% else %}"Vue journalière"{% endif %}
+         >
          {% if is_day %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.this_view class_type="cgs-nofill" %}      
          {% else %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.day_view class_type="cgs-nofill" %}
          {% endif %}
+         </a>
+      </li>
+   {% endif %}
+	<li class="nav-item events index">
+        <a 
+            href="{{ page.get_parent.url}}"
+            class="nav-link events" 
+            title="{{ page.get_parent.specific.tooltip }}" 
+            alt="Retour au calendrier"
+        >
+        {% include 'widgets/images/logo.html' with intranet_icon=page.specific.logo class_type="cgs-nofill" %}
       </a>
-   </li>
-      {% endif %}
-   </ul>
-</nav>
+    </li>
+</ul>

@@ -45,8 +45,11 @@ MENU_PAGE_TITLES = {
     # AMICALE
     'amicale':              'Amicale',                              # amicale.AmicaleIndexPage
     
+    # EVENTS
+    'calendrier':          'Calendrier partagé',                    # events.CalendrierPage
+        
     # ACCOMPTE
-    'accompte':             'Compte utilisateur',                             # accompte.AccountPage
+    'accompte':             'Compte utilisateur',                   # accompte.AccountPage
     'profil':               'Profil du compte',                     # accompte.ProfilePage
     'connexion':            'Connexion',                            # accompte.LoginPage
     'deconnexion':          'Déconnexion',                          # accompte.LogoutPage
@@ -62,7 +65,7 @@ MENU_PAGE_SLUGS = {
     # HOME
     'accueil':              'home',
     'public':               'public',
-    'ressources':           'ressources',
+    'ressources':           'ressources',    
     
     # ADMINISTRATION
     'administration':       'administration',
@@ -76,6 +79,9 @@ MENU_PAGE_SLUGS = {
     
     # AMICALE
     'amicale':              'amicale',
+    
+    # EVENTS
+    'calendrier':          'calendrier',
     
     # ACCOMPTE
     'accompte':             'account',

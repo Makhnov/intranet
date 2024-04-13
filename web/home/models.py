@@ -57,7 +57,7 @@ from wagtail.search import index
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 
 #####################
-##  PAGES DU SITE  ##
+##  PAGES DE MENU  ##
 ##################### 
 
 # Page d'accueil
@@ -73,6 +73,69 @@ class HomePage(MenuPage):
         'home.PublicPage',
     ]
     save = menu_page_save('accueil')
+
+# Section page ressources diverses
+class RessourcesPage(MenuPage):
+    parent_page_types = ['home.HomePage']
+    subpage_types = [
+        'home.GenericPage',
+        'home.InstantDownloadPage',
+        'home.FormPage',
+    ]
+    save = menu_page_save('ressources')
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        grouped_subpages, search_query, page_type = generic_search(request, self)       
+        
+        query = request.GET.get('query', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        type = request.GET.get('type', None)
+        tags = request.GET.getlist('tag')
+        is_root = not (start_date or end_date or type or tags or query)
+        
+        context['grouped_subpages'] = grouped_subpages
+        context['search_query'] = search_query
+        context['type'] = page_type
+        context['is_root'] = is_root
+        context['fields'] = ['type', 'date', 'tags']
+        context['section'] = 'home'
+        return context
+
+# Section pages publiques
+class PublicPage(MenuPage):
+    parent_page_types = ['home.HomePage']
+    subpage_types = [
+        'home.GenericPage',
+        'home.InstantDownloadPage',
+        'home.FormPage',
+    ]
+    save = menu_page_save('public')
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        grouped_subpages, search_query, page_type = generic_search(request, self)
+        
+        query = request.GET.get('query', None)
+        start_date = request.GET.get('start_date', None)
+        end_date = request.GET.get('end_date', None)
+        type = request.GET.get('type', None)
+        tags = request.GET.getlist('tag')
+        is_root = not (start_date or end_date or type or tags or query)
+        
+        context['grouped_subpages'] = grouped_subpages
+        context['search_query'] = search_query
+        context['type'] = page_type
+        context['is_root'] = is_root
+        context['fields'] = ['type', 'date', 'tags']
+        context['section'] = 'home'
+        return context
+
+
+#####################
+##  PAGES DU SITE  ##
+##################### 
 
 # Page générique
 class GenericPage(Page):
@@ -177,64 +240,6 @@ class GenericPage(Page):
             return gallery_item.image
         else:
             return None
-
-# Section page ressources diverses
-class RessourcesPage(MenuPage):
-    parent_page_types = ['home.HomePage']
-    subpage_types = [
-        'home.GenericPage',
-        'home.InstantDownloadPage',
-        'home.FormPage',
-    ]
-    save = menu_page_save('ressources')
-
-    def get_context(self, request):
-        context = super().get_context(request)
-        grouped_subpages, search_query, page_type = generic_search(request, self)       
-        
-        query = request.GET.get('query', None)
-        start_date = request.GET.get('start_date', None)
-        end_date = request.GET.get('end_date', None)
-        type = request.GET.get('type', None)
-        tags = request.GET.getlist('tag')
-        is_root = not (start_date or end_date or type or tags or query)
-        
-        context['grouped_subpages'] = grouped_subpages
-        context['search_query'] = search_query
-        context['type'] = page_type
-        context['is_root'] = is_root
-        context['fields'] = ['type', 'date', 'tags']
-        context['section'] = 'home'
-        return context
-
-# Section pages publiques
-class PublicPage(MenuPage):
-    parent_page_types = ['home.HomePage']
-    subpage_types = [
-        'home.GenericPage',
-        'home.InstantDownloadPage',
-        'home.FormPage',
-    ]
-    save = menu_page_save('public')
-
-    def get_context(self, request):
-        context = super().get_context(request)
-        grouped_subpages, search_query, page_type = generic_search(request, self)
-        
-        query = request.GET.get('query', None)
-        start_date = request.GET.get('start_date', None)
-        end_date = request.GET.get('end_date', None)
-        type = request.GET.get('type', None)
-        tags = request.GET.getlist('tag')
-        is_root = not (start_date or end_date or type or tags or query)
-        
-        context['grouped_subpages'] = grouped_subpages
-        context['search_query'] = search_query
-        context['type'] = page_type
-        context['is_root'] = is_root
-        context['fields'] = ['type', 'date', 'tags']
-        context['section'] = 'home'
-        return context
 
 # Page pour document à télécharger
 class InstantDownloadPage(MenuPage):
@@ -370,10 +375,12 @@ class FormPage(AbstractEmailForm):
         APIField("intro"),
     ]
 
+
 ###############
 ##  WIDGETS  ##
 ############### 
 
+# Compilation d'images (GenericPage)
 class GenericGallery(GalleryImage):
     """Modèle de carrousel d'images spécifique à la GenericPage."""
     page = ParentalKey(
@@ -405,6 +412,7 @@ class InstantDownloadPieceJointe(PJBlock):
 # Formulaire d'inscription (abstract form field)
 class FormField(AbstractFormField):
     page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
+
 
 ###############
 ## FONCTIONS ##

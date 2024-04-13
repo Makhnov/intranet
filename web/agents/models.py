@@ -109,7 +109,8 @@ class FaqIndexPage(MenuPage):
 # La page de création des Q/R (une grande partie de la logique se trouve dans /utils/faq.py)
 class FaqPage(Page):
     parent_page_types = ["agents.FaqIndexPage"]
-
+    subpage_types = []
+    
     category = models.ForeignKey(
         'FaqCategory',
         on_delete=models.PROTECT,

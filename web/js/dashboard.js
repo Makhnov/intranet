@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
 function whereAmI() {
     const bodyClass = document.body ? document.body.getAttribute('class') : '';
     const TITRE = document.title;
-    console.log(TITRE);
-    console.log(bodyClass);
+    console.log("TITRE:", TITRE);
+    console.log("Classes:", bodyClass);
 
     // Page d'accueil du Dashboard
     if (bodyClass.includes("homepage")) {
@@ -46,9 +46,12 @@ function whereAmI() {
         userElectedUpdate(); 
     }
 
-    // Page de création/édition d'un évènemenet joyous
-    if (document.querySelector("form[action*='joyous/simpleeventpage/'][method='post']")) {
-        console.log("Création/édition d'évènement détectée");
+    // Page de création/édition d'évènemenents pour le calendrier
+    if (TITRE.includes('Événement sur plusieurs jours')) {
+        console.log("Création/édition d'un multi-évènement détectée");
+        joyousMultiEvent();
+    } else if (TITRE.includes('Événement')) {
+        console.log("Création/édition d'un évènement détectée");
         joyousSingleEvent();
     }
 
@@ -316,7 +319,6 @@ function usersList() {
 
 // Page de FAQ 
 function faqPage() {
-
     // Sélectionner le conteneur principal et appliquer le processus
     const answerSection = document.getElementById('panel-child-contenu-answer-section');
     if (answerSection) {
@@ -670,6 +672,11 @@ function joyousSingleEvent() {
         return date.toTimeString().split(' ')[0].substring(0, 5);
     }
 };
+
+// Création d'un multi-évenement
+function joyousMultiEvent() {
+    return;
+}
 
 // Vérifications pour la page Convocation (Si la date est antérieure à la date du jour)
 function convocationDate() {

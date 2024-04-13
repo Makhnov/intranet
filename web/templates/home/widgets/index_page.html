@@ -91,7 +91,11 @@
 {% endblock %}
 
 {% block footer_mid %}
-	{% cgs_cloud class_type="nav" index=True %}
+    {% if is_root %}
+        {% cgs_cloud class_type="nav"%}
+    {% else %}
+        {% cgs_cloud class_type="nav" index=True %}
+    {% endif %}
 {% endblock %}
 
 {% block extra_js %}

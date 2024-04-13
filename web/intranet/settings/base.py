@@ -424,7 +424,7 @@ WAGTAIL_QUICK_CREATE_PAGE_TYPES = [
     ("amicale.AmicalePage", "une page de l'amicale"),
     ("agents.FaqPage", "une page de la FAQ"),
     ("joyous.SimpleEventPage", "un événement"),
-    ("joyous.MultidayEventPage", "un long événement"),
+    ("joyous.MultiDayEventPage", "un long événement"),
 ]
 
 WAGTAIL_QUICK_CREATE_DOCUMENTS = True

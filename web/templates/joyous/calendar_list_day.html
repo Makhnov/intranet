@@ -1,10 +1,6 @@
 {% extends "joyous/calendar_list_base.html" %}
 {% load wagtailcore_tags i18n %}
 
-{% block quickbar %}
-  {% include "joyous/includes/events_view_choices.html" with is_day=True dailyUrl=todayUrl %}
-{% endblock quickbar %}
-
 {% block cal_view_class %}joy-cal-list--day{% endblock %}
 
 {% block cal_subtitle %}
@@ -20,3 +16,7 @@
   </h2>
 </div>
 {% endblock cal_subtitle %}
+
+{% block footer_mid %}
+  {% include "joyous/includes/events_view_choices.html" with is_day=True dailyUrl=todayUrl %}
+{% endblock footer_mid %}

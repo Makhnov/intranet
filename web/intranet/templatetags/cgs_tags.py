@@ -111,7 +111,7 @@ def faq_themes(context, class_type=None, index=None):
     settings = context['settings']
     selected = request.GET.get('category', '')
     themes = FaqCategory.objects.all().order_by('title')
-    
+    page = context['page']
     delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
     new_faqs = {}
     news = 0
@@ -129,7 +129,8 @@ def faq_themes(context, class_type=None, index=None):
         'class_type': class_type,
         'index': index,
         'new': new_faqs,
-        'news': news,
+        'news': news,    
+        'page': page,
     }
 
 # AMICALE THEMES
@@ -137,7 +138,8 @@ def faq_themes(context, class_type=None, index=None):
 def amicale_themes(context, class_type=None, index=None):
     request = context['request']
     settings = context['settings']
-    
+    page = context['page']
+
     selected = request.GET.get('type', '')   
     delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
     new_amicale = {}
@@ -167,6 +169,7 @@ def amicale_themes(context, class_type=None, index=None):
         'index': index,
         'new': new_amicale,
         'news': news,
+        'page': page,    
     }
 
 # CLOUD (PAGES PUBLIQUES ET RESSOURCES)
@@ -202,6 +205,7 @@ def cgs_cloud(context, class_type=None, index=None):
         'index': index,
         'new': new_home,
         'news': news,
+        'page': page,
     }
     
 ####################################################################################################
@@ -255,6 +259,7 @@ def administration_quickbar(context):
         'cv_parent': cv_parent,
         'cr_parent': cr_parent,
         'settings': settings,
+        'page': page,
     }
 
 

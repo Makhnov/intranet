@@ -30,5 +30,9 @@
 {% endblock %}
 
 {% block footer_mid %}
-	{% amicale_themes class_type="nav" index=True %}
+  {% if is_root %}   
+	  {% amicale_themes class_type="nav" index=False %}
+  {% else %}
+  	{% amicale_themes class_type="nav" index=True %}
+  {% endif %}
 {% endblock %}

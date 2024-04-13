@@ -108,7 +108,8 @@ class AmicaleIndexPage(MenuPage):
 # Page générique pour les articles (quel que soit le type)
 class AmicalePage(Page):
     parent_page_types = ["amicale.AmicaleIndexPage"]
-
+    subpage_types = []
+    
     type = models.CharField(
         max_length=10,
         choices=[

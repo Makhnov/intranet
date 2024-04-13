@@ -10,9 +10,3 @@
 {% block extra_js %}
     <script type="module" src="{% static 'js/administration.min.js' %}"></script>
 {% endblock extra_js %}
-
-{% block footer_mid %}
-    {% with class_type="nav" item_type="administration" menu=admin_menu logo_type=True %}
-        {% include 'administration/widgets/ul_item.html' %}
-    {% endwith %}
-{% endblock %}

@@ -1,70 +1,66 @@
 <main class="main-content">          
     <div class="cgs-container cgs-{{ item_type }}">
-        {% if not is_menu %}
+        {% if is_menu %}
+            {% include 'administration/widgets/ul_item.html' with index=False %}
+        {% else %}
             <div class="cgs-page">  
                 {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
                 {% include "widgets/search/filters.html" %}
+
                 <div class="cgs-list">
-        {% endif %}
-        {% if members %}
-            {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
-            <section class="cgs-members cgs-swap-hidden">
-                <div id="action-buttons" class="cgs-action">
-                    <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
-                    </button>
-                    <button id="cgs-download" alt="Téléchargement des données" title="Télécharger la liste des membres">
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill" %}
-                    </button>
-                    <button id="cgs-print" alt="Imrimer les données" title="Imprimer la liste des membres">
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-nofill" %}
-                    </button>
-                    <div id="emailsContainer" style="display: none;">
-                        {% for _, members_group in members.items %}
-                            {% for member in members_group %}
-                                <span class="email">{{ member.email }}</span>
-                            {% endfor %}
-                        {% endfor %}
-                    </div>                                     
-                </div>
-                    {% for function, members in members.items %}       
-                        {% if members %}                 
-                            <h2>{{ function }}</h2>
-                            <ul>
-                                {% for member in members %}
-                                    <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
+                    {% if members %}
+                        {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
+                        <section class="cgs-members cgs-swap-hidden">
+                            <div id="action-buttons" class="cgs-action">
+                                <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
+                                </button>
+                                <button id="cgs-download" alt="Téléchargement des données" title="Télécharger la liste des membres">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill" %}
+                                </button>
+                                <button id="cgs-print" alt="Imrimer les données" title="Imprimer la liste des membres">
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-nofill" %}
+                                </button>
+                                <div id="emailsContainer" style="display: none;">
+                                    {% for _, members_group in members.items %}
+                                        {% for member in members_group %}
+                                            <span class="email">{{ member.email }}</span>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>                                     
+                            </div>
+                                {% for function, members in members.items %}       
+                                    {% if members %}                 
+                                        <h2>{{ function }}</h2>
+                                        <ul>
+                                            {% for member in members %}
+                                                <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
                                 {% endfor %}
-                            </ul>
-                        {% endif %}
-                    {% endfor %}
-            </section>
-        {% endif %}
+                        </section>
+                    {% endif %}
 
-        {% if children.members_pages or children.convocation_pages_by_year or children.compterendu_pages_by_year %}
+                    {% if children.convocation_pages_by_year or children.compterendu_pages_by_year %}
+                        <ul class="{{ class_type }}-box {{ item_type }}">
+                            {% for year, convocations in children.convocation_pages_by_year.items %}
+                                    <h2>Convocations {{ year }}</h2>
+                                    {% for convocation in convocations %}
+                                        {% include 'administration/widgets/li_item.html' with item=convocation %}
+                                    {% endfor %}
+                            {% endfor %}
+                        </ul>
 
-            <ul class="{{ class_type }}-box {{ item_type }}">
-                {% for year, convocations in children.convocation_pages_by_year.items %}
-                        <h2>Convocations {{ year }}</h2>
-                        {% for convocation in convocations %}
-                            {% include 'administration/widgets/li_item.html' with item=convocation %}
-                        {% endfor %}
-                {% endfor %}
-            </ul>
-
-            <ul class="{{ class_type }}-box {{ item_type }}">
-                {% for year, compterendus in children.compterendu_pages_by_year.items %}
-                        <h2>Comptes-Rendus {{ year }}</h2>
-                        {% for compterendu in compterendus %}
-                            {% include 'administration/widgets/li_item.html' with item=compterendu %}
-                        {% endfor %}
-                {% endfor %}
-            </ul>
-
-        {% else %}
-            {% include 'administration/widgets/ul_item.html' %}
-        {% endif %}
-        
-        {% if not is_menu %}
+                        <ul class="{{ class_type }}-box {{ item_type }}">
+                            {% for year, compterendus in children.compterendu_pages_by_year.items %}
+                                    <h2>Comptes-Rendus {{ year }}</h2>
+                                    {% for compterendu in compterendus %}
+                                        {% include 'administration/widgets/li_item.html' with item=compterendu %}
+                                    {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}

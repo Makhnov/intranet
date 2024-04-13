@@ -45,15 +45,18 @@
 </div>
 {% endblock %}
 
-{% comment %}Ajout du lien retour ) l'index du calendrier{% endcomment %}
-{% block quickbar %}
-  <nav class="cgs-nav quickbar"> 
-    <ul class="nav-box events joy-view-choices">
-      <li class="nav-item events">
-        <a href="{{ page.get_parent.url}}" class="nav-link events" title="{{ page.get_parent.specific.tooltip }}">
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home %}
-        </a>
-      </li>
-    </ul>
-  </nav>
-{% endblock quickbar %}
+{% comment %}Ajout du lien retour à l'index du calendrier{% endcomment %}
+{% block footer_mid %}
+  <ul class="nav-box events">
+    <li class="nav-item events index">
+        <a 
+            href="{{ page.get_parent.url}}"
+            class="nav-link events" 
+            title="{{ page.get_parent.specific.tooltip }}" 
+            alt="Retour au calendrier"
+        >
+        {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-nofill" %}
+      </a>
+    </li>
+  </ul>
+{% endblock footer_mid %}

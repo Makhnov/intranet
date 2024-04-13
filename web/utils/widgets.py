@@ -8,7 +8,7 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 # Traductions
 from django.utils.translation import gettext_lazy as _
 
-# Carrousel d'image (HomePage)
+# Carrousel d'image (Galerie)
 class GalleryImage(Orderable):
     image = models.ForeignKey(
         "images.CustomImage",

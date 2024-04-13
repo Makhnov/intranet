@@ -470,7 +470,7 @@ ul.nav-box {
     }
 
     li.nav-item:not(.cgs-selected, .unlog, .profile) {
-        a svg:not(.cgs-nofill), a img:not(.cgs-nofill) {
+        a svg:not(.cgs-nofill, .cgs-bright), a img:not(.cgs-nofill, .cgs-bright) {
             opacity: .6;
             transition: opacity .3s ease-in-out;
         }
@@ -494,7 +494,7 @@ ul.nav-box {
             flex:none;
         }
     }
-    li.nav-item:not(.unlog, .profile, .index) svg:not(.cgs-nofill) {
+    li.nav-item:not(.unlog, .profile) svg:not(.cgs-nofill) {
         fill: var(--cgs-logo-1)!important;     
         * {
             fill: var(--cgs-logo-1)!important;     

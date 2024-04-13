@@ -13,7 +13,7 @@
     <header class="cgs">        
         <ul class="header-menu">
             <a href="/" class="header-link" title="{{ intranet.root_page.specific.tooltip }}">
-                <img src="{% static 'images/cgs-logo.png' %}" alt="Custom Project" />
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
             </a>   
             <nav class="viewer">
                 <ul class="nav-box">
@@ -118,7 +118,7 @@
         </li>
         <li class="nav-item doc index">
             <a href="/{{ main_dir }}/{{ sub_dir }}/" class="nav-link doc" title="Retour à l'index" alt="{{ sub_dir }} Index">
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+                {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-bright" %}
             </a>
         </li>
     </ul>

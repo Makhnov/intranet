@@ -273,9 +273,15 @@
                         &.cgs-selected::after {
                             background: var(--wrapper-color-menu)!important;
                         }
-                        svg:not(.cgs-nofill), svg:not(.cgs-nofill) * {
-                            fill: var(--wrapper-color-menu)!important;  
-                            stroke-width: 0!important;
+                        svg:not(.cgs-nofill), svg:not(.cgs-nofill) {
+                            *:not(.cgs-semifill) {
+                                fill: var(--wrapper-color-menu)!important;  
+                                stroke-width: 0!important;
+                            }
+                            *.cgs-semifill {
+                                fill: var(--wrapper-color-menu)!important;
+                                stroke: var(--wrapper-color-list)!important;
+                            }
                         }
                     }
                 }

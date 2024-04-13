@@ -1,10 +1,6 @@
 {% extends "joyous/calendar_table_base.html" %}
 {% load wagtailcore_tags i18n %}
 
-{% block quickbar %}
-{% include "joyous/includes/events_view_choices.html" with is_month=True monthlyUrl=thisMonthUrl %}
-{% endblock quickbar %}
-
 {% block cal_view_class %}joy-cal--monthly{% endblock %}
 
 {% block cal_heading %}
@@ -32,3 +28,7 @@
           <div class="joy-cal__date joy-cal__date--{{ evod.weekday }}">{{ evod.date.day }}</div>
         {% endif %}</div>
 {% endblock cal_day_title %}
+
+{% block footer_mid %}
+  {% include "joyous/includes/events_view_choices.html" with is_month=True monthlyUrl=thisMonthUrl %}
+{% endblock footer_mid %}

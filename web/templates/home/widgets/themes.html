@@ -48,7 +48,13 @@
                     <span>{{ news }}</span>
                 {% endif %}
             </new>
-            <p>Tout</p>
+            {% if item_type == 'ressources' %}
+                <p>Toutes les pages privées</p>
+            {% elif item_type == 'public' %}
+                <p>Toutes les pages publiques</p>
+            {% else %}
+                <p>Toutes les pages</p>
+            {% endif %}
         {% endif %}
     </li>
     {% if index %}
@@ -56,10 +62,10 @@
             <a 
                 href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}{% else %}{% slugurl 'public' %}{% endif %}"
                 class="nav-link theme" 
-                title="Retour à l'index des ressources" 
-                alt="Index des ressources"
+                title="Retour à l'index ({{item_type}})" 
+                alt="Accueil {{item_type}}"
             >
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+                {% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-bright" %}
             </a>
         </li>
     {% endif %}

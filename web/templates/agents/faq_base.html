@@ -12,5 +12,9 @@
 {% endblock %}
 
 {% block footer_mid %}
-	{% faq_themes class_type="nav" index=True %}
+  {% if is_root %}   
+	  {% faq_themes class_type="nav" index=False %}
+  {% else %}
+  	{% faq_themes class_type="nav" index=True %}
+  {% endif %}
 {% endblock %}

@@ -44,7 +44,7 @@
         </new>
         <p>Toutes</p>
     {% endif %}
-    </li>
+    </li>    
     {% if index %}    
         <li class="nav-item theme index">
             <a 
@@ -53,7 +53,7 @@
                 title="Retour à l'index" 
                 alt="FAQ Index"
             >
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            {% include 'widgets/images/logo.html' with intranet_icon=page.specific.logo class_type="cgs-bright" %}
             </a>
         </li>
     {% endif %}

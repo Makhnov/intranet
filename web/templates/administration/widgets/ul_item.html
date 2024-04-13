@@ -8,16 +8,20 @@
                 {% include 'administration/widgets/li_item.html' %}
             {% endif %}
         {% endfor %}
-
-        {% if index %}
-            <li class="nav-item {{ child_type }} index{% if page.slug == item_type %} cgs-selected{% endif %}">
+        
+        {% if index %}        
+            <li class="nav-item {{ child_type }} index{% if item_type != "commissions" and item_type == page.slug %} cgs-selected{% endif %}">
                 <a 
-                    href="{% slugurl item_type %}"
+                    href="{{page.get_parent.specific.url}}"
                     class="nav-link theme" 
                     title="Retour à l'index" 
                     alt="{{item_type}} Index"
-                >
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+                >                
+                {% if page.slug == "commissions" %}                
+                    {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-bright cgs-nofill" %}
+                {% else %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-bright" %}
+                {% endif %}
                 </a>
             </li>
         {% endif %}

@@ -187,7 +187,51 @@ class PDFSettings(BaseSiteSetting):
 class IntranetIcons(BaseSiteSetting):    
     max_items = 1
 
-    # PAGES
+    # PAGES & MAIN ITEMS
+    home = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Home"),
+        help_text=_("'Home' symbol to back to the home page.")
+    )
+    user_profile = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("User profile"),
+        verbose_name=_("Header top-right icon")
+    )
+    site_web = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Site web officiel")
+    )
+    office_tourisme = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Office de tourisme")
+    )
+    facebook_icon = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Facebook")
+    )
+    
+    # ADMINISTRATION
     convocation = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -204,15 +248,8 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Compte rendu page")
     )
-    categories = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Themes"),
-        help_text=_("Related theme icon for numerous pages"),
-    )
+    
+    # AGENTS (FAQ)
     faq_all = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -221,7 +258,16 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         help_text=_("All FAQ"),
         verbose_name=_("All FAQ")
-    )    
+    ) 
+    categories = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Themes"),
+        help_text=_("Related theme icon for numerous pages"),
+    )   
     law_text = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -240,6 +286,8 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Tags"),
         help_text=_("Tag icon for numerous pages"),
     )
+    
+    # AMICALE
     amicale_all = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -282,6 +330,91 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Amicale unknown"),
         help_text=_("Amicale unknown page type icon"),
     )
+
+    # CALENDRIER
+    list_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("List view"),
+        verbose_name=_("List view")
+    )
+    day_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Day view"),
+        verbose_name=_("Day view")
+    )
+    week_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Week view"),
+        verbose_name=_("Week view")
+    )
+    month_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Month view"),
+        verbose_name=_("Month view")
+    )
+    this_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Actual view"),
+        verbose_name=_("Actual view")
+    )
+    calendar_previous_page = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Previous Page"),
+        help_text=_("Icon in the calendar section to go to the previous page")
+    )
+    calendar_next_page = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Next Page"),
+        help_text=_("Icon in the calendar section to go to the next page"),
+    )
+    upcoming_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Upcoming view"),
+        verbose_name=_("Upcoming view")
+    )
+    past_view = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text=_("Past view"),
+        verbose_name=_("Past view")
+    )
+        
+    # RESSOURCES
     home_all = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -326,51 +459,9 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         help_text=_("Form"),
         verbose_name=_("Form")
-    )       
-    site_web = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Site web officiel")
-    )
-    office_tourisme = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Office de tourisme")
-    )
-    facebook_icon = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Facebook")
-    )
+    )    
 
     # NAVIGATION
-    home = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Home"),
-        help_text=_("'Home' symbol to back to the index section. Related Index Pages : 'Calendar', 'Amicale', 'FAQ', 'Administration'. ")
-    )
-    user_profile = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("User profile"),
-        verbose_name=_("Header top-right icon")
-    )
     previous_item = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -425,24 +516,6 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Page Up Max"),
         help_text=_("Header icon to go to the first page in viewers (PDF, etc.)"),
     )
-    
-    # DISPLAY
-    open = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Open")
-    )
-    close = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Close") 
-    ) 
     more = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -475,25 +548,24 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Less (left)")
     )
-    spinner = models.ForeignKey(
+ 
+    # ACTIONS
+    open = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name=_("Spinner")
+        verbose_name=_("Open")
     )
-    star = models.ForeignKey(
+    close = models.ForeignKey(
         get_image_model_string(),
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        verbose_name=_("Star"),
-        help_text=_("New informations added in the last 14 days"),
+        verbose_name=_("Close") 
     )
-    
-    # ACTION$
     search = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -598,6 +670,24 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Print"),
         verbose_name=_("Print")
     )
+    
+    spinner = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Spinner")
+    )
+    star = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Star"),
+        help_text=_("New informations added in the last 14 days"),
+    )
 
     # LISTE
     ul_item = models.ForeignKey(
@@ -691,109 +781,14 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("Ordered list item"),
     )  
 
-    # CALENDRIER
-    list_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("List view"),
-        verbose_name=_("List view")
-    )
-    day_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Day view"),
-        verbose_name=_("Day view")
-    )
-    week_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Week view"),
-        verbose_name=_("Week view")
-    )
-    month_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Month view"),
-        verbose_name=_("Month view")
-    )
-    this_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Actual view"),
-        verbose_name=_("Actual view")
-    )
-    calendar_previous_page = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Previous Page"),
-        help_text=_("Icon in the calendar section to go to the previous page")
-    )
-    calendar_next_page = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Next Page"),
-        help_text=_("Icon in the calendar section to go to the next page"),
-    )
-    upcoming_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Upcoming view"),
-        verbose_name=_("Upcoming view")
-    )
-    past_view = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text=_("Past view"),
-        verbose_name=_("Past view")
-    )       
-
     # CONTENT PANEL
     panels = [
-        MultiFieldPanel(
+        MultiFieldPanel(# Pages & generic Items
             [
-                FieldPanel('convocation', heading=_("Convocation page")),
-                FieldPanel('compte_rendu', heading=_("Compte rendu page")),
-                FieldPanel('categories', heading=_("Related themes")),
-                FieldPanel('faq_all', heading=_("All FAQ")),
-                FieldPanel('law_text', heading=_("Law text")),
-                FieldPanel('tags', heading=_("Tags")),
-                FieldPanel('amicale_all', heading=_("Amicale all")),
-                FieldPanel('amicale_news', heading=_("Amicale news")),
-                FieldPanel('amicale_sorties', heading=_("Amicale sorties")),
-                FieldPanel('amicale_divers', heading=_("Amicale divers")),
-                FieldPanel('amicale_none', heading=_("Amicale unknown")),
-                FieldPanel('home_all', heading=_("Home all")),
-                FieldPanel('home_none', heading=_("Home unknown")),
-                FieldPanel('home_generic', heading=_("Web page")),
-                FieldPanel('home_download', heading=_("Documents (InstantDownload)")),
-                FieldPanel('home_form', heading=_("Form")),
+                FieldPanel('home', heading=_("Home")),
+                FieldPanel('user_profile', heading=_("User Profile")),                
+                FieldPanel('spinner', heading=_("Spinner")),
+                FieldPanel('star', heading=_("Star")),
                 FieldPanel('site_web', heading=_("Site web officiel")),
                 FieldPanel('office_tourisme', heading=_("Office de tourisme")),
                 FieldPanel('facebook_icon', heading=_("Facebook")),
@@ -801,36 +796,81 @@ class IntranetIcons(BaseSiteSetting):
             heading=_("Pages"),
             classname="collapsible, collapsed"
         ),
-        MultiFieldPanel(
+        MultiFieldPanel(# Administration
             [
-                FieldPanel('home', heading=_("Home")),
-                FieldPanel('user_profile', heading=_("User Profile")),
+                FieldPanel('convocation', heading=_("Convocation page")),
+                FieldPanel('compte_rendu', heading=_("Compte rendu page")),
+            ],
+            heading=_("Administration"),
+            classname="collapsible, collapsed"
+        ),
+        MultiFieldPanel(# Agents (FAQ)
+            [
+                FieldPanel('categories', heading=_("Related themes")),
+                FieldPanel('faq_all', heading=_("All FAQ")),
+                FieldPanel('law_text', heading=_("Law text")),
+                FieldPanel('tags', heading=_("Tags")),
+            ],
+            heading=_("Agents (FAQ)"),
+            classname="collapsible, collapsed"
+        ),        
+        MultiFieldPanel(# Amicale
+            [
+                FieldPanel('amicale_all', heading=_("Amicale all")),
+                FieldPanel('amicale_news', heading=_("Amicale news")),
+                FieldPanel('amicale_sorties', heading=_("Amicale sorties")),
+                FieldPanel('amicale_divers', heading=_("Amicale divers")),
+                FieldPanel('amicale_none', heading=_("Amicale unknown")),
+            ],
+            heading=_("Amicale"),
+            classname="collapsible, collapsed"
+        ),
+        MultiFieldPanel(# Calendrier
+            [
+                FieldPanel('list_view', heading=_("List view")),
+                FieldPanel('day_view', heading=_("Day view")),
+                FieldPanel('week_view', heading=_("Week view")),
+                FieldPanel('month_view', heading=_("Month view")),
+                FieldPanel('this_view', heading=_("Actual view")),
+                FieldPanel('calendar_previous_page', heading=_("Previous Page")),
+                FieldPanel('calendar_next_page', heading=_("Next Page")),
+                FieldPanel('upcoming_view', heading=_("Upcoming view")),
+                FieldPanel('past_view', heading=_("Past view")),
+            ],
+            heading=_("Calendar"),
+            classname="collapsible, collapsed"
+        ),
+        MultiFieldPanel(# Ressources
+            [
+                FieldPanel('home_all', heading=_("Home all")),
+                FieldPanel('home_none', heading=_("Home unknown")),
+                FieldPanel('home_generic', heading=_("Web page")),
+                FieldPanel('home_download', heading=_("Documents (InstantDownload)")),
+                FieldPanel('home_form', heading=_("Form")),
+            ],
+            heading=_("Ressources and public pages"),
+            classname="collapsible, collapsed"
+        ),
+        MultiFieldPanel(# Navigation
+            [
                 FieldPanel('previous_item', heading=_("Previous Item")),
                 FieldPanel('next_item', heading=_("Next Item")),
                 FieldPanel('page_down', heading=_("Page Down")),
                 FieldPanel('page_up', heading=_("Page Up")),
                 FieldPanel('page_down_max', heading=_("Page Down Max")),
-                FieldPanel('page_up_max', heading=_("Page Up Max")),                
-            ],
-            heading=_("Navigation"),
-            classname="collapsible, collapsed"
-        ),
-        MultiFieldPanel(
-            [                                
-                FieldPanel('open', heading=_("Open")),
-                FieldPanel('close', heading=_("Close")),
+                FieldPanel('page_up_max', heading=_("Page Up Max")),
                 FieldPanel('more', heading=_("More")),
                 FieldPanel('less', heading=_("Less")),
                 FieldPanel('more_right', heading=_("More (right)")),
-                FieldPanel('less_left', heading=_("Less (left)")),
-                FieldPanel('spinner', heading=_("Spinner")),
-                FieldPanel('star', heading=_("Star")),
+                FieldPanel('less_left', heading=_("Less (left)")),              
             ],
-            heading=_("Display"),
+            heading=_("Navigation"),
             classname="collapsible, collapsed"
-        ),
-        MultiFieldPanel(
+        ),  
+        MultiFieldPanel(# Actions
             [
+                FieldPanel('open', heading=_("Open")),
+                FieldPanel('close', heading=_("Close")),
                 FieldPanel('search', heading=_("Search")),
                 FieldPanel('zoom_in', heading=_("Zoom in")),
                 FieldPanel('zoom_out', heading=_("Zoom out")),
@@ -847,7 +887,7 @@ class IntranetIcons(BaseSiteSetting):
             heading=_("Actions"),
             classname="collapsible, collapsed"
         ),
-        MultiFieldPanel(
+        MultiFieldPanel(# Liste
             [
                 FieldPanel('ul_item', heading=_("Unordered list item")),
                 FieldPanel('ol_item_1', heading=_("Ordered list item 1")),
@@ -861,21 +901,6 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('ol_item_9', heading=_("Ordered list item 9")),
             ],
             heading=_("List"),
-            classname="collapsible, collapsed"
-        ),
-        MultiFieldPanel(
-            [
-                FieldPanel('list_view', heading=_("List view")),
-                FieldPanel('day_view', heading=_("Day view")),
-                FieldPanel('week_view', heading=_("Week view")),
-                FieldPanel('month_view', heading=_("Month view")),
-                FieldPanel('this_view', heading=_("Actual view")),
-                FieldPanel('calendar_previous_page', heading=_("Previous Page")),
-                FieldPanel('calendar_next_page', heading=_("Next Page")),
-                FieldPanel('upcoming_view', heading=_("Upcoming view")),
-                FieldPanel('past_view', heading=_("Past view")),
-            ],
-            heading=_("Calendar"),
             classname="collapsible, collapsed"
         ),
     ]
