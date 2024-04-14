@@ -11,8 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('amicale', '0002_alter_amicalepage_type'),
-        ('images', '0001_initial'),
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
     ]
 
     operations = [

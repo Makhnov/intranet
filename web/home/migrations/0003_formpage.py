@@ -11,8 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('home', '0002_remove_formpage_logo_remove_formpage_page_ptr_and_more'),
-        ('images', '0001_initial'),
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
     ]
 
     operations = [

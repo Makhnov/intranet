@@ -11,9 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('home', '0001_initial'),
-        ('images', '0001_initial'),
-        ('wagtailcore', '0092_query_searchpromotion_querydailyhits'),
-        ('wagtailstreamforms', '0003_alter_form_template_name'),
     ]
 
     operations = [
