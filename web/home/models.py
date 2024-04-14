@@ -54,7 +54,8 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.search import index
 
 # Formulaire
-from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+from wagtailstreamforms.blocks import WagtailFormBlock
+from wagtailstreamforms.models.abstract import AbstractFormSetting
 
 #####################
 ##  PAGES DE MENU  ##
@@ -110,6 +111,7 @@ class PublicPage(MenuPage):
         'home.GenericPage',
         'home.InstantDownloadPage',
         'home.FormPage',
+        'home.ContactPage'
     ]
     save = menu_page_save('public')
 
@@ -310,11 +312,41 @@ class InstantDownloadPage(MenuPage):
         verbose_name = _("Instant download page")
         verbose_name_plural = _("Instant download pages")
 
-# Formulaire d'inscription 2/2 (Page)
-class FormPage(AbstractEmailForm):
-    parent_page_types = ['home.RessourcesPage', 'home.PublicPage']
+# Formulaire d'inscription à l'amicale
+class ContactPage(MenuPage):
+    parent_page_types = ["home.PublicPage"]
     subpage_types = []
+    save = menu_page_save("contact")
     
+    inscription_form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Inscription form"),
+        help_text=_("Add an inscription form for this event."),
+        block_counts={
+            'form_field': {'min_num': 1},
+            'form_field': {'max_num': 1},
+        },
+    )
+
+    # Panneau de contenu
+    content_panels = MenuPage.content_panels + [
+        FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
+    ]
+
+# Page de formulaire générique
+class FormPage(Page):
+    parent_page_types = [
+        "home.PublicPage",
+        "home.RessourcesPage",                    
+    ]
+    subpage_types = []
+    show_in_menus_default = True
+
     logo = models.ForeignKey(
         "images.CustomImage",
         null=True,
@@ -337,11 +369,23 @@ class FormPage(AbstractEmailForm):
         null=True,
         verbose_name=_("Tooltip"),
         help_text=_("Used for accessibility (alt, title) and when user mouse over the icon."),
+    )
+    form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Form"),
+        help_text=_("Add a form to this page."),
+        block_counts={
+            'form_field': {'min_num': 1},
+            'form_field': {'max_num': 1},
+        },
     )    
-    intro = RichTextField(blank=True)
-    thank_you_text = RichTextField(blank=True)
-
-    content_panels = AbstractEmailForm.content_panels + [
+    # Panneau de contenu
+    content_panels = [
         MultiFieldPanel([
                 FieldPanel("logo"),
                 FieldPanel("heading"),
@@ -351,31 +395,19 @@ class FormPage(AbstractEmailForm):
             help_text=_("Choose an icon and a tooltip to display on the index pages. Both optional, if none, CGS logo will be the icon and tooltip will refer as the page title"),
             classname="collapsible, collapsed",
         ),
-        FieldPanel('intro'),        
-        InlinePanel('form_fields', label="Form fields"),
-        FieldPanel('thank_you_text'),
-        MultiFieldPanel([
-            FieldRowPanel([
-                FieldPanel('from_address', classname="col6"),
-                FieldPanel('to_address', classname="col6"),
-            ]),
-            FieldPanel('subject'),
-        ], "Email"),
-    ]
-    
-    # Champs pour la recherche
+        FieldPanel("form", heading=_("Form"), classname="collapsible"),
+    ]   
+           
     search_fields = Page.search_fields + [
         index.SearchField("heading"),
-        index.SearchField("intro"),
-    ]
-
-    # Champs pour l'API
+    ]    
+    
     api_fields = [
+        APIField("tooltip"),
         APIField("heading"),
-        APIField("intro"),
+        APIField("logo"),
     ]
-
-
+    
 ###############
 ##  WIDGETS  ##
 ############### 
@@ -409,10 +441,9 @@ class InstantDownloadPieceJointe(PJBlock):
         related_name="download_documents",
     )
     
-# Formulaire d'inscription (abstract form field)
-class FormField(AbstractFormField):
-    page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
-
+# Formulaires
+class AdvancedFormSetting(AbstractFormSetting):
+    to_address = models.EmailField()
 
 ###############
 ## FONCTIONS ##

@@ -1,14 +1,19 @@
 from termcolor import colored
+
 from django.db import models
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.utils.timezone import datetime
-from modelcluster.fields import ParentalKey
+from django.utils.html import strip_tags
 from modelcluster.contrib.taggit import ClusterTaggableManager
+from modelcluster.fields import ParentalKey
 from taggit.models import TaggedItemBase
 
 from wagtail import blocks
+from wagtail.admin import messages
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
-from wagtail.models import Page, Orderable
+from wagtail.models import Page
 from wagtail.fields import StreamField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 
@@ -45,6 +50,7 @@ from wagtail.search import index
 
 # Formulaire
 from wagtailstreamforms.blocks import WagtailFormBlock
+from wagtailstreamforms.models.abstract import AbstractFormSetting
 
 ##################
 ## PAGE DE MENU ##
@@ -53,11 +59,14 @@ from wagtailstreamforms.blocks import WagtailFormBlock
 # Index pour toutes les pages de l'amicale (quel que soit le type)
 class AmicaleIndexPage(MenuPage):
     parent_page_types = ["home.HomePage"]
-    subpage_types = ["amicale.AmicalePage"]
+    subpage_types = [
+        "amicale.AmicalePage",
+        "amicale.AmicaleInscriptionPage",
+    ]
     save = menu_page_save("amicale")
     
-    def get_context(self, request, *args, **kwargs):
-        context = super().get_context(request, *args, **kwargs)
+    def get_context(self, request,):
+        context = super().get_context(request)
         amicalepages = AmicalePage.objects.child_of(self).live()
 
         query = request.GET.get('query', None)
@@ -100,6 +109,7 @@ class AmicaleIndexPage(MenuPage):
         context['section'] = 'amicale'
         
         return context
+
 
 #######################
 ## PAGE DE L'AMICALE ##
@@ -283,6 +293,41 @@ class AmicalePage(Page):
         else:
             return None
 
+# Formulaire d'inscription à l'amicale
+class AmicaleInscriptionPage(MenuPage):
+    parent_page_types = ["amicale.AmicaleIndexPage"]
+    subpage_types = []
+    save = menu_page_save("inscription-amicale")
+    
+    inscription_form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Inscription form"),
+        help_text=_("Add an inscription form for this event."),
+        block_counts={
+            'form_field': {'min_num': 1},
+            'form_field': {'max_num': 1},
+        },
+    )
+
+    # Panneau de contenu
+    content_panels = MenuPage.content_panels + [
+        FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
+    ]
+            
+    def get_context(self, request):
+        context = super().get_context(request)
+        user = request.user
+        ami = user.groups.filter(name='Amicale').exists()
+        
+        context['ami'] = ami
+        return context
+
+        
 ###############
 ##  WIDGETS  ##
 ############### 

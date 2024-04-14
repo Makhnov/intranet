@@ -44,6 +44,7 @@ MENU_PAGE_TITLES = {
 
     # AMICALE
     'amicale':              'Amicale',                              # amicale.AmicaleIndexPage
+    'inscription-amicale':  'Formulaire d\'inscription',            # amicale.InscriptionAmicalePage
     
     # EVENTS
     'calendrier':          'Calendrier partagé',                    # events.CalendrierPage
@@ -79,9 +80,10 @@ MENU_PAGE_SLUGS = {
     
     # AMICALE
     'amicale':              'amicale',
-    
+    'inscription-amicale':  'inscription',
+        
     # EVENTS
-    'calendrier':          'calendrier',
+    'calendrier':           'calendrier',
     
     # ACCOMPTE
     'accompte':             'account',

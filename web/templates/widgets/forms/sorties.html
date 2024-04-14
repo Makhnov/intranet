@@ -1,0 +1,24 @@
+<h2>{{ value.form.title }}</h2>
+<form id="inscription-sortie" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
+    {{ form.media }}
+    {% csrf_token %}
+    {% for hidden in form.hidden_fields %}
+        {% if hidden.id_for_label == 'id_sortie' %}
+            <input 
+                type="hidden" 
+                name="{{ hidden.name }}" 
+                id="{{ hidden.id_for_label }}" 
+                {% for attr, value in hidden.field.widget.attrs.items %} 
+                    {{ attr }}="{{ value }}" 
+                {% endfor %} 
+                value="{{ page.title }}"
+            />
+        {% else %}
+            {{ hidden }}
+        {% endif %} 
+    {% endfor %}
+    {% for field in form.visible_fields %}
+        {% include 'streamforms/partials/amicale_form_field.html' %}
+    {% endfor %}
+    <input type="submit" value="{{ value.form.submit_button_text }}">
+</form>

@@ -9,8 +9,10 @@ from wagtail.models import Page
 from mailing.forms import EmailForm
 from utils.mailing import EmailSender
 from utils.pdf import getPdfFromUrl, generate_pdf
+import datetime
 from django.utils import formats, timezone
 from django.utils import translation
+
 translation.activate('fr-fr')
 
 @permission_required('mailing.can_send_mail', raise_exception=True)
@@ -26,7 +28,7 @@ def mailing_view(request):
                                 
                 email_sender = EmailSender(request.user)
                 attachments = False
-                email_attachments = []
+                email_attachments = {}
                 destinataires = []
                 email_data = []
 
@@ -36,41 +38,64 @@ def mailing_view(request):
                         left_pages = data.get('left_pages')
                         print(colored('left_pages', 'green'), colored(left_pages, 'white', 'on_green'))
 
-                        
-                        destinataires = data.get('mail_to')                    
-                        if destinataires:
-                            print(f'FAKE mail to{destinataires}')
-                        else:
+                        destinataires = data.get('mail_to')
+                        if not destinataires:
                             messages.error(request, "Veuillez saisir au moins une adresse email.")
-                            
-                        main_page = data.get(left_pages)                    
-                        if main_page:
-                            print(f'FAKE mail to{destinataires} pour {main_page}')
+                            return
+
+                        print(colored('destinataires', 'green'), colored(destinataires, 'white', 'on_green'))
+
+                        main_page = data.get(left_pages)
+                        if not main_page:
+                            messages.error(request, "Veuillez sélectionner une page.")
+                            return
+
+                        print(colored('main_page', 'green'), colored(main_page, 'white', 'on_green'))
+
+                        if hasattr(main_page, 'date') and isinstance(main_page.date, datetime.datetime):
+                            date_fr = formats.date_format(main_page.date, "d F Y")
+                            heure_fr = formats.time_format(main_page.date, "H:i")
                         else:
-                            messages.error(request, "Veuillez sélectionner une page.")  
-                        
-                        if main_page and destinataires:
-                            # on itere sur tous les destinataires
-                            for destinataire in destinataires:                            
-                                date_fr = formats.date_format(main_page.date, "d F Y") if hasattr(main_page, 'date') else formats.date_format(timezone.localtime(), "d F Y")  # Modifiez ici                       
-                                heure_fr = formats.date_format(main_page.date, "H:i") if hasattr(main_page, 'date') else formats.date_format(timezone.localtime(), "H:i")  # Et ici
+                            current_time = timezone.localtime()
+                            date_fr = formats.date_format(current_time, "d F Y")
+                            heure_fr = formats.time_format(current_time, "H:i")
                             
-                                sujet = f"Invitation {main_page.title} du {date_fr}"
-                                contenu = f"Bonjour, nous avons le plaisir de vous inviter à la sortie {main_page.title} qui se tiendra le {date_fr} à {heure_fr}. A très vite, l'Amicale."
-                                email_data.append((sujet, contenu, 'convocation', destinataires))                      
-                                
-                                print(colored('sujet', 'red'), colored(sujet, 'white', 'on_red'))
-                                print(colored('contenu', 'red'), colored(contenu, 'white', 'on_red'))
-                                print(colored('destinataire', 'red'), colored(destinataire, 'white', 'on_red'))
-                                print(colored('email_data', 'red'), colored(email_data, 'white', 'on_red'))
-                            
-                            if email_data:
-                                messages.success(request, f"{len(email_data)} mails envoyés avec succès pour la sortie {main_page.title} du {date_fr}.")
-                                return redirect('mailing')
-                            else:
-                                messages.error(request, "Aucun email n'a été envoyé. Vérifiez les données fournies.")
+                        # Gestion des pièces jointes si elles existent
+                        attachments = data.get('left_attachments')
+                        if attachments:
+                            if hasattr(main_page, 'generic_documents'):
+                                for attachment in main_page.generic_documents.all():
+                                    document = attachment.document
+                                    if document:
+                                        try:
+                                            with document.file.open('rb') as file:
+                                                email_attachments[document.filename] = file.read()  # Sauvegarde dans un dictionnaire
+                                        except Exception as e:
+                                            print(f"Erreur lors de la lecture du fichier {document.filename}: {e}")
+                                            messages.error(request, "Erreur lors de la lecture des pièces jointes.")   
+                                            return redirect('mailing')
+                                        
+                        for destinataire in destinataires:
+                            sujet = f"Invitation {main_page.title} du {date_fr}"
+                            contenu = f"Bonjour, nous avons le plaisir de vous inviter à la sortie {main_page.title} qui se tiendra le {date_fr} à {heure_fr}. A très vite, l'Amicale."
+                            email_info = {
+                                'sujet': sujet,
+                                'message': contenu,
+                                'expediteur': 'convocation',
+                                'destinataires': [destinataire]
+                            }
+                            email_data.append(email_info)
+
+                            print(colored('sujet', 'red'), colored(sujet, 'white', 'on_red'))
+                            print(colored('contenu', 'red'), colored(contenu, 'white', 'on_red'))
+                            print(colored('destinataire', 'red'), colored(destinataire, 'white', 'on_red'))
+
+                        if email_data:
+                            email_sender.send_mass_email(email_data, attachments=email_attachments)
+                            messages.success(request, f"{len(email_data)} mails envoyés avec succès pour la sortie {main_page.title} du {date_fr}.")
+                            return redirect('mailing')
                         else:
-                            messages.error(request, "Veuillez sélectionner une page et saisir au moins une adresse email.")
+                            messages.error(request, "Aucun email n'a été envoyé. Vérifiez les données fournies.")
                     else:
                         messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")
                 elif 'submit_right' in request.POST:
@@ -85,37 +110,39 @@ def mailing_view(request):
                         print(colored('main_page', 'cyan'), colored(main_page, 'white', 'on_cyan'))
                         
                         attachments = data.get('right_attachments')
-                        if attachments and hasattr(main_page, 'convocation_documents'):
-                            attachments = main_page.convocation_documents.all()
-                            print(colored('attachments', 'cyan'), colored(attachments, 'white', 'on_cyan'))
-                        else:
-                            messages.error(request, "Aucune pièce jointe n'a été trouvée pour cette page.")
-                        
-                        for attachment in attachments:
-                            document = attachment.document
-                            if document and hasattr(document, 'filename'):
-                                attachment_title = document.filename
-                            elif document:
-                                messages.error(request, "Assurez-vous que le document a un nom de fichier.")
-                            else:
-                                messages.error(request, "Aucun document n'a été trouvé.")
-                                    
-                            print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))
-                                
-                            if hasattr(document, 'file'):
-                                file = document.file
-                                if hasattr(file, 'path'):
-                                    attachment_path = file.path
-                                        
-                            print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))
-                                    
-                            try:
-                                with document.file.open('rb') as file:
-                                    email_attachments.append((attachment_title, file.read(), mimetypes.guess_type(attachment_path)[0]))
-                            except Exception as e:
-                                print(f"Erreur lors de la lecture du fichier {attachment_title}: {e}")
+                        print(colored('attachments', 'cyan'), colored(attachments, 'white', 'on_cyan'))
+                        if attachments:
+                            if hasattr(main_page, 'convocation_documents'):
+                                documents = main_page.convocation_documents.all()
+                                for attachment in documents:
+                                    document = attachment.document
+                                    if document and hasattr(document, 'filename'):
+                                        attachment_title = document.filename
+                                    elif document:
+                                        messages.error(request, "Assurez-vous que le document a un nom de fichier.")
+                                    else:
+                                        messages.error(request, "Aucun document n'a été trouvé.")
 
-                    
+                                    print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))
+                                        
+                                    if hasattr(document, 'file'):
+                                        file = document.file
+                                        if hasattr(file, 'path'):
+                                            attachment_path = file.path
+                                                
+                                    print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))
+                                            
+                                    try:
+                                        with document.file.open('rb') as file:
+                                            email_attachments[attachment_title] = file.read()  # Stockez seulement le contenu en bytes
+                                    except Exception as e:
+                                        print(f"Erreur lors de la lecture du fichier {attachment_title}: {e}")
+                                        return redirect('mailing')
+                            else:
+                                messages.error(request, "Aucune pièce jointe n'a été trouvée pour cette page.")
+                        else:
+                            print(colored('Pas de PJ', 'cyan'))
+                            
                         if main_page and hasattr(main_page, 'get_parent'):
                             parent_page = main_page.get_parent().specific if hasattr(main_page.get_parent(), 'specific') else None
                             # page_url = main_page.url if hasattr(main_page, 'url') else None
@@ -135,13 +162,21 @@ def mailing_view(request):
                                         contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}. Vous trouverez ci-joint la convocation et l'ordre du jour. Cordialement, "
                                         destinataire = [user.email]
                                         # destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
-                                        # destinataire = [random.choice(destinataires)]
-                                        email_data.append((sujet, contenu, 'convocation', destinataire))
+                                        # destinataire = [random.choice(destinataires)]                                        
+                                        email_info = {
+                                            'sujet': sujet,
+                                            'message': contenu,
+                                            'expediteur': 'convocation',
+                                            'destinataires': destinataire
+                                        }
+                                        email_data.append(email_info)
                                 # break
                         else:
                             messages.error(request, "Aucun membre n'a été trouvé pour cette page.")                        
 
                         if email_data:
+                            print(colored('email_data', 'cyan'))
+                            print(colored('email_attachments', 'cyan'))
                             email_sender.send_mass_email(email_data, attachments=email_attachments)
                             messages.success(request, f"{len(email_data)} mails envoyés avec succès pour la convocation {parent_page.title} du {date_fr}.")
                             return redirect('mailing')

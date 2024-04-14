@@ -53,11 +53,24 @@ function whatTheHell() {
     if (FORM) {
         searchBlock(FORM);
     }
+
+    const MESSAGES = document.querySelectorAll('.cgs-message');
+    if (MESSAGES.length > 0) {
+        cgsMessages(MESSAGES);
+    }
 }
 
 //////////////////////////////////////////   FONCTIONS GLOBALES    //////////////////////////////////////////////////
 
+function cgsMessages(msgs) {
+    msgs.forEach(msg => {
+        const close = msg.querySelector('.msg-close');
+        if (close) {
+            close.addEventListener('click', () => msg.remove());
+        }
+    });
 
+}
 
 ////////////////////////////////////////// PAGES/SECTION CHARGEES  //////////////////////////////////////////////////
 

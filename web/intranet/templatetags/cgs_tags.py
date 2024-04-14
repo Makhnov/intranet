@@ -139,7 +139,12 @@ def amicale_themes(context, class_type=None, index=None):
     request = context['request']
     settings = context['settings']
     page = context['page']
-
+    user = request.user
+    ami = user.groups.filter(name='Amicale').exists() or user.is_superuser
+    
+    print(colored(f"Utilisateur: {user}", "yellow", 'on_black'))
+    print(colored(f"Amicale: {ami}", "yellow", 'on_black'))
+    
     selected = request.GET.get('type', '')   
     delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
     new_amicale = {}
@@ -150,14 +155,19 @@ def amicale_themes(context, class_type=None, index=None):
         'news': 'Nouvelles',
     }
     
+    if not ami:
+        types.pop('sorties')
+        types['inscription'] = 'Inscription à l\'amicale'
+
     for key, field in types.items():
         count = AmicalePage.objects.filter(type=key, latest_revision_created_at__gte=delta).count()
         new_amicale[key] = count
         news += count
 
-    print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
-    print(colored(f"news: {news}", "yellow", 'on_black'))
-    print(colored(f"selected: {selected}", "yellow", 'on_black'))
+
+    # print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
+    # print(colored(f"news: {news}", "yellow", 'on_black'))
+    # print(colored(f"selected: {selected}", "yellow", 'on_black'))
     print(colored(f"types: {types}", "yellow", 'on_black'))    
 
     return {
@@ -281,17 +291,17 @@ def agents_quickbar(context):
     else:
         faqs = FaqPage.objects.live().filter(category=category).order_by('-latest_revision_created_at')[:3]   
      
-    print(colored(f"faq: {faqs}", "yellow", 'on_black'))
+    # print(colored(f"faq: {faqs}", "yellow", 'on_black'))
     
     # On crée un receptacle pour les contextes
     items = []
     
     for faq in faqs:
-        print(colored(f"faq: {faq}", "yellow", 'on_black'))
+        # print(colored(f"faq: {faq}", "yellow", 'on_black'))
         name = faq.question
-        print(colored(f"name: {name}", "yellow", 'on_black'))
+        # print(colored(f"name: {name}", "yellow", 'on_black'))
         url = faq.get_url()
-        print(colored(f"url: {url}", "yellow", 'on_black'))
+        # print(colored(f"url: {url}", "yellow", 'on_black'))
         category = faq.category
         items.append({'name': name, 'url': url, 'category': category})
     

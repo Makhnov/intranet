@@ -433,9 +433,15 @@ WAGTAIL_QUICK_CREATE_AUDIO = False
 WAGTAIL_QUICK_CREATE_VIDEO = False
 
 # Formulaires pour l'amicale
+WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = True
+WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'home.AdvancedFormSetting'
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
-    ('streamforms/form_block.html', 'Default Form Template'),  # default
-    ('streamforms/amicale_block.html', 'Amicale'),
+    ('widgets/forms/contact.html', 'Formulaire de contact'),    
+    ('widgets/forms/sorties.html', 'Sorties de l\'amicale'),
+    ('widgets/forms/amicale.html', 'Inscription à l\'amicale'),
+    ('widgets/forms/agents.html', 'Contactez la FAQ'),
+    ('widgets/forms/administration.html', 'Contactez le secrétariat'),
+    ('streamforms/form_block.html', 'Default Form Template'),
 )
 
 # Calendrier 

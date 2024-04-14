@@ -175,7 +175,7 @@ class BureauxIndexPage(MenuPage):
                     members_sorted['Président'].append(member)
             elif function == "2":
                 members_sorted['Vice-présidents'].append(member)
-        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
+        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
 
 

@@ -968,7 +968,7 @@ msgstr "Envoi de mails"
 
 #: .\templates\amicale\widgets\amicale_list.html:53
 msgid "on"
-msgstr "sur"
+msgstr "le"
 
 #: .\templates\amicale\widgets\amicale_list.html:56
 msgid "Edited by"

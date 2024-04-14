@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n static wagtailcore_tags menu_tags %}
+
+{% block body_class %}cgs-form page{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.min.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+	<script type="module" src="{% static 'js/forms.min.js' %}"></script>
+{% endblock %}
+
+{% block footer_mid %}
+<ul class="nav-box form">
+    <li class="nav-item theme index">
+        {% with parent=page.get_parent.specific %}
+            <a 
+                href="{% slugurl parent.slug %}"
+                class="nav-link form"
+                title="Retour à {{ parent.title }}"
+                alt="{{ parent.title }}"
+            >
+                {% include 'widgets/images/logo.html' with intranet_icon=parent.logo class_type="cgs-bright" %}
+            </a>
+        {% endwith %}
+    </li>
+</ul>
+{% endblock %}

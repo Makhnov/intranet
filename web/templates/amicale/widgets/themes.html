@@ -2,7 +2,19 @@
 
 <ul class="{{ class_type }}-box theme">
     {% for key, type in themes.items %}
-            <li class="{{ class_type }}-item theme {% if key == selected %}cgs-selected{% endif %}">
+        {% if key == 'inscription' %}
+            <li class="{{ class_type }}-item theme cgs-highlighted">
+
+                <a 
+                    href="{% slugurl 'inscription' %}" 
+                    class="{{ class_type }}-link theme" 
+                    title="Inscrivez-vous à l'amicale" 
+                    alt="Inscription à l'amicale"
+                >
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription %}
+                </a>
+        {% else %}
+            <li class="{{ class_type }}-item theme">
                 <a 
                     href="{% slugurl 'amicale' %}?type={{ key }}"
                     class="{{ class_type }}-link theme" 
@@ -19,18 +31,19 @@
                     {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_none %}
                 {% endif %}
                 </a>
-                {% if class_type == "menu" %}
-                    {% with count=new|get_field:key %}
-                        {% if count %}
-                            <new title="{{type}}" data-count="{{ count }}">
-                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
-                                <span>{{ count }}</span>
-                            </new>
-                        {% endif %}
-                    {% endwith %}
-                    <p>{{ type.title }}</p>
-                {% endif %}
-            </li>
+        {% endif %}
+        {% if class_type == "menu" %}
+            {% with count=new|get_field:key %}
+                    {% if count %}
+                        <new title="{{type}}" data-count="{{ count }}">
+                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+                            <span>{{ count }}</span>
+                        </new>
+                    {% endif %}
+            {% endwith %}
+            <p>{{ type.title }}</p>
+        {% endif %}
+        </li>
     {% endfor %}
     <li class="{{ class_type }}-item theme {% if request.GET.type == "*" %}cgs-selected{% endif %}">
         <a 

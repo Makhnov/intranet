@@ -14,7 +14,7 @@ from accompte.models import (
     PasswordSetPage
 )
 from administration.models import CommissionsIndexPage
-from amicale.models import AmicaleIndexPage
+from amicale.models import AmicaleIndexPage, AmicalePage
 from home.models import RessourcesPage, HomePage, PublicPage
 
 # Pages publiques
@@ -43,13 +43,21 @@ login_restricted_pages = [
 # Vérification des droits d'accès aux pages
 def check_page_access(user, page, bool):
     # print(colored(f'Checking access for {user} to page {page}', 'black', 'on_white'))
+    
     if user.is_superuser and user.is_active:
         # print(colored(f'Access granted: {user} is a superuser and active', 'black', 'on_green'))
         return True
+    
+    if isinstance(page, AmicalePage):
+        if page.specific.type == 'sorties':
+            ami = user.groups.filter(name='Amicale').exists()
+            print(colored(f'Access : {user} for {page} check if member of the amicale : {ami}', 'black', 'on_green'))
+            return ami
+
     if isinstance(page, tuple(no_restricted_pages)):
         # print(colored(f'Access granted: {page} is a public page', 'black', 'on_green'))
         return True
-    
+            
     if isinstance(page.specific, CommissionsIndexPage):
         return check_child_pages_access(user, page, True)
     

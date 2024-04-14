@@ -1,0 +1,17 @@
+{% extends "widgets/forms/base_form.html" %}
+
+{% load wagtailcore_tags menu_tags%}
+
+{% block content %}
+    <main>
+        <div class="cgs-container cgs-amicale">
+            <div class="cgs-page">  
+                {% if page.inscription_form %}
+                    {% for block in page.inscription_form %}
+                        {% include_block block %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>  
+{% endblock %}

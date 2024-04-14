@@ -80,6 +80,17 @@ html {// INITIALISATIONS
     }
 }
 
+.cgs-highlighted {
+    p {
+        font-weight: bold!important;
+        animation: color-blink 5s infinite;
+    }
+}
+@keyframes color-blink {
+    0%, 10%, 20%, 100% { color: white; }
+    5%, 15% { color: var(--cgs-color-menu-5); }
+}
+
 .cgs-hidden, .cgs-swap-hidden {// OBJETS CACHES (instant)
     display: none!important;
 }
@@ -184,6 +195,83 @@ html {// IMAGES EN PLEIN ECRAN
         }
     }
 
+}
+
+div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
+    position: fixed;
+    z-index: 9999;
+    top:0;
+    left:calc((100vw - var(--container-width)) / 2);
+    width:var(--container-width);
+    height: 48px;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--wrapper-color-list);
+
+    &.error {
+        background-color: var(--cgs-wrapper-error)!important;
+        > * {
+            color: var(--cgs-content-error)!important;
+        }
+    }
+    &.warning {
+        background-color: var(--cgs-wrapper-warning)!important;
+        > * {
+            color: var(--cgs-content-warning)!important;
+        }
+    }
+    &.info {
+        background-color: var(--cgs-wrapper-info)!important;
+        > * {
+            color: var(--cgs-content-info)!important;
+        }
+    }
+    &.success {
+        background-color: var(--cgs-wrapper-success)!important;
+        > * {
+            color: var(--cgs-content-success)!important;
+        }
+    }
+    
+
+    transform: translateY(-48px);
+    animation: messages .4s ease-in-out forwards;
+
+    > * {        
+        width: calc(100% - 16px);
+        padding-left: 16px;
+        height: 100%;
+        flex: 1 1 100%;
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        color: var(--content-color-list);
+        font-size: calc(var(--header-font-size) + .25em);
+        font-weight: 700;
+    }
+
+    svg, image {
+        cursor: pointer;
+        flex:none;
+        align-self: flex-start;
+        height: 24px;
+        width: 24px;
+    }
+}
+
+@keyframes messages {
+    from {
+        transform: translateY(-48px);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
 
 /***************************************************************************************************************************************************************

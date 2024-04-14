@@ -206,6 +206,15 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("User profile"),
         verbose_name=_("Header top-right icon")
     )
+    inscription = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Inscription"),
+        help_text=_("Inscription form (Amicale, contact, etc.)"),
+    )
     site_web = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -786,7 +795,8 @@ class IntranetIcons(BaseSiteSetting):
         MultiFieldPanel(# Pages & generic Items
             [
                 FieldPanel('home', heading=_("Home")),
-                FieldPanel('user_profile', heading=_("User Profile")),                
+                FieldPanel('user_profile', heading=_("User Profile")),
+                FieldPanel('inscription', heading=_("Inscription")),          
                 FieldPanel('spinner', heading=_("Spinner")),
                 FieldPanel('star', heading=_("Star")),
                 FieldPanel('site_web', heading=_("Site web officiel")),

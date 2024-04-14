@@ -3,137 +3,151 @@
 
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>
+			{% block title %}
+				{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+				{% block title_extension %}{% endblock %}
+			{% endblock %}
+			{% block title_suffix %}
+				{% wagtail_site as current_site %}
+				{% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
+			{% endblock %}
+		</title>
 
-<head>
-  <meta charset="utf-8" />
-  <title>
-    {% block title %}
-      {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-      {% block title_extension %}{% endblock %}
-    {% endblock %}
-    {% block title_suffix %}
-      {% wagtail_site as current_site %}
-      {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
-    {% endblock %}
-  </title>
-  {% if page.search_description %}
-  <meta name="description" content="{{ page.search_description }}" />
-  {% endif %}
-  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+		{% if page.search_description %}
+			<meta name="description" content="{{ page.search_description }}" />
+		{% endif %}
 
-  {# Force all links in the live preview panel to be opened in a new tab #}
-  {% if request.in_preview_panel %}
-  <base target="_blank">
-  {% endif %}
+		<meta name="viewport" content="width=device-width, initial-scale=1" />  
 
-  {# Favicon #}
-  <link rel="icon" type="image/png" href="{% static 'images/cgs-logo.ico' %}"/>
+		{# Force all links in the live preview panel to be opened in a new tab #}
+		{% if request.in_preview_panel %}
+			<base target="_blank">
+		{% endif %}
 
-  {# Global stylesheets #}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/quickbar.min.css' %}">
+		{# Favicon #}
+		<link rel="icon" type="image/png" href="{% static 'images/cgs-logo.ico' %}"/>
 
-  {% if is_menu or is_root %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/menu.min.css' %}">
-  {% else %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/page.min.css' %}">
-  {% endif %}
+		{# Global stylesheets #}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/quickbar.min.css' %}">
 
-  {% block extra_css %}
-  {# Override this in templates to add extra stylesheets #}
-  {% endblock %}
-</head>
+		{% if is_menu or is_root %}
+			<link rel="stylesheet" type="text/css" href="{% static 'css/menu.min.css' %}">
+		{% else %}
+			<link rel="stylesheet" type="text/css" href="{% static 'css/page.min.css' %}">
+		{% endif %}
 
-<body class="{% block body_class %}{% endblock %}">
-  {% wagtailuserbar %}
+		{% block extra_css %}
+			{# Override this in templates to add extra stylesheets #}
+		{% endblock %}
+	</head>
 
-  {# Container CGS #}
-  {% if is_menu or is_root %}
-    <div class="cgs-content cgs-menu">
-  {% else %}
-    <div class="cgs-content cgs-intranet">
-  {% endif %}
+	<body class="{% block body_class %}{% endblock %}">
+		{% wagtailuserbar %}
 
-    {# Header #}
-    {% block header %}
-      <header class="cgs">
-        <ul class="header-menu">
-            {% include "widgets/header/pochoir.html" %}{# Logo CGS #}
-            {% if user.is_authenticated %}{# utilisateurs connectés #}
-              <li class="header-item">
-                  <span class="header-user">Intranet de</span> 
-                  <span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
-                  <nav class="cgs-nav header">
-                      {% with class_type="nav" logo_settings=True home=True %}
-                          {% flat_menu 'home' show_menu_heading=True max_levels=1 %}
-                      {% endwith %}
-                  </nav>
-              </li>   
-              {% include "widgets/header/user_menu_logged_in.html" %}{# Menu (icone user) #}
-            {% else %}{# utilisateurs non-connectés #}   
-              {% include "widgets/header/user_menu_logged_out.html" %}{# Menu (icone user) #}
-            {% endif %}
-        </ul>
-        {% include "widgets/header/vague.html" %}{# Arrière plan du header #}    
-      </header> 
-    {% endblock %}
+		{% if messages %}
+			{% for message in messages %}
+				<div id="cgs-subscription" class="cgs-message {{ message.tags }}">
+					<p>{{ message|safe }}</p>
+					{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type="msg-close" %}
+				</div>
+			{% endfor %}
+		{% endif %}
 
-    {# Contenu principal #}
-    {% block content %}{% endblock %}
+		{# Container CGS #}
+		{% if is_menu or is_root %}
+			<div class="cgs-content cgs-menu">
+		{% else %}
+			<div class="cgs-content cgs-intranet">
+		{% endif %}
 
-    {# Footer #}
-    <footer class="cgs">
-      <nav class="cgs-nav footer">
-        {% block footer_left %}{% endblock %}
-        <div class="cgs-box left cgs-hidden">
-          {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.previous_item class_type="cgs-nofill" %}
-        </div>
-        {% block footer_mid %}{% endblock %}
-        <div class="cgs-box right cgs-hidden">
-          {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.next_item class_type="cgs-nofill" %}
-        </div>
-        {% block footer_right %}{% endblock %}
-      </nav>           
-    </footer>        
+		{# Header #}
+		{% block header %}
+			<header class="cgs">
+				<ul class="header-menu">
+					{% include "widgets/header/pochoir.html" %}{# Logo CGS #}
+					{% if user.is_authenticated %}{# utilisateurs connectés #}
+						<li class="header-item">
+							<span class="header-user">Intranet de</span> 
+							<span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
+							<nav class="cgs-nav header">
+								{% with class_type="nav" logo_settings=True home=True %}
+									{% flat_menu 'home' show_menu_heading=True max_levels=1 %}
+								{% endwith %}
+							</nav>
+						</li>   
+						{% include "widgets/header/user_menu_logged_in.html" %}{# Menu (icone user) #}
+					{% else %}{# utilisateurs non-connectés #}   
+						{% include "widgets/header/user_menu_logged_out.html" %}{# Menu (icone user) #}
+					{% endif %}
+				</ul>
+				{% include "widgets/header/vague.html" %}{# Arrière plan du header #}    
+			</header> 
+		{% endblock %}
 
-    </div>
+		{# Contenu principal #}
+		{% block content %}{% endblock %}
 
-  {# Quickbar #}
-  <cgs-quickbar class="cgs-hidden">
-    <div class="cgs-container cgs-quickbar-container">
-        <button aria-controls="cgs-userbar-items" aria-haspopup="true" class="w-userbar-trigger cgs-swap" id="cgs-userbar-trigger" data-cgs-userbar-trigger="" aria-expanded="false" title="Menu contextuel">
-            <div class="cgs-swapable">
-              {% include 'widgets/images/swap.html' with cross=True swap_initial="Masquer" %}
-            </div>
-        </button>
-        <div class="cgs-quickbar-content cgs-swap-visible">          
-            {% block quickbar %}{% endblock %}
-        </div>     
-    </div>
-  </cgs-quickbar>
+		{# Footer #}
+		<footer class="cgs">
+			<nav class="cgs-nav footer">
+				{% block footer_left %}{% endblock %}
 
-  <cgs-utils class="cgs-hidden">
-    <div id="cgs-close">
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type="cgs-nofill" %}
-    </div>
-    <div class="cgs-spinner">
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.spinner class_type="cgs-nofill" %}
-    </div>
-  </cgs-utils>
-  {# Global javascript #}
-  <script src="{% static 'js/intranet.min.js' %}"></script>
-  <script src="{% static 'js/quickbar.min.js' %}"></script>
+				<div class="cgs-box left cgs-hidden">
+					{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.previous_item class_type="cgs-nofill" %}
+				</div>
 
-  {% if is_menu or is_root %}
-    <script class="{{ menu_type }}" type="module" src="{% static 'js/menu.min.js' %}"></script>
-  {% else %}
-    <script type="module" src="{% static 'js/page.min.js' %}"></script>
-  {% endif %}
-  
-  {% block extra_js %}
-  {# Override this in templates to add extra javascript #}
-  {% endblock %}
-</body>
+				{% block footer_mid %}{% endblock %}
 
+				<div class="cgs-box right cgs-hidden">
+					{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.next_item class_type="cgs-nofill" %}
+				</div>
+
+				{% block footer_right %}{% endblock %}
+			</nav>           
+		</footer>        
+
+		</div>
+
+		{# Quickbar #}
+		<cgs-quickbar class="cgs-hidden">
+			<div class="cgs-container cgs-quickbar-container">
+				<button aria-controls="cgs-userbar-items" aria-haspopup="true" class="w-userbar-trigger cgs-swap" id="cgs-userbar-trigger" data-cgs-userbar-trigger="" aria-expanded="false" title="Menu contextuel">
+					<div class="cgs-swapable">
+						{% include 'widgets/images/swap.html' with cross=True swap_initial="Masquer" %}
+					</div>
+				</button>
+				<div class="cgs-quickbar-content cgs-swap-visible">          
+					{% block quickbar %}{% endblock %}
+				</div>     
+			</div>
+		</cgs-quickbar>
+
+		<cgs-utils class="cgs-hidden">
+			<div id="cgs-close">
+				{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type="cgs-nofill" %}
+			</div>
+			<div class="cgs-spinner">
+				{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.spinner class_type="cgs-nofill" %}
+			</div>
+		</cgs-utils>
+
+		{# Global javascript #}
+		<script src="{% static 'js/intranet.min.js' %}"></script>
+		<script src="{% static 'js/quickbar.min.js' %}"></script>
+
+		{% if is_menu or is_root %}
+			<script class="{{ menu_type }}" type="module" src="{% static 'js/menu.min.js' %}"></script>
+		{% else %}
+			<script type="module" src="{% static 'js/page.min.js' %}"></script>
+		{% endif %}
+
+		{% block extra_js %}
+			{# Override this in templates to add extra javascript #}
+		{% endblock %}
+	</body>
 </html>

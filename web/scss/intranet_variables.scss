@@ -59,6 +59,15 @@
     --content-color-menu: var(--cgs-theme-light-2);
     --wrapper-color-list: var(--cgs-theme-light-2-bis);
     --content-color-list: var(--cgs-theme-light-1);
+
+    --cgs-wrapper-success: var(--cgs-color-menu-3);
+    --cgs-wrapper-info: #b1ea86;
+    --cgs-wrapper-warning: var(--cgs-color-menu-5);
+    --cgs-wrapper-error: #ff0000;
+    --cgs-content-success: #fff;
+    --cgs-content-info: #000;
+    --cgs-content-warning: #000;
+    --cgs-content-error: #fff;
 }
 
 @font-face {
