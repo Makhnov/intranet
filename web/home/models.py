@@ -470,7 +470,7 @@ class AdvancedFormSetting(AbstractFormSetting):
         verbose_name=_("To address"),
         help_text=_("Email address to send the form submission to."),
     )
-    to_subject = models.CharField(
+    subject = models.CharField(
         max_length=255,
         blank=True,
         null=True,
