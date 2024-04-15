@@ -1,11 +1,11 @@
 {% load wagtailcore_tags cgs_tags %}
 
-<ul class="{{ class_type }}-box theme">
+<ul class="{{ class_type }}-box faq">
     {% for theme in themes %}
-            <li class="{{ class_type }}-item theme {% if theme.slug == selected %}cgs-selected{% endif %}">
+            <li class="{{ class_type }}-item faq {% if theme.slug == selected %}cgs-selected{% endif %}">
                 <a 
                     href="{% slugurl 'faq' %}?category={{ theme.slug }}"
-                    class="{{ class_type }}-link theme" 
+                    class="{{ class_type }}-link faq" 
                     title="{{ theme.tooltip|default_if_none:'' }}" 
                     alt="{{ theme.title|default_if_none:'' }}"
                 >
@@ -26,10 +26,10 @@
                 {% endif %}
             </li>
     {% endfor %}
-    <li class="{{ class_type }}-item theme {% if request.GET.category == "*" %}cgs-selected{% endif %}">
+    <li class="{{ class_type }}-item faq {% if request.GET.category == "*" %}cgs-selected{% endif %}">
         <a 
         href="{% slugurl 'faq' %}?category=*"
-        class="{{ class_type }}-link theme" 
+        class="{{ class_type }}-link faq" 
         title="Voir toutes les questions/réponses" 
         alt="Toutes les FAQ"
     >
@@ -46,10 +46,10 @@
     {% endif %}
     </li>    
     {% if index %}    
-        <li class="nav-item theme index">
+        <li class="nav-item faq index">
             <a 
                 href="{% slugurl 'faq' %}"
-                class="nav-link theme" 
+                class="nav-link faq" 
                 title="Retour à l'index" 
                 alt="FAQ Index"
             >

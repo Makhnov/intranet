@@ -51,7 +51,7 @@ def check_page_access(user, page, bool):
     if isinstance(page, AmicalePage):
         if page.specific.type == 'sorties':
             ami = user.groups.filter(name='Amicale').exists()
-            print(colored(f'Access : {user} for {page} check if member of the amicale : {ami}', 'black', 'on_green'))
+            # print(colored(f'Access : {user} for {page} check if member of the amicale : {ami}', 'black', 'on_green'))
             return ami
 
     if isinstance(page, tuple(no_restricted_pages)):

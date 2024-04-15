@@ -140,10 +140,9 @@ def amicale_themes(context, class_type=None, index=None):
     settings = context['settings']
     page = context['page']
     user = request.user
-    ami = user.groups.filter(name='Amicale').exists() or user.is_superuser
     
-    print(colored(f"Utilisateur: {user}", "yellow", 'on_black'))
-    print(colored(f"Amicale: {ami}", "yellow", 'on_black'))
+    # print(colored(f"Utilisateur: {user}", "yellow", 'on_black'))
+    # print(colored(f"Amicale: {ami}", "yellow", 'on_black'))
     
     selected = request.GET.get('type', '')   
     delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
@@ -152,18 +151,18 @@ def amicale_themes(context, class_type=None, index=None):
     types = {
         'autres': 'Informations diverses',
         'sorties': 'Sorties',
+        'inscription': 'Inscription à l\'amicale',
         'news': 'Nouvelles',
     }
-    
-    if not ami:
-        types.pop('sorties')
-        types['inscription'] = 'Inscription à l\'amicale'
+
+    ami = user.groups.filter(name='Amicale').exists()    
+    if ami:
+        types.pop('inscription')
 
     for key, field in types.items():
         count = AmicalePage.objects.filter(type=key, latest_revision_created_at__gte=delta).count()
         new_amicale[key] = count
         news += count
-
 
     # print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
     # print(colored(f"news: {news}", "yellow", 'on_black'))
@@ -179,7 +178,8 @@ def amicale_themes(context, class_type=None, index=None):
         'index': index,
         'new': new_amicale,
         'news': news,
-        'page': page,    
+        'page': page,
+        'ami': ami,
     }
 
 # CLOUD (PAGES PUBLIQUES ET RESSOURCES)

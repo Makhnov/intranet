@@ -3,7 +3,7 @@ window.addEventListener('load', () => {
     console.log("Fichier menu.js chargé");
 
     // On vérifie si on est sur la page index de la FAQ ou des commissions
-    const menuBox = document.querySelector('body.menu.cgs-faq ul.menu-box, body.menu.cgs-commissions ul.menu-box');
+    const menuBox = document.querySelector('body.menu.cgs-faq ul.menu-box, body.menu.cgs-commissions ul.menu-box'); //, body.menu.cgs-amicale ul.menu-box
 
     if (menuBox) {
         const items = menuBox.querySelectorAll('li');

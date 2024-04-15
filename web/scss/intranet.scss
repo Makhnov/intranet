@@ -78,6 +78,18 @@ html {// INITIALISATIONS
         width: auto;
         aspect-ratio: 1/1;
     }
+    .cgs-big-icon, a.cgs-big-icon img, a.cgs-big-icon svg {
+        cursor: pointer;
+        height: calc(var(--mid-icon-size) * 1.5);
+        width: auto;
+        aspect-ratio: 1/1;
+    }
+    .cgs-huge-icon, a.cgs-huge-icon img, a.cgs-huge-icon svg {
+        cursor: pointer;
+        height: calc(var(--mid-icon-size) * 2);
+        width: auto;
+        aspect-ratio: 1/1;
+    }
 }
 
 .cgs-highlighted {
@@ -211,6 +223,7 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
     align-items: center;
     justify-content: space-between;
     background-color: var(--wrapper-color-list);
+    border-bottom: 2px solid white;
 
     &.error {
         background-color: var(--cgs-wrapper-error)!important;
@@ -254,6 +267,7 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
         color: var(--content-color-list);
         font-size: calc(var(--header-font-size) + .25em);
         font-weight: 700;
+        font-family: 'rhino';
     }
 
     svg, image {

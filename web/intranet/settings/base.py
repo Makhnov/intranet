@@ -435,9 +435,10 @@ WAGTAIL_QUICK_CREATE_VIDEO = False
 # Formulaires pour l'amicale
 WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = True
 WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'home.AdvancedFormSetting'
+WAGTAILSTREAMFORMS_DEFAULT_TO_ADDRESS = 'secretariat@cagiregaronnesalat.fr'
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
     ('widgets/forms/contact.html', 'Formulaire de contact'),    
-    ('widgets/forms/sorties.html', 'Sorties de l\'amicale'),
+    ('widgets/forms/sortie.html', 'Sorties de l\'amicale'),
     ('widgets/forms/amicale.html', 'Inscription à l\'amicale'),
     ('widgets/forms/agents.html', 'Contactez la FAQ'),
     ('widgets/forms/administration.html', 'Contactez le secrétariat'),

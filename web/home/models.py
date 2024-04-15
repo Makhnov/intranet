@@ -443,7 +443,23 @@ class InstantDownloadPieceJointe(PJBlock):
     
 # Formulaires
 class AdvancedFormSetting(AbstractFormSetting):
-    to_address = models.EmailField()
+    to_address = models.EmailField(
+        verbose_name=_("To address"),
+        help_text=_("Email address to send the form submission to."),
+    )
+    to_subject = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        default="Nouvelle soumission",
+        verbose_name=_("Subject"),
+        help_text=_("Subject of the email."),
+    )
+    unique = models.BooleanField(
+        default=False,
+        verbose_name=_("Unique submission"),
+        help_text=_("Allow only one submission per user."),
+    )
 
 ###############
 ## FONCTIONS ##

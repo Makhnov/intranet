@@ -234,7 +234,7 @@ div.cgs-page > div.cgs-list {
             align-items: center;            
             margin: .5rem;
             border: 1px solid #000;
-            
+
             &:hover {
                 background-color: var(--vert-clair);
             }
@@ -254,6 +254,25 @@ div.cgs-page > div.cgs-list {
                         margin-right: 5px;
                     }
                 }                
+            }
+        }
+
+        p.inscription {
+            width: calc(100% - 2rem - 2px);
+
+            a {
+                display: inline-flex;
+                min-height: var(--mid-icon-size);
+                min-width: var(--mid-icon-size);
+            }
+            span {
+                display: inline-block;
+                padding-top:1rem;
+
+                svg {
+                    position: relative;
+                    transform: translateY(25%);
+                }
             }
         }
 

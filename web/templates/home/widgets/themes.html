@@ -1,11 +1,11 @@
 {% load wagtailcore_tags cgs_tags %}
 
-<ul class="{{ class_type }}-box theme">
+<ul class="{{ class_type }}-box docs">
     {% for key, field in themes.items %}
-        <li class="{{ class_type }}-item theme {% if key == selected %}cgs-selected{% endif %}">
+        <li class="{{ class_type }}-item docs {% if key == selected %}cgs-selected{% endif %}">
             <a 
                 href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}?type={{key}}{% else %}{% slugurl 'public' %}?type={{key}}{% endif %}"
-                class="{{ class_type }}-link theme" 
+                class="{{ class_type }}-link docs" 
                 title="{{ field }}" 
                 alt="{{ field }}"
             >
@@ -32,10 +32,10 @@
             {% endif %}
         </li>
     {% endfor %}
-    <li class="{{ class_type }}-item theme {% if '*' == selected %}cgs-selected{% endif %}">
+    <li class="{{ class_type }}-item docs {% if '*' == selected %}cgs-selected{% endif %}">
         <a 
             href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}?type=*{% else %}{% slugurl 'public' %}?type=*{% endif %}"
-            class="{{ class_type }}-link theme" 
+            class="{{ class_type }}-link docs" 
             title="Voir toutes les ressources" 
             alt="Toutes les ressources"
         >
@@ -58,10 +58,10 @@
         {% endif %}
     </li>
     {% if index %}
-        <li class="nav-item theme index">
+        <li class="nav-item docs index">
             <a 
                 href="{% if item_type == "ressources" %}{% slugurl 'ressources' %}{% else %}{% slugurl 'public' %}{% endif %}"
-                class="nav-link theme" 
+                class="nav-link docs" 
                 title="Retour à l'index ({{item_type}})" 
                 alt="Accueil {{item_type}}"
             >

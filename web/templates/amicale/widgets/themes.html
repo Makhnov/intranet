@@ -1,23 +1,23 @@
 {% load wagtailcore_tags cgs_tags %}
 
-<ul class="{{ class_type }}-box theme">
+<ul class="{{ class_type }}-box amicale{% if not ami %} inscription{% endif %}">
     {% for key, type in themes.items %}
         {% if key == 'inscription' %}
-            <li class="{{ class_type }}-item theme cgs-highlighted">
+            <li id="inscription-amicale" class="{{ class_type }}-item amicale cgs-highlighted">
 
                 <a 
                     href="{% slugurl 'inscription' %}" 
-                    class="{{ class_type }}-link theme" 
+                    class="{{ class_type }}-link amicale" 
                     title="Inscrivez-vous à l'amicale" 
                     alt="Inscription à l'amicale"
                 >
                 {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription %}
                 </a>
         {% else %}
-            <li class="{{ class_type }}-item theme">
+            <li class="{{ class_type }}-item amicale">
                 <a 
                     href="{% slugurl 'amicale' %}?type={{ key }}"
-                    class="{{ class_type }}-link theme" 
+                    class="{{ class_type }}-link amicale" 
                     title="Voir toutes les {{ type|default_if_none:'' }}" 
                     alt="{{ type|default_if_none:'' }}"
                 >
@@ -45,10 +45,10 @@
         {% endif %}
         </li>
     {% endfor %}
-    <li class="{{ class_type }}-item theme {% if request.GET.type == "*" %}cgs-selected{% endif %}">
+    <li class="{{ class_type }}-item amicale {% if request.GET.type == "*" %}cgs-selected{% endif %}">
         <a 
         href="{% slugurl 'amicale' %}?type=*"
-        class="{{ class_type }}-link theme" 
+        class="{{ class_type }}-link amicale" 
         title="Voir toutes les nouvelles et sorties de l'amicale" 
         alt="Tous les articles"
     >
@@ -65,10 +65,10 @@
     {% endif %}
     </li>
     {% if index %}
-        <li class="nav-item theme index">
+        <li class="nav-item amicale index">
             <a 
                 href="{% slugurl 'amicale' %}"
-                class="nav-link theme" 
+                class="nav-link amicale" 
                 title="Retour à l'index" 
                 alt="Accueil de l'amicale"
             >

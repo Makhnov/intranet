@@ -26,16 +26,22 @@
                             {% if amicale_sorties%}
                                 <ul class="{{ class_type }}-box amicale">
                                     <h2>Prochaines sorties</h2>
-                                    {% for item in amicale_sorties %}
-                                        {% if forloop.first %}
-                                            {% authorized_user item as visible %}
-                                            {% if visible %}
-                                                {% include "amicale/widgets/li_item.html" with menu=amicale_sorties item_type="sorties" ami=True %}
-                                            {% else %}
-                                                {% include "amicale/widgets/li_item.html" with menu=amicale_sorties item_type="sorties" ami=False %}
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
+                                    {% include "amicale/widgets/li_item.html" with menu=amicale_sorties item_type="sorties" %}
+                                    {% if not ami %}
+                                        <p class="inscription">
+                                            <span>
+                                                Vous n'êtes pas membre de l'amicale, vous pouvez voir les sorties proposées mais pas y participer. Si vous souhaitez vous inscrire remplissez le formulaire :
+                                                <a 
+                                                    href="{% slugurl 'inscription' %}" 
+                                                    class="{{ class_type }}-link amicale" 
+                                                    title="Inscrivez-vous à l'amicale" 
+                                                    alt="Inscription à l'amicale"
+                                                >
+                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription class_type="cgs-mid-icon" %}
+                                                </a>
+                                            </span>
+                                        </p>
+                                    {% endif %}
                                 </ul>
                             {% endif %}
 

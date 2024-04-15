@@ -65,7 +65,7 @@ class AmicaleIndexPage(MenuPage):
     ]
     save = menu_page_save("amicale")
     
-    def get_context(self, request,):
+    def get_context(self, request):
         context = super().get_context(request)
         amicalepages = AmicalePage.objects.child_of(self).live()
 
@@ -95,7 +95,12 @@ class AmicaleIndexPage(MenuPage):
         amicalepages = amicalepages.order_by('type', '-date')
 
         is_root = not (start_date or end_date or article_type or query)
-        
+
+        user = request.user
+        ami = False
+        if user.is_authenticated and user.groups.filter(name='Amicale').exists():
+            ami = True
+                                
         # Préparation des blocs par type
         context['search_query'] = query
         context['start_date'] = start_date
@@ -107,6 +112,7 @@ class AmicaleIndexPage(MenuPage):
         context['is_root'] = is_root
         context['fields'] = ['type', 'date']
         context['section'] = 'amicale'
+        context['ami'] = ami
         
         return context
 
@@ -293,6 +299,17 @@ class AmicalePage(Page):
         else:
             return None
 
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        
+        user = request.user
+        ami = False
+        if user.is_authenticated and user.groups.filter(name='Amicale').exists():
+            ami = True
+            
+        context['ami'] = ami
+        return context
+    
 # Formulaire d'inscription à l'amicale
 class AmicaleInscriptionPage(MenuPage):
     parent_page_types = ["amicale.AmicaleIndexPage"]
@@ -318,16 +335,8 @@ class AmicaleInscriptionPage(MenuPage):
     content_panels = MenuPage.content_panels + [
         FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
     ]
-            
-    def get_context(self, request):
-        context = super().get_context(request)
-        user = request.user
-        ami = user.groups.filter(name='Amicale').exists()
-        
-        context['ami'] = ami
-        return context
 
-        
+       
 ###############
 ##  WIDGETS  ##
 ############### 
