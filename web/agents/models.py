@@ -2,21 +2,21 @@ from django.db import models
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
 
-from wagtail.fields import StreamField
+from wagtail.fields import StreamField, RichTextField
 from wagtail.models import Page
-from wagtail.admin.panels import FieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.search import index
-
 from wagtail.blocks import PageChooserBlock
 
 # Widgets et fonctions
 from utils.faq import SimpleAnswerBlock, ChoiceAnswerBlock, StepAnswerBlock, FaqLaw
 
 # Page de menu
-from utils.menu_pages import MenuPage, menu_page_save
+from utils.menu_pages import MenuPage, menu_page_save, MENU_PAGE_SLUGS, MENU_PAGE_TITLES
 
 # Wagtail /home Médias, MenuPage, Panels, etc.
 from home.views import custom_content_panels, custom_promote_panels
+from utils.widgets import PiecesJointes as PJBlock
 
 # Tags
 from taggit.models import TaggedItemBase
@@ -38,6 +38,9 @@ from itertools import groupby
 # Slugs
 from django.utils.text import slugify
 
+# Formulaire
+from wagtailstreamforms.blocks import WagtailFormBlock
+
 ##################
 ## PAGE DE MENU ##
 ################## 
@@ -45,7 +48,7 @@ from django.utils.text import slugify
 # Index de la section pour les agents (tri par catégories)
 class FaqIndexPage(MenuPage):
     parent_page_types = ["home.HomePage"]
-    subpage_types = ["agents.FaqPage"]
+    subpage_types = ["agents.FaqPage", "agents.FaqFormPage"]
     save = menu_page_save("agents")
     
     def get_all_categories(self):
@@ -103,7 +106,7 @@ class FaqIndexPage(MenuPage):
         return context
 
 ######################
-## PAGE DE QUESTION ##
+##   PAGES DE FAQ   ##
 ###################### 
 
 # La page de création des Q/R (une grande partie de la logique se trouve dans /utils/faq.py)
@@ -122,7 +125,7 @@ class FaqPage(Page):
     question = models.CharField(max_length=255, verbose_name=_("Question"))
     answer = StreamField(
         [
-            ("single_answer", SimpleAnswerBlock()),
+            ("single_answer", SimpleAnswerBlock(label=_("Simple answer"))),
             ("multiple_answer", ChoiceAnswerBlock()),
             ("step_answer", StepAnswerBlock()),
         ],
@@ -198,6 +201,129 @@ class FaqPage(Page):
             self.slug = "faqslug"
         super().save(*args, **kwargs)
 
+# Page pour les enquêtes, les formulaires, etc.
+class FaqFormPage(Page):
+    parent_page_types = ["agents.FaqIndexPage"]
+    subpage_types = []
+    max_count = 1
+    show_in_menus_default = True
+
+    logo = models.ForeignKey(
+        "images.CustomImage",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        verbose_name=_("Logo (SVG, png, jpg, etc.)"),
+        help_text=_("𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦: Round or square (1/1). 𝐈𝐝𝐞𝐚𝐥 𝐟𝐨𝐫𝐦𝐚𝐭: Filled SVG. 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 𝐟𝐨𝐫𝐦𝐚𝐭: PNG with transparent background."),
+    )
+    heading = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name=_("Heading"),
+        help_text=_("Displayed in menus, the heading is the title of the page."),
+    )
+    tooltip = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name=_("Tooltip"),
+        help_text=_("Used for accessibility (alt, title) and when user mouse over the icon."),
+    )
+    introduction = RichTextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Introduction"),
+        help_text=_("Here you can explain the survey to agents."),
+    )
+    form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Form"),
+        help_text=_("Add a form to this page."),
+    )
+    date_from = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name=_("From"),
+        help_text=_("Start date of the survey."),
+    )
+    date_to = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name=_("To"),
+        help_text=_("End date of the survey."),
+    )
+
+    # Panneau de contenu
+    content_panels = [
+        FieldPanel(
+            'title', 
+            read_only=True,
+            help_text=_("Title of the page, automaticaly generated, cannot be changed."),
+        ),
+        MultiFieldPanel([
+                FieldPanel("logo"),
+                FieldPanel("heading"),
+                FieldPanel("tooltip"),
+            ],
+            heading=_("Menu display options (click to expand)"),
+            help_text=_("Choose an icon and a tooltip to display on the index pages. Both optional, if none, CGS logo will be the icon and tooltip will refer as the page title"),
+            classname="collapsible, collapsed",
+        ),
+        FieldPanel("introduction", heading=_("Introduction")),
+        FieldPanel("form", heading=_("Form"), classname="collapsible"),
+        MultiFieldPanel([
+                FieldPanel("date_from", classname="col6"),
+                FieldPanel("date_to", classname="col6"),
+            ],
+            heading=_("Survey period"),
+            classname="collapsible",
+        ),
+        InlinePanel(
+            "agents_documents",
+            label=_("Document"),
+            heading=_("Attachments"),
+        ),
+    ]    
+    # Panneau de promotion
+    promote_panels = [
+        FieldPanel(
+            'slug', 
+            read_only=True,
+            help_text=_("Slug of the page, automaticaly generated, cannot be changed."),
+        ),        
+        FieldPanel(
+            'show_in_menus',
+            help_text=_("Uncheck to hide this page from the menus."),
+        ),
+    ]               
+    search_fields = Page.search_fields + [
+        index.SearchField("heading"),
+        index.SearchField("introduction"),
+    ]    
+    api_fields = [
+        APIField("tooltip"),
+        APIField("heading"),
+        APIField("logo"),
+        APIField("introduction"),
+    ]
+    
+    def save(self, *args, **kwargs):
+        key = 'formulaire-agents'
+        self.title = MENU_PAGE_TITLES[key]
+        self.slug = MENU_PAGE_SLUGS[key]
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = _("Agents Form page (survey, form, etc.)")
+        verbose_name_plural = _("Form pages")
+        
 ###############
 ##  WIDGETS  ##
 ############### 
@@ -252,5 +378,16 @@ class FaqPageTag(TaggedItemBase):
         on_delete=models.CASCADE,
     )
 
+# Liste de documents (GenericPage)
+class AmicalePieceJointe(PJBlock):
+    """Modèle de pièce jointe spécifique à la page enquête/formulaire des agents"""
+
+    page = ParentalKey(
+        FaqFormPage,
+        on_delete=models.CASCADE,
+        related_name="agents_documents",
+    )
+
+         
 ## FONCTIONS ET AUTRES WIDGETS ##
 # /utils/faq.py

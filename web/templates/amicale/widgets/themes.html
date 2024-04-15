@@ -3,7 +3,7 @@
 <ul class="{{ class_type }}-box amicale{% if not ami %} inscription{% endif %}">
     {% for key, type in themes.items %}
         {% if key == 'inscription' %}
-            <li id="inscription-amicale" class="{{ class_type }}-item amicale cgs-highlighted">
+            <li id="inscription-amicale" class="{{ class_type }}-item amicale cgs-highlighted {% if key == selected %}cgs-selected{% endif %}">
 
                 <a 
                     href="{% slugurl 'inscription' %}" 
@@ -14,7 +14,7 @@
                 {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription %}
                 </a>
         {% else %}
-            <li class="{{ class_type }}-item amicale">
+            <li class="{{ class_type }}-item amicale {% if key == selected %}cgs-selected{% endif %}">
                 <a 
                     href="{% slugurl 'amicale' %}?type={{ key }}"
                     class="{{ class_type }}-link amicale" 

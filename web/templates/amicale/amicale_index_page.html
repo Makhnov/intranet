@@ -19,14 +19,18 @@
                             {% if amicale_news %}
                                 <ul class="{{ class_type }}-box amicale">
                                     <h2>Nouvelles du Cagire</h2>
-                                    {% include "amicale/widgets/li_item.html" with menu=amicale_news item_type="news" %}
+                                    {% for item in amicale_news %}
+                                        {% include "amicale/widgets/li_item.html" with item_type="news" %}
+                                    {% endfor %}
                                 </ul>
                             {% endif %}
 
-                            {% if amicale_sorties%}
+                            {% if amicale_sorties %}
                                 <ul class="{{ class_type }}-box amicale">
                                     <h2>Prochaines sorties</h2>
-                                    {% include "amicale/widgets/li_item.html" with menu=amicale_sorties item_type="sorties" %}
+                                    {% for item in amicale_sorties %}
+                                        {% include "amicale/widgets/li_item.html" with item_type="sorties" %}
+                                    {% endfor %}
                                     {% if not ami %}
                                         <p class="inscription">
                                             <span>
@@ -45,10 +49,12 @@
                                 </ul>
                             {% endif %}
 
-                            {% if amicale_divers%}
+                            {% if amicale_divers %}
                                 <ul class="{{ class_type }}-box amicale">
                                     <h2>Autres</h2>
-                                    {% include "amicale/widgets/li_item.html" with menu=amicale_divers item_type="divers" %}
+                                    {% for item in amicale_divers %}
+                                        {% include "amicale/widgets/li_item.html" with item_type="divers" %}
+                                    {% endfor %}
                                 </ul>
                             {% endif %}
                         {% endwith %}
@@ -57,4 +63,8 @@
             {% endif %}
         </div>
     </main>
+{% endblock %}
+
+{% block quickbar %}
+    {% amicale_quickbar %}
 {% endblock %}

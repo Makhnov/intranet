@@ -1,6 +1,5 @@
 import io
 import zipfile
-
 from django.db import models
 from django.conf import settings
 from django.http import HttpResponse
@@ -166,8 +165,8 @@ class GenericPage(Page):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=_("Tooltip"),
         help_text=_("Used for accessibility (alt, title) and when user mouse over the icon."),
+        verbose_name=_("Tooltip."),
     )    
     body = StreamField(
         [
@@ -367,9 +366,30 @@ class FormPage(Page):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=_("Tooltip"),
         help_text=_("Used for accessibility (alt, title) and when user mouse over the icon."),
+        verbose_name=_("Tooltip."),
     )
+    body = StreamField(
+        [
+            ("heading", CharBlock(classname="title", icon="title")),
+            ("paragraph", RichTextBlock(icon="pilcrow")),
+            ("media", MediaBlock(icon="media")),
+            ("image", ImageChooserBlock(icon="image")),
+            ("link", LinkBlock(icon="link")),
+            ("embed", EmbedBlock(icon="media")),
+            (
+                "list",
+                ListBlock(CharBlock(icon="radio-full"), icon="list-ul"),
+            ),
+            ("quote", BlockQuoteBlock(icon="openquote")),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Agenda"),
+        help_text=_("This is the main content of the page."),
+    )
+
     form = StreamField(
         [
             ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
@@ -385,7 +405,7 @@ class FormPage(Page):
         },
     )    
     # Panneau de contenu
-    content_panels = [
+    content_panels = Page.content_panels + [
         MultiFieldPanel([
                 FieldPanel("logo"),
                 FieldPanel("heading"),
@@ -395,17 +415,20 @@ class FormPage(Page):
             help_text=_("Choose an icon and a tooltip to display on the index pages. Both optional, if none, CGS logo will be the icon and tooltip will refer as the page title"),
             classname="collapsible, collapsed",
         ),
+        FieldPanel("body", heading=_("Content")),
         FieldPanel("form", heading=_("Form"), classname="collapsible"),
     ]   
            
     search_fields = Page.search_fields + [
         index.SearchField("heading"),
+        index.SearchField("body"),
     ]    
     
     api_fields = [
         APIField("tooltip"),
         APIField("heading"),
         APIField("logo"),
+        APIField("body"),
     ]
     
 ###############
@@ -423,7 +446,7 @@ class GenericGallery(GalleryImage):
 
 # Liste de documents (GenericPage)
 class GenericPieceJointe(PJBlock):
-    """Modèle de pièce jointe spécifique à la CompteRenduPage."""
+    """Modèle de pièce jointe spécifique aux pages génériques."""
 
     page = ParentalKey(
         GenericPage,

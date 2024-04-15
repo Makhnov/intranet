@@ -14,7 +14,7 @@ from wagtail.admin import messages
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.models import Page
-from wagtail.fields import StreamField
+from wagtail.fields import StreamField, RichTextField
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 
 # Page de menu
@@ -50,7 +50,6 @@ from wagtail.search import index
 
 # Formulaire
 from wagtailstreamforms.blocks import WagtailFormBlock
-from wagtailstreamforms.models.abstract import AbstractFormSetting
 
 ##################
 ## PAGE DE MENU ##
@@ -316,6 +315,12 @@ class AmicaleInscriptionPage(MenuPage):
     subpage_types = []
     save = menu_page_save("inscription-amicale")
     
+    introduction = RichTextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Introduction"),
+        help_text=_("Here you can explain how the inscription works..."),
+    )
     inscription_form = StreamField(
         [
             ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
@@ -324,16 +329,22 @@ class AmicaleInscriptionPage(MenuPage):
         blank=True,
         null=True,
         verbose_name=_("Inscription form"),
-        help_text=_("Add an inscription form for this event."),
+        help_text=_("The main form for the inscription to the amicale."),
         block_counts={
             'form_field': {'min_num': 1},
             'form_field': {'max_num': 1},
         },
     )
-
+    
     # Panneau de contenu
     content_panels = MenuPage.content_panels + [
+        FieldPanel("introduction", heading=_("Introduction"), classname="collapsible"),
         FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
+        InlinePanel(
+            "inscription_documents",
+            label=_("Document"),
+            heading=_("Attachments"),
+        ),
     ]
 
        
@@ -381,4 +392,14 @@ class AmicalePageTag(TaggedItemBase):
         "AmicalePage",
         related_name=("tagged_items"),
         on_delete=models.CASCADE,
+    )
+
+# Liste de documents (GenericPage)
+class AmicalePieceJointe(PJBlock):
+    """Modèle de pièce jointe spécifique à la page d'inscription à l'amicale."""
+
+    page = ParentalKey(
+        AmicaleInscriptionPage,
+        on_delete=models.CASCADE,
+        related_name="inscription_documents",
     )

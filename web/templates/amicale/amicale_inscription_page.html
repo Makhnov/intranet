@@ -1,6 +1,6 @@
 {% extends "widgets/forms/base_form.html" %}
 
-{% load wagtailcore_tags menu_tags%}
+{% load wagtailcore_tags menu_tags cgs_tags %}
 
 {% block content %}
     <main>
@@ -14,4 +14,8 @@
             </div>
         </div>
     </main>  
+{% endblock %}
+
+{% block footer_mid %}
+    {% amicale_themes class_type="nav" index=True %}
 {% endblock %}

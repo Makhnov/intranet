@@ -23,9 +23,9 @@ cgs-quickbar nav.cgs-nav {
             }
         }
         
-        &.single {
+        &.incomming {
             li.nav-item {
-                margin:0;
+                margin:0 .2rem;
                 &:not(:last-child) {
                     border-right: calc(3 * var(--cgs-stroke-width)) solid #000;
                 }                

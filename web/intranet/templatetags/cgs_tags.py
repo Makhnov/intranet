@@ -10,6 +10,7 @@ from home.models import generic_search
 from amicale.models import (
     AmicaleIndexPage, 
     AmicalePage,
+    AmicaleInscriptionPage,
 )
 from agents.models import (
     FaqIndexPage, 
@@ -144,7 +145,10 @@ def amicale_themes(context, class_type=None, index=None):
     # print(colored(f"Utilisateur: {user}", "yellow", 'on_black'))
     # print(colored(f"Amicale: {ami}", "yellow", 'on_black'))
     
-    selected = request.GET.get('type', '')   
+    selected = request.GET.get('type', '')
+    if isinstance(page, AmicaleInscriptionPage):
+        selected = 'inscription'
+        
     delta = timezone.now() - timedelta(days=getattr(settings, "DELTA_NEWS", 30))
     new_amicale = {}
     news = 0
@@ -181,6 +185,7 @@ def amicale_themes(context, class_type=None, index=None):
         'page': page,
         'ami': ami,
     }
+
 
 # CLOUD (PAGES PUBLIQUES ET RESSOURCES)
 @register.inclusion_tag('home/widgets/themes.html', takes_context=True)
@@ -274,8 +279,9 @@ def administration_quickbar(context):
 
 
 # AGENTS FAQ QUICKBAR (Les trois dernières FAQ)
-@register.inclusion_tag('agents/widgets/quickbar.html', takes_context=True)
+@register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)
 def agents_quickbar(context):
+    settings = context.get('settings', None)
     request = context['request']
     category = request.GET.get('category', '')
     
@@ -303,6 +309,28 @@ def agents_quickbar(context):
         url = faq.get_url()
         # print(colored(f"url: {url}", "yellow", 'on_black'))
         category = faq.category
-        items.append({'name': name, 'url': url, 'category': category})
+        items.append({'item_type':'faq', 'name': name, 'url': url, 'category': category})
     
-    return  {'items': items}
+    return {'items': items, 'settings': settings}
+
+
+# ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)
+@register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)
+def amicale_quickbar(context):
+    settings = context.get('settings', None)
+    
+    # on récupere les sorties à venir (dont la date est plus lointaine que la date du jour)
+    sorties = AmicalePage.objects.live().filter(type='sorties', date__gte=timezone.now()).order_by('date')[:3]
+    print(colored(f"sorties: {sorties}", "yellow", 'on_black'))
+        
+    items = []
+    
+    for sortie in sorties:        
+        name = sortie.title
+        # print(colored(f"name: {name}", "yellow", 'on_black'))
+        url = sortie.get_url()
+        # print(colored(f"url: {url}", "yellow", 'on_black'))        
+        items.append({'item_type':'amicale', 'name': name, 'url': url, 'category': 'Sorties'})
+    
+    return {'items': items, 'settings': settings}
+    

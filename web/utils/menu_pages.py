@@ -41,7 +41,8 @@ MENU_PAGE_TITLES = {
     
     # AGENTS
     'agents':               'Agents (FAQ)',                         # agents.FaqIndexPage
-
+    'formulaire-agents':    'Questionnaire agents',                 # agents.FaqFormPage
+    
     # AMICALE
     'amicale':              'Amicale',                              # amicale.AmicaleIndexPage
     'inscription-amicale':  'Formulaire d\'inscription',            # amicale.InscriptionAmicalePage
@@ -77,6 +78,7 @@ MENU_PAGE_SLUGS = {
     
     # AGENTS
     'agents':               'faq',
+    'formulaire-agents':    'questionnaire',
     
     # AMICALE
     'amicale':              'amicale',
@@ -130,7 +132,7 @@ class MenuPage(Page):
         max_length=255,
         blank=True,
         null=True,
-        verbose_name=_("Tooltip"),
+        verbose_name=_("Tooltip."),
         help_text=_("Used for accessibility (alt, title) and when user mouse over the icon."),
     )
 

@@ -1,49 +1,47 @@
 {% load i18n static wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags %}
 
-{% for item in menu %}
-    <li 
-        class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% endif %}"
+<li 
+    class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% endif %}"
+>
+    <a 
+        href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+        class="{{ class_type }}-link {{ item_type }}" 
+        title="Plus d'infos sur {% if item.tooltip %}{{ item.tooltip}}{% elif item.title %}{{ item.title }}{% endif %}"            
+        alt="Lien vers la page {{ item.title|default_if_none:'' }}"
     >
-        <a 
-            href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
-            class="{{ class_type }}-link {{ item_type }}" 
-            title="Plus d'infos sur {% if item.tooltip %}{{ item.tooltip}}{% elif item.title %}{{ item.title }}{% endif %}"            
-            alt="Lien vers la page {{ item.title|default_if_none:'' }}"
-        >
-            <p>
-                {% with class_type="cgs-nofill cgs-mid-icon" %}
-                    {% if item_type == "news" %}
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news %}
-                    {% elif item_type == "sorties" %}
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_sorties %}
-                    {% elif item_type == "divers" %}
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers %}
-                    {% else %}
-                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_none %}
-                    {% endif %}
-                {% endwith %}
-                {% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}
-            </p>
-            <p>
-                {% if item.date %}
-                    {{ item.date | date:"D d F Y" }}
+        <p>
+            {% with class_type="cgs-nofill cgs-mid-icon" %}
+                {% if item_type == "news" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news %}
+                {% elif item_type == "sorties" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_sorties %}
+                {% elif item_type == "divers" %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers %}
+                {% else %}
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_none %}
                 {% endif %}
-                {% if item.author %}                
-                    {% trans "Edited by" %} {{ item.author }}. 
-                    {% if item.author.author_image %}
-                        {% with item.author.author_image as img %}
-                            <a 
-                                href=""
-                                class="{{ class_type }}-link {{ item_type }}"
-                                title="Toutes les publications de {{ item.author.name }}"
-                                alt="{{ img.title|default_if_none:'' }}"
-                            >
-                                {% image item.author.author_image fill-60x40 %}
-                            </a>
-                        {% endwith %}
-                    {% endif %}
+            {% endwith %}
+            {% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}
+        </p>
+        <p>
+            {% if item.date %}
+                {{ item.date | date:"D d F Y" }}
+            {% endif %}
+            {% if item.author %}                
+                {% trans "Edited by" %} {{ item.author }}. 
+                {% if item.author.author_image %}
+                    {% with item.author.author_image as img %}
+                        <a 
+                            href=""
+                            class="{{ class_type }}-link {{ item_type }}"
+                            title="Toutes les publications de {{ item.author.name }}"
+                            alt="{{ img.title|default_if_none:'' }}"
+                        >
+                            {% image item.author.author_image fill-60x40 %}
+                        </a>
+                    {% endwith %}
                 {% endif %}
-            </p>
-        </a>
-    </li>
-{% endfor %}
+            {% endif %}
+        </p>
+    </a>
+</li>

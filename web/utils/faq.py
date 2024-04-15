@@ -90,7 +90,7 @@ class SimpleAnswerBlock(StreamBlock):
             ("list", ListBlock(CharBlock(icon="list-ul", label=_("List Item")), icon="list-ul", label=_("List"))),
             ("quote", BlockQuoteBlock(icon="openquote", label=_("Quote"))),
             ("table", TableBlock(table_options=TABLE_OPTIONS, icon="table", label=_("Table"))),
-        ], icon="doc-full", label=_("Simple answer"), required=False *args, **kwargs)
+        ], icon="doc-full", required=False *args, **kwargs)
         
     class Meta:
         form_classname = 'simple-block' 
