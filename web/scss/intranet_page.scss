@@ -267,8 +267,7 @@ div.cgs-page > div.cgs-list {
             }
             span {
                 display: inline-block;
-                padding-top:1rem;
-
+                font-size: calc(var(--mid-icon-size) / 2);
                 svg {
                     position: relative;
                     transform: translateY(25%);
