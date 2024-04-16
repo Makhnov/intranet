@@ -171,7 +171,7 @@ def amicale_themes(context, class_type=None, index=None):
     # print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
     # print(colored(f"news: {news}", "yellow", 'on_black'))
     # print(colored(f"selected: {selected}", "yellow", 'on_black'))
-    print(colored(f"types: {types}", "yellow", 'on_black'))    
+    # print(colored(f"types: {types}", "yellow", 'on_black'))    
 
     return {
         'request': request,
@@ -321,7 +321,7 @@ def amicale_quickbar(context):
     
     # on récupere les sorties à venir (dont la date est plus lointaine que la date du jour)
     sorties = AmicalePage.objects.live().filter(type='sorties', date__gte=timezone.now()).order_by('date')[:3]
-    print(colored(f"sorties: {sorties}", "yellow", 'on_black'))
+    # print(colored(f"sorties: {sorties}", "yellow", 'on_black'))
         
     items = []
     

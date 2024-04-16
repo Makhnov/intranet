@@ -1,7 +1,7 @@
 {{ form.media }}
 {% csrf_token %}
 {% for hidden in form.hidden_fields %}
-    {% if hidden.id_for_label == 'id_sortie' %}
+    {% if hidden.id_for_label == 'id_origine' %}
         <input 
             type="hidden" 
             name="{{ hidden.name }}" 
@@ -10,6 +10,16 @@
                 {{ attr }}="{{ value }}" 
             {% endfor %} 
             value="{{ page.title }}"
+        />
+    {% elif hidden.id_for_label == 'id_userid' %}
+        <input 
+            type="hidden" 
+            name="{{ hidden.name }}" 
+            id="{{ hidden.id_for_label }}" 
+            {% for attr, value in hidden.field.widget.attrs.items %} 
+                {{ attr }}="{{ value }}" 
+            {% endfor %} 
+            value="{{ user.id}}"
         />
     {% else %}
         {{ hidden }}

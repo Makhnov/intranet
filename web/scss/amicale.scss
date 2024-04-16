@@ -1,3 +1,25 @@
-div.container {
-    padding-top: var(--header-height);
+div.cgs-amicale {
+    position: relative;
+
+    #cgs-inscription {
+        position:absolute;
+        top:0;
+        right: 0;
+
+        a {
+            all:initial;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            img, svg {
+                height: calc(2 * var(--nav-icon-size));
+                width: calc(2 * var(--nav-icon-size));
+            }
+        }
+    }
+
+    div.cgs-page {
+        flex-direction: column;
+    }
 }

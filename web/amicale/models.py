@@ -300,13 +300,18 @@ class AmicalePage(Page):
 
     def get_context(self, request, *args, **kwargs):
         context = super().get_context(request, *args, **kwargs)
-        
+        link = False
+        print(request)
+        if request.GET.get('inscription') == 'true':
+            link = True 
+     
         user = request.user
         ami = False
         if user.is_authenticated and user.groups.filter(name='Amicale').exists():
             ami = True
             
         context['ami'] = ami
+        context['amicale_link'] = link
         return context
     
 # Formulaire d'inscription à l'amicale

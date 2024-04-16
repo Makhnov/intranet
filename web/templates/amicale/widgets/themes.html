@@ -72,7 +72,11 @@
                 title="Retour à l'index" 
                 alt="Accueil de l'amicale"
             >
-            {% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-bright" %}
+            {% if page.slug == 'inscription' %}
+                {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-bright" %}  
+            {% else %}  
+                {% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-bright" %}
+            {% endif %}
             </a>
         </li>
     {% endif %}

@@ -1,1 +1,1 @@
-div.container{padding-top:var(--header-height)}
+div.cgs-amicale{position:relative}div.cgs-amicale #cgs-inscription{position:absolute;top:0;right:0}div.cgs-amicale #cgs-inscription a{all:initial;display:flex;align-items:center;justify-content:center}div.cgs-amicale #cgs-inscription a img,div.cgs-amicale #cgs-inscription a svg{height:calc(2 * var(--nav-icon-size));width:calc(2 * var(--nav-icon-size))}div.cgs-amicale div.cgs-page{flex-direction:column}
