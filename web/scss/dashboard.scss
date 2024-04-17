@@ -234,26 +234,27 @@ body {
             top:initial;
         } 
     }
-    #tab-contenu {
-        --minimap-width: 0px;
-    }
-    &.minimap-open {
-        #tab-contenu {
-            --minimap-width: 200px;
-        }
-    }
-    &.side-panel-open {
-        #tab-contenu .w-form-width {
-            max-width: min(1200px, calc(100% - var(--side-panel-width) - var(--minimap-width)))!important;
-        }
-    }
-    &:not(.side-panel-open) {
-        #tab-contenu .w-form-width {
-            max-width: min(1200px, calc(100% - var(--minimap-width)))!important;
-        }
-    }
+    // #tab-contenu {
+    //     --minimap-width: 0px;
+    // }
+    // &.minimap-open {
+    //     #tab-contenu {
+    //         --minimap-width: 200px;
+    //     }
+    // }
+    // &.side-panel-open {
+    //     #tab-contenu .w-form-width {
+    //         max-width: min(1200px, calc(100% - var(--side-panel-width) - var(--minimap-width)))!important;
+    //     }
+    // }
+    // &:not(.side-panel-open) {
+    //     #tab-contenu .w-form-width {
+    //         max-width: min(1200px, calc(100% - var(--minimap-width)))!important;
+    //     }
+    // }
     #tab-contenu {
         .w-form-width {
+            max-width: none!important;
             min-width: 400px!important;
         }
         .w-field__wrapper {
