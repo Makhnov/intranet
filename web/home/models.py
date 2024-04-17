@@ -71,6 +71,7 @@ class HomePage(MenuPage):
         'joyous.CalendarPage',
         'home.RessourcesPage',
         'home.PublicPage',
+        'home.ContactPage',
     ]
     save = menu_page_save('accueil')
 
@@ -80,7 +81,7 @@ class RessourcesPage(MenuPage):
     subpage_types = [
         'home.GenericPage',
         'home.InstantDownloadPage',
-        'home.FormPage',
+        'home.HomeFormPage',
     ]
     save = menu_page_save('ressources')
 
@@ -109,8 +110,7 @@ class PublicPage(MenuPage):
     subpage_types = [
         'home.GenericPage',
         'home.InstantDownloadPage',
-        'home.FormPage',
-        'home.ContactPage'
+        'home.HomeFormPage',
     ]
     save = menu_page_save('public')
 
@@ -132,6 +132,44 @@ class PublicPage(MenuPage):
         context['fields'] = ['type', 'date', 'tags']
         context['section'] = 'home'
         return context
+
+# Page de formulaire générique
+class ContactPage(MenuPage):
+    template = "home/formulaires/contact.html"
+    parent_page_types = ["home.HomePage"]
+    subpage_types = []
+    save = menu_page_save("contact")
+    
+    introduction = RichTextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Introduction"),
+        help_text=_("Here you can explain how the contact form works..."),
+    )
+    form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Contact form"),
+        help_text=_("The main form for allow people to contact intranet administrators."),
+    )
+    
+    # Panneau de contenu
+    content_panels = MenuPage.content_panels + [
+        FieldPanel("introduction", heading=_("Introduction")),
+        FieldPanel("form", heading=_("Form"), classname="collapsible"),
+    ]
+    # Champs pour la recherche         
+    search_fields = MenuPage.search_fields + [
+        index.SearchField("introduction"),
+    ]
+    
+    class Meta:
+        verbose_name = _("Administration Form page (survey, form, etc.)")
+        verbose_name_plural = _("Form pages")
 
 
 #####################
@@ -311,34 +349,8 @@ class InstantDownloadPage(MenuPage):
         verbose_name = _("Instant download page")
         verbose_name_plural = _("Instant download pages")
 
-# Formulaire d'inscription à l'amicale
-class ContactPage(MenuPage):
-    parent_page_types = ["home.PublicPage"]
-    subpage_types = []
-    save = menu_page_save("contact")
-    
-    inscription_form = StreamField(
-        [
-            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
-        ],
-        use_json_field=True,
-        blank=True,
-        null=True,
-        verbose_name=_("Inscription form"),
-        help_text=_("Add an inscription form for this event."),
-        block_counts={
-            'form_field': {'min_num': 1},
-            'form_field': {'max_num': 1},
-        },
-    )
-
-    # Panneau de contenu
-    content_panels = MenuPage.content_panels + [
-        FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
-    ]
-
 # Page de formulaire générique
-class FormPage(Page):
+class HomeFormPage(Page):
     parent_page_types = [
         "home.PublicPage",
         "home.RessourcesPage",                    
@@ -389,7 +401,6 @@ class FormPage(Page):
         verbose_name=_("Agenda"),
         help_text=_("This is the main content of the page."),
     )
-
     form = StreamField(
         [
             ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
@@ -417,13 +428,13 @@ class FormPage(Page):
         ),
         FieldPanel("body", heading=_("Content")),
         FieldPanel("form", heading=_("Form"), classname="collapsible"),
-    ]   
-           
+    ]
+    # Panneau de recherche           
     search_fields = Page.search_fields + [
         index.SearchField("heading"),
         index.SearchField("body"),
-    ]    
-    
+    ]
+    # Champs pour l'API
     api_fields = [
         APIField("tooltip"),
         APIField("heading"),
@@ -431,6 +442,7 @@ class FormPage(Page):
         APIField("body"),
     ]
     
+
 ###############
 ##  WIDGETS  ##
 ############### 
@@ -504,7 +516,7 @@ def generic_search(request, parent_page):
                 filtered_subpages.append(subpage)
             elif page_type == 'download' and isinstance(subpage, InstantDownloadPage):
                 filtered_subpages.append(subpage)
-            elif page_type == 'form' and isinstance(subpage, FormPage):
+            elif page_type == 'form' and isinstance(subpage, HomeFormPage):
                 filtered_subpages.append(subpage)
         subpages = filtered_subpages
 
@@ -516,7 +528,7 @@ def generic_search(request, parent_page):
     grouped_subpages = {
         'generic': [sp for sp in subpages if isinstance(sp, GenericPage)],
         'download': [sp for sp in subpages if isinstance(sp, InstantDownloadPage)],
-        'form': [sp for sp in subpages if isinstance(sp, FormPage)],
+        'form': [sp for sp in subpages if isinstance(sp, HomeFormPage)],
     }
         
     return grouped_subpages, search_query, page_type

@@ -1,0 +1,21 @@
+{% extends "widgets/forms/base_form.html" %}
+
+{% load wagtailcore_tags cgs_tags %}
+
+{% block content %}
+    <main>
+        <div class="cgs-container cgs-agents">
+            <div class="cgs-page">  
+                {% if page.form %}
+                    {% for block in page.form %}                    
+                        {% include_block block %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>  
+{% endblock %}
+
+{% block footer_mid %}
+    {% agents_themes class_type="nav" index=True %}
+{% endblock %}

@@ -10,7 +10,7 @@ from home.models import generic_search
 from amicale.models import (
     AmicaleIndexPage, 
     AmicalePage,
-    AmicaleInscriptionPage,
+    AmicaleInscriptionPage,    
 )
 from agents.models import (
     FaqIndexPage, 
@@ -19,6 +19,7 @@ from agents.models import (
 )
 from administration.models import (
     AdministrationIndexPage, 
+    AdministrationFormPage,
     ConseilsIndexPage, 
     BureauxIndexPage, 
     ConferencesIndexPage, 
@@ -26,7 +27,7 @@ from administration.models import (
     CommissionPage, 
     ConvocationPage, 
     CompteRenduPage, 
-    CommissionPage
+    CommissionPage,
 )
 
 slugs = {
@@ -107,7 +108,7 @@ def faq_tags(context, class_type=None, index=None):
     
 # FAQ THEMES
 @register.inclusion_tag('agents/widgets/themes.html', takes_context=True)
-def faq_themes(context, class_type=None, index=None):
+def agents_themes(context, class_type=None, index=None):
     request = context['request']
     settings = context['settings']
     selected = request.GET.get('category', '')
@@ -254,7 +255,7 @@ def administration_quickbar(context):
     # Boucle pour filtrer en fonction de l'accès utilisateur
     for pg in pages:
         # print(colored(f"pg: {pg}", "yellow", 'on_black'))
-        if check_page_access(user, pg, False):
+        if not isinstance(pg, AdministrationFormPage) and check_page_access(user, pg, False):
             # Récupère la prochaine convocation et le dernier compte-rendu
             next_convocations = ConvocationPage.objects.live().descendant_of(pg).filter(date__gte=timezone.now()).order_by('date').first()
             last_compte_rendus = CompteRenduPage.objects.live().descendant_of(pg).filter(date__lte=timezone.now()).order_by('-date').first()

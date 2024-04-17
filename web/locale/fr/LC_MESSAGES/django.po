@@ -2915,3 +2915,51 @@ msgstr "Neutre"
 
 #~ msgid "Will be shown e.g. when commenting"
 #~ msgstr "Sera affiché, par exemple, lors de la rédaction de commentaires"
+
+#: apps.py:8
+msgid "Wagtail table block"
+msgstr "Tableau"
+
+#: blocks.py:73
+msgid "Row header"
+msgstr "En-tête (lignes)"
+
+#: blocks.py:74
+msgid "Table headers"
+msgstr "En-tête du tableau"
+
+#: blocks.py:75
+msgid "Display the first row as a header"
+msgstr "La première ligne contient des titres"
+
+#: blocks.py:77
+msgid "Display the first column as a header"
+msgstr "La première colonne contient des titres"
+
+#: blocks.py:79
+msgid "Column header"
+msgstr "En-tête (colonnes)"
+
+#: blocks.py:81
+msgid "Display the first row AND first column as headers"
+msgstr "La première ligne et la première colonne contiennent des titres"
+
+#: blocks.py:83
+msgid "No headers"
+msgstr "Aucun en-tête"
+
+#: blocks.py:85
+msgid "Which cells should be displayed as headers?"
+msgstr "Quelles cellules doivent être considérées comme des en-tête?"
+
+#: blocks.py:87
+msgid "Table caption"
+msgstr "Légende du tableau"
+
+#: blocks.py:89
+msgid ""
+"A heading that identifies the overall topic of the table, and is useful for "
+"screen reader users."
+msgstr ""
+"Intitulé pour définir l'objet principal du tableau, très utile nottament pour "
+"les utilisateurs de lecteurs d'écran."

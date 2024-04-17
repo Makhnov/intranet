@@ -1,9 +1,10 @@
 {% load wagtailcore_tags static %}
 
 {% with item=item.specific %}
-    {% if item %}
+    {% if item %}        
         <li 
-            class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}"
+            {% if item.slug == 'enquete' %}id="enquete-elus"{% endif %}
+            class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}{% if item.slug == 'enquete' %} cgs-highlighted{% endif %}"
             {% if item.item_year %}data-year="{{ item.item_year }}"{% endif %}
             {% if item.item_month %}data-month="{{ item.item_month }}"{% endif %}
             {% if item.item_day %}data-day="{{ item.item_day }}"{% endif %}

@@ -1,0 +1,23 @@
+{% extends "widgets/forms/base_form.html" %}
+
+{% load wagtailcore_tags cgs_tags %}
+
+{% block content %}
+    <main>
+        <div class="cgs-container cgs-home">
+            <div class="cgs-page contact">  
+                {% if page.form %}
+                    {% for block in page.form %}                    
+                        {% include_block block %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>  
+{% endblock %}
+
+{% block footer_mid %}    
+    {% with class_type="nav" logo_settings=True %}
+        {% flat_menu 'footer' show_menu_heading=False max_levels=1 index=True %}
+    {% endwith %}
+{% endblock %}

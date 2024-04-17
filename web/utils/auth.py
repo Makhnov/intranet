@@ -1,5 +1,6 @@
 from wagtail.models import PageViewRestriction
 from termcolor import colored
+import datetime
 
 from accompte.models import (
     AccountPage, 
@@ -13,7 +14,7 @@ from accompte.models import (
     PasswordChangePage, 
     PasswordSetPage
 )
-from administration.models import CommissionsIndexPage
+from administration.models import AdministrationFormPage, CommissionsIndexPage
 from amicale.models import AmicaleIndexPage, AmicalePage
 from home.models import RessourcesPage, HomePage, PublicPage
 
@@ -42,14 +43,16 @@ login_restricted_pages = [
 
 # Vérification des droits d'accès aux pages
 def check_page_access(user, page, bool):
-    # print(colored(f'Checking access for {user} to page {page}', 'black', 'on_white'))
+    print(colored(f'Checking access for {user} to page {page}', 'yellow'))
     
+    page = page.specific
+        
     if user.is_superuser and user.is_active:
         # print(colored(f'Access granted: {user} is a superuser and active', 'black', 'on_green'))
         return True
     
     if isinstance(page, AmicalePage):
-        if page.specific.type == 'sorties':
+        if page.type == 'sorties':
             ami = user.groups.filter(name='Amicale').exists()
             # print(colored(f'Access : {user} for {page} check if member of the amicale : {ami}', 'black', 'on_green'))
             return ami
@@ -58,7 +61,7 @@ def check_page_access(user, page, bool):
         # print(colored(f'Access granted: {page} is a public page', 'black', 'on_green'))
         return True
             
-    if isinstance(page.specific, CommissionsIndexPage):
+    if isinstance(page, CommissionsIndexPage):
         return check_child_pages_access(user, page, True)
     
     # Si bool & pas de restriciton, ou si pas de restriction et pas d'enfants

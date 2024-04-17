@@ -218,7 +218,7 @@ class AmicalePage(Page):
     def lng(self):
         return self.point["x"]
 
-    inscription_form = StreamField(
+    form = StreamField(
         [
             ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
         ],
@@ -265,7 +265,7 @@ class AmicalePage(Page):
             heading=_("Map details"),
             classname="collapsible collapsed",
         ),
-        FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
+        FieldPanel("form", heading=_("inscription form"), classname="collapsible"),
     ]
 
     search_fields = Page.search_fields + [
@@ -316,6 +316,7 @@ class AmicalePage(Page):
     
 # Formulaire d'inscription à l'amicale
 class AmicaleInscriptionPage(MenuPage):
+    template = "amicale/formulaires/inscription.html"
     parent_page_types = ["amicale.AmicaleIndexPage"]
     subpage_types = []
     save = menu_page_save("inscription-amicale")
@@ -326,7 +327,7 @@ class AmicaleInscriptionPage(MenuPage):
         verbose_name=_("Introduction"),
         help_text=_("Here you can explain how the inscription works..."),
     )
-    inscription_form = StreamField(
+    form = StreamField(
         [
             ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
         ],
@@ -344,15 +345,15 @@ class AmicaleInscriptionPage(MenuPage):
     # Panneau de contenu
     content_panels = MenuPage.content_panels + [
         FieldPanel("introduction", heading=_("Introduction"), classname="collapsible"),
-        FieldPanel("inscription_form", heading=_("inscription form"), classname="collapsible"),
+        FieldPanel("form", heading=_("inscription form"), classname="collapsible"),
         InlinePanel(
             "inscription_documents",
             label=_("Document"),
             heading=_("Attachments"),
         ),
     ]
-
        
+
 ###############
 ##  WIDGETS  ##
 ############### 

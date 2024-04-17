@@ -1,6 +1,6 @@
 {% load wagtailcore_tags cgs_tags %}
 
-<ul class="{{ class_type }}-box amicale{% if not ami %} inscription{% endif %}">
+<ul class="{{ class_type }}-box amicale{% if not ami %} highlighted{% endif %}">
     {% for key, type in themes.items %}
         {% if key == 'inscription' %}
             <li id="inscription-amicale" class="{{ class_type }}-item amicale cgs-highlighted {% if key == selected %}cgs-selected{% endif %}">

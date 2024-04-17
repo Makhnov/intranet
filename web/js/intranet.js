@@ -43,9 +43,9 @@ function whatTheHell() {
     }
 
     // Agrandissement de la barre de recherche
-    const ZOOMS = document.querySelectorAll('cgs-search > svg, cgs-search > img');
-    if (ZOOMS.length === 3) {
-        searchBar(ZOOMS);
+    const ZOOM = document.querySelector('cgs-search');
+    if (ZOOM) {
+        searchBar(ZOOM);
     }
 
     // Gestion de la recherche
@@ -263,7 +263,8 @@ function VerticalWave(search) {
 }
 
 // Fonction pour ouvrir et fermer la barre de recherche
-function searchBar(searchButtons) {
+function searchBar(searchBox) {
+    searchButtons = searchBox.children;
     const searchBase = searchButtons[0];
     const searchOut = searchButtons[1];
     const searchIn = searchButtons[2];
@@ -274,22 +275,26 @@ function searchBar(searchButtons) {
         searchBase.classList.add('cgs-hidden');
         searchOut.classList.remove('cgs-hidden');
         searchBar.classList.add('cgs-open');
+        searchBox.classList.add('cgs-open');
     });
     searchOut.addEventListener('click', () => {
         searchOut.classList.add('cgs-hidden');
         searchIn.classList.remove('cgs-hidden');
         searchBar.classList.remove('cgs-open');
+        searchBox.classList.remove('cgs-open');
     });
     searchIn.addEventListener('click', () => {
         searchIn.classList.add('cgs-hidden');
         searchOut.classList.remove('cgs-hidden');
         searchBar.classList.add('cgs-open');
+        searchBox.classList.add('cgs-open');
     });
     searchBar.addEventListener('focus', () => {
         searchBar.classList.add('cgs-open');
         searchBase.classList.add('cgs-hidden');
         searchIn.classList.add('cgs-hidden');
         searchOut.classList.remove('cgs-hidden');
+        searchBox.classList.add('cgs-open');
     });
 }
 

@@ -1,7 +1,7 @@
 {% load wagtailcore_tags cgs_tags restriction_tags %}
 
 {% if menu %}
-    <ul class="{{ class_type }}-box {{ item_type }}">
+    <ul class="{{ class_type }}-box {{ item_type }}{% if is_form %} highlighted{% endif %}">
         {% for item in menu %}
             {% authorized_user item as visible %}
             {% if visible %}

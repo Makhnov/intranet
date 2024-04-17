@@ -797,15 +797,18 @@ footer nav.footer.cgs-nav {
     margin:0;
 
     display: grid;   
-    grid-template-columns: 1fr var(--footer-height) 1fr 1fr var(--footer-height) 1fr; // footer_left, icone_left, footer_center, icone_right, footer_right 
+    grid-template-columns: var(--footer-height) var(--footer-height) 1fr 1fr var(--footer-height) var(--footer-height); // footer_left, icone_left, footer_center, icone_right, footer_right 
     grid-template-rows: 1fr;
 
     & > *:not(cgs-search) {
         justify-self: center;
         align-self: center;
     }
-    &:first-child {
+    cgs-search {
         grid-column: 1;
+        &.cgs-open {
+            grid-column: 1 / span 4;
+        }
     }
     & div.cgs-box {        
         &.left {
@@ -829,9 +832,6 @@ footer nav.footer.cgs-nav {
             }
         }
     }
-    &:last-child {
-        grid-column: 6;
-    }
     &.ul.nav-box:first-of-type {
         grid-column: 3;
     }
@@ -851,7 +851,7 @@ footer nav.footer.cgs-nav {
 
     ul.nav-box {
         width: fit-content;
-        max-width: calc(100% - calc((var(--nav-icon-margin) * 1.5) + var(--nav-icon-size)));
+        max-width: calc(100% - (2 * var(--nav-icon-margin)));
         justify-content: flex-start;
         flex-wrap: nowrap;
         overflow: scroll;
@@ -902,6 +902,13 @@ footer nav.footer.cgs-nav {
         &.index {
             position: absolute;
             right: 0;
+            height: calc(var(--footer-height) * .75);
+            width: calc(var(--footer-height) * .75);
+            margin: calc(var(--footer-height) * .125) calc(var(--footer-height) * .125);
+            svg, img {
+                height: calc(var(--footer-height) * .75)!important;
+                width: calc(var(--footer-height) * .75)!important;    
+            }
         }
         &.cgs-selected {
             &::after {

@@ -15,7 +15,7 @@ from amicale.models import AmicaleInscriptionPage, AmicalePage
 from agents.models import FaqPage, FaqFormPage
 
 # Home
-from home.models import InstantDownloadPage, FormPage
+from home.models import InstantDownloadPage, HomeFormPage
 
 # Mots-clefs :
 from utils.variables import STOP_WORDS
@@ -195,13 +195,11 @@ def custom_process_form(page, request, *args, **kwargs):
             return redirect('/amicale/')
     elif isinstance(page, AmicalePage):        
         if not user.groups.filter(name='Amicale').exists():
-            
-            
             messages.warning(request, _('You have to be an amicale member to sign in for this event. Hopefully you can click on the 📝 in the top right corner to sign up.'), fail_silently=True)            
             return redirect(f'{page.get_url(request)}?inscription=true')        
     elif isinstance(page, FaqFormPage):
         pass
-    elif isinstance(page, FormPage):
+    elif isinstance(page, HomeFormPage):
         pass
     
     if not get_setting('ENABLE_FORM_PROCESSING'):        

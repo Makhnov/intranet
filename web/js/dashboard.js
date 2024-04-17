@@ -1318,7 +1318,7 @@ function compteRenduImportBloc() {
         block.querySelector(`[data-contentpath="${type}_document"]`).classList.add('cgs-column8');
         block.querySelector(`[data-contentpath="${type}_import"]`).classList.add('cgs-column4');
         const contentBloc = (block.querySelector(`[data-contentpath="pdf_images"]`) || block.querySelector(`[data-contentpath="docx_content"]`));
-        contentBloc.classList.add('cgs-col12', 'cgs-collapsible', 'cgs-collapsed');
+        contentBloc.classList.add('cgs-column12', 'cgs-collapsible', 'cgs-collapsed');
         const contentLabel = contentBloc.querySelector('label');
         contentLabel.addEventListener('click', () => collapsible(contentLabel));
     }    

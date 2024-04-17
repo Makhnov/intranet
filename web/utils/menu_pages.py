@@ -28,76 +28,80 @@ TYPE_CHOICES = [
 # TITRES ET SLUGS FIXES POUR LES PAGES DE MENU UNIQUES (Page de menu non concernée : home.InstantDownloadPage)
 MENU_PAGE_TITLES = {
     # HOME
-    'accueil':              'Intranet 3CGS',                        # home.HomePage
-    'public':               'Pages publiques',                      # home.PublicPage
-    'ressources':           'Ressources internes',                  # home.ResourcesPage
+    'accueil':                      'Intranet 3CGS',                        # home.HomePage
+    'public':                       'Pages publiques',                      # home.PublicPage
+    'ressources':                   'Ressources internes',                  # home.ResourcesPage
+    'contact':                      'Formulaire de contact',                # home.ContactPage
     
-    # ADMINISTRATION
-    'administration':       'Élus du Cagire',                       # administration.AdministrationIndexPage
-    'conseils':             'Conseils communautaires',              # administration.ConseilsIndexPage
-    'bureaux':              'Bureaux communautaires',               # administration.BureauxIndexPage
-    'commissions':          'Commissions et groupes de travail',    # administration.CommissionsIndexPage
-    'conferences':          'Conférences des maires',               # administration.ConferencesIndexPage
-    
-    # AGENTS
-    'agents':               'Agents (FAQ)',                         # agents.FaqIndexPage
-    'formulaire-agents':    'Questionnaire agents',                 # agents.FaqFormPage
-    
-    # AMICALE
-    'amicale':              'Amicale',                              # amicale.AmicaleIndexPage
-    'inscription-amicale':  'Formulaire d\'inscription',            # amicale.InscriptionAmicalePage
-    
-    # EVENTS
-    'calendrier':          'Calendrier partagé',                    # events.CalendrierPage
-        
-    # ACCOMPTE
-    'accompte':             'Compte utilisateur',                   # accompte.AccountPage
-    'profil':               'Profil du compte',                     # accompte.ProfilePage
-    'connexion':            'Connexion',                            # accompte.LoginPage
-    'deconnexion':          'Déconnexion',                          # accompte.LogoutPage
-    'inscription':          'Inscription',                          # accompte.SignupPage
-    'mdp':                  'Mot de passe',                         # accompte.PasswordPage
-    'mel':                  'Adresse email',                        # accompte.EmailPage
-    'mdp_recup':            'Récupération du mot de passe',         # accompte.PasswordResetPage
-    'mdp_init':             'Initialisation du mot de passe',       # accompte.PasswordSetPage
-    'mdp_modif':            'Modification du mot de passe',         # accompte.PasswordChangePage
+    # ADMINISTRATION    
+    'administration':               'Élus du Cagire',                       # administration.AdministrationIndexPage
+    'formulaire-administration':    'Questionnaire élus',                   # administration.AdministrationFormPage
+    'conseils':                     'Conseils communautaires',              # administration.ConseilsIndexPage
+    'bureaux':                      'Bureaux communautaires',               # administration.BureauxIndexPage
+    'commissions':                  'Commissions et groupes de travail',    # administration.CommissionsIndexPage
+    'conferences':                  'Conférences des maires',               # administration.ConferencesIndexPage
+
+    # AGENTS    
+    'agents':                       'Agents (FAQ)',                         # agents.FaqIndexPage
+    'formulaire-agents':            'Questionnaire agents',                 # agents.FaqFormPage
+
+    # AMICALE   
+    'amicale':                      'Amicale',                              # amicale.AmicaleIndexPage
+    'inscription-amicale':          'Formulaire d\'inscription',            # amicale.InscriptionAmicalePage
+
+    # EVENTS    
+    'calendrier':                   'Calendrier partagé',                   # events.CalendrierPage
+
+    # ACCOMPTE  
+    'accompte':                     'Compte utilisateur',                   # accompte.AccountPage
+    'profil':                       'Profil du compte',                     # accompte.ProfilePage
+    'connexion':                    'Connexion',                            # accompte.LoginPage
+    'deconnexion':                  'Déconnexion',                          # accompte.LogoutPage
+    'inscription':                  'Inscription',                          # accompte.SignupPage
+    'mdp':                          'Mot de passe',                         # accompte.PasswordPage
+    'mel':                          'Adresse email',                        # accompte.EmailPage
+    'mdp_recup':                    'Récupération du mot de passe',         # accompte.PasswordResetPage
+    'mdp_init':                     'Initialisation du mot de passe',       # accompte.PasswordSetPage
+    'mdp_modif':                    'Modification du mot de passe',         # accompte.PasswordChangePage
 }
 
 MENU_PAGE_SLUGS = {
     # HOME
-    'accueil':              'home',
-    'public':               'public',
-    'ressources':           'ressources',    
+    'accueil':                      'home',
+    'public':                       'public',
+    'ressources':                   'ressources',
+    'contact':                      'contact',
     
     # ADMINISTRATION
-    'administration':       'administration',
-    'conseils':             'conseils',
-    'bureaux':              'bureaux',
-    'commissions':          'commissions',
-    'conferences':          'conferences',
+    'administration':               'administration',
+    'formulaire-administration':    'enquete',
+    'conseils':                     'conseils',
+    'bureaux':                      'bureaux',
+    'commissions':                  'commissions',
+    'conferences':                  'conferences',
     
     # AGENTS
-    'agents':               'faq',
-    'formulaire-agents':    'questionnaire',
+    'agents':                       'faq',
+    'formulaire-agents':            'questionnaire',
     
     # AMICALE
-    'amicale':              'amicale',
-    'inscription-amicale':  'inscription',
+    'amicale':                      'amicale',
+    'inscription-amicale':          'inscription',
         
     # EVENTS
-    'calendrier':           'calendrier',
+    'calendrier':                   'calendrier',
     
     # ACCOMPTE
-    'accompte':             'account',
-    'profil':               'profile',
-    'connexion':            'login',
-    'deconnexion':          'logout',
-    'inscription':          'signup',
-    'mdp':                  'password',
-    'mel':                  'email',
-    'mdp_recup': 'reset',
-    'mdp_init':   'set',
-    'mdp_modif':     'change',
+    'accompte':                     'account',
+    'profil':                       'profile',
+    'connexion':                    'login',
+    'deconnexion':                  'logout',
+    'inscription':                  'signup',
+    'mdp':                          'password',
+    'mel':                          'email',
+    'mdp_recup':                    'reset',
+    'mdp_init':                     'set',
+    'mdp_modif':                    'change',
 }
 
 def menu_page_save(key):
@@ -182,12 +186,8 @@ class MenuPage(Page):
         menu_pages = getattr(settings, "WAGTAIL_MENU_PAGES", [])    
         admin_page = Page.objects.get(slug="administration").specific
 
-
-        commissions_index_page = Page.objects.get(slug="commissions")
         context['is_menu'] = self.__class__.__name__ in menu_pages
         context['menu_type'] = self.slug
-        context['admin_menu'] = admin_page.get_children().live()
-        context['commissions_menu'] = commissions_index_page.get_children().live()
         context['children'] = self.get_children().live()
         if self == admin_page or self.is_descendant_of(admin_page):
             context['fields'] = ['type', 'date']

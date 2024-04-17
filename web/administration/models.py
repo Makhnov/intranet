@@ -1,6 +1,8 @@
 from termcolor import colored
 import uuid
-from datetime import datetime
+import math
+
+import datetime
 from django.utils.timezone import now
 from collections import defaultdict
 
@@ -65,6 +67,9 @@ from django.utils.translation import gettext_lazy as _
 # Recherche
 from wagtail.search import index
 
+# Formulaire
+from wagtailstreamforms.blocks import WagtailFormBlock
+
 # Utilisateurs
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -83,9 +88,22 @@ class AdministrationIndexPage(MenuPage):
         "administration.BureauxIndexPage",
         "administration.CommissionsIndexPage",
         "administration.ConferencesIndexPage",
+        "administration.AdministrationFormPage",
     ]
     save = menu_page_save('administration')
 
+    def get_context(self, request):
+        context = super().get_context(request)
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
+        return context
+    
+    class Meta:
+        verbose_name = "Page d'ndex de l'administration"        
+    
 # Index des conseils
 class ConseilsIndexPage(MenuPage):
     parent_page_types = ["administration.AdministrationIndexPage"]
@@ -129,9 +147,14 @@ class ConseilsIndexPage(MenuPage):
                 members_sorted['Délégués communautaires (suppléants)'].append(member)                                
         # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
         return members_sorted
-    
+  
     def get_context(self, request):
         context = super().get_context(request)
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
         context['children'] = cv_cr_filter(self, request)
         context['members'] = self.get_members()
         return context
@@ -181,6 +204,11 @@ class BureauxIndexPage(MenuPage):
 
     def get_context(self, request):
         context = super().get_context(request)
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
         context['children'] = cv_cr_filter(self, request)
         context['members'] = self.get_members()
         return context
@@ -233,6 +261,11 @@ class ConferencesIndexPage(MenuPage):
     
     def get_context(self, request):
         context = super().get_context(request)
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
         context['children'] = cv_cr_filter(self, request)
         context['members'] = self.get_members()
         return context
@@ -247,6 +280,11 @@ class CommissionsIndexPage(MenuPage):
     subpage_types = ["administration.CommissionPage"]
     save = menu_page_save('commissions')
 
+    def get_context(self, request):
+        context = super().get_context(request)      
+        context['commissions_menu'] = self.get_children().live()
+        return context
+    
     class Meta:
         verbose_name = "Commissions (Index)"
 
@@ -357,11 +395,10 @@ class CommissionPage(Page):
 
     def get_context(self, request):
         context = super().get_context(request)
-        commissions_index_page = Page.objects.get(slug="commissions")
         context['menu_type'] = self.slug
         context['child_type'] = self.slug
         context['children'] = cv_cr_filter(self, request)
-        context['commissions_menu'] = commissions_index_page.get_children().live()
+        context['commissions_menu'] = Page.objects.get(slug="commissions").specific.get_children().live()
         context['members'] = self.get_members()
         context['fields'] = ['type', 'date']
         
@@ -374,6 +411,77 @@ class CommissionPage(Page):
         verbose_name = "commission ou groupe de travail"
         verbose_name_plural = "commissions ou groupes de travail"
 
+# Questionnaire pour les élus
+class AdministrationFormPage(MenuPage):
+    template = "administration/formulaires/questionnaire.html"
+    parent_page_types = ["administration.AdministrationIndexPage"]
+    subpage_types = []
+    save = menu_page_save("formulaire-administration")
+    
+    introduction = RichTextField(
+        blank=True,
+        null=True,
+        verbose_name=_("Introduction"),
+        help_text=_("Here you can explain how the gathering works..."),
+    )
+    form = StreamField(
+        [
+            ('form_field', WagtailFormBlock(icon="form", label=_("Form field"))),
+        ],
+        use_json_field=True,
+        blank=True,
+        null=True,
+        verbose_name=_("Question form"),
+        help_text=_("The main form for to gather informations from the administration."),
+    )
+    date_from = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name=_("From"),
+        help_text=_("Start date of the survey."),
+    )
+    date_to = models.DateField(
+        blank=True,
+        null=True,
+        verbose_name=_("To"),
+        help_text=_("End date of the survey."),
+    )
+    
+    # Panneau de contenu
+    content_panels = MenuPage.content_panels + [
+        FieldPanel("introduction", heading=_("Introduction")),
+        FieldPanel("form", heading=_("Form"), classname="collapsible"),
+        MultiFieldPanel([
+                FieldPanel("date_from", classname="col6"),
+                FieldPanel("date_to", classname="col6"),
+            ],
+            heading=_("Survey period"),
+            classname="collapsible",
+        ),
+        InlinePanel(
+            "administration_documents",
+            label=_("Document"),
+            heading=_("Attachments"),
+        ),
+    ]    
+           
+    search_fields = MenuPage.search_fields + [
+        index.SearchField("introduction"),
+    ]
+    
+    def get_context(self, request):
+        context = super().get_context(request)
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
+        return context
+        
+    class Meta:
+        verbose_name = _("Administration Form page (survey, form, etc.)")
+        verbose_name_plural = _("Form pages")
+        
 ####################################
 ## CONVOCATIONS ET COMPTES-RENDUS ##
 #################################### 
@@ -751,7 +859,17 @@ class CompteRenduPage(PdfViewPageMixin, Page):
 ###############
 ##  WIDGETS  ##
 ############### 
-        
+
+# Liste de documents (GenericPage)
+class AdministrationPieceJointe(PJBlock):
+    """ Modèle de pièce jointe spécifique à la page enquête/formulaire de l'administration """
+
+    page = ParentalKey(
+        AdministrationFormPage,
+        on_delete=models.CASCADE,
+        related_name="administration_documents",
+    )
+   
 # Liste de documents (convoc)
 class ConvocationPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la ConvocationPage."""
@@ -847,6 +965,40 @@ class ConvocationUser(models.Model):
 ## FONCTIONS ##
 ############### 
 
+# Fonction pour récupérer les éléments du menu d'administration
+def get_admin_menu():
+    enquete = Page.objects.get(slug="enquete").specific
+    administration_index_page = Page.objects.get(slug="administration").specific
+    pages = list(administration_index_page.get_children().live())    
+    is_form = True
+    
+    today = datetime.date.today()
+    date_to = enquete.date_to
+    date_from = enquete.date_from
+    
+    if date_to and today > date_to:
+        is_form = False
+    
+    if date_from and today < date_from:
+        is_form = False
+    
+    print(colored(f'Today : {today}', 'green', 'on_white'), colored(enquete.date_from, 'green', 'on_white'), colored(enquete.date_to, 'green', 'on_white'))
+    
+    q_index = math.floor(len(pages) / 2)
+    enquete_page = None
+    for index, page in enumerate(pages):
+        if page.title == enquete.title:
+            enquete_page = pages.pop(index)
+            break
+        
+    if enquete_page and is_form:
+        pages.insert(q_index, enquete_page)
+
+    print(colored("is_form", "green"), colored(is_form, "white", "on_green"))
+    print(colored("pages", "green"), colored(pages, "white", "on_green"))
+    return [pages, is_form]
+
+# Fonction pour filtrer les convocations et les comptes-rendus
 def cv_cr_filter(page, request):
     search_query = request.GET.get('query', None)
     start_date = request.GET.get('start_date', None)
@@ -867,11 +1019,11 @@ def cv_cr_filter(page, request):
     
     # Filtre conditionnel en fonction de la date sélectionnée
     if start_date:
-        start_date = make_aware(datetime.strptime(start_date, "%Y-%m-%d"))
+        start_date = make_aware(datetime.datetime.strptime(start_date, "%Y-%m-%d"))
         convocations = convocations.filter(date__gte=start_date)
         comptes_rendus = comptes_rendus.filter(date__gte=start_date)
     if end_date:
-        end_date = make_aware(datetime.strptime(end_date, "%Y-%m-%d"))
+        end_date = make_aware(datetime.datetime.strptime(end_date, "%Y-%m-%d"))
         convocations = convocations.filter(date__lte=end_date)
         comptes_rendus = comptes_rendus.filter(date__lte=end_date)
 

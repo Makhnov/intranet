@@ -408,7 +408,7 @@ WAGTAIL_USER_CUSTOM_FIELDS = [
 ]
 
 # PAGES DE MENU GENERAL
-WAGTAIL_MENU_PAGES = ['HomePage', 'AdministrationIndexPage', 'CommissionsIndexPage']
+WAGTAIL_MENU_PAGES = ['HomePage', 'AdministrationIndexPage', 'CommissionsIndexPage', 'RessourcesPage']
 
 # Nombre de jours avant qu'une nouvelle page ne soit considérée comme ancienne
 DELTA_NEWS = 14
@@ -438,11 +438,12 @@ WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = 'home.AdvancedFormSetting'
 WAGTAILSTREAMFORMS_DEFAULT_TO_ADDRESS = 'secretariat@cagiregaronnesalat.fr'
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
     ('widgets/forms/contact.html', 'Formulaire de contact'),    
-    ('widgets/forms/sortie.html', 'Sorties de l\'amicale'),
     ('widgets/forms/amicale.html', 'Inscription à l\'amicale'),
-    ('widgets/forms/agents.html', 'Contactez la FAQ'),
-    ('widgets/forms/administration.html', 'Contactez le secrétariat'),
-    ('streamforms/form_block.html', 'Default Form Template'),
+    ('widgets/forms/sortie.html', 'Sorties de l\'amicale'),
+    ('widgets/forms/agents.html', 'Formulaire pour les agents'),
+    ('widgets/forms/administration.html', 'Formulaire pour les élus'),
+    ('widgets/forms/home.html', 'Formulaire pour les pages génériques'),
+    ('streamforms/form_block.html', 'Formulaire par défaut'),
 )
 
 # Calendrier 

@@ -51,14 +51,29 @@ ul.menu-box {
         grid-auto-rows: auto;
 
         li.home, li.administration {
+                  
             &:last-child:nth-of-type(odd) {
                 margin-left:auto;
                 margin-right:auto;
                 grid-column: 1 / -1;
             }
+
+            &#enquete-elus {
+                grid-row:2;
+                grid-column: 1 / span 2;
+                
+                ~ li:last-child:nth-of-type(odd) {
+                    grid-column: auto!important;
+                }
+            }
         }
 
-        li.amicale {
+        &:not(.highlighted) li.menu-item {
+            width: calc(var(--menu-item-size) * 3.5);
+        }
+
+        &.highlighted li.menu-item {
+            width: calc(var(--menu-item-size) * 2);
             margin-bottom: 0px!important;
             
             p {
@@ -69,14 +84,6 @@ ul.menu-box {
                 grid-row:2;
                 grid-column: 1 / span 2;
             }
-
-        }
-
-        &:not(.inscription) li.menu-item {
-            width: calc(var(--menu-item-size) * 3.5);
-        }
-        &.inscription li.menu-item {
-            width: calc(var(--menu-item-size) * 2);
         }
     }
     

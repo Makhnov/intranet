@@ -1,0 +1,23 @@
+{% extends "widgets/forms/base_form.html" %}
+
+{% load wagtailcore_tags cgs_tags %}
+
+{% block content %}
+    <main>
+        <div class="cgs-container cgs-administration">
+            <div class="cgs-page">  
+                {% if page.form %}
+                    {% for block in page.form %}                    
+                        {% include_block block %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>  
+{% endblock %}
+
+{% block footer_mid %}
+    {% with class_type="nav" item_type="administration" menu=admin_menu logo_type=True index=True %}
+        {% include 'administration/widgets/ul_item.html' %}
+    {% endwith %}
+{% endblock %}

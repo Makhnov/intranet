@@ -37,13 +37,24 @@ function compileScss() {
   
 // Compilation et minification JS et MJS
 function compileJs() {
-    return gulp.src(['js/**/*.js', 'js/**/*.mjs']) // Inclure les fichiers .js et .mjs
+    return gulp.src(['js/**/*.js', 'js/**/*.mjs', '!js/handson.js']) // Exclure le fichier handson.js
         .pipe(terser()) // Utiliser terser pour la minification
         .pipe(rename(path => {
             getPath(path);
             path.extname = '.min.js'; // Notez que l'extension .mjs est renommée en .js pour la sortie minifiée
         }))
         .pipe(gulp.dest('.'));
+}
+
+// Traitement spécifique pour handson.js
+function processHandsonJs() {
+    return gulp.src('js/handson.js')  // Chemin vers le fichier handson.js
+        .pipe(terser())  // Minification du fichier
+        .pipe(rename({
+            basename: 'table',  // Renommer en table.js
+            extname: '.js'
+        }))
+        .pipe(gulp.dest('dashboard/static/table_block/js'));  // Dossier de destination
 }
 
 // Surveillance des modifications des fichiers SCSS
@@ -53,10 +64,11 @@ function watchScss() {
 
 // Surveillance des modifications des fichiers JS
 function watchJs() {
-    gulp.watch(['js/**/*.js', 'js/**/*.mjs'], compileJs);
+    gulp.watch(['js/**/*.js', 'js/**/*.mjs', '!js/handson.js'], compileJs);
+    gulp.watch('js/handson.js', processHandsonJs);  // Ajout de la surveillance pour handson.js
 }
 
 export default gulp.series(
-    gulp.parallel(compileScss, compileJs),
+    gulp.parallel(compileScss, compileJs, processHandsonJs),
     gulp.parallel(watchScss, watchJs)
 );
