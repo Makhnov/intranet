@@ -25,6 +25,8 @@ from wagtail.snippets.models import register_snippet
 
 # Blocks, Medias, PJ, etc.
 from utils.widgets import GalleryImage, PiecesJointes as PJBlock
+from utils.nominatim import geocode
+
 from utils.streamfield import (
     CustomMediaBlock as MediaBlock,
     CustomLinkBlock as LinkBlock,
@@ -298,10 +300,22 @@ class AmicalePage(Page):
         else:
             return None
 
-    def get_context(self, request, *args, **kwargs):
+    def get_context(self, request, *args, **kwargs):        
         context = super().get_context(request, *args, **kwargs)
+        home = request.GET.get('home', 'false') == 'true'
+        
+        user = request.user
+        a1 = user.address1
+        a2 = user.address2
+        zc = user.zip_code
+        city = user.city
+        adresse = a1+a2+zc+city+'FRANCE'
+        lat = None
+        lng = None        
+        if adresse != 'FRANCE':
+            lat, lng = geocode(a1, a2, zc, city, 'FRANCE')      
+        
         link = False
-        print(request)
         if request.GET.get('inscription') == 'true':
             link = True 
      
@@ -309,9 +323,14 @@ class AmicalePage(Page):
         ami = False
         if user.is_authenticated and user.groups.filter(name='Amicale').exists():
             ami = True
-            
+        
+        if home and (lat is None or lng is None):
+            messages.warning(request, "Vous n'avez pas d'adresse définie dans votre profil. Cliquez sur la roue crantée pour la renseigner.")
+
         context['ami'] = ami
         context['amicale_link'] = link
+        context['user_lat'] = "{:.6f}".format(lat) if lat is not None else None
+        context['user_lng'] = "{:.6f}".format(lng) if lng is not None else None
         return context
     
 # Formulaire d'inscription à l'amicale

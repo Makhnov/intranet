@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 from .serializers import CustomUserDetailsSerializer
 from rest_framework.response import Response
@@ -6,18 +7,13 @@ from .serializers import CustomUserDetailsSerializer
 from wagtail.users.views.users import Index as OriginalIndexView
 from django.utils.translation import gettext_lazy as _
 
-def profile_view(request):
-    return render(request, "account/profile.html")
-
-
 class UserPermissionDetailsView(APIView):
     def get(self, request):
         serializer = CustomUserDetailsSerializer(request.user)
         return Response(serializer.data)
 
 
-class CustomUserIndexView(OriginalIndexView):
-        
+class CustomUserIndexView(OriginalIndexView):        
     def get_paginate_by(self, queryset):
         paginate_by = self.request.GET.get('paginate_by', '20')
         if paginate_by.isdigit():

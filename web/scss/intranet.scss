@@ -137,9 +137,11 @@ html {// IMAGES EN PLEIN ECRAN
         img {
             position: absolute;
             cursor: initial;
-            max-width: 80%;
-            max-height: 80%;
+            max-width: 80%;            
+            max-height: 80%;            
             object-fit: contain;
+            min-width: 80%;
+            min-height: 80%;
         }
     }
 }
@@ -212,10 +214,10 @@ html {// IMAGES EN PLEIN ECRAN
 div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
     position: fixed;
     z-index: 9999;
-    top:0;
+    bottom:0;
     left:calc((100vw - var(--container-width)) / 2);
     width:var(--container-width);
-    height: 48px;
+    height: var(--footer-height);
 
     display: flex;
     flex-direction: row;
@@ -251,7 +253,7 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
     }
     
 
-    transform: translateY(-48px);
+    transform: translateY(0);
     animation: messages .4s ease-in-out forwards;
 
     > * {        
@@ -281,10 +283,10 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
 
 @keyframes messages {
     from {
-        transform: translateY(-48px);
+        transform: translateY(0);
     }
     to {
-        transform: translateY(0);
+        transform: translateY(calc(-1 * var(--footer-height)));
     }
 }
 

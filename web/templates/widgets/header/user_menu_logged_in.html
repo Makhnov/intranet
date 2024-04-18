@@ -3,7 +3,11 @@
 <li class="header-item">   
     <nav class="cgs-nav profile">
         <ul class="nav-box profile">
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.user_profile class_type="avatar cgs-nofill" %}
+            {% if request.user.wagtail_userprofile.avatar %}  
+                <img src="{% avatar_url request.user %}" alt="" class="avatar cgs-nofill"/>
+            {% else %}  
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.user_profile class_type="avatar cgs-nofill" %}
+            {% endif %}
             <span class="cgs-arrow"></span>
             <span class="cgs-arrow cache"></span>              
             {% with class_type="nav" menu_type="profile" %}
@@ -12,11 +16,3 @@
         </ul>
     </nav>
 </li>
-
-{% comment %} 
-{% if user.wagtail_userprofile.avatar %}
-<img src="{% avatar_url user %}" alt="" class="avatar custom"/>
-{% else %}
-    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.previous_item %}
-{% endif %} 
-{% endcomment %}

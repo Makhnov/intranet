@@ -1,5 +1,5 @@
-{% extends "base.html" %}t %} 
-{% load i18n static wagtailadmin_tags %}
+{% extends "base.html" %} 
+{% load i18n static wagtailadmin_tags wagtailimages_tags %}
 
 {% block body_class %}profile list{% endblock %}
 
@@ -15,22 +15,12 @@
 	<main class="main-content">
 
 		<h1>{% trans "Account profile" %}</h1>
-
-		{% if messages %}
-		<h3>
-			{% comment %} Messages {% endcomment %}
-			<ul class="messages">
-				{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message | safe }}</li>
-				{% endfor %}
-			</ul>
-		</h3>
-		{% endif %}
-
-		<div class="cgs-container profile">
+		
+		{% comment %} Boutons d'action {% endcomment %}
+		<div class="cgs-container actions">			
 			
+			{% comment %} Sign Out Button  {% endcomment %}
 			<div class="cgs-block">
-				{% comment %} Sign Out Button  {% endcomment %}
 				<a href="{% url 'account_logout' %}?next={% url 'account_profile' %}">
 					<button
 						class="button button-longrunning"
@@ -44,8 +34,8 @@
 				</a>
 			</div>
 
+			{% comment %} Pasword change {% endcomment %}
 			<div class="cgs-block">
-				{% comment %} Pasword change {% endcomment %}
 				<a href="{% url 'account_password_change' %}?next={% url 'account_profile' %}">					
 					<button
 						class="button button-longrunning"
@@ -58,9 +48,9 @@
 					</button>
 				</a>
 			</div>
-
+			
+			{% comment %} Pasword reset {% endcomment %}
 			<div class="cgs-block">
-				{% comment %} Pasword reset {% endcomment %}
 				<a href="{% url 'account_reset_password' %}">
 					<button
 						class="button button-longrunning"
@@ -74,8 +64,8 @@
 				</a>
 			</div>
 			
+			{% comment %} Admin Button  {% endcomment %}
 			<div class="cgs-block">
-					{% comment %} Admin Button  {% endcomment %}
 					<a href="{% url 'wagtailadmin_home' %}" class="btn btn-outline-primary btn-sm">
 						<button
 							class="button button-longrunning"
@@ -88,78 +78,301 @@
 						</button>						
 					</a>
 			</div>
+		</div>
 
+		{% comment %} Informations personnelles {% endcomment %}
+		<div id="profile-block" class="cgs-container profile">
+			
+			{% comment %} Nom, prénom, pseudo, date de naissance et téléphone {% endcomment %}
 			<div class="cgs-block">
-				{% comment %} First Name  {% endcomment %}
-				<div class="col border py-2">
-				<small class="text-muted">{% trans "First name" %}</small>
-				<p class="mb-0">{{ user.first_name|default:'' }}</p>
-				</div>
+				<legend>{% trans "Identity" %}</legend>
 			
 				{% comment %} Last Name  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Last name" %}</small>
+				<label class="text-muted"> {% trans "Last name" %}</label>
 				<p class="mb-0">{{ user.last_name|default:'' }}</p>
 				</div>
-
-				{% comment %} Display Name  {% endcomment %}
+	
+				{% comment %} First Name  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Display name" %}</small>
-				<p class="mb-0">{{ request.user.display_name|default:'' }}</p>
+				<label class="text-muted"> {% trans "First name" %}</label>
+				<p class="mb-0">{{ user.first_name|default:'' }}</p>
+				</div>
+
+				{% comment %} Civility {% endcomment %}
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Civility" %}</label>
+				<p class="mb-0">{{ user.civility|default:'' }}</p>
+				</div>
+
+				{% comment %} Date of Birth  {% endcomment %}
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Date of birth" %}</label>
+				<p class="mb-0">{{ request.user.date_of_birth|date:"D. d M. Y"|default:'' }}</p>
+				</div>
+				
+				{% comment %} Mobile Phone  {% endcomment %}
+				<div class="col border py-2">
+					<label class="text-muted"> {% trans "Mobile phone" %}:</label>
+					<p class="mb-0">{{ request.user.mobile_phone|default:'' }}</p>
 				</div>
 			</div>
 
-			<div class="cgs-block">      
+			{% comment %} Adresse postale {% endcomment %}
+			<div class="cgs-block">
+				<legend>{% trans "Adress" %}</legend>
+
 				{% comment %} Address Line 1  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Address line 1" %}</small>
+				<label class="text-muted"> {% trans "Address line 1" %}</label>
 				<p class="mb-0">{{ request.user.address1|default:'' }}</p>
 				</div>
 			
 				{% comment %} Address Line 2  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Address line 2" %}</small>
+				<label class="text-muted"> {% trans "Address line 2" %}</label>
 				<p class="mb-0">{{ request.user.address2|default:'' }}</p>
 				</div>
 			
 				{% comment %} Postal Code  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Postal Code" %}</small>
+				<label class="text-muted"> {% trans "Postal Code" %}</label>
 				<p class="mb-0">{{ request.user.zip_code|default:'' }}</p>
 				</div>
 			
 				{% comment %} City  {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "City" %}</small>
+				<label class="text-muted"> {% trans "City" %}</label>
 				<p class="mb-0">{{ request.user.city|default:'' }}</p>
 				</div>
-			
-				{% comment %} Country  {% endcomment %}
-				<div class="col border py-2">
-				<small class="text-muted">{% trans "Country" %}</small>
-				<p class="mb-0">{{ request.user.country|default:'' }}</p>
-				</div>
 			</div>
 
-			<div class="cgs-block">
-				{% comment %} Mobile Phone  {% endcomment %}
+			{% comment %} Thème, langue, fuseau horaire et photo de profil {% endcomment %}
+			<div class="cgs-block">		
+				<legend>{% trans "Parameters" %}</legend>
+
+				{% comment %} Theme (sombre/clair) {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Mobile phone" %}</small>
-				<p class="mb-0">{{ request.user.mobile_phone|default:'' }}</p>
-				</div>
-			
-				{% comment %} Additional Information  {% endcomment %}
-				<div class="col border py-2">
-				<small class="text-muted">{% trans "Additional information" %}</small>
-				<p class="mb-0">{{ request.user.municipality|default:'' }}</p>
+				<label class="text-muted"> {% trans "Theme" %}:</label>
+				<p class="mb-0">{{ request.user.wagtail_userprofile.theme|default:'' }}</p>
 				</div>
 
-				{% comment %} Date of Birth  {% endcomment %}
+				{% comment %} Language (fr/en) {% endcomment %}
 				<div class="col border py-2">
-				<small class="text-muted">{% trans "Date of birth" %}</small>
-				<p class="mb-0">{{ request.user.date_of_birth|date:"F d, Y"|default:'' }}</p>
+				<label class="text-muted"> {% trans "Language" %}:</label>
+				<p class="mb-0">{{ request.user.wagtail_userprofile.preferred_language|default:'' }}</p>
 				</div>
+
+				{% comment %} Fuseau horaire {% endcomment %}
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Timezone" %}:</label>
+				<p class="mb-0">{{ request.user.wagtail_userprofile.current_time_zone|default:'' }}</p>
+				</div>
+
+				{% comment %} Photo de profil {% endcomment %}
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Profile picture" %}:</label>
+				{% if request.user.wagtail_userprofile.avatar %}
+					<img class="cgs-huge-icon cgs-expandable" src="{{ request.user.wagtail_userprofile.avatar.url }}" alt="{{ request.user.get_full_name|default:'' }}">	
+				{% else %}
+					{% image settings.dashboard.IntranetIcons.user_profile original as img %}
+					<img class="cgs-huge-icon cgs-expandable" src="{{ img.url }}" alt="{{ request.user.get_full_name|default:'' }}">	
+				{% endif %}
+				</div>
+
+			</div>			
+		</div>
+
+		{% comment %} Formulaire de modification {% endcomment %}
+		<div id="update-block" class="cgs-container update cgs-hidden">
+			<form id="profile-update" method="post" action="{% url 'profile_update' %}" enctype="multipart/form-data">
+				{% csrf_token %}
+
+				{% comment %} Tous les champs modifiables {% endcomment %}
+				<div class="form-groups">
+					<legend>{% trans "Identity" %}</legend>
+
+					<!-- Champ Nom -->
+					<div class="form-group no-input">
+						<label>{% trans "Last name" %}</label>
+						<input type="text" class="form-control" value="{{ request.user.last_name }}" readonly>
+					</div>
+
+					<!-- Champ prénom  -->
+					<div class="form-group no-input">
+						<label for="first_name">{% trans "First name" %}</label>
+						<input type="text" class="form-control" value="{{ request.user.first_name }}" readonly>
+					</div>
+
+					<!-- Champ Civilité -->
+					<div class="form-group">
+						<label for="civility">{% trans "Civility" %}</label>
+						<select class="form-control" id="civility" name="civility">
+							{% for cv in civilities %}
+								<option value="{{ cv.code }}" {% if request.user.wagtail_userprofile.theme == cv.code %}selected{% endif %}>{{ cv.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Champ Date de Naissance -->
+					<div class="form-group">
+						<label for="date_of_birth">{% trans "Date of birth" %}</label>
+						<input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ request.user.date_of_birth|date:'Y-m-d' }}">
+					</div>
+
+					<!-- Champ Téléphone Mobile -->
+					<div class="form-group">
+						<label for="mobile_phone">{% trans "Mobile phone" %}</label>
+						<input type="text" class="form-control" id="mobile_phone" name="mobile_phone" value="{{ request.user.mobile_phone }}">
+					</div>
+				</div>
+
+				<div class="form-groups">					
+					<legend>{% trans "Adress" %}</legend>
+		
+					<!-- Champ Adresse Ligne 1 -->
+					<div class="form-group">
+						<label for="address1">{% trans "Address line 1" %}</label>
+						<input type="text" class="form-control" id="address1" name="address1" value="{{ request.user.address1 }}">
+					</div>
+
+					<!-- Champ Adresse Ligne 2 -->
+					<div class="form-group">
+						<label for="address2">{% trans "Address line 2" %}</label>
+						<input type="text" class="form-control" id="address2" name="address2" value="{{ request.user.address2 }}">
+					</div>
+
+					<!-- Champ Code Postal -->
+					<div class="form-group">
+						<label for="zip_code">{% trans "Postal Code" %}</label>
+						<input type="text" class="form-control" id="zip_code" name="zip_code" value="{{ request.user.zip_code }}">
+					</div>
+
+					<!-- Champ Ville -->
+					<div class="form-group">
+						<label for="city">{% trans "City" %}</label>
+						<input type="text" class="form-control" id="city" name="city" value="{{ request.user.city }}">
+					</div>
+				</div>
+
+				<div class="form-groups">
+					<legend>{% trans "Parameters" %}</legend>
+
+					<!-- Champ Thème d'affichage -->
+					<div class="form-group">
+						<label for="theme">{% trans "Theme" %}</label>
+						<select class="form-control" id="theme" name="theme">
+							{% for theme in themes %}
+								<option value="{{ theme.code }}" {% if request.user.wagtail_userprofile.theme == theme.code %}selected{% endif %}>{{ theme.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Champ Langue préférée -->
+					<div class="form-group">
+						<label for="preferred_language">{% trans "Language" %}</label>
+						<select class="form-control" id="preferred_language" name="preferred_language">
+							{% for language in languages %}
+								<option value="{{ language.code }}" {% if request.user.wagtail_userprofile.preferred_language == language.code %}selected{% endif %}>{{ language.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Champ Fuseau horaire -->
+					<div class="form-group">
+						<label for="current_time_zone">{% trans "Timezone" %}</label>
+						<select class="form-control" id="current_time_zone" name="current_time_zone">
+							{% for timezone in timezones %}
+								<option value="{{ timezone.code }}" {% if request.user.wagtail_userprofile.current_time_zone == timezone.code %}selected{% endif %}>{{ timezone.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Champ Photo de profil -->
+					<div class="form-group avatar">
+						<label for="avatar">{% trans "Icon profile" %}</label>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" id="clear_avatar" name="clear_avatar">
+							<label class="form-check-label" for="clear_avatar">
+								{% trans "Delete actual" %}
+							</label>
+						</div>
+						{% if request.user.wagtail_userprofile.avatar %}
+							{% image settings.dashboard.IntranetIcons.user_profile original as img %}
+							<img 
+								id="preview_avatar" 
+								class="cgs-huge-icon cgs-expandable" 
+								alt="{{ request.user.get_full_name|default:'' }}"
+								src="{{ request.user.wagtail_userprofile.avatar.url }}" 
+								data-default="{{ img.url }}"
+								data-current="{{ request.user.wagtail_userprofile.avatar.url }}"
+							/>							
+						{% else %}
+							{% image settings.dashboard.IntranetIcons.user_profile original as img %}
+							<img 
+								id="preview_avatar" 
+								class="cgs-huge-icon cgs-expandable" 
+								alt="{{ request.user.get_full_name|default:'' }}"
+								src="{{ img.url }}" 
+								data-default="{{ img.url }}"
+								data-current="{{ img.url }}"
+							/>		
+						{% endif %}
+					</div>
+					<div class="form-group nofill">
+						<input type="file" class="form-control" id="avatar" name="avatar">
+					</div>
+					<div class="cgs-hidden">
+					    <input type="hidden" name="next" value="{{ request.GET.next }}">
+					</div>
+				</div>
+
+				{% comment %} Bouton de soumission de formulaire {% endcomment %}
+				<div class="soumission">
+					<button
+						type="submit"
+						class="reset button button-longrunning"
+						data-controller="w-progress"
+						data-action="w-progress#activate"
+						data-w-progress-active-value="{% trans 'Changing…' %}"
+					>
+						{% icon name="spinner" %}
+						<em data-w-progress-target="label">{% trans 'Change' %}</em>
+					</button>
+				</div>
+			</form>
+		</div>
+
+		{% comment %} Bouton pour modifier les infos personnelles {% endcomment %}
+		<div class="cgs-container button">
+			<div class="cgs-block{% if request.GET.form %} cgs-open{% endif %}">
+				<a 
+					{% if request.GET.form %} 
+						href="{% url 'account_profile' %}"
+						alt="Fermer le formulaire"
+						title="Annuler les modifications"
+					{% else %}
+						href="{% url 'account_profile' %}?form=true#profile-update"
+						alt="Ouvrir le formulaire pour modifier ses informations personnelles"
+						title="Modifier mes informations personnelles"
+					{% endif %}
+				>
+					<button
+						class="button button-longrunning"
+						data-controller="w-progress"
+						data-action="w-progress#activate"
+						data-w-progress-active-value="{% trans 'Opening…' %}"
+					>
+						{% icon name="spinner" %}						
+						{% if request.GET.form %} 
+							<em data-w-progress-target="label">{% trans 'Cancel' %}</em>
+						{% else %}
+							<em data-w-progress-target="label">{% trans 'Change informations' %}</em>
+						{% endif %}
+					</button>
+				</a>
 			</div>
 		</div>
+
 	</main>    
 {% endblock %}

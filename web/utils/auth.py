@@ -43,7 +43,7 @@ login_restricted_pages = [
 
 # Vérification des droits d'accès aux pages
 def check_page_access(user, page, bool):
-    print(colored(f'Checking access for {user} to page {page}', 'yellow'))
+    # print(colored(f'Checking access for {user} to page {page}', 'yellow'))
     
     page = page.specific
         

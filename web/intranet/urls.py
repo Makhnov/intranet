@@ -8,9 +8,9 @@ from wagtail.documents import urls as wagtaildocs_urls
 from wagtail_pdf_view import urls as wagtailpdf_urls
 
 from intranet.api import api_router
-from users.views import UserPermissionDetailsView, CustomUserIndexView, profile_view
+from users.views import UserPermissionDetailsView, CustomUserIndexView
 from administration.views import administration_search
-from accompte.views import CustomPasswordChangeView
+from accompte.views import CustomPasswordChangeView, profile_update, profile_view
 from agents.views import faq_filter, faq_search
 from django.urls import path
 
@@ -47,6 +47,7 @@ urlpatterns = urlpatterns + [
     path('account/password/change/', CustomPasswordChangeView.as_view(), name='account_password_change'),
     path("account/", include("allauth.urls")),
     path("account/profile/", profile_view, name="account_profile"),
+    path("account/profile/update/", profile_update, name="profile_update"),
     # path('', include(wagtailimport_urls)),
     path("", include(wagtail_urls)),
     # Alternatively, if you want Wagtail pages to be served from a subpath

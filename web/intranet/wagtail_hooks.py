@@ -142,8 +142,8 @@ def add_form_fields(form_fields):
     - utilisateur pour vérifier les doublons d'envoi
     - origine pour connaitre la page d'origine de l'envoi
     """
-    print(colored(f'#Etape 0/2 : Ajout de champs spécifiques:', 'red', 'on_white'))
-    print(colored('...', 'white', 'on_red'))
+    # print(colored(f'#Etape 0/2 : Ajout de champs spécifiques:', 'red', 'on_white'))
+    # print(colored('...', 'white', 'on_red'))
     
     form_fields.append({
         "id": str(uuid.uuid4()),
@@ -206,8 +206,8 @@ def custom_process_form(page, request, *args, **kwargs):
         messages.warning(request, _('Form processing is disabled.'), fail_silently=True)
         return redirect('/amicale/')          
     
-    print(colored(f'#Etape 1 : Il s\'agit bien d\'un formulaire wagtail : {form_def.id} // Page : {page}', 'red', 'on_white'))
-    print(colored('...', 'white', 'on_red'))
+    # print(colored(f'#Etape 1 : Il s\'agit bien d\'un formulaire wagtail : {form_def.id} // Page : {page}', 'red', 'on_white'))
+    # print(colored('...', 'white', 'on_red'))
         
     if hasattr(form_def.advanced_settings, 'unique'):
         unique = form_def.advanced_settings.unique
@@ -223,7 +223,7 @@ def custom_process_form(page, request, *args, **kwargs):
         
     if form.is_valid():
         form_def.process_form_submission(form)
-        print(colored(f'#Etape 5 fin du traitement...', 'red', 'on_white'))
+        # print(colored(f'#Etape 5 fin du traitement...', 'red', 'on_white'))
         
         # create success message
         if form_def.success_message:
@@ -255,16 +255,16 @@ def custom_process_form(page, request, *args, **kwargs):
 @register("process_form_submission")
 def save_form_submission_data(instance, form):
     """ Sauvegarde les données du formulaire. """    
-    print(colored(f'#Etape 3 : Sauvegarde des données: {instance}', 'red', 'on_white')) 
-    print(colored('...', 'white', 'on_red'))
+    # print(colored(f'#Etape 3 : Sauvegarde des données: {instance}', 'red', 'on_white')) 
+    # print(colored('...', 'white', 'on_red'))
        
     # Copier les données nettoyées pour ne pas interférer avec l'original
     submission_data = form.cleaned_data.copy()
-    print(colored(f'submission: {submission_data}', 'cyan'))
+    # print(colored(f'submission: {submission_data}', 'cyan'))
     
     # print les files et les files keys
-    print(colored(f'files: {form.files}', 'cyan'))
-    print(colored(f'files keys: {form.files.keys()}', 'cyan'))
+    # print(colored(f'files: {form.files}', 'cyan'))
+    # print(colored(f'files keys: {form.files.keys()}', 'cyan'))
     
     # changer les données de soumission en un compteur des fichiers
     for field in form.files.keys():
@@ -277,7 +277,7 @@ def save_form_submission_data(instance, form):
         form_data=json.dumps(submission_data, cls=FormSubmissionSerializer),
         form=instance,
     )
-    print(colored(f'Real submission: {submission}', 'green'))
+    # print(colored(f'Real submission: {submission}', 'green'))
     
     # sauvegarder les fichiers du formulaire
     for field in form.files:
@@ -292,8 +292,8 @@ def save_form_submission_data(instance, form):
 @register('process_form_submission')
 def email_submission(instance, form):
     """ Envoie un email lorsqu'un formulaire est soumis. """
-    print(colored(f'#Etape 4 : Envoie de mail: {instance}', 'red', 'on_white'))
-    print(colored('...', 'white', 'on_red'))
+    # print(colored(f'#Etape 4 : Envoie de mail: {instance}', 'red', 'on_white'))
+    # print(colored('...', 'white', 'on_red'))
     
     # Sujet du mail
     subject = f'New Form Submission from {instance.title}'

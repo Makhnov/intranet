@@ -6,6 +6,8 @@
 {% block content %}
     <main>
         <div class="cgs-container cgs-amicale">
+
+            {% comment %} Lien d'inscription qui apparait si un utilisateur non "ami" essaie de s'inscrire à une sortie {% endcomment %}
             {% if amicale_link %}
                 <div id="cgs-inscription">
                     <a 
@@ -19,110 +21,152 @@
                     <p>Inscription à l'amicale</p>
                 </div>
             {% endif %}
-            <div class="cgs-page">  
-                <h1 class="my-4">{{ page.title }}</h1>
-                <p class="meta text-muted">{{ page.date }}</p>
-                {% with author=page.author %}
-                    {% if author %}
-                        <div class="author">
-                            <p>Posted by:</p>
-                            <ul>
-                                <li style="display: inline">
-                                    <a href="{% slugurl 'auteur' %}?author={{ author.id }}">
-                                        {% image author.author_image fill-40x60 style="vertical-align: middle" %}
-                                        {{ author.name }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    {% else %}
-                        <div class="author unknown">
-                            <p>Posted by:</p>
-                            <ul>
-                                <li style="display: inline">
-                                    <a href="{% slugurl 'auteurs' %}?author=unknown">
-                                        Unknown
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    {% endif %}
-                {% endwith %}
 
-                <div class="row">
-                {% for item in page.gallery_images.all %}
-                    <div class="col-md-4 mb-4">
-                        {% image item.image fill-320x240 class="img-fluid" %}
-                        <p class="text-center">{{ item.caption }}</p>
-                    </div>
-                {% endfor %}
-                </div>
+            {% comment %} DEBUT DU CONTENU {% endcomment %}
+            <div class="cgs-page amicale">
 
-                {% for block in page.body %}
-                    <div class="mb-4">
-                        {% if block.block_type == 'media' %}
-                            {{ block }}
-                        {% elif block.block_type == 'heading' %}
-                            <h2>{{ block.value }}</h2>
-                        {% elif block.block_type == 'paragraph' %}
-                            {{ block }}
-                        {% elif block.block_type == 'image' %}
-                            {% image block.value fill-320x240 class="img-fluid" %}
-                        {% elif block.block_type == 'document' %}
-                            <a href="{{ block.value.url }}">{{ block.value.title }}</a>
-                        {% elif block.block_type == 'link' %}
-                            <a href="{{ block.value.url }}">{{ block.value.text|default:block.value.url }}</a>
-                        {% elif block.block_type == 'embed' %}
-                            {% include "widgets/images/embed_block.html" with embed_block=block.value %}
-                        {% elif block.block_type == 'list' %}
-                            <ul>
-                                {% for item in block.value %}
-                                    <li>{{ item }}</li>
-                                {% endfor %}
-                            </ul>
-                        {% elif block.block_type == 'quote' %}
-                            <blockquote>
-                                {{ block.value }}
-                            </blockquote>
-                        {% elif block.block_type == 'inscription' %}
-                            {% include_block block %}
+                {% comment %} Informations générales : Titre, date, auteur {% endcomment %}
+                <section class="amicale-generic">
+                    <h1 class="my-4">{{ page.title }}</h1>
+                    <p class="meta text-muted">{{ page.date }}</p>
+                    {% with author=page.author %}
+                        {% if author %}
+                            <div class="amicale-author">
+                                <p>Posted by:</p>
+                                <ul>
+                                    <li style="display: inline">
+                                        <a href="{% slugurl 'auteur' %}?author={{ author.id }}">
+                                            {% image author.author_image fill-40x60 style="vertical-align: middle" %}
+                                            {{ author.name }}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="amicale-author unknown">
+                                <p>Posted by:</p>
+                                <ul>
+                                    <li style="display: inline">
+                                        <a href="{% slugurl 'auteurs' %}?author=unknown">
+                                            Unknown
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         {% endif %}
-                    </div>
-                {% endfor %}
+                    {% endwith %}
+                </section>
 
-                {% if page.form %}
-                    <div class="inscription-form mb-4">
-                        {% for block in page.form %}
-                            {% include_block block %}
-                        {% endfor %}
-                    </div>
+                {% if page.body %}
+                    <section = class="amicale-content">
+                        {% include "widgets/blocks/streamfield.html" with value=page.body %}
+                    </section>
                 {% endif %}
 
-                {% if page.use_map %}
-                <div id="carte" class="mb-4"
-                    data-lat="{{ page.lat }}" 
-                    data-lng="{{ page.lng }}" 
-                    data-point-name="{{ page.point_name }}" 
-                    data-point-link="{{ page.point_link }}">
-                </div>
-                {% endif %}
-
-                <p><a href="{{ page.get_parent.url }}" class="btn btn-primary">Return to blog</a></p>
-                {% with tags=page.tags.all %}
-                    {% if tags %}
-                        <div class="tags">
-                            <p>Tags</p>
-                            {% for tag in tags %}
-                                <a href="{% slugurl 'amicale' %}?tag={{ tag.slug }}">
-                                    <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
-                                        {{ tag.name }}
-                                    </button>
-                                </a>
+                
+                {% comment %} Gallerie d'image {% endcomment %}
+                {% if page.gallery_images %}
+                    <section class="amicale-gallery">
+                        <div class="row">
+                            {% for item in page.gallery_images.all %}
+                                <div class="col-md-4 mb-4">
+                                    {% image item.image fill-320x240 class="img-fluid" %}
+                                    <p class="text-center">{{ item.caption }}</p>
+                                </div>
                             {% endfor %}
                         </div>
-                    {% endif %}
-                {% endwith %}
+                    </section>
+                {% endif %}
+
+                {% comment %} Carte interactive {% endcomment %}
+                {% if page.use_map %}
+                    <section class="amicale-map">                                       
+                        <div id="carte"
+                            data-end-lat="{% if page.lat %}{{ page.lat }}{% endif %}"
+                            data-end-lng="{% if page.lng %}{{ page.lng }}{% endif %}"
+                            data-home-lat="{% if user_lat %}{{ user_lat }}{% endif %}"
+                            data-home-lng="{% if user_lng %}{{ user_lng }}{% endif %}"
+                            data-point-name="{% if page.point_name %}{{ page.point_name }}{% endif %}"
+                            data-point-link="{% if page.point_link %}{{ page.point_link }}{% endif %}"
+                        >
+                        </div>
+                        <div id="actions-box">
+                            <a
+                                id="change-profile"
+                                class="noaddress{% if user_lat or not request.GET.home %} cgs-hidden{% endif %}"
+                                href="{% slugurl 'profile' %}?form=true&next={{ page.url }}?home=true#profile-update"
+                                alt="Entrez votre adresse pour partir de chez vous !"
+                                title="renseigner mon adresse dans mon profil"
+                            >
+                            </a>
+                            {% if request.GET.home %}
+                                <a
+                                    id="start-from-mane"
+                                    class="mane"
+                                    href="{{ page.url }}"
+                                    alt="Partez de la communauté de communes !"
+                                    title="Choisissez le siège de la comcom pour le départ de l'itinéraire"
+                                >
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers class_type="cgs-mid-icon" %}
+                                </a>
+                            {% else %}
+                                <a
+                                    id="start-from-home"
+                                    class="home"
+                                    href="{{ page.url }}?home=true"
+                                    alt="Partez de chez vous !"
+                                    title="Choisissez votre adresse pour le départ de l'itinéraire"
+                                >
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-mid-icon" %}
+                                </a>
+                            {% endif %}
+                            <a 
+                                id="open-in-maps"
+                                href="" 
+                                target="_blank" 
+                                class="open-in-maps-link"
+                                title="Ouvrir dans Maps"
+                                alt="Lien pour ouvrir l'itinéraire dans l'appli maps"
+                            >
+                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.open_in_maps class_type="cgs-mid-icon" %}
+                            </a>
+                        </div>
+                    </section>
+                {% endif %}
+
+                {% comment %} Formulaire d'inscription {% endcomment %}
+                {% if page.form %}
+                    <section class="amicale-form">
+                        <div class="inscription-form mb-4">
+                            {% for block in page.form %}
+                                {% include_block block %}
+                            {% endfor %}
+                        </div>
+                    </section>
+                {% endif %}
+
+                {% comment %} Pied de page {% endcomment %}
+                <section class="amicale-footer">
+                    <p><a href="{{ page.get_parent.url }}" class="btn btn-primary">Return to blog</a></p>
+                    {% with tags=page.tags.all %}
+                        {% if tags %}
+                            <div class="tags">
+                                <p>Tags</p>
+                                {% for tag in tags %}
+                                    <a href="{% slugurl 'amicale' %}?tag={{ tag.slug }}">
+                                        <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top" title="Tags: {{ tag.name }}">
+                                            {{ tag.name }}
+                                        </button>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </section>
+
             </div>
+            {% comment %} FIN DU CONTENU {% endcomment %}
+
         </div>
     </main>  
 {% endblock content %}

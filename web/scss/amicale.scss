@@ -1,3 +1,7 @@
+:root {
+    --map-width: min(100%, 800px);
+}
+
 body.item div.cgs-amicale {
     position: relative;
 
@@ -21,5 +25,49 @@ body.item div.cgs-amicale {
 
     div.cgs-page {
         flex-direction: column;
+    }
+}
+
+section.amicale-map {
+    width:calc(100% - var(--nav-icon-size));
+    height: fit-content;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap:5px;
+
+    #carte {
+        width: var(--map-width);
+        aspect-ratio: 1.618/1;
+
+        .map-destination {
+            filter: hue-rotate(300deg);
+        }
+    }
+    
+    #actions-box {
+        display: flex;
+        flex-direction: column;
+        gap:5px;
+
+        a {
+            display: flex;
+
+            padding: calc(var(--nav-icon-size) * 0.15);
+            background-color: var(--wrapper-color-list);
+            border-radius: 50%;
+            box-shadow: 0 0 1px 0 #6bd6e6,0 1px 10px 0 #6bd6e6b3;
+    
+            svg, img {
+                height: var(--nav-icon-size);
+                width: 100%;
+
+                * {
+                    fill: white;
+                }
+            }
+        }
     }
 }

@@ -1,3 +1,6 @@
+# Traduction
+from django.utils.translation import gettext_lazy as _
+
 # OPTIONS DE TABLES
 TABLE_OPTIONS = {
     'minSpareRows': 0,
@@ -111,6 +114,55 @@ POSITIONS_TRANSLATIONS = {
     },
 }
 
+# Langues 
+LANGUAGES = [
+    {'code': 'fr', 'name': _('French')},
+    {'code': 'en', 'name': _('English')},
+    {'code': 'es', 'name': _('Spanish')},
+]
+
+# Thèmes
+THEMES = [
+    {'code': 'light', 'name': _('Clair')},
+    {'code': 'dark', 'name': _('Sombre')},
+    {'code': 'system', 'name': _('Système')}
+]
+      
+# Civilités
+CIVILITIES = [
+    {'code': 'M', 'name': _('Monsieur')},
+    {'code': 'F', 'name': _('Madame')},
+    {'code': 'N', 'name': _('Neutre')},
+]
+
+# Timezones
+TIMEZONES = [
+    {'code': 'Pacific/Midway', 'name': 'Midway (UTC-11:00)'},
+    {'code': 'America/Adak', 'name': 'Adak (UTC-10:00)'},
+    {'code': 'Pacific/Honolulu', 'name': 'Honolulu (UTC-10:00)'},
+    {'code': 'America/Anchorage', 'name': 'Anchorage (UTC-09:00)'},
+    {'code': 'America/Los_Angeles', 'name': 'Los Angeles (UTC-08:00)'},
+    {'code': 'America/Denver', 'name': 'Denver (UTC-07:00)'},
+    {'code': 'America/Chicago', 'name': 'Chicago (UTC-06:00)'},
+    {'code': 'America/New_York', 'name': 'New York (UTC-05:00)'},
+    {'code': 'America/Caracas', 'name': 'Caracas (UTC-04:30)'},
+    {'code': 'America/Halifax', 'name': 'Halifax (UTC-04:00)'},
+    {'code': 'America/St_Johns', 'name': 'St. Johns (UTC-03:30)'},
+    {'code': 'America/Argentina/Buenos_Aires', 'name': 'Buenos Aires (UTC-03:00)'},
+    {'code': 'Atlantic/Azores', 'name': 'Azores (UTC-01:00)'},
+    {'code': 'Europe/London', 'name': 'London (UTC+00:00)'},
+    {'code': 'Europe/Paris', 'name': 'Paris (UTC+01:00)'},
+    {'code': 'Europe/Athens', 'name': 'Athens (UTC+02:00)'},
+    {'code': 'Africa/Nairobi', 'name': 'Nairobi (UTC+03:00)'},
+    {'code': 'Europe/Moscow', 'name': 'Moscow (UTC+03:00)'},
+    {'code': 'Asia/Tehran', 'name': 'Tehran (UTC+03:30)'},
+    {'code': 'Asia/Dubai', 'name': 'Dubai (UTC+04:00)'},
+    {'code': 'Asia/Kabul', 'name': 'Kabul (UTC+04:30)'},
+    {'code': 'Asia/Karachi', 'name': 'Karachi (UTC+05:00)'},
+    {'code': 'Asia/Kolkata', 'name': 'Kolkata (UTC+05:30)'},
+    {'code': 'Asia/Kathmandu', 'name': 'Kathmandu (UTC+05:45)'},
+]
+    
 # Genre et rôle pour les titres des membres du conseil
 ROLE_TRANSLATIONS = {
     "Monsieur": {

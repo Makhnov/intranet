@@ -42,5 +42,6 @@ gevent==24.2.1 # Asynchronous worker
 psycopg2-binary==2.9.9 # PostgreSQL adapter
 pdf2image==1.17.0 # Import des pdf pour les comptes-rendus
 mammoth==1.7.0 # Import des docx pour les comptes-rendus
+geopy==2.4.1 # Géolocalisation
 # plotly (charts) # Import des charts pour les comptes-rendus
 termcolor==2.4.0 # debug

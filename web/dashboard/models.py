@@ -339,6 +339,15 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Amicale unknown"),
         help_text=_("Amicale unknown page type icon"),
     )
+    open_in_maps = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Open in maps"),
+        help_text=_("Open in maps icon"),
+    )
 
     # CALENDRIER
     list_view = models.ForeignKey(
@@ -831,6 +840,7 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('amicale_sorties', heading=_("Amicale sorties")),
                 FieldPanel('amicale_divers', heading=_("Amicale divers")),
                 FieldPanel('amicale_none', heading=_("Amicale unknown")),
+                FieldPanel('open_in_maps', heading=_("Open in maps")),
             ],
             heading=_("Amicale"),
             classname="collapsible, collapsed"

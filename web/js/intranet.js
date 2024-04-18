@@ -58,6 +58,12 @@ function whatTheHell() {
     if (MESSAGES.length > 0) {
         cgsMessages(MESSAGES);
     }
+
+    const UPDATE_BLOCK = document.getElementById('update-block');
+    const PROFILE_BLOCK = document.getElementById('profile-block');
+    if (UPDATE_BLOCK && PROFILE_BLOCK) {
+        profileUpdate(UPDATE_BLOCK, PROFILE_BLOCK);
+    }
 }
 
 //////////////////////////////////////////   FONCTIONS GLOBALES    //////////////////////////////////////////////////
@@ -155,10 +161,9 @@ function swap(swapables) {
 
         // Sélection du prochain élément cgs-hidden
         let next = swapable.nextElementSibling;
-
         while (next) {
             if (next.classList.contains('cgs-swap-visible')) {
-                next.classList.remove('cgs-swap-visible');                
+                next.classList.remove('cgs-swap-visible');
                 break;
             } else if (next.classList.contains('cgs-swap-hidden')) {
                 next.classList.remove('cgs-swap-hidden');
@@ -475,4 +480,45 @@ function searchBlock(form) {
     function submitForm() {
         CGSFORM.submit();
     }        
+}
+
+// Modification des informations personnelles
+function profileUpdate(updateBox, profileBox) {
+    const query = window.location.search;
+    const urlParams = new URLSearchParams(query);
+
+    if (urlParams.get('form') === 'true') {
+        updateBox.classList.remove('cgs-hidden');
+        profileBox.classList.add('cgs-hidden');
+        avatarToggle();
+    } else {
+        updateBox.classList.add('cgs-hidden');
+        profileBox.classList.remove('cgs-hidden');
+        avatarToggle();
+    }
+}
+
+// Toggle d'avatar
+function avatarToggle() {
+    const clearAvatar = document.getElementById('clear_avatar');
+    const previewAvatar = document.getElementById('preview_avatar');
+
+    if (clearAvatar && previewAvatar) {
+        clearAvatar.addEventListener('click', function() {
+            const defaultSrc = previewAvatar.getAttribute('data-default');
+            const currentSrc = previewAvatar.getAttribute('data-current');
+            console.log(clearAvatar.checked);
+            
+            if (clearAvatar.checked) {
+                if (defaultSrc === currentSrc) {
+                    alert("🚫 Vous utilisez déjà l'avatar par défaut, il n'y a rien à réinitialiser.");
+                    clearAvatar.checked = false;
+                } else {
+                    previewAvatar.src = defaultSrc;
+                }
+            } else {
+                previewAvatar.src = currentSrc;
+            }
+        });
+    }
 }
