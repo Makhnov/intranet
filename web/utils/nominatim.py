@@ -1,9 +1,16 @@
 from geopy.geocoders import Nominatim
 geocoder = Nominatim(user_agent="my_geo_app")
         
-def geocode(address1, address2, zip_code, city, country):
-    try:
-        parts_full = [part for part in [address1, address2, zip_code, city, country] if part]    
+def geocode(address1=None, address2=None, zip_code=None, city=None, country=None):
+    try:        
+        print(f"Geocoding: {address1}, {address2}, {zip_code}, {city}, {country}")
+        if (not address1 or address1 == "") and (not address2 or address2 == "") and (not zip_code or zip_code == "") and (not city or city == "") and (not country or country == ""):
+            print("No valid address components provided besides the country.")
+            return None, None
+        else:
+            country = 'FRANCE'
+                        
+        parts_full = [part for part in [address1, address2, zip_code, city, country] if part]
         address = ', '.join(parts_full)
         location = geocoder.geocode(address)        
         if location:

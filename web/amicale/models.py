@@ -303,36 +303,35 @@ class AmicalePage(Page):
     def get_context(self, request, *args, **kwargs):        
         context = super().get_context(request, *args, **kwargs)
         home = request.GET.get('home', 'false') == 'true'
-        
         user = request.user
-        a1 = user.address1
-        a2 = user.address2
-        zc = user.zip_code
-        city = user.city
-        adresse = a1+a2+zc+city+'FRANCE'
         lat = None
-        lng = None        
-        if adresse != 'FRANCE':
-            lat, lng = geocode(a1, a2, zc, city, 'FRANCE')      
+        lng = None
         
+        if self.use_map:
+            a1 = user.address1
+            a2 = user.address2
+            zc = user.zip_code
+            city = user.city
+            
+            lat, lng = geocode(a1, a2, zc, city, '')
+              
+            if home and (lat is None or lng is None):
+                messages.warning(request, "Vous n'avez pas d'adresse définie dans votre profil. Cliquez sur la roue crantée pour la renseigner.")
+
         link = False
         if request.GET.get('inscription') == 'true':
             link = True 
      
-        user = request.user
         ami = False
         if user.is_authenticated and user.groups.filter(name='Amicale').exists():
-            ami = True
-        
-        if home and (lat is None or lng is None):
-            messages.warning(request, "Vous n'avez pas d'adresse définie dans votre profil. Cliquez sur la roue crantée pour la renseigner.")
+            ami = True        
 
         context['ami'] = ami
         context['amicale_link'] = link
         context['user_lat'] = "{:.6f}".format(lat) if lat is not None else None
         context['user_lng'] = "{:.6f}".format(lng) if lng is not None else None
         return context
-    
+
 # Formulaire d'inscription à l'amicale
 class AmicaleInscriptionPage(MenuPage):
     template = "amicale/formulaires/inscription.html"
