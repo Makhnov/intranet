@@ -1,0 +1,7 @@
+<div class="cgs-block list cgs-{{ block.position }}">
+    <ul class="cgs-block list cgs-{{ block.size }}">
+        {% for item in block.list %}
+            <li><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}{{ item }}</p></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -3,6 +3,7 @@
 {% with value as block %}
     {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
     <div class="container faq-multiple-answers primary cgs-multiple">
+
         {% comment %} CONTENEUR GENERAL {% endcomment %}
         {% if block.reduction %}
             <div class="cgs-choice-container primary reduced">
@@ -36,27 +37,27 @@
 
             {% comment %} CONTENEUR DU CONTENU {% endcomment %}
             {% if block.reduction %}
-                <div class="cgs-choice-content primary reduced">
+                <div class="cgs-choice-content secondary reduced">
             {% else %}
-                <div class="cgs-choice-content primary">
+                <div class="cgs-choice-content secondary">
             {% endif %}
 
             {% comment %} CONTENU {% endcomment %}
             {% for item in block.choices %}            
                 {% if forloop.counter == 1 %}
-                    <div class="choice-answer cgs-answer primary" id="content-{{ forloop.counter }}">
+                    <div class="choice-answer cgs-answer secondary" id="content-{{ forloop.counter }}">
                 {% else %}
-                    <div class="choice-answer cgs-answer primary cgs-hidden" id="content-{{ forloop.counter }}">
+                    <div class="choice-answer cgs-answer secondary cgs-hidden" id="content-{{ forloop.counter }}">
                 {% endif %}  
                         {% for inner_block in item.choice_answer %}
                             {% if inner_block.block_type == 'single_answer' %}
-                                <div class="single-container cgs-single cgs-answer secondary">
+                                <div class="single-container cgs-single cgs-answer secondary cgs-streamfield">
                                     {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
                                 </div>     
                             {% elif inner_block.block_type == 'multiple_answer' %}
-                                    {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}
+                                {% include "agents/widgets/multiple_secondary_block.html" with value=inner_block.value %}
                             {% elif inner_block.block_type == 'step_answer' %}
-                                    {% include "agents/widgets/step_secondary_block.html" with value=inner_block.value %}
+                                {% include "agents/widgets/step_secondary_block.html" with value=inner_block.value %}
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -64,8 +65,6 @@
                 {% comment %} FIN DU CONTENU {% endcomment %}                
             </div>
             {% comment %} FIN DU CONTENEUR DU CONTENU {% endcomment %}
-
-
         </div>
         {% comment %} FIN DU CONTENEUR GENERAL {% endcomment %}     
     </div>

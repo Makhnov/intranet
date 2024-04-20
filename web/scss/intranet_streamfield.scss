@@ -1,0 +1,370 @@
+/* ********************************* GENERAL ***************************************** 
+ * Toutes les informations générales (size, position, color, etc.)
+ * ********************************************************************************** */
+
+/// GRILLE GENERALE
+.cgs-streamfield {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    column-gap : 1rem;
+    row-gap: 2rem;
+    
+    > div {
+        max-width: 100%;
+        > * {
+            max-width: 100%;
+        }
+    }
+}
+
+/// POSITIONNEMENT
+.cgs-streamfield {
+
+    div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    div.cgs-center {
+        grid-column:1 / -1;
+    }
+    
+    div.cgs-left {
+        grid-column: 1;
+    }
+    
+    div.cgs-justify {
+        grid-column: 1;
+    
+        &.paragraph * {
+            text-align: justify;        
+        }
+    }
+    
+    div.cgs-right {
+        grid-column: 2;
+    
+        &.paragraph * {
+            text-align: right;
+        }
+    }
+}
+
+/// TAILLE DES ELEMENTS
+.cgs-streamfield {
+
+    .cgs-icon {
+        width: 20%;
+        height: auto;
+        li {
+            --list-size: .75rem;
+        }
+        tr {
+            height: 16px;
+        }
+    }
+    .cgs-small {
+        width: 33%;
+        height: auto;
+        li {
+            --list-size: 1rem;
+        }
+        tr {
+            height: 24px;
+        }
+    }
+    .cgs-medium {
+        width: 50%;
+        height: auto;
+        li {
+            --list-size: 1.2rem;
+        }
+        tr {
+            height: 32px;
+        }
+    }
+    .cgs-large {
+        width: 70%;
+        height: auto;    
+        li {
+            --list-size: 1.5rem;
+        }
+        tr {
+            height: 48px;
+        }
+    }
+    .cgs-full {
+        width: 90%;
+        height: auto;
+        li {
+            --list-size: 2rem;
+        }
+        tr {
+            height: 64px;
+        }
+    }  
+}
+
+/* ******************************* Paragraphes *************************************** 
+ * Tous les styles relatifs aux éléments d'intégration (audio, vidéo, etc.)
+ * ********************************************************************************** */
+.cgs-streamfield {
+
+    h1, h2, h3, h4, legend {
+        width: 100%;
+        font-weight: bold;    
+    }
+    h1 {
+        color: var(--cgs-logo-1);
+        font-size: calc(3 * var(--font-size));
+        font-weight: 800;
+    }
+    h2 {
+        color:var(--cgs-logo-3);
+        font-size: calc(2.25 * var(--font-size));    
+    }
+    h3 {
+        color:var(--cgs-logo-2);
+        font-size: calc(1.75 * var(--font-size));
+    }
+    h4{
+        color:var(--cgs-logo-5);
+        font-size: calc(1.5 * var(--font-size));
+    }
+    
+    legend {
+        color:var(--cgs-logo-1);
+        font-size: calc(.9 * var(--font-size));
+    }
+    
+    div.cgs-block.paragraph {
+        padding: 0 1rem;
+        p {
+            color:var(--cgs-logo-4);
+            font-size: var(--font-size);
+            font-weight: 500;
+        }
+    }
+}
+
+/* ****************************** EMBED ET VIDEOS ************************************** 
+ * Tous les styles relatifs aux éléments d'intégration (audio, vidéo, etc.)
+ * ********************************************************************************** */
+.cgs-streamfield {
+    iframe {
+        width:100%;
+        aspect-ratio: 16/9;
+    }
+}
+
+/* ****************************** LISTES (UL/LI) ************************************** 
+ * Tous les styles relatifs aux éléments d'intégration (audio, vidéo, etc.)
+ * ********************************************************************************** */
+.cgs-streamfield {
+
+    .cgs-block.list {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    
+        ul {
+            list-style-type: none;
+            width:fit-content!important;
+            padding: 2rem;
+            border: 2px solid var(--vert);
+            border-radius: 2rem;
+    
+            li {
+                margin:.5rem 0;
+    
+                p {
+                    display: flex;
+                    width: fit-content;
+                    height: 100%;
+                    padding: 0 .5rem 0 0;
+    
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    justify-content: center;
+                    align-items: center;
+    
+                    border-radius: 5px;
+                    color:var(--cgs-logo-2);
+                    font-size : var(--list-size);                
+                    font-weight: bold;
+    
+                    img, svg {
+                        margin-right: 1rem;
+                        height: calc(var(--list-size) + .2rem);
+                        width: calc(var(--list-size) + .2rem);
+                    }
+                }
+            }
+        }        
+    }    
+}
+
+/* ********************************* TABLEAUX ***************************************** 
+ * Tous les styles relatifs aux éléments tableaux (pariculièrement adapté pour les CR.)
+ * ********************************************************************************** */
+.cgs-streamfield {
+
+    // Container
+    .cgs-block.table  {
+        container-type: block;
+        overflow-x: scroll;
+        overflow-y: hidden;
+    
+        // on cache la barre de scrolling pour les navigateurs qui le supportent
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    
+        // Généralités
+        table {
+            * {
+                font-family: 'rhino';
+                font-size: .8rem!important;
+            }
+    
+            @container (min-width: 800px) {
+                * {
+                    font-size: .9rem!important;
+                }
+            }
+            @container (min-width: 1200px) {
+                * {
+                    font-size: 1rem!important;
+                }
+            }
+            @container (min-width: 1600px) {
+                * {
+                    font-size: 1.1rem!important;
+                }
+            }
+        }
+    }
+    
+    // Border and backgrounds ///
+
+    // All = Quelque soit la position des headers
+    // Both = Lorsque la première ligne et la première colonne sont des headers
+    // Row = Lorsque la première ligne est un header
+    // Column = Lorsque la première colonne est un header
+    // Neither = Lorsqu'auncune ligne ou colonne n'est un header
+
+    // ALL
+    table {   
+        max-width: 100%;
+        margin-bottom: 2em;
+        border-collapse: collapse;
+    
+        td {
+            margin:0;
+            padding: 0.5em;
+            background-color: var(--vert-clair
+            
+            );
+            &:not(:first-child) {
+                text-align: center;
+            }
+        }
+        tr:first-child td {
+            border-top: 2px solid var(--vert-fonce);    
+        }
+        tr:last-child:not(.cgs-not-last) td {
+            border-bottom: 2px solid var(--vert-fonce);    
+        }
+        td:first-child {
+            border-left: 2px solid var(--vert-fonce);
+        }
+        td:last-child:not(.cgs-not-last) {
+            border-right: 2px solid var(--vert-fonce);
+        }
+    }
+    // BOTH
+    table[data-header="both"] {
+        tr:first-child td, tr:first-child th,
+        td:first-child, th:first-child {
+            font-weight: bold;
+            background-color: var(--vert);
+            color:white;
+        }
+        tr:first-child {
+            td {
+                border-bottom: 2px dotted var(--vert-fonce);
+            }
+        }
+        tr {
+            td:first-child {
+                border-right: 2px dotted var(--vert-fonce);
+            }
+        }
+        td:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-right: 1px dotted var(--vert-fonce);
+        }
+        tr:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-bottom: 1px dotted var(--vert-fonce);
+        }
+    }
+    // ROW
+    table[data-header="row"] {
+        tr:first-child td, tr:first-child th {
+            font-weight: bold;
+            background-color: var(--vert);
+            color:white;
+        }
+        tr:first-child {
+            td {
+                border-bottom: 2px dotted var(--vert-fonce);
+            }
+        }
+        tr td:first-child {
+            border-right: 1px solid var(--vert-fonce);
+        }
+        td:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-right: 1px solid var(--vert-fonce);
+        }
+        tr:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-bottom: 1px dotted var(--vert-fonce);
+        }
+    }
+    // COLUMN
+    table[data-header="column"] {        
+        td:first-child, th:first-child {
+            font-weight: bold;
+            background-color: var(--vert);
+            color:white;
+        }
+        tr {
+            td:first-child {
+                border-right: 2px dotted var(--vert-fonce);
+            }
+        }
+        td:not(:last-child:not(.cgs-not-last)) {
+            border-right: 1px dotted var(--vert-fonce);
+        }
+        tr:first-child {
+            border-bottom: 1px solid var(--vert-fonce);
+        }
+        td:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-right: 1px dotted var(--vert-fonce);
+        }
+        tr:not(:first-child, :last-child:not(.cgs-not-last)) {
+            border-bottom: 1px solid var(--vert-fonce);
+        }
+    }
+    // AUCUN
+    table[data-header="neither"] {        
+        td:not(:last-child:not(.cgs-not-last)) {
+            border-right: 1px dotted var(--vert-fonce);
+        }
+        tr:not(:last-child:not(.cgs-not-last)) {
+            border-bottom: 1px dotted var(--vert-fonce);
+        }
+    }
+}

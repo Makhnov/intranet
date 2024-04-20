@@ -70,8 +70,7 @@ function whereAmI() {
 
     // Page de FAQ
     if (TITRE.includes('Faq page')) {
-        console.log("Page de FAQ détectée");
-        faqPage();
+        console.log("Page de FAQ détectée");        
     }
 }
 
@@ -314,58 +313,6 @@ function usersList() {
     
         const rowsTxt = temp + '' + param + '=' + paramVal;
         return baseURL + '?' + newAdditionalURL + rowsTxt;
-    }
-}
-
-// Page de FAQ 
-function faqPage() {
-    // Sélectionner le conteneur principal et appliquer le processus
-    const answerSection = document.getElementById('panel-child-contenu-answer-section');
-    if (answerSection) {
-        processButtonBlocks(answerSection);
-    } else {
-        console.warn('Container #panel-child-contenu-answer-section not found');
-    }
-
-    // Fonction pour appliquer les modifications sur les buttonBlock
-    function reworkingButtonBlock(element) {
-        const URLBlock = element.querySelector('[data-contentpath="url"]');        
-        const textBlock = element.querySelector('[data-contentpath="text"]');
-        const positionBlock = element.querySelector('[data-contentpath="position"]');
-        const colorBlock = element.querySelector('[data-contentpath="color"]');
-        const iconBlock = element.querySelector('[data-contentpath="icon"]');
-
-        URLBlock.classList.add('cgs-column6');        
-        textBlock.classList.add('cgs-column6');
-        positionBlock.classList.add('cgs-column4');
-        iconBlock.classList.add('cgs-column4');
-        colorBlock.classList.add('cgs-column4');
-        element.classList.add('cgs-colbox');       
-    }
-
-
-    function processButtonBlocks(container) {
-        // Traiter immédiatement tous les buttonBlock existants
-        container.querySelectorAll('.button-block').forEach(reworkingButtonBlock);
-
-        // Utiliser MutationObserver pour écouter les nouveaux buttonBlock
-        const observer = new MutationObserver(mutations => {
-            mutations.forEach(mutation => {
-                mutation.addedNodes.forEach(node => {
-                    if (node.nodeType === 1) { // ELEMENT_NODE
-                        if (node.matches('.button-block')) {
-                            reworkingButtonBlock(node);
-                        }
-                        node.querySelectorAll('.button-block').forEach(reworkingButtonBlock);
-                    }
-                });
-            });
-        });
-
-        observer.observe(container, {
-            childList: true,
-            subtree: true
-        });
     }
 }
 

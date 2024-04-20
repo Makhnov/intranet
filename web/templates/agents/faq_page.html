@@ -21,9 +21,9 @@
                 
                 {% comment %} Affiche la(es) réponse(s) de la FAQ {% endcomment %}
                 <div class="faq-answers">
-                    {% for block in page.answer %}
+                    {% for block in page.answer %}                    
                         {% if block.block_type == 'single_answer' %}
-                            <div class="single-container cgs-single cgs-answer primary">
+                            <div class="single-container cgs-single cgs-answer primary cgs-streamfield">
                                 {% include "widgets/blocks/streamfield.html" with value=block.value %}
                             </div>                        
                         {% elif block.block_type == 'multiple_answer' %}
@@ -87,7 +87,7 @@
                         <div class="tags-content cgs-swap-hidden">
                             <div class="button-block cgs-start cgs-darkgreen">
                                 {% for tag in page.tags.all %}
-                                    <button type="button" class="cgs-block-button">
+                                    <button type="button" class="cgs-block button">
                                         <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.tags %}{{ tag.name }}</a>
                                     </button>    
                                 {% endfor %}

@@ -394,7 +394,26 @@ div.handsontable.htRowHeaders.htColumnHeaders {
     }
 }
 
-// Mise en forme des colonnes
+// Mise en forme des colonnes ,div[data-contentpath="attr"]
+div[data-contentpath="position"], 
+div[data-contentpath="resolution"], 
+div[data-contentpath="size"], 
+div[data-contentpath="color"], 
+div[data-contentpath="icon"]
+{
+    display: inline-block;
+    max-width: 50%;
+    min-width: 300px;
+}
+
+div.button-block > div[data-contentpath="text"], 
+div.button-block > div[data-contentpath="url"],
+div[data-contentpath="quote"],
+div[data-contentpath="author"]
+{
+    max-width:min(90%, 800px);
+}
+
 .cgs-colbox {
     display: flex;
     flex-direction: row;
@@ -427,7 +446,7 @@ div.handsontable.htRowHeaders.htColumnHeaders {
     width: 47.5%;
 }
 .cgs-column4 {
-    max-width: calc(90% / 3);   
+    max-width: calc(90% / 3);
 }
 .cgs-column3 {
     max-width: 20%;

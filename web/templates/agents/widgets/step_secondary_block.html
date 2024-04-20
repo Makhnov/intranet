@@ -3,6 +3,7 @@
 {% with value as block %}
     {% comment %} CONTENEUR DE LA SECTION {% endcomment %}
     <div class="container faq-step-answers secondary cgs-step secondary">
+        
         {% comment %} CONTENEUR DES ETAPES {% endcomment %}
         {% if block.ordonnated %}
             <div class="cgs-step-container secondary ordonnated">
@@ -27,7 +28,7 @@
                         </a>
                     </div>
                     <div class="step-answer cgs-answer primary cgs-swap-hidden">                    
-                        <div class="single-container step-answer cgs-answer tertiary">
+                        <div class="single-container step-answer cgs-answer tertiary cgs-streamfield">
                             {% include "widgets/blocks/streamfield.html" with value=item.step_answer %}
                         </div>
                     </div>

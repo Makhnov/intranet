@@ -56,14 +56,14 @@
                                                 </h5>
                                             </div>
                                             <div id="targetCollapse{{ forloop.counter }}" class="collapse" aria-labelledby="targetHeading{{ forloop.counter }}" data-parent="#collapse{{ faq.id }}">
-                                                <div class="card-body">
+                                                <div class="card-body cgs-streamfield">
                                                     {% include "widgets\blocks\streamfield.html" with value=block.value.answer_content %}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     {% else %}
-                                        <div class="card-body">
+                                        <div class="card-body cgs-streamfield">
                                             {% for answer_block in block.value.answer_content %}
                                                 {% include "widgets\blocks\streamfield.html" with value=block.value.answer_content %}
                                             {% endfor %}

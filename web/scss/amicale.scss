@@ -28,6 +28,10 @@ body.item div.cgs-amicale {
     }
 }
 
+section.amicale-generic {
+    margin-bottom: 2.5rem;
+}
+
 section.amicale-map {
     width:calc(100% - var(--nav-icon-size));
     height: fit-content;

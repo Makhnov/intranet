@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         itineraire(mapInfo.start, mapInfo.end, openInLink);
 
     } catch (error) {
-        console.error("Erreur lors de l'initialisation de la carte ou des contrôles de routage:", error);
+        console.info("Erreur lors de l'initialisation de la carte ou absence de carte:", error);
     }    
 });
 

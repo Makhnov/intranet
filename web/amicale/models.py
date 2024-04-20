@@ -14,22 +14,18 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 # Page de menu
 from utils.menu_pages import MenuPage, menu_page_save
 
-# Snippets
-from wagtail.snippets.models import register_snippet
-
 # Blocks, Medias, PJ, etc.
 from utils.widgets import GalleryImage, PiecesJointes as PJBlock
 from utils.nominatim import geocode
 
-# Custom Blocks
-from utils.streamfield import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
-
 from utils.streamfield import (
+    CustomParagraphBlock as ParagraphBlock,
+    CustomImageBlock as ImageBlock,
+    CustomTableBlock as TableBlock,
     CustomMediaBlock as MediaBlock,
-    CustomLinkBlock as LinkBlock,
     CustomEmbedBlock as EmbedBlock,
-    CustomPDFBlock as PDFBlock,
-    CustomDOCXBlock as DOCXBlock,
+    CustomListBlock as ListBlock,
+    CustomQuoteBlock as QuoteBlock,
 )
 
 # Wagtail Geo Widget
@@ -146,14 +142,14 @@ class AmicalePage(Page):
     body = StreamField(
         [
             ("heading", blocks.CharBlock(classname="title", icon="title", label=_("Heading"))),
-            ("paragraph", ParagraphDOCXBlock(icon="pilcrow", label=_("Paragraph"))),
+            ("paragraph", ParagraphBlock(icon="pilcrow", label=_("Paragraph"))),
             ("media", MediaBlock(icon="media", label=_("Media"))),            
-            ("image", ImageDOCXBlock(icon="image", label=_("Image"))),
+            ("image", ImageBlock(icon="image", label=_("Image"))),
             ('document', DocumentChooserBlock(icon="doc-full-inverse", label=_("Document"))),            
-            ("link", LinkBlock(icon="link", label=_("Link"))),
+            ("table", TableBlock(icon="table", label=_("Table"))),
             ("embed", EmbedBlock(icon="media", label=_("Embed media"))),
-            ("list", blocks.ListBlock(blocks.CharBlock(icon="radio-full", label=_("Item")), icon="list-ul", label=_("List"))),
-            ("quote", blocks.BlockQuoteBlock(icon="openquote", label=_("Quote"))),
+            ("list", ListBlock(icon="list-ul", label=_("List"))),
+            ("quote", QuoteBlock(icon="openquote", label=_("Quote"))),
         ],
         use_json_field=True,
         blank=True,

@@ -1,0 +1,16 @@
+{% load wagtailcore_tags %}
+
+<div class="cgs-block media cgs-{{ block.position }}">
+    {% if block.media.type == 'video' %}
+        <video class="cgs-{{ block.size }}" controls>
+            <source src="{{ block.media.file.url }}" type="video/mp4">
+            Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+    {% elif block.media.type == 'audio' %}
+        <audio class="cgs-{{ block.size }}" controls>
+            <source src="{{ block.media.file.url }}" type="audio/mpeg">
+            Votre navigateur ne supporte pas la balise audio.
+        </audio>
+    {% endif %}
+    <legend>{{ block.alternative_title }}</legend>
+</div>

@@ -18,7 +18,7 @@
             </div>
         {% elif item.block_type == 'table' %}
             {% with table=item.value.table %}
-                <div class="cgs-table-container cgs-table cgs-{{ item.value.position }}">
+                <div class="cgs-block table cgs-{{ item.value.position }}">
                     <table 
                         {% if table.table_caption %}data-caption="{{ table.table_caption }}"{% endif %}
                         {% if table.table_header_choice %}data-header="{{ table.table_header_choice }}"{% endif %}

@@ -29,7 +29,7 @@
                     <div class="step-answer cgs-answer primary cgs-swap-hidden">
                         {% for inner_block in item.step_answer %}
                             {% if inner_block.block_type == 'single_answer' %}
-                                <div class="single-container cgs-single cgs-answer secondary">
+                                <div class="single-container cgs-single cgs-answer secondary cgs-streamfield">
                                     {% include "widgets/blocks/streamfield.html" with value=inner_block.value %}
                                 </div>     
                             {% elif inner_block.block_type == 'multiple_answer' %}

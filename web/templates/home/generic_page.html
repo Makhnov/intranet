@@ -22,23 +22,11 @@
         {% endif %}
 
         <!-- Body content -->
-        <div class="page-body">
-            {% for block in page.body %}
-            <div class="mb-4">
-                {% if block.block_type == 'media' %}
-                {{ block }}
-                {% elif block.block_type == 'heading' %}
-                <h2>{{ block.value }}</h2>
-                {% elif block.block_type == 'paragraph' %}
-                {{ block }}
-                {% elif block.block_type == 'form' %}
-                {% include_block block %}
-                {% elif block.block_type == 'image' %}
-                <!-- Custom image rendering here -->
-                {% endif %}
-            </div>
-            {% endfor %}
+        {% if page.body %}
+        <div class="page-body cgs-streamfield">
+            {% include "widgets/blocks/streamfield.html" with value=page.body %}
         </div>
+        {% endif %}
     </div>
     {% if messages %}
         <ul class="messages">

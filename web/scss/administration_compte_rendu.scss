@@ -202,16 +202,16 @@ body {
     padding:0;
 }
 
-.cgs-block-chart {
+.cgs-block.chart {
     max-width: 800px;
 }
 
-.cgs-block-pdf {
+.cgs-block.pdf {
     img {
         max-width: 80vw;
     }
 }
-.cgs-table-container  {
+.cgs-block.table {
     container-type: inline-size;
     overflow-x: scroll;
     overflow-y: hidden;

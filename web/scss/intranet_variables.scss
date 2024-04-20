@@ -192,6 +192,11 @@
 
         // Moyennes icones
         --mid-icon-size:1.5em;
+
+        // Police générale pour toutes les pages de contenu
+        // H1 = 3x // H2 = 2.5x // H3 = 2x // H4 = 1.5x // TEXTE = 1x
+        --font-size:1.1rem;
+        
     }
 
     body {
@@ -360,6 +365,9 @@
 
         // QUICKBAR
         --quickbar-button-size: 3.25em;
+
+        // Font-size
+        --font-size:1rem;
     }
 }
 
@@ -392,8 +400,33 @@
 
         // QUICKBAR
         --quickbar-button-size: 3em;
-    }
 
+        // Font-size
+        --font-size:.9rem;
+    }
+    .cgs-streamfield {
+        grid-template-columns: 100%!important;
+
+        /// Taille
+        .cgs-icon {
+            width:25%!important;
+        }
+        .cgs-small {
+            width: 40%!important;
+        }
+        .cgs-medium, .cgs-large {
+            width: 75%!important;
+        }
+
+        /// Alignement
+        div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
+            grid-column: 1!important;
+
+            * {
+                text-align: left!important;
+            }
+        }
+    }
     #courbure_cache {
         display: block!important;
     }
@@ -431,6 +464,34 @@
 
         // QUICKBAR
         --quickbar-button-size: 3em;
+
+        // Font-size
+        --font-size:.8rem;
+    }
+    .cgs-streamfield {
+        grid-template-columns: 100%!important;
+        div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
+
+        /// Taille
+        .cgs-icon {
+            width:33%!important;
+        }
+        .cgs-small {
+            width: 50%!important;
+        }
+        .cgs-medium, .cgs-large {
+            width: 80%!important;
+        }
+        .cgs-full {
+            width: 95%!important;
+        }
+        
+        /// Alignement            
+            grid-column: 1!important;
+            * {
+                text-align: left!important;
+            }
+        }
     }
     #courbure_cache {
         display: block!important;
@@ -460,6 +521,9 @@
         &:nth-child(3) {
             width: 30%;
         }        
+    }
+    #courbure_cache {
+        display: block!important;
     }
 }
 
@@ -495,6 +559,34 @@
 
         // QUICKBAR
         --quickbar-button-size: 2.75em;
+
+        // Font-size
+        --font-size:.75rem;
+    }
+    .cgs-streamfield {
+        grid-template-columns: 100%!important;
+
+        /// Taille
+        .cgs-icon {
+            width:50%!important;
+        }
+        .cgs-small {
+            width: 66%!important;
+        }
+        .cgs-medium, .cgs-large {
+            width: 90%!important;
+        }
+        .cgs-full {
+            width: 100%!important;
+        }
+        
+        /// Alignement
+        div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
+            grid-column: 1!important;
+            * {
+                text-align: left!important;
+            }
+        }
     }
     #courbure_cache {
         display: block!important;

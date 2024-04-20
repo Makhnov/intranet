@@ -1,0 +1,5 @@
+{% load wagtailimages_tags %}
+
+<div class="cgs-block image cgs-{{ block.position }}">
+    {% image block.image original class="cgs-expandable cgs-"|add:block.size %}
+</div>

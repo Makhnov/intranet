@@ -45,7 +45,7 @@ from wagtail.blocks import ListBlock, StreamBlock
 from wagtail.images.blocks import ImageChooserBlock
 
 # Custom Blocs
-from utils.streamfield import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
+from utils.streamfield import CustomHeadingBlock, CustomParagraphBlock, CustomImageBlock, CustomTableBlock
 
 #############
 # VARIABLES #
@@ -637,10 +637,10 @@ def import_file(request, page):
                         content = block.block.get_content(document, collection_date, collection_restrictions)
 
                         stream_block = StreamBlock([
-                            ('heading', HeadingDOCXBlock()),
-                            ('paragraph', ParagraphDOCXBlock()),
-                            ('image', ImageDOCXBlock()),
-                            ('table', TableDOCXBlock()),                        
+                            ('heading', CustomHeadingBlock()),
+                            ('paragraph', CustomParagraphBlock()),
+                            ('image', CustomImageBlock()),
+                            ('table', CustomTableBlock()),                        
                         ])
                         
                         # Créer une liste de dictionnaires pour chaque élément de contenu

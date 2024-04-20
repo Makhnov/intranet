@@ -20,6 +20,7 @@ from wagtail.blocks import (
     URLBlock, 
     BooleanBlock,
     RichTextBlock,
+    BlockQuoteBlock,
 )
 
 # Images
@@ -60,6 +61,77 @@ from wagtail.search import index
 #                                     Amicale, compte-rendus, génériques                                    #
 #############################################################################################################
 
+# Positionnement pour certains éléments d'un streamfield/streamblock à gauche, au centre, à droite ou justifiés
+class PositionBlock(ChoiceBlock):
+    choices = [
+        ("left", _("Left")),
+        ("center", _("Center")),
+        ("right", _("Right")),
+        ("justify", _("Justify")),
+    ]
+    label = _("alignement")
+    class Meta:
+        icon = "placeholder"
+
+# Taille pour certains éléments d'un streamfield/streamblock peuvent être de taille icon, small, medium, large ou full
+class sizeBlock(ChoiceBlock):
+    choices = [
+        ("icon", _("Icon")),
+        ("small", _("Small")),
+        ("medium", _("Medium")),
+        ("large", _("Large")),
+        ("full", _("Full")),
+    ]
+    label = _("size")
+    class Meta:
+        icon = "placeholder"
+
+# Liste personnalisée
+class CustomListBlock(StructBlock):
+    list = ListBlock(
+        CharBlock(
+            required=True,
+            label=_("Item"),
+            icon="radio-full",
+        ),
+        label=_("List"),
+        icon="list-ul",
+    )
+    position = PositionBlock(
+        required=False,
+        default="justify"
+    )
+    size = sizeBlock(
+        required=False,
+        default="medium",
+    )
+    
+    class Meta:
+        icon = "list-ul"
+        label = _("List")
+
+# Citation personnalisée
+class CustomQuoteBlock(StructBlock):
+    quote = BlockQuoteBlock(
+        required=True,
+        label=_("Quote"),
+    )
+    author = CharBlock(
+        required=False,
+        label=_("Author"),
+    )
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )
+    size = sizeBlock(
+        required=False,
+        default="medium",
+    )
+    class Meta:
+        icon = "openquote"
+        label = _("Quote")
+        
 # Lien personnalisé
 class CustomLinkBlock(StructBlock):
     url = URLBlock(label=_("URL"), help_text=_("Enter the URL."))
@@ -76,7 +148,34 @@ class CustomLinkBlock(StructBlock):
 # Embed bloc personnalisé
 class CustomEmbedBlock(StructBlock):
     embed_url = EmbedBlock(label=_("URL a intégrer"))
-    resolution = ChoiceBlock(
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )
+    size = sizeBlock(
+        required=False,
+        default="medium",
+    )
+    alternative_title = CharBlock(
+        blank=True,
+        required=False,
+        label=_("Alternative title"),
+        help_text=_("Alternative title for users accessibility."),
+    )
+
+    class Meta:
+        template = "widgets/images/embed_block.html"
+        icon = "media"
+        label = _("Intégration vidéo")
+
+# Bloc media
+class CustomMediaBlock(StructBlock):
+    media = AbstractMediaChooserBlock(required=True, help_text=_("Choose a media item"))
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )
+    size = ChoiceBlock(
         choices=[
             ("very_small", _("Very small")),
             ("small", _("Small")),
@@ -93,50 +192,10 @@ class CustomEmbedBlock(StructBlock):
         label=_("Alternative title"),
         help_text=_("Alternative title for users accessibility."),
     )
-
     class Meta:
-        template = "widgets/images/embed_block.html"
-        icon = "media"
-        label = _("Intégration vidéo")
-
-# Bloc media
-class CustomMediaBlock(AbstractMediaChooserBlock):
-    def render_basic(self, value, context=None):
-        if not value:
-            return ""
-
-        if value.type == "video":
-            player_code = _(
-                """
-            <div>
-                <video width="{1}" height="{2}" controls>
-                    {0}
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            """
-            )
-        else:
-            player_code = _(
-                """
-            <div>
-                <audio controls>
-                    {0}
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            """
-            )
-
-        return format_html(
-            player_code,
-            format_html_join(
-                "\n", "<source{0}>", [[flatatt(s)] for s in value.sources]
-            ),
-            value.width,
-            value.height,
-        )
-
+        icon = 'media'
+        label = _('Media')
+        
 # Bloc bouton
 class CustomButtonBlock(StructBlock):
     url = URLBlock(
@@ -182,33 +241,9 @@ class CustomButtonBlock(StructBlock):
         icon = "button"
         label = _("Button")
         form_classname = "button-block"
-
-# Tous les éléments importés peuvent être positionnés à gauche, au centre, à droite ou justifiés
-class PositionBlock(ChoiceBlock):
-    choices = [
-        ("left", _("Left")),
-        ("center", _("Center")),
-        ("right", _("Right")),
-        ("justify", _("Justify")),
-    ]
-    label = _("alignement")
-    class Meta:
-        icon = "placeholder"
-
-class sizeBlock(ChoiceBlock):
-    choices = [
-        ("icon", _("Icon")),
-        ("small", _("Small")),
-        ("medium", _("Medium")),
-        ("large", _("Large")),
-        ("full", _("Full")),
-    ]
-    label = _("size")
-    class Meta:
-        icon = "placeholder"
-        
+      
 # Les titres de niveau 1 à 6      
-class HeadingDOCXBlock(StructBlock):
+class CustomHeadingBlock(StructBlock):
     heading = CharBlock(
         required=True,
         label=_("content"),
@@ -236,7 +271,7 @@ class HeadingDOCXBlock(StructBlock):
         abstract = True
         
 # Les paragraphes
-class ParagraphDOCXBlock(StructBlock):
+class CustomParagraphBlock(StructBlock):
     paragraph = RichTextBlock(
         required=True,
         label=_("content"),
@@ -251,7 +286,7 @@ class ParagraphDOCXBlock(StructBlock):
         abstract = True
     
 # Les images
-class ImageDOCXBlock(StructBlock):
+class CustomImageBlock(StructBlock):
     image = ImageChooserBlock(
         required=True,
         label=_("content"),
@@ -270,7 +305,7 @@ class ImageDOCXBlock(StructBlock):
         abstract = True
 
 # Les tableaux
-class TableDOCXBlock(StructBlock):
+class CustomTableBlock(StructBlock):
     table = TableBlock(
         required=True,
         label=_("content"),
@@ -279,11 +314,13 @@ class TableDOCXBlock(StructBlock):
     position = PositionBlock(
         required=False,
         default="center",
-    )    
+    )
+    size = sizeBlock(
+        required=False,
+    )
     class Meta:
         icon = "table"
         label = _("Table")
-        abstract = True
 
 #############################################################################################################
 #                                   Streamblocks Compte-rendus PDF et DOCX                                  #
@@ -304,10 +341,10 @@ class CustomDOCXBlock(StructBlock):
     )
     docx_content = StreamBlock(
         [
-            ("heading", HeadingDOCXBlock()),
-            ("paragraph", ParagraphDOCXBlock()),
-            ("image", ImageDOCXBlock()),
-            ("table", TableDOCXBlock()),
+            ("heading", CustomHeadingBlock()),
+            ("paragraph", CustomParagraphBlock()),
+            ("image", CustomImageBlock()),
+            ("table", CustomTableBlock()),
         ], 
         required=False, 
         classname="collapsible, collapsed", 

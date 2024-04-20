@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<div class="cgs-block quote cgs-{{block.position}}">
+    <blockquote class="quote cgs-{{block.size}}">
+        {{ block.quote }}
+    </blockquote>
+    <legend>{{ block.author }}</legend>
+</div>

@@ -1,0 +1,12 @@
+{% load wagtailimages_tags %}
+
+<div class="button-block {{block.position}} {{block.color}}">
+    <button
+        type="button"
+        class="cgs-block button"
+        data-href="{{ block.url }}"
+    >
+        {% image block.icon fill-100x100 %}
+        {{ block.text }}
+    </button>
+</div>
