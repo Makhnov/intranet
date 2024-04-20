@@ -4,15 +4,23 @@
     {% if block.block_type == 'heading' %}
         <h2>{{ block.value }}</h2>
     {% elif block.block_type == 'paragraph' %}
+        {% if block.pragraph %}        
         <div class="cgs-block-paragraph">
             {{ block.value|richtext }}
         </div>
+        {% else %}
+            {% include "widgets/blocks/paragraph.html" with block=block.value %}
+        {% endif %}
     {% elif block.block_type == 'media' %}
-        <!-- Traiter le bloc média selon sa structure -->
+        {% include_block block %}
     {% elif block.block_type == 'image' %}
-        <div class="cgs-block-image">
-            {% image block.value fill-300x300 class="cgs-expandable" %}
-        </div>
+        {% if block.image %}        
+            <div class="cgs-block-image">
+                {% image block.value fill-600x600 class="cgs-expandable" %}
+            </div>
+        {% else %}
+            {% include "widgets/blocks/image.html" with block=block.value %}
+        {% endif %}
     {% elif block.block_type == 'document' %}
         <div class="cgs-block-document">
             <a href="{{ block.value.file.url }}">{{ block.value.title }}</a>

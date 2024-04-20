@@ -45,7 +45,7 @@ from wagtail.blocks import ListBlock, StreamBlock
 from wagtail.images.blocks import ImageChooserBlock
 
 # Custom Blocs
-from utils.imports import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
+from utils.streamfield import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
 
 #############
 # VARIABLES #

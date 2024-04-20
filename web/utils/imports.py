@@ -1,12 +1,12 @@
 
+from termcolor import colored
+
 import base64
 from io import BytesIO
 from PIL import Image
 
 import logging
 logger = logging.getLogger(__name__)
-from PIL import UnidentifiedImageError
-from termcolor import colored
 
 import mammoth
 from bs4 import BeautifulSoup, element
@@ -14,121 +14,13 @@ from bs4 import BeautifulSoup, element
 from django.core.files.base import ContentFile
 from django.utils.translation import gettext_lazy as _
 
-from wagtail import blocks
-from wagtail.blocks import CharBlock, ChoiceBlock, RichTextBlock
-from wagtail.images.blocks import ImageChooserBlock
-from wagtail.contrib.table_block.blocks import TableBlock
+
 
 from images.models import CustomImage
-from utils.variables import STOP_WORDS, TABLE_OPTIONS
 from wagtail.models import (
     Collection, 
     CollectionViewRestriction,
 )
-
-#############################################################################################################
-#                                   Blocs dans le StreamBlock (docx_content)                                #
-#               Le StreamBlock est un élément du body (StreamField) des pages de compte-rendu               #
-#                   Pour les utilisateurs qui souhaitent importer un document Word (docx)                   #
-#############################################################################################################
-
-# Tous les éléments importés peuvent être positionnés à gauche, au centre, à droite ou justifiés
-class PositionBlock(blocks.ChoiceBlock):
-    choices = [
-        ("left", _("Left")),
-        ("center", _("Center")),
-        ("right", _("Right")),
-        ("justify", _("Justify")),
-    ]
-    label = _("alignement")
-    class Meta:
-        icon = "placeholder"
-
-# Les titres de niveau 1 à 6      
-class HeadingDOCXBlock(blocks.StructBlock):
-    heading = CharBlock(
-        required=True,
-        label=_("content"),
-    )
-    heading_level = ChoiceBlock(
-        choices=[
-            ("h1", _("Heading 1")),
-            ("h2", _("Heading 2")),
-            ("h3", _("Heading 3")),
-            ("h4", _("Heading 4")),
-            ("h5", _("Heading 5")),
-            ("h6", _("Heading 6")),
-        ],
-        required=False,
-        default="h2",
-        label=_("level"),
-    )
-    position = PositionBlock(
-        required=False,
-        default="center",
-    )    
-    class Meta:
-        icon = "title"
-        label = _("Heading")
-        abstract = True
-        
-# Les paragraphes
-class ParagraphDOCXBlock(blocks.StructBlock):
-    paragraph = RichTextBlock(
-        required=True,
-        label=_("content"),
-    )
-    position = PositionBlock(
-        required=False,
-        default="justify",
-    )    
-    class Meta:
-        icon = "pilcrow"
-        label = _("Paragraph")
-        abstract = True
-    
-# Les images
-class ImageDOCXBlock(blocks.StructBlock):
-    image = ImageChooserBlock(
-        required=True,
-        label=_("content"),
-    )
-    position = PositionBlock(
-        required=False,
-        default="center",
-    )
-    size = ChoiceBlock(
-        choices=[
-            ("icon", _("Icon")),
-            ("small", _("Small")),
-            ("medium", _("Medium")),
-            ("large", _("Large")),
-            ("full", _("Full")),
-        ],
-        required=False,
-        default="large",
-        label=_("size"),
-    )    
-    class Meta:
-        icon = "image"
-        label = _("Image")
-        abstract = True
-
-# Les tableaux
-class TableDOCXBlock(blocks.StructBlock):
-    table = TableBlock(
-        required=True,
-        label=_("content"),
-        table_options=TABLE_OPTIONS,
-    )
-    position = PositionBlock(
-        required=False,
-        default="center",
-    )    
-    class Meta:
-        icon = "table"
-        label = _("Table")
-        abstract = True
 
 # Gestion des collections 
 def get_collections(collection_date, collection_name, collection_restrictions):   

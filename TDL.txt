@@ -1,3 +1,5 @@
+# Questionnaire disparait si pas de date
+# PHONE : NONE SAUVEGARDE PROFILE -> corriger HTML
 # Ecouteur de scroll viewer ?
 # PDF DOWNLOAD
 # Nouveautés (FAQ)

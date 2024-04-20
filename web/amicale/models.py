@@ -1,17 +1,11 @@
 from termcolor import colored
 
 from django.db import models
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
 from django.utils.timezone import datetime
-from django.utils.html import strip_tags
-from modelcluster.contrib.taggit import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
-from taggit.models import TaggedItemBase
 
 from wagtail import blocks
 from wagtail.admin import messages
-from wagtail.images.blocks import ImageChooserBlock
 from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.models import Page
 from wagtail.fields import StreamField, RichTextField
@@ -26,6 +20,9 @@ from wagtail.snippets.models import register_snippet
 # Blocks, Medias, PJ, etc.
 from utils.widgets import GalleryImage, PiecesJointes as PJBlock
 from utils.nominatim import geocode
+
+# Custom Blocks
+from utils.streamfield import HeadingDOCXBlock, ParagraphDOCXBlock, ImageDOCXBlock, TableDOCXBlock
 
 from utils.streamfield import (
     CustomMediaBlock as MediaBlock,
@@ -146,25 +143,12 @@ class AmicalePage(Page):
         blank=True,
         default=datetime.now,
     )
-    author = models.ForeignKey(
-        'Author',
-        verbose_name=_("Auteur"),
-        null=True,
-        blank=True,
-        default=1,
-        on_delete=models.SET_NULL,
-    )
-    tags = ClusterTaggableManager(
-        through='AmicalePageTag',
-        blank=True,
-        verbose_name=_("Amicale Tags"),
-    )
     body = StreamField(
         [
             ("heading", blocks.CharBlock(classname="title", icon="title", label=_("Heading"))),
-            ("paragraph", blocks.RichTextBlock(icon="pilcrow", label=_("Paragraph"))),
+            ("paragraph", ParagraphDOCXBlock(icon="pilcrow", label=_("Paragraph"))),
             ("media", MediaBlock(icon="media", label=_("Media"))),            
-            ("image", ImageChooserBlock(icon="image", label=_("Image"))),
+            ("image", ImageDOCXBlock(icon="image", label=_("Image"))),
             ('document', DocumentChooserBlock(icon="doc-full-inverse", label=_("Document"))),            
             ("link", LinkBlock(icon="link", label=_("Link"))),
             ("embed", EmbedBlock(icon="media", label=_("Embed media"))),
@@ -236,8 +220,6 @@ class AmicalePage(Page):
             [
                 FieldPanel('type'),
                 FieldPanel("date"),
-                FieldPanel("author"),
-                FieldPanel("tags"),
             ],
             heading=_("Article informations"),
             classname="collapsible",
@@ -274,19 +256,6 @@ class AmicalePage(Page):
         index.FilterField("date"),
         index.FilterField("type"),
         index.SearchField("body"),
-        index.RelatedFields(
-            "tags",
-            [
-                index.SearchField("name"),
-                index.FilterField("name"),
-            ],
-        ),
-        index.RelatedFields(
-            "author",
-            [
-                index.SearchField("name"),
-            ],
-        ),
     ]
 
     api_fields = [
@@ -376,31 +345,6 @@ class AmicaleInscriptionPage(MenuPage):
 ##  WIDGETS  ##
 ############### 
 
-# Auteurs
-@register_snippet
-class Author(models.Model):
-    name = models.CharField(max_length=255)
-    author_image = models.ForeignKey(
-        "images.CustomImage",
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name="+",
-        verbose_name=_("Author imge"),
-    )
-
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("author_image"),
-    ]
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("Author")
-        verbose_name_plural = _("Authors")
-    
 # Galerie d'images
 class AmicaleGallery(GalleryImage):
     """Modèle de carrousel d'images spécifique à la GenericPage."""
@@ -408,14 +352,6 @@ class AmicaleGallery(GalleryImage):
         'AmicalePage',
         on_delete=models.CASCADE,
         related_name="amicale_gallery",
-    )
-
-# Tags
-class AmicalePageTag(TaggedItemBase):
-    content_object = ParentalKey(
-        "AmicalePage",
-        related_name=("tagged_items"),
-        on_delete=models.CASCADE,
     )
 
 # Liste de documents (GenericPage)

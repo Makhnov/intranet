@@ -19,9 +19,11 @@ from wagtail.blocks import (
     ListBlock, 
     URLBlock, 
     BooleanBlock,
+    RichTextBlock,
 )
 
 # Images
+from wagtail.images.blocks import ImageChooserBlock
 from images.models import CustomImage
 from pdf2image import convert_from_bytes
 
@@ -29,18 +31,18 @@ from pdf2image import convert_from_bytes
 from django.forms.utils import flatatt
 from django.utils.html import format_html, format_html_join
 
+# Tableaux
+from wagtail.contrib.table_block.blocks import TableBlock
+
 # UTILS
 from utils.variables import STOP_WORDS
+from utils.variables import STOP_WORDS, TABLE_OPTIONS
 
 # IMPORTS
 from utils.imports import (
     save_wagtail_image, 
     get_collections, 
-    get_docx_content, 
-    HeadingDOCXBlock, 
-    ParagraphDOCXBlock, 
-    TableDOCXBlock, 
-    ImageDOCXBlock,
+    get_docx_content,
 )
 
 # API
@@ -52,9 +54,240 @@ from django.utils.translation import gettext_lazy as _
 # Recherche
 from wagtail.search import index
 
-#####################
-##  BLOCS CUSTOMS  ##
-##################### 
+#############################################################################################################
+#                                 Blocs dans les streamfields et streamblocks                               #
+#              Le StreamBlock est un élément du body (StreamField) des pages de certaines pages             #
+#                                     Amicale, compte-rendus, génériques                                    #
+#############################################################################################################
+
+# Lien personnalisé
+class CustomLinkBlock(StructBlock):
+    url = URLBlock(label=_("URL"), help_text=_("Enter the URL."))
+    text = CharBlock(
+        required=False,  # Ceci rend le champ optionnel
+        label=_("Replacement Text"),
+        help_text=_("Enter the visible text for this link (optional)."),
+    )
+
+    class Meta:
+        icon = "link"
+        label = _("Link")
+
+# Embed bloc personnalisé
+class CustomEmbedBlock(StructBlock):
+    embed_url = EmbedBlock(label=_("URL a intégrer"))
+    resolution = ChoiceBlock(
+        choices=[
+            ("very_small", _("Very small")),
+            ("small", _("Small")),
+            ("medium", _("Medium")),
+            ("large", _("Large")),
+            ("very_large", _("Very large")),
+        ],
+        default="medium",
+        label=_("Size of the frame"),
+    )
+    alternative_title = CharBlock(
+        blank=True,
+        required=False,
+        label=_("Alternative title"),
+        help_text=_("Alternative title for users accessibility."),
+    )
+
+    class Meta:
+        template = "widgets/images/embed_block.html"
+        icon = "media"
+        label = _("Intégration vidéo")
+
+# Bloc media
+class CustomMediaBlock(AbstractMediaChooserBlock):
+    def render_basic(self, value, context=None):
+        if not value:
+            return ""
+
+        if value.type == "video":
+            player_code = _(
+                """
+            <div>
+                <video width="{1}" height="{2}" controls>
+                    {0}
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            """
+            )
+        else:
+            player_code = _(
+                """
+            <div>
+                <audio controls>
+                    {0}
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            """
+            )
+
+        return format_html(
+            player_code,
+            format_html_join(
+                "\n", "<source{0}>", [[flatatt(s)] for s in value.sources]
+            ),
+            value.width,
+            value.height,
+        )
+
+# Bloc bouton
+class CustomButtonBlock(StructBlock):
+    url = URLBlock(
+        required=True,
+        label=_("URL"),
+        help_text=_("Enter the URL."),
+    )
+    text = CharBlock(
+        required=False,
+        label=_("Button text"),
+        help_text=_("Enter the visible text for this link (optional)."),
+    )
+    position = ChoiceBlock(
+        choices=[
+            ("cgs-center", _("Center")),
+            ("cgs-left", _("Left")),
+            ("cgs-right", _("Right")),
+        ],
+        default="cgs-center",
+        label=_("Button position"),
+        help_text=_("Horizontal alignment."),
+    )
+    color = ChoiceBlock(
+        choices=[
+            ("cgs-green", _("Green")), #00b3be
+            ("cgs-darkgreen", _("Dark Green")), #008770
+            ("cgs-cyan", _("Cyan")), #00b3be
+            ("cgs-lightgreen", _("Vert d'eau")), #b7e5df
+            ("cgs-orange", _("Orange")), #fa8647
+        ],
+        default="cgs-green",
+        label=_("Button color"),
+        help_text=_("Optionnal, default is green."),
+    )
+    icon = ImageChooserBlock(
+        required=False,
+        icon="image", 
+        label=_("Button image"),
+        help_text=_("Optionnal"),
+    )
+
+    class Meta:
+        icon = "button"
+        label = _("Button")
+        form_classname = "button-block"
+
+# Tous les éléments importés peuvent être positionnés à gauche, au centre, à droite ou justifiés
+class PositionBlock(ChoiceBlock):
+    choices = [
+        ("left", _("Left")),
+        ("center", _("Center")),
+        ("right", _("Right")),
+        ("justify", _("Justify")),
+    ]
+    label = _("alignement")
+    class Meta:
+        icon = "placeholder"
+
+class sizeBlock(ChoiceBlock):
+    choices = [
+        ("icon", _("Icon")),
+        ("small", _("Small")),
+        ("medium", _("Medium")),
+        ("large", _("Large")),
+        ("full", _("Full")),
+    ]
+    label = _("size")
+    class Meta:
+        icon = "placeholder"
+        
+# Les titres de niveau 1 à 6      
+class HeadingDOCXBlock(StructBlock):
+    heading = CharBlock(
+        required=True,
+        label=_("content"),
+    )
+    heading_level = ChoiceBlock(
+        choices=[
+            ("h1", _("Heading 1")),
+            ("h2", _("Heading 2")),
+            ("h3", _("Heading 3")),
+            ("h4", _("Heading 4")),
+            ("h5", _("Heading 5")),
+            ("h6", _("Heading 6")),
+        ],
+        required=False,
+        default="h2",
+        label=_("level"),
+    )
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )    
+    class Meta:
+        icon = "title"
+        label = _("Heading")
+        abstract = True
+        
+# Les paragraphes
+class ParagraphDOCXBlock(StructBlock):
+    paragraph = RichTextBlock(
+        required=True,
+        label=_("content"),
+    )
+    position = PositionBlock(
+        required=False,
+        default="justify",
+    )    
+    class Meta:
+        icon = "pilcrow"
+        label = _("Paragraph")
+        abstract = True
+    
+# Les images
+class ImageDOCXBlock(StructBlock):
+    image = ImageChooserBlock(
+        required=True,
+        label=_("content"),
+    )
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )
+    size = sizeBlock(
+        required=False,
+        default="large",
+    )
+    class Meta:
+        icon = "image"
+        label = _("Image")
+        abstract = True
+
+# Les tableaux
+class TableDOCXBlock(StructBlock):
+    table = TableBlock(
+        required=True,
+        label=_("content"),
+        table_options=TABLE_OPTIONS,
+    )
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )    
+    class Meta:
+        icon = "table"
+        label = _("Table")
+        abstract = True
+
+#############################################################################################################
+#                                   Streamblocks Compte-rendus PDF et DOCX                                  #
+#############################################################################################################
 
 # Import de fichiers docx intégrée dans CompteRenduPage (package : mammoth)
 class CustomDOCXBlock(StructBlock):
@@ -235,127 +468,3 @@ class CustomPDFBlock(StructBlock):
     class Meta:
         label = _("PDF")
         template = "widgets/blocks/PDF_block.html"
-
-# Lien personnalisé
-class CustomLinkBlock(StructBlock):
-    url = URLBlock(label=_("URL"), help_text=_("Enter the URL."))
-    text = CharBlock(
-        required=False,  # Ceci rend le champ optionnel
-        label=_("Replacement Text"),
-        help_text=_("Enter the visible text for this link (optional)."),
-    )
-
-    class Meta:
-        icon = "link"
-        label = _("Link")
-
-# Embed bloc personnalisé
-class CustomEmbedBlock(StructBlock):
-    embed_url = EmbedBlock(label=_("URL a intégrer"))
-    resolution = ChoiceBlock(
-        choices=[
-            ("very_small", _("Very small")),
-            ("small", _("Small")),
-            ("medium", _("Medium")),
-            ("large", _("Large")),
-            ("very_large", _("Very large")),
-        ],
-        default="medium",
-        label=_("Size of the frame"),
-    )
-    alternative_title = CharBlock(
-        blank=True,
-        required=False,
-        label=_("Alternative title"),
-        help_text=_("Alternative title for users accessibility."),
-    )
-
-    class Meta:
-        template = "widgets/images/embed_block.html"
-        icon = "media"
-        label = _("Intégration vidéo")
-
-# Bloc media
-class CustomMediaBlock(AbstractMediaChooserBlock):
-    def render_basic(self, value, context=None):
-        if not value:
-            return ""
-
-        if value.type == "video":
-            player_code = _(
-                """
-            <div>
-                <video width="{1}" height="{2}" controls>
-                    {0}
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            """
-            )
-        else:
-            player_code = _(
-                """
-            <div>
-                <audio controls>
-                    {0}
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            """
-            )
-
-        return format_html(
-            player_code,
-            format_html_join(
-                "\n", "<source{0}>", [[flatatt(s)] for s in value.sources]
-            ),
-            value.width,
-            value.height,
-        )
-
-# Bloc bouton
-class CustomButtonBlock(StructBlock):
-    url = URLBlock(
-        required=True,
-        label=_("URL"),
-        help_text=_("Enter the URL."),
-    )
-    text = CharBlock(
-        required=False,
-        label=_("Button text"),
-        help_text=_("Enter the visible text for this link (optional)."),
-    )
-    position = ChoiceBlock(
-        choices=[
-            ("cgs-center", _("Center")),
-            ("cgs-left", _("Left")),
-            ("cgs-right", _("Right")),
-        ],
-        default="cgs-center",
-        label=_("Button position"),
-        help_text=_("Horizontal alignment."),
-    )
-    color = ChoiceBlock(
-        choices=[
-            ("cgs-green", _("Green")), #00b3be
-            ("cgs-darkgreen", _("Dark Green")), #008770
-            ("cgs-cyan", _("Cyan")), #00b3be
-            ("cgs-lightgreen", _("Vert d'eau")), #b7e5df
-            ("cgs-orange", _("Orange")), #fa8647
-        ],
-        default="cgs-green",
-        label=_("Button color"),
-        help_text=_("Optionnal, default is green."),
-    )
-    icon = ImageChooserBlock(
-        required=False,
-        icon="image", 
-        label=_("Button image"),
-        help_text=_("Optionnal"),
-    )
-
-    class Meta:
-        icon = "button"
-        label = _("Button")
-        form_classname = "button-block"
-

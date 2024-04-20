@@ -23,6 +23,9 @@ msgstr ""
 msgid "Label"
 msgstr "Étiquette"
 
+msgid "Snippets"
+msgstr "Catégories FAQ"
+
 #: .\administration\models.py:98 .\administration\models.py:152
 #: .\administration\models.py:201 .\administration\models.py:295
 msgid ""
@@ -1564,7 +1567,7 @@ msgstr "Félicitations,"
 
 #: .\templates\account\password_reset_from_key_done.html:37
 msgid "sign up"
-msgstr "S'inscrire"
+msgstr "Connectez-vous"
 
 #: .\templates\account\password_reset_from_key_done.html:40
 msgid "with your new password to go back to site."

@@ -29,32 +29,6 @@
                 <section class="amicale-generic">
                     <h1 class="my-4">{{ page.title }}</h1>
                     <p class="meta text-muted">{{ page.date }}</p>
-                    {% with author=page.author %}
-                        {% if author %}
-                            <div class="amicale-author">
-                                <p>Posted by:</p>
-                                <ul>
-                                    <li style="display: inline">
-                                        <a href="{% slugurl 'auteur' %}?author={{ author.id }}">
-                                            {% image author.author_image fill-40x60 style="vertical-align: middle" %}
-                                            {{ author.name }}
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        {% else %}
-                            <div class="amicale-author unknown">
-                                <p>Posted by:</p>
-                                <ul>
-                                    <li style="display: inline">
-                                        <a href="{% slugurl 'auteurs' %}?author=unknown">
-                                            Unknown
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        {% endif %}
-                    {% endwith %}
                 </section>
 
                 {% if page.body %}
@@ -62,7 +36,6 @@
                         {% include "widgets/blocks/streamfield.html" with value=page.body %}
                     </section>
                 {% endif %}
-
                 
                 {% comment %} Gallerie d'image {% endcomment %}
                 {% if page.gallery_images %}
