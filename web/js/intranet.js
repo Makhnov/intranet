@@ -309,20 +309,28 @@ function searchBlock(form) {
     ////////////////// INITIALISATION DES VARIABLES ////////////////////
 
     const urlParams = new URLSearchParams(window.location.search);
+
     const activeCategoryDiv = document.getElementById('activeCategory');    
     const categoryName = activeCategoryDiv.getAttribute('data-name');
     const selectedCategory = urlParams.get(categoryName);
     const categoryButtons = document.querySelectorAll(`input[name="${categoryName}"]`);
+    const categoryLabel = activeCategoryDiv.getAttribute('data-nom');
+
+    const activeExtensionDiv = document.getElementById('activeExtension');
+    const selectedExtension = urlParams.get('extension');
+    const extensionButtons = document.querySelectorAll('input[name="extension"]');
+
     const selectedTags = urlParams.getAll('tag');
     const selectedQuery = urlParams.get('query');
-    const selectedDate = [urlParams.get('start_date'), urlParams.get('end_date')];
-    const categoryLabel = activeCategoryDiv.getAttribute('data-nom');
+    const selectedDate = [urlParams.get('start_date'), urlParams.get('end_date')];    
     const tagButtons = document.querySelectorAll('.tag-button');
+
     const CGSFORM = document.getElementById('cgs-search-form');
+
     const activeTagsDiv = document.getElementById('activeTags');
     const activeQueryDiv = document.getElementById('activeQuery');
     const activeDateDiv = document.getElementById('activeDate');
-
+    
     ///////////////////// ECOUTEURS D'EVENEMENTS ///////////////////////
 
     // Choix d'une catégorie
@@ -333,7 +341,16 @@ function searchBlock(form) {
             });
         }); 
     }
-        
+
+    // Choix d'une extension 
+    if (extensionButtons) {
+        extensionButtons.forEach(radio => {
+            radio.addEventListener('change', function() {
+                submitForm();
+            });
+        });
+    }
+
     // Ajout d'un tag par les tags populaires
     if (tagButtons) {
         tagButtons.forEach(button => {
@@ -346,8 +363,8 @@ function searchBlock(form) {
     }
 
     // Une recherche a été faite (automatique pour les FAQS)
-    console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate);    
-    if (selectedCategory || selectedTags.length > 0 || selectedQuery || selectedDate[0] || selectedDate[1]) {
+    console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);    
+    if (selectedCategory || selectedExtension || selectedTags.length > 0 || selectedQuery || selectedDate[0] || selectedDate[1]) {
     
         // Afficher la catégorie active
         if (selectedCategory) {
@@ -376,6 +393,32 @@ function searchBlock(form) {
             activeCategoryDiv.appendChild(div);
         }
     
+        // Afficher l'extension active
+        if (selectedExtension) {
+            const label = "Fichier"
+            const div = document.createElement('div');
+            const span = document.createElement('span');
+            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
+            svg.id = 'svg_close_extension';
+            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.onclick = function() {
+                extensionButtons.forEach(radio => {
+                    radio.checked = false;
+                });
+                submitForm();
+            };
+            span.textContent = `${label} : ${selectedExtension.split('_')[0]}`;
+            div.appendChild(span);
+            div.appendChild(svg);
+            activeExtensionDiv.appendChild(div);
+        } else {
+            const div = document.createElement('div');
+            const span = document.createElement('span');
+            span.textContent = `${label} : Toutes`;
+            div.appendChild(span);
+            activeExtensionDiv.appendChild(div);
+        }
+
         // Afficher la recherche active
         if (selectedQuery) {
             const div = document.createElement('div');

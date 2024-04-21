@@ -12,7 +12,7 @@
     > div {
         max-width: 100%;
         > * {
-            max-width: 100%;
+            width: 100%;
         }
     }
 }
@@ -106,6 +106,67 @@
         }
     }  
 }
+
+/// COULEUR DES ELEMENTS
+.cgs-streamfield {
+    .cgs-green {
+        background-color: var(--vert);
+        color:var(--texte-tres-clair);        
+        border: 1px solid var(--vert);
+        * {
+            color:var(--texte-tres-clair);
+        }
+    }
+    .cgs-darkgreen {
+        background-color: var(--vert-fonce);        
+        color:var(--texte-clair);
+        border: 1px solid var(--vert-fonce);
+        * {
+            color:var(--texte-clair);
+        }
+    }
+    .cgs-cyan {
+        background-color: var(--cyan);
+        color:white;
+        border: 1px solid var(--cyan);
+        * {
+            color:white;
+        }
+    }
+    .cgs-lightgreen {
+        background-color: var(--vert-clair);
+        color:var(--texte-fonce);
+        border: 1px solid var(--vert-clair);
+        * {
+            color:var(--texte-fonce);
+        }
+    }    
+    .cgs-orange {
+        background-color: var(--orange);
+        color:var(--texte-tres-fonce);
+        border: 1px solid var(--orange);
+        * {
+            color:var(--texte-tres-fonce);
+        }
+    }
+    .cgs-grey {
+        background-color: var(--gris);
+        color:var(--texte-clair);
+        border: 1px solid var(--gris);
+        * {
+            color:var(--texte-clair);
+        }
+    }
+    .cgs-darkgrey {
+        background-color: var(--gris-clair);
+        color:var(--texte-tres-clair);
+        border: 1px solid var(--gris-clair);
+        * {
+            color:var(--texte-tres-clair);
+        }
+    }
+}
+
 
 /* ******************************* Paragraphes *************************************** 
  * Tous les styles relatifs aux éléments d'intégration (audio, vidéo, etc.)
@@ -368,3 +429,54 @@
         }
     }
 }
+
+/* ********************************* BOUTONS ***************************************** 
+ * Stylise aussi les documents
+ * ********************************************************************************** */
+.cgs-streamfield {
+
+    .cgs-block.document, .cgs-block.button {
+
+        button {
+            cursor: pointer;
+            position: relative;
+
+            height: calc(var(--font-size) * 5);
+            max-width: calc(var(--font-size) * 15);
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            align-items: center;
+
+            padding:calc(var(--font-size) / 2) var(--font-size);
+            border-radius: .2rem;
+            box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.32);
+            transform: translate(0 0);
+
+            &:hover {
+                box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.32);
+                transform: translate(2px, 2px);
+            }
+            &:active {
+                box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.32);
+                transform: translate(6px, 6px);
+            }
+            img {
+                max-height: 100%;
+                width: auto;
+            }
+
+            span {
+                display: inline-block;
+                font-size: calc(var(--font-size) - .1rem);
+                font-weight: bold;
+                flex: 1 1 auto;
+            }
+        }
+    }
+}
+
+/* *********************************  ***************************************** 
+ * 
+ * ********************************************************************************** */

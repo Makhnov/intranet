@@ -19,6 +19,9 @@ from utils.widgets import GalleryImage, PiecesJointes as PJBlock
 from utils.nominatim import geocode
 
 from utils.streamfield import (
+    CustomDocumentBlock as DocumentBlock,
+    CustomHeadingBlock as HeadingBlock,
+    CustomButtonBlock as ButtonBlock,
     CustomParagraphBlock as ParagraphBlock,
     CustomImageBlock as ImageBlock,
     CustomTableBlock as TableBlock,
@@ -141,11 +144,12 @@ class AmicalePage(Page):
     )
     body = StreamField(
         [
-            ("heading", blocks.CharBlock(classname="title", icon="title", label=_("Heading"))),
+            ("heading", HeadingBlock(classname="title", icon="title", label=_("Heading"))),
             ("paragraph", ParagraphBlock(icon="pilcrow", label=_("Paragraph"))),
-            ("media", MediaBlock(icon="media", label=_("Media"))),            
+            ("media", MediaBlock(icon="media", label=_("Media"))),
             ("image", ImageBlock(icon="image", label=_("Image"))),
-            ('document', DocumentChooserBlock(icon="doc-full-inverse", label=_("Document"))),            
+            ("button", ButtonBlock(icon="link", label=_("Button"))),
+            ('document', DocumentBlock(icon="doc-full-inverse", label=_("Document"))),
             ("table", TableBlock(icon="table", label=_("Table"))),
             ("embed", EmbedBlock(icon="media", label=_("Embed media"))),
             ("list", ListBlock(icon="list-ul", label=_("List"))),

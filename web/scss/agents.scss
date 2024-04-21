@@ -126,62 +126,6 @@ body.item div.button-block {
     &.cgs-evenly {
         justify-content: space-evenly;
     }
-    &.cgs-green button {
-        background-color: var(--vert);
-        color:var(--texte-tres-clair);        
-        border: 1px solid var(--vert);
-        * {
-            color:var(--texte-tres-clair);
-        }
-    }
-    &.cgs-darkgreen button {
-        background-color: var(--vert-fonce);        
-        color:var(--texte-clair);
-        border: 1px solid var(--vert-fonce);
-        * {
-            color:var(--texte-clair);
-        }
-    }
-    &.cgs-cyan button {
-        background-color: var(--cyan);
-        color:white;
-        border: 1px solid var(--cyan);
-        * {
-            color:white;
-        }
-    }
-    &.cgs-lightgreen button {
-        background-color: var(--vert-clair);
-        color:var(--texte-fonce);
-        border: 1px solid var(--vert-clair);
-        * {
-            color:var(--texte-fonce);
-        }
-    }    
-    &.cgs-orange button {
-        background-color: var(--orange);
-        color:var(--texte-tres-fonce);
-        border: 1px solid var(--orange);
-        * {
-            color:var(--texte-tres-fonce);
-        }
-    }
-    &.cgs-grey button {
-        background-color: var(--gris);
-        color:var(--texte-clair);
-        border: 1px solid var(--gris);
-        * {
-            color:var(--texte-clair);
-        }
-    }
-    &.cgs-darkgrey button {
-        background-color: var(--gris-clair);
-        color:var(--texte-tres-clair);
-        border: 1px solid var(--gris-clair);
-        * {
-            color:var(--texte-tres-clair);
-        }
-    }
 }
 
 /***************************************************************************************************************************************************************

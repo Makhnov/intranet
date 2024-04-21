@@ -1,0 +1,14 @@
+{% load wagtailimages_tags cgs_tags %}
+
+<div class="cgs-block document cgs-{{block.position}}">
+    <button
+        type="button"
+        class="button cgs-{{block.color}}"
+        data-href="{{ block.document.url }}"
+    >
+        {% with file_info=block.document.filename|get_extension_info %}
+            {% include "widgets/images/files.html" with class_type="cgs-nofill" file_type=file_info.0 file_description=file_info.1 %}
+        {% endwith %}
+        <span>{% if block.text %}{{ block.text }}{% else %}{{ block.document.filename }}{% endif %}</span>
+    </button>
+</div>

@@ -74,7 +74,7 @@ class PositionBlock(ChoiceBlock):
         icon = "placeholder"
 
 # Taille pour certains éléments d'un streamfield/streamblock peuvent être de taille icon, small, medium, large ou full
-class sizeBlock(ChoiceBlock):
+class SizeBlock(ChoiceBlock):
     choices = [
         ("icon", _("Icon")),
         ("small", _("Small")),
@@ -86,6 +86,15 @@ class sizeBlock(ChoiceBlock):
     class Meta:
         icon = "placeholder"
 
+class ColorBlock(ChoiceBlock):
+    choices = [
+        ("green", _("Green")),
+        ("darkgreen", _("Dark Green")),
+        ("cyan", _("Cyan")),
+        ("lightgreen", _("Vert d'eau")),
+        ("orange", _("Orange")),
+    ]
+    
 # Liste personnalisée
 class CustomListBlock(StructBlock):
     list = ListBlock(
@@ -101,7 +110,7 @@ class CustomListBlock(StructBlock):
         required=False,
         default="justify"
     )
-    size = sizeBlock(
+    size = SizeBlock(
         required=False,
         default="medium",
     )
@@ -124,7 +133,7 @@ class CustomQuoteBlock(StructBlock):
         required=False,
         default="center",
     )
-    size = sizeBlock(
+    size = SizeBlock(
         required=False,
         default="medium",
     )
@@ -152,7 +161,7 @@ class CustomEmbedBlock(StructBlock):
         required=False,
         default="center",
     )
-    size = sizeBlock(
+    size = SizeBlock(
         required=False,
         default="medium",
     )
@@ -208,26 +217,13 @@ class CustomButtonBlock(StructBlock):
         label=_("Button text"),
         help_text=_("Enter the visible text for this link (optional)."),
     )
-    position = ChoiceBlock(
-        choices=[
-            ("cgs-center", _("Center")),
-            ("cgs-left", _("Left")),
-            ("cgs-right", _("Right")),
-        ],
-        default="cgs-center",
-        label=_("Button position"),
-        help_text=_("Horizontal alignment."),
+    position =  PositionBlock(
+        required=False,
+        default="center",
     )
-    color = ChoiceBlock(
-        choices=[
-            ("cgs-green", _("Green")), #00b3be
-            ("cgs-darkgreen", _("Dark Green")), #008770
-            ("cgs-cyan", _("Cyan")), #00b3be
-            ("cgs-lightgreen", _("Vert d'eau")), #b7e5df
-            ("cgs-orange", _("Orange")), #fa8647
-        ],
-        default="cgs-green",
-        label=_("Button color"),
+    color = ColorBlock(
+        required=False,
+        default="green",
         help_text=_("Optionnal, default is green."),
     )
     icon = ImageChooserBlock(
@@ -241,7 +237,32 @@ class CustomButtonBlock(StructBlock):
         icon = "button"
         label = _("Button")
         form_classname = "button-block"
-      
+
+# Bloc de document
+class CustomDocumentBlock(StructBlock):
+    document = DocumentChooserBlock(
+        required=True,
+        label=_("Document"),
+        help_text=_("Choose a document to display."),
+    )
+    text = CharBlock(
+        required=False,
+        label=_("Text"),
+        help_text=_("Enter the visible text for this document (optional)."),
+    )
+    position = PositionBlock(
+        required=False,
+        default="center",
+    )
+    color = ColorBlock(
+        required=False,
+        default="green",
+        help_text=_("Optionnal, default is green. The icon will be add automatically (extension of the document)."),
+    )
+    class Meta:
+        icon = "doc-full-inverse"
+        label = _("Document")    
+       
 # Les titres de niveau 1 à 6      
 class CustomHeadingBlock(StructBlock):
     heading = CharBlock(
@@ -295,7 +316,7 @@ class CustomImageBlock(StructBlock):
         required=False,
         default="center",
     )
-    size = sizeBlock(
+    size = SizeBlock(
         required=False,
         default="large",
     )
@@ -315,7 +336,7 @@ class CustomTableBlock(StructBlock):
         required=False,
         default="center",
     )
-    size = sizeBlock(
+    size = SizeBlock(
         required=False,
     )
     class Meta:

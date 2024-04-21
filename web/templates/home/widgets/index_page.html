@@ -32,7 +32,7 @@
                                                 alt="{{ page.title|default_if_none:'' }}"
                                                 target="_blank"
                                             >                                            
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-small-icon" %}
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-mid-icon" %}
                                             <p>{{ page.title }}</p>
                                             </a>
                                         </li>
@@ -51,8 +51,8 @@
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
                                                 alt="{{ page.title|default_if_none:'' }}"
                                             > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-small-icon" %}
-                                            <p>{{ page.title }}</p>
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-mid-icon" %}
+                                            <p>{{ page.title }}{% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-mid-icon cgs-zerofill" %}</p>
                                             </a>
                                         </li>
                                     {% endfor %}
@@ -70,7 +70,7 @@
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
                                                 alt="{{ page.title|default_if_none:'' }}"
                                             > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-nofill cgs-small-icon" %}
+                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-nofill cgs-mid-icon" %}
                                             <p>{{ page.title }}</p>
                                             </a>
                                         </li>

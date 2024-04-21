@@ -14,6 +14,9 @@ from amicale.models import AmicaleInscriptionPage, AmicalePage
 # Agents
 from agents.models import FaqPage, FaqFormPage
 
+# Dashboard
+from dashboard.models import IntranetIcons
+
 # Home
 from home.models import InstantDownloadPage, HomeFormPage
 
@@ -26,7 +29,7 @@ from django.template.defaultfilters import pluralize
 
 # Restrictions
 from utils.auth import login_restricted_pages
-from utils.variables import extensions
+from utils.variables import FILE_EXTENSIONS
 from wagtail.models import PageViewRestriction
 
 # Formulaires
@@ -96,40 +99,75 @@ def update_faq_page_defaults(page):
 # InstantDownloadPage
 def update_download_page_defaults(page):
     attachments = page.download_documents.all()
-    if attachments:
-        document = attachments[0].document
+    if len(attachments) > 1:
+        # Gérer plusieurs fichiers attachés
+        total_size = sum(attachment.document.file.size for attachment in attachments)
+        file_descriptions = []
+        file_types = []
         
-        if attachments[0].title:
-            prefix = attachments[0].title
+        for attachment in attachments:
+            document = attachment.document if attachment else None
+            if document:
+                extension = document.filename.split(".")[-1]
+                prefix = attachment.title if attachment.title else document.title if document.title else document.filename if document.filename else "Document inconnu"
+                prefix = prefix[:15] + ("..." if len(prefix) > 15 else "")
+                
+                if extension in FILE_EXTENSIONS:
+                    file_type, file_desc = FILE_EXTENSIONS[extension]
+                    if prefix not in file_descriptions:
+                        file_descriptions.append(prefix)
+                    file_types.append(f"{file_type}_file")
+
+        # Construire le titre, le heading et le tooltip pour multiples fichiers
+        prefix = ', '.join(file_descriptions[:3]) + (", etc." if len(file_descriptions) > 3 else "")
+        midfix = f"{round(total_size / 1000000, 2)} Mo"
+        suffix = f"{len(file_descriptions)} fichiers"
+        new_title = f"[{prefix}]-[{midfix}]-[{suffix}]"
+        new_heading = 'archive_file, '
+        new_heading += ', '.join(file_types)
+        new_tooltip = "Télécharger les fichiers"
+        
+        # Récupérer le logo pour 'archive_file'
+        icons = IntranetIcons.for_site(page.get_site())
+        icon = getattr(icons, "archive_file", None)
+
+    else:
+        # Gérer un seul fichier attaché (logique d'origine)
+        document = attachments[0].document if attachments else None
+        if document:
+            prefix = attachments[0].title if attachments[0].title else document.title if document.title else document.filename if document.filename else "Document inconnu"
+            prefix = prefix[:20] + ("..." if len(prefix) > 20 else "")
             extension = document.filename.split(".")[-1]
-        elif document.title:
-            prefix = document.title
-            extension = document.filename.split(".")[-1]
+            suffix = f"{round(document.file.size / 1000)} Ko" if document.file.size < 100000 else f"{round(document.file.size / 1000000, 2)} Mo"
+            if extension in FILE_EXTENSIONS:
+                file_type, file_desc = FILE_EXTENSIONS[extension]
+                new_title = f"[{prefix}]-[{file_desc if file_desc else 'inconnu'}]-[{suffix}]"
+                new_heading = f"{file_type}_file"
+                new_tooltip = f"Télécharger {prefix}"
+                icons = IntranetIcons.for_site(page.get_site())
+                icon = getattr(icons, f"{file_type}_file", None)
+            else:
+                new_title = f"[{prefix}]-[{suffix}]"
+                new_heading = "unknown_file"
+                new_tooltip = "Télécharger document"
+                icon = None
         else:
-            prefix = document.filename 
-            
-        # Arrondir le sufixe en Ko si < 100000 octets en Mo sinon
-        sufix = f"{round(document.file.size / 1000)} Ko" if document.file.size < 100000 else f"{round(document.file.size / 1000000, 2)} Mo"
-    else:
-        prefix = "Document"
-        sufix = "inconnu"
-        
-    print(colored(f"extension: {extension}", "yellow"))
-    
-    if extension in extensions:
-        extension = extensions[extension]
-        print(colored(f"extension: {extension}", "cyan"))
-        new_title = f"[{prefix}]-[{extension if extension else 'inconnu'}]-[{sufix}]"  
-    else:
-        new_title = f"[{prefix}]-[{sufix}]"
-    
-    new_slug = f"document{page.id}"
-    if page.slug != new_slug or page.title != new_title:
-        page.slug = new_slug
+            new_title = "Document inconnu"
+            new_heading = "unknown_file"
+            new_tooltip = "Télécharger document"
+            icon = None
+
+    # Appliquer les changements
+    if page.title != new_title or page.heading != new_heading or page.tooltip != new_tooltip or page.logo != icon:
         page.title = new_title
+        page.heading = new_heading
+        page.tooltip = new_tooltip
+        if icon:
+            page.logo = icon
         page.save()
         page.specific.save()
         page.save_revision().publish()
+
             
 #####################################################################################################################################################################################
 #                                                                           ENVOI DE MAILS (FORMULAIRES)                                                                            #

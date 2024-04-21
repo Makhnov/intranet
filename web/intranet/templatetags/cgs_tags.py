@@ -1,10 +1,10 @@
 from termcolor import colored
 from taggit.models import Tag
 from django import template
-from django.conf import settings
-from django.utils import timezone
 from datetime import timedelta
+from django.utils import timezone
 
+from utils.variables import FILE_EXTENSIONS
 from utils.auth import check_page_access
 from home.models import generic_search
 from amicale.models import (
@@ -79,6 +79,18 @@ def spread(value, delimiter):
     if len(parts) == 2:
         return parts[0], parts[1]
     return value, ''
+
+# Récupérer l'extension d'un document
+
+
+@register.filter(name='get_extension_info')
+def get_extension_info(filename):
+    # Extraire l'extension du fichier
+    print(filename)
+    ext = filename.split('.')[-1].lower()  # Prend la dernière partie après le point et la convertit en minuscules
+    
+    # Obtenir le tuple correspondant à l'extension ou un tuple par défaut
+    return FILE_EXTENSIONS.get(ext, ("unknown", "Type de fichier inconnu"))
 
 ####################################################################################################
 #########################      AMICALE, FAQ, RESSOURCES & PUBLIQUES        #########################
@@ -168,11 +180,6 @@ def amicale_themes(context, class_type=None, index=None):
         count = AmicalePage.objects.filter(type=key, latest_revision_created_at__gte=delta).count()
         new_amicale[key] = count
         news += count
-
-    # print(colored(f"new_amicale: {new_amicale}", "yellow", 'on_black'))
-    # print(colored(f"news: {news}", "yellow", 'on_black'))
-    # print(colored(f"selected: {selected}", "yellow", 'on_black'))
-    # print(colored(f"types: {types}", "yellow", 'on_black'))    
 
     return {
         'request': request,

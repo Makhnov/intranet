@@ -1,12 +1,13 @@
 {% load wagtailimages_tags %}
 
-<div class="button-block {{block.position}} {{block.color}}">
+<div class="cgs-block button cgs-{{block.position}}">
     <button
         type="button"
-        class="cgs-block button"
+        class="document cgs-{{block.color}}"
         data-href="{{ block.url }}"
+        title="{% if block.text %}{{ block.text }}{% else %}Aller à {{ block.url }}{% endif %}"
     >
-        {% image block.icon fill-100x100 %}
-        {{ block.text }}
+        {% image block.icon original %}
+        {% if block.text %}<span>{{ block.text }}</span>{% endif %}
     </button>
 </div>

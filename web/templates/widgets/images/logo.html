@@ -1,7 +1,7 @@
 {% load static i18n wagtailcore_tags wagtailimages_tags cgsimages_tags %}
 {% wagtail_site as intranet %}
 
-{% if intranet_icon and intranet_icon.is_svg %}    
+{% if intranet_icon and intranet_icon.is_svg and "zerofill" not in class_type %}
     {% with class=class_type %}
         {{ intranet_icon|html_svg:class }}
     {% endwith %}

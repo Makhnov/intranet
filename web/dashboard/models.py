@@ -707,6 +707,116 @@ class IntranetIcons(BaseSiteSetting):
         help_text=_("New informations added in the last 14 days"),
     )
 
+    # FICHIERS
+    image_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Image"),
+        help_text=_("Image icon"),
+    )
+    pdf_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("PDF"),
+        help_text=_("PDF icon"),
+    )
+    doc_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("DOC"),
+        help_text=_("DOC icon"),
+    )
+    calc_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Excel"),
+        help_text=_("Excel icon"),
+    )
+    slide_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Powerpoint"),
+        help_text=_("Powerpoint icon"),
+    )
+    video_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Video"),
+        help_text=_("Video icon"),
+    )
+    audio_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Audio"),
+        help_text=_("Audio icon"),
+    )
+    archive_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Archive"),
+        help_text=_("Archive icon"),
+    )
+    code_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Code"),
+        help_text=_("Code icon"),
+    )
+    system_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("System"),
+        help_text=_("System icon"),
+    )
+    ebook_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Ebook"),
+        help_text=_("Ebook icon"),
+    )    
+    unknown_file = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Unknown file"),
+        help_text=_("Unknown file icon"),
+    )
+    
     # LISTE
     ul_item = models.ForeignKey(
         get_image_model_string(),
@@ -905,6 +1015,24 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('print', heading=_("Print")),
             ],
             heading=_("Actions"),
+            classname="collapsible, collapsed"
+        ),
+        MultiFieldPanel(# Fichiers
+            [
+                FieldPanel('pdf_file', heading=_("PDF")),
+                FieldPanel('doc_file', heading=_("DOC")),
+                FieldPanel('calc_file', heading=_("Excel")),
+                FieldPanel('slide_file', heading=_("Powerpoint")),
+                FieldPanel('image_file', heading=_("Image")),
+                FieldPanel('video_file', heading=_("Video")),
+                FieldPanel('audio_file', heading=_("Audio")),
+                FieldPanel('archive_file', heading=_("Archive")),
+                FieldPanel('code_file', heading=_("Code")),
+                FieldPanel('system_file', heading=_("System")),
+                FieldPanel('ebook_file', heading=_("Ebook")),
+                FieldPanel('unknown_file', heading=_("Unknown file")),
+            ],
+            heading=_("Files"),
             classname="collapsible, collapsed"
         ),
         MultiFieldPanel(# Liste
