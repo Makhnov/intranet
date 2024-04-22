@@ -59,7 +59,7 @@
                         </div>
                     {% endif %}
                 {% elif "Compte-rendu" in item.title %}
-                    {% if item.convocation_documents.all %}
+                    {% if item.compte_rendu_documents.all %}
                         <div class="cgs-attachments">
                             {% for piece_jointe in item.compte_rendu_documents.all %}
                                 {% if piece_jointe %}
