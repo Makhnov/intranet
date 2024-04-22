@@ -584,6 +584,14 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Close") 
     )
+    mail_to = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Mail to")
+    )
     search = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -1001,6 +1009,7 @@ class IntranetIcons(BaseSiteSetting):
             [
                 FieldPanel('open', heading=_("Open")),
                 FieldPanel('close', heading=_("Close")),
+                FieldPanel('mail_to', heading=_("Mail to")),
                 FieldPanel('search', heading=_("Search")),
                 FieldPanel('zoom_in', heading=_("Zoom in")),
                 FieldPanel('zoom_out', heading=_("Zoom out")),

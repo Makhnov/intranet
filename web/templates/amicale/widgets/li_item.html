@@ -10,7 +10,7 @@
         alt="Lien vers la page {{ item.title|default_if_none:'' }}"
     >
         <p>
-            {% with class_type="cgs-nofill cgs-mid-icon" %}
+            {% with class_type="cgs-nofill cgs-standard-icon" %}
                 {% if item_type == "news" %}
                     {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news %}
                 {% elif item_type == "sorties" %}

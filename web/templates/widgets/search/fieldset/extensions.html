@@ -1,0 +1,74 @@
+{% load wagtailcore_tags %}
+
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="extension" value="doc_file" id="doc_file" {% if request.GET.extension == "doc_file" %}checked{% endif %}>
+    <label class="form-check" for="doc_file" title="Fichiers documents (word, openoffice, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.doc_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="calc_file" id="calc_file" {% if request.GET.extension == "calc_file" %}checked{% endif %}>
+    <label class="form-check" for="calc_file" title="Fichiers tableur (excel, openoffice, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.calc_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="pdf_file" id="pdf_file" {% if request.GET.extension == "pdf_file" %}checked{% endif %}>
+    <label class="form-check" for="pdf_file" title="Fichiers pdf">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.pdf_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="slide_file" id="slide_file" {% if request.GET.extension == "slide_file" %}checked{% endif %}>
+    <label class="form-check" for="slide_file" title="Fichiers présentation (powerpoint, openoffice, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.slide_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="image_file" id="image_file" {% if request.GET.extension == "image_file" %}checked{% endif %}>
+    <label class="form-check" for="image_file" title="Fichiers image (jpg, png, gif, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.image_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="video_file" id="video_file" {% if request.GET.extension == "video_file" %}checked{% endif %}>
+    <label class="form-check" for="video_file" title="Fichiers vidéo (mp4, avi, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.video_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="audio_file" id="audio_file" {% if request.GET.extension == "audio_file" %}checked{% endif %}>
+    <label class="form-check" for="audio_file" title="Fichiers audio (mp3, wav, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.audio_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="archive_file" id="archive_file" {% if request.GET.extension == "archive_file" %}checked{% endif %}>
+    <label class="form-check" for="archive_file" title="Fichiers archive (zip, rar, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.archive_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="code_file" id="code_file" {% if request.GET.extension == "code_file" %}checked{% endif %}>
+    <label class="form-check" for="code_file" title="Fichiers code (html, css, js, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.code_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="system_file" id="system_file" {% if request.GET.extension == "system_file" %}checked{% endif %}>
+    <label class="form-check" for="system_file" title="Fichiers système (exe, dll, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.system_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="extension" value="ebook_file" id="ebook_file" {% if request.GET.extension == "ebook_file" %}checked{% endif %}>
+    <label class="form-check" for="ebook_file" title="Fichiers ebook (epub, mobi, etc.)">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ebook_file class_type="cgs-zerofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check extensions">
+    <input class="form-check-input" type="radio" name="extension" value="*" id="allExtensions" {% if not request.GET.extension or request.GET.extension == "*" %}checked{% endif %}>
+    <label class="form-check" for="allExtensions" title="Tous types de fichiers">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter class_type="cgs-nofill cgs-big-icon" %}
+    </label>
+</div>

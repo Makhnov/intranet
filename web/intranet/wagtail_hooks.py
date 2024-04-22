@@ -126,11 +126,11 @@ def update_download_page_defaults(page):
         new_heading = 'archive_file, '
         new_heading += ', '.join(file_types)
         new_tooltip = "Télécharger les fichiers"
-        
+        new_slug = f"documents{page.id}"
+
         # Récupérer le logo pour 'archive_file'
         icons = IntranetIcons.for_site(page.get_site())
         icon = getattr(icons, "archive_file", None)
-
     else:
         # Gérer un seul fichier attaché (logique d'origine)
         document = attachments[0].document if attachments else None
@@ -144,21 +144,25 @@ def update_download_page_defaults(page):
                 new_title = f"[{prefix}]-[{file_desc if file_desc else 'inconnu'}]-[{suffix}]"
                 new_heading = f"{file_type}_file"
                 new_tooltip = f"Télécharger {prefix}"
+                new_slug = f"document{page.id}"
                 icons = IntranetIcons.for_site(page.get_site())
                 icon = getattr(icons, f"{file_type}_file", None)
             else:
                 new_title = f"[{prefix}]-[{suffix}]"
                 new_heading = "unknown_file"
                 new_tooltip = "Télécharger document"
+                new_slug = f"document{page.id}"
                 icon = None
         else:
             new_title = "Document inconnu"
             new_heading = "unknown_file"
             new_tooltip = "Télécharger document"
+            new_slug = f"document{page.id}"
             icon = None
-
+        
     # Appliquer les changements
-    if page.title != new_title or page.heading != new_heading or page.tooltip != new_tooltip or page.logo != icon:
+    if page.slug != new_slug or page.title != new_title or page.heading != new_heading or page.tooltip != new_tooltip or page.logo != icon:
+        page.slug = new_slug
         page.title = new_title
         page.heading = new_heading
         page.tooltip = new_tooltip

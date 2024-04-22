@@ -1,0 +1,72 @@
+{% load wagtailcore_tags %}
+
+{% if section == "administration" %}
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="convocations" id="convocations" {% if request.GET.type == "convocations" %}checked{% endif %}>
+    <label title="Afficher uniquement les convocations" class="form-check" for="convocations">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.convocation class_type="cgs-nofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="comptes_rendus" id="comptesRendus" {% if request.GET.type == "comptes_rendus" %}checked{% endif %}>
+    <label title="Afficher uniquement les comptes-rendus" class="form-check" for="comptesRendus">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.compte_rendu class_type="cgs-nofill cgs-big-icon" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+    <label title="Tout afficher" class="form-check" for="allTypes">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter class_type="cgs-nofill cgs-big-icon" %}
+    </label>
+</div>
+{% elif section == "amicale" %}
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="sorties" id="sorties" {% if request.GET.type == "sorties" %}checked{% endif %}>
+    <label title="Afficher uniquement les sorties" class="form-check" for="sorties">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_sorties class_type="cgs-big-icon white" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="type" value="news" id="news" {% if request.GET.type == "news" %}checked{% endif %}>
+    <label title="Afficher uniquement les nouvelles" class="form-check" for="news">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_news class_type="cgs-big-icon white" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check" type="radio" name="type" value="autres" id="autres" {% if request.GET.type == "autres" %}checked{% endif %}>
+    <label title="Afficher uniquement les pages diverses" class="form-check" for="autres">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_divers class_type="cgs-big-icon white" %}
+    </label>
+</div>                            
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+    <label title="Afficher toutes les pages !" class="form-check" for="allTypes">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.amicale_all class_type="cgs-big-icon white" %}
+    </label>
+</div>
+{% elif section == "home" %}
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="generic" id="generic" {% if request.GET.type == "generic" %}checked{% endif %}>
+    <label title="Afficher toutes les pages web" class="form-check" for="generic">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-big-icon white" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="download" id="download" {% if request.GET.type == "download" %}checked{% endif %}>
+    <label title="Afficher tous les fichiers" class="form-check" for="download">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-big-icon white" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="form" id="form" {% if request.GET.type == "form" %}checked{% endif %}>
+    <label title="Afficher tous les formulaires" class="form-check" for="form">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-big-icon white" %}
+    </label>
+</div>
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="type" value="*" id="allTypes" {% if not request.GET.type or request.GET.type == "*" %}checked{% endif %}>
+    <label title="Tout afficher" class="form-check" for="allTypes">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_all class_type="cgs-big-icon white" %}
+    </label>
+</div>
+{% endif %}

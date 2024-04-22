@@ -1,0 +1,3 @@
+{% for tag in popular_tags %}
+    <button type="button" class="btn btn-outline-primary tag-button" data-tag="{{ tag.tag.name }}">{{ tag.tag.name }}</button>
+{% endfor %}

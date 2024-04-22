@@ -8,7 +8,7 @@
                 {% amicale_themes class_type="menu" %}
             {% else %}
                 <div class="cgs-page">         
-                    {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
+                    {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial="Masquer" %}
                     {% include "widgets/search/filters.html" %}
                     
                     <div class="cgs-list">
@@ -41,7 +41,7 @@
                                                     title="Inscrivez-vous à l'amicale" 
                                                     alt="Inscription à l'amicale"
                                                 >
-                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription class_type="cgs-mid-icon" %}
+                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.inscription class_type="cgs-standard-icon" %}
                                                 </a>
                                             </span>
                                         </p>

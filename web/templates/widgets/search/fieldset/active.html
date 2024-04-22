@@ -1,0 +1,14 @@
+<div id="activeQuery"></div>
+{% for field in fields %}
+    {% if field == "category" %}
+        <div id="activeCategory" data-nom="Catégorie" data-name="category"></div>
+    {% elif field == "type" %}
+        <div id="activeCategory" data-nom="Type" data-name="type"></div>
+    {% elif field == "tags" %}
+        <div id="activeTags"></div>
+    {% elif field == "date" %}
+        <div id="activeDate"></div>
+    {% elif field == "extension" %}
+        <div id="activeExtension"></div>                    
+    {% endif %}
+{% endfor %}

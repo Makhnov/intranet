@@ -4,22 +4,22 @@
             {% include 'administration/widgets/ul_item.html' with index=False %}
         {% else %}
             <div class="cgs-page">  
-                {% include 'widgets/images/swap.html' with wrapper=True cross=True smooth=True horizontal=True swap_class="cgs-small-icon" swap_initial="Masquer" %}
+                {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial="Masquer" %}
                 {% include "widgets/search/filters.html" %}
 
                 <div class="cgs-list">
                     {% if members %}
-                        {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" swap_class="cgs-mid-icon" swap_initial="Afficher" %}
+                        {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" wrap_class="members" swap_class="cgs-standard-icon" swap_initial="Afficher" %}
                         <section class="cgs-members cgs-swap-hidden">
                             <div id="action-buttons" class="cgs-action">
                                 <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
-                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-nofill" %}
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.copy class_type="cgs-standard-icon cgs-nofill" %}
                                 </button>
                                 <button id="cgs-download" alt="Téléchargement des données" title="Télécharger la liste des membres">
-                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-nofill" %}
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.download class_type="cgs-standard-icon cgs-nofill" %}
                                 </button>
                                 <button id="cgs-print" alt="Imrimer les données" title="Imprimer la liste des membres">
-                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-nofill" %}
+                                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.print class_type="cgs-standard-icon cgs-nofill" %}
                                 </button>
                                 <div id="emailsContainer" style="display: none;">
                                     {% for _, members_group in members.items %}
@@ -29,12 +29,21 @@
                                     {% endfor %}
                                 </div>                                     
                             </div>
-                                {% for function, members in members.items %}       
-                                    {% if members %}                 
-                                        <h2>{{ function }}</h2>
+                                {% for function, group in members.items %}
+                                    {% if group.members %}                 
+                                        <h2>{{ function }} - {{ group.size }}</h2>
                                         <ul>
-                                            {% for member in members %}
-                                                <li>{{ member.get_full_name }} - {{ member.get_municipality_display }} - {{ member.email }}</li>
+                                            {% for member in group.members %}
+                                                <li>
+                                                    {% comment %} On crée un mail to {% endcomment %}                                                    
+                                                        <a 
+                                                            href="mailto:{{ member.email }}" 
+                                                            title="Envoyer un mail à {{ member.get_full_name }}" 
+                                                            class="email"
+                                                        >                                                    
+                                                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.mail_to class_type="cgs-zerofill" %}{{ member.get_full_name }} - {{ member.get_municipality_display }}
+                                                    </a>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     {% endif %}

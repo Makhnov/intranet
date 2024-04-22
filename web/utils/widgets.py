@@ -1,12 +1,16 @@
 
 from wagtail.models import Orderable
 from wagtail.documents.models import Document
-
 from wagtail.fields import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.models import Site
 
 # Traductions
 from django.utils.translation import gettext_lazy as _
+
+# Icones
+from dashboard.models import IntranetIcons
+from utils.variables import FILE_EXTENSIONS
 
 # Carrousel d'image (Galerie)
 class GalleryImage(Orderable):
@@ -56,10 +60,10 @@ class PiecesJointes(Orderable):
             ]
         )
     ]
-
+    
     class Meta:
         abstract = True
-
+    
 ####################
 ##  UTILISATEURS  ##
 #################### 

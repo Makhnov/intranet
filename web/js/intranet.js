@@ -252,14 +252,18 @@ function footerScroll(footerBox) {
 
 // Mise en forme de la vague du formulaire de recherche
 function VerticalWave(search) {
+    console.log("VerticalWave");
+
     const resizeObserver = new ResizeObserver(waveForm);
     resizeObserver.observe(search);  
 
     function waveForm() {
+        console.log("WaveForm", search);
+
         const width = search.offsetWidth;
         const height = search.offsetHeight;
 
-        const Yscale = 1.1 / (160 / width);
+        const Yscale = 1.075 / (160 / width);
         const Xscale = 1 / (800 / height);
 
         document.documentElement.style.setProperty('--courbure-scaling-x', Xscale);
@@ -321,7 +325,7 @@ function searchBlock(form) {
     const extensionButtons = document.querySelectorAll('input[name="extension"]');
 
     const selectedTags = urlParams.getAll('tag');
-    const selectedQuery = urlParams.get('query');
+    const selectedQuery = urlParams.get('query');    
     const selectedDate = [urlParams.get('start_date'), urlParams.get('end_date')];    
     const tagButtons = document.querySelectorAll('.tag-button');
 
@@ -331,6 +335,7 @@ function searchBlock(form) {
     const activeQueryDiv = document.getElementById('activeQuery');
     const activeDateDiv = document.getElementById('activeDate');
     
+    const queryButton = document.querySelector('fieldset.recherche .filter_search');
     ///////////////////// ECOUTEURS D'EVENEMENTS ///////////////////////
 
     // Choix d'une catégorie
@@ -351,6 +356,11 @@ function searchBlock(form) {
         });
     }
 
+    // Recherche par mot-clé
+    queryButton.addEventListener('click', function() {
+        submitForm();
+    });
+
     // Ajout d'un tag par les tags populaires
     if (tagButtons) {
         tagButtons.forEach(button => {
@@ -363,61 +373,59 @@ function searchBlock(form) {
     }
 
     // Une recherche a été faite (automatique pour les FAQS)
-    console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);    
+    // console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);    
     if (selectedCategory || selectedExtension || selectedTags.length > 0 || selectedQuery || selectedDate[0] || selectedDate[1]) {
     
         // Afficher la catégorie active
         if (selectedCategory) {
+            console.log('CATEGORIE: ', selectedCategory);
             // ajout d'un bouton cliquable (pour supprimer la catégorie en cours et sélectionner automatiquement "toutes")
             const div = document.createElement('div');        
             const svg = document.querySelector('#cgs-close svg').cloneNode(true);
             const span = document.createElement('span');
             svg.id = 'svg_close_categorie';
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 categoryButtons.forEach(radio => {
-                    radio.checked = false;
+                    radio.checked = false;                    
                 });
+                if (!selectedExtension) {
+                    extensionButtons.forEach(radio => {
+                        radio.checked = false;
+                    });
+                }
                 submitForm();
             };
             span.textContent = `${categoryLabel} : ${selectedCategory}`;
             div.appendChild(span);
             div.appendChild(svg);
             activeCategoryDiv.appendChild(div);
-        } else {
-            console.log('ELSE')
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            span.textContent = `${categoryLabel} : Toutes`;
-            div.appendChild(span);
-            activeCategoryDiv.appendChild(div);
         }
-    
+
         // Afficher l'extension active
         if (selectedExtension) {
-            const label = "Fichier"
+            console.log('EXTENSION: ', selectedExtension);
             const div = document.createElement('div');
             const span = document.createElement('span');
             const svg = document.querySelector('#cgs-close svg').cloneNode(true);
             svg.id = 'svg_close_extension';
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 extensionButtons.forEach(radio => {
                     radio.checked = false;
                 });
+                if (!selectedCategory) {
+                    categoryButtons.forEach(radio => {
+                        radio.checked = false;
+                    });
+                }
                 submitForm();
             };
-            span.textContent = `${label} : ${selectedExtension.split('_')[0]}`;
+            span.textContent = `Fichier : ${selectedExtension.split('_')[0]}`;
             div.appendChild(span);
             div.appendChild(svg);
             activeExtensionDiv.appendChild(div);
-        } else {
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            span.textContent = `${label} : Toutes`;
-            div.appendChild(span);
-            activeExtensionDiv.appendChild(div);
-        }
+        } 
 
         // Afficher la recherche active
         if (selectedQuery) {
@@ -426,7 +434,7 @@ function searchBlock(form) {
             const span = document.createElement('span');
         
             svg.id = 'svg_close_query';
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 const queryInput = document.querySelector('input[name="query"]');
                 queryInput.value = '';
@@ -451,7 +459,7 @@ function searchBlock(form) {
             const span = document.createElement('span');
             const svg = document.querySelector('#cgs-close svg').cloneNode(true);
             svg.id = 'svg_close_start_date';
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 const startDateInput = document.querySelector('input[name="start_date"]');
                 startDateInput.value = '';
@@ -469,7 +477,7 @@ function searchBlock(form) {
             const span = document.createElement('span');
             const svg = document.querySelector('#cgs-close svg').cloneNode(true);
             svg.id = 'svg_close_end_date';
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 const endDateInput = document.querySelector('input[name="end_date"]');
                 endDateInput.value = '';
@@ -505,7 +513,7 @@ function searchBlock(form) {
             // Cloner et préparer le SVG pour le bouton de suppression
             const svg = document.querySelector('#cgs-close svg').cloneNode(true);
             svg.id = 'svg_close_' + tagName; // Assurez-vous que l'ID est unique
-            svg.classList.add('cgs-small-icon', 'cgs-close');
+            svg.classList.add('cgs-mid-icon', 'cgs-close');
             svg.onclick = function() {
                 CGSFORM.removeChild(input); // Retirer l'input caché
                 activeTagsDiv.removeChild(div); // Retirer le div du tag actif

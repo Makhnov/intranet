@@ -1,10 +1,10 @@
-{% load wagtailcore_tags static %}
+{% load wagtailcore_tags cgs_tags static %}
 
 {% with item=item.specific %}
     {% if item %}        
         <li 
             {% if item.slug == 'enquete' %}id="enquete-elus"{% endif %}
-            class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}{% if item.slug == 'enquete' %} cgs-highlighted{% endif %}"
+            class="administration {{ class_type }}-item{% if item_type %} {{ item_type }}{% elif item.slug %} {{ item.slug|slice:"0:6" }}{% endif %}{% if item.href in page.url or item.url in page.url %} cgs-selected{% endif %}{% if item.slug == 'enquete' %} cgs-highlighted{% endif %}"
             {% if item.item_year %}data-year="{{ item.item_year }}"{% endif %}
             {% if item.item_month %}data-month="{{ item.item_month }}"{% endif %}
             {% if item.item_day %}data-day="{{ item.item_day }}"{% endif %}
@@ -31,6 +31,61 @@
                     {% endif %}
                 {% endif %}
             </a>
+            {% if class_type == "list" %}
+                {% if "Convocation" in item.title %}
+                    {% if item.convocation_documents.all %}
+                        <div class="cgs-attachments">
+                            {% for piece_jointe in item.convocation_documents.all %}
+                                {% if piece_jointe %}
+                                    <a 
+                                        download 
+                                        href="{{ piece_jointe.document.file.url }}"                                 
+                                        {% if piece_jointe.title %}
+                                            title="{{ piece_jointe.title }}"
+                                        {% elif piece_jointe.document.title %}
+                                            title="{{ piece_jointe.document.title }}"
+                                        {% elif piece_jointe.document.filename %}
+                                            title="{{ piece_jointe.document.filename }}"
+                                        {% else %}
+                                            title="Télécharger la pièce jointe"
+                                        {% endif %}                            
+                                    >
+                                        {% with file_info=piece_jointe.document.filename|get_extension_info %}
+                                            {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-standard-icon" file_type=file_info.0 file_description=False %}
+                                        {% endwith %}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% elif "Compte-rendu" in item.title %}
+                    {% if item.convocation_documents.all %}
+                        <div class="cgs-attachments">
+                            {% for piece_jointe in item.compte_rendu_documents.all %}
+                                {% if piece_jointe %}
+                                    <a 
+                                        download 
+                                        href="{{ piece_jointe.document.file.url }}"                                 
+                                        {% if piece_jointe.title %}
+                                            title="{{ piece_jointe.title }}"
+                                        {% elif piece_jointe.document.title %}
+                                            title="{{ piece_jointe.document.title }}"
+                                        {% elif piece_jointe.document.filename %}
+                                            title="{{ piece_jointe.document.filename }}"
+                                        {% else %}
+                                            title="Télécharger la pièce jointe"
+                                        {% endif %}                            
+                                    >
+                                        {% with file_info=piece_jointe.document.filename|get_extension_info %}
+                                            {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-standard-icon" file_type=file_info.0 file_description=False %}
+                                        {% endwith %}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}     
+                {% endif %}
+            {% endif %}
             {% if show_menu_heading and not class_type == "list" %}
                 <p>{% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}</p>
             {% endif %}            

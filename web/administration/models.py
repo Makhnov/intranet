@@ -144,15 +144,21 @@ class ConseilsIndexPage(MenuPage):
             elif function == "3":
                 members_sorted['Délégués communautaires (titulaires)'].append(member)
             elif function == "4":
-                members_sorted['Délégués communautaires (suppléants)'].append(member)                                
-        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
-        return members_sorted
+                members_sorted['Délégués communautaires (suppléants)'].append(member)
+
+        members_combined = {
+            key: {'members': value, 'size': len(value)}
+            for key, value in members_sorted.items()
+        }
+        return members_combined
+
+
   
     def get_context(self, request):
         context = super().get_context(request)
         admin_menu = get_admin_menu()
         pages = admin_menu[0]          
-        is_form = admin_menu[1]
+        is_form = admin_menu[1]       
         context['is_form'] = is_form
         context['admin_menu'] = pages
         context['children'] = cv_cr_filter(self, request)
@@ -198,9 +204,14 @@ class BureauxIndexPage(MenuPage):
                     members_sorted['Président'].append(member)
             elif function == "2":
                 members_sorted['Vice-présidents'].append(member)
-        print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
-        return members_sorted
 
+        members_combined = {
+            key: {'members': value, 'size': len(value)}
+            for key, value in members_sorted.items()
+        }
+        # print(colored("members_sorted", "green"), colored(members_combined, "white", "on_green"))
+        return members_combined
+    
 
     def get_context(self, request):
         context = super().get_context(request)
@@ -254,9 +265,14 @@ class ConferencesIndexPage(MenuPage):
             elif member.function_municipality == "1":
                 members_sorted['Maires'].append(member)
             elif function == "2":
-                members_sorted['Vice-présidents'].append(member)                
-        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
-        return members_sorted
+                members_sorted['Vice-présidents'].append(member) 
+                               
+        members_combined = {
+            key: {'members': value, 'size': len(value)}
+            for key, value in members_sorted.items()
+        }
+        # print(colored("members_sorted", "green"), colored(members_combined, "white", "on_green"))
+        return members_combined
         
     
     def get_context(self, request):
@@ -281,7 +297,12 @@ class CommissionsIndexPage(MenuPage):
     save = menu_page_save('commissions')
 
     def get_context(self, request):
-        context = super().get_context(request)      
+        context = super().get_context(request)              
+        admin_menu = get_admin_menu()
+        pages = admin_menu[0]          
+        is_form = admin_menu[1]
+        context['is_form'] = is_form
+        context['admin_menu'] = pages
         context['commissions_menu'] = self.get_children().live()
         return context
     
@@ -389,8 +410,13 @@ class CommissionPage(Page):
                 elif function == '3':
                     members_sorted["Membres"].append(user)
                         
-        # print(colored("members_sorted", "green"), colored(members_sorted, "white", "on_green"))
-        return members_sorted
+        members_combined = {
+            key: {'members': value, 'size': len(value)}
+            for key, value in members_sorted.items()
+        }
+        
+        # print(colored("members_sorted", "green"), colored(members_combined, "white", "on_green"))
+        return members_combined
 
 
     def get_context(self, request):
@@ -401,6 +427,7 @@ class CommissionPage(Page):
         context['commissions_menu'] = Page.objects.get(slug="commissions").specific.get_children().live()
         context['members'] = self.get_members()
         context['fields'] = ['type', 'date']
+        context['section'] = 'administration'
         
         return context
         
@@ -537,7 +564,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
         if not self.title:
             self.title = "Convocation"
         if not self.slug or self.slug == "convocation":
-            unique_suffix = uuid.uuid4().hex[:6]  # Génère un suffixe unique
+            unique_suffix = uuid.uuid4().hex[:6]
             self.slug = f"convocation-{unique_suffix}"
         super().save(*args, **kwargs)
     
@@ -562,9 +589,10 @@ class ConvocationPage(PdfViewPageMixin, Page):
         context['parent'] = parent
 
         if hasattr(parent, 'get_members'):
-            members = parent.get_members()
+            groups = parent.get_members()
             hosts = []
-            for president in members.get('Président', []) + members.get('Présidente', []):
+            presidents = groups.get('Président', {}).get('members', []) + groups.get('Présidente', {}).get('members', [])
+            for president in presidents:
                 hosts.append({
                     'civility': president.civility,
                     'function': 'Président' if president.civility == 'Monsieur' else 'Présidente',
@@ -572,7 +600,8 @@ class ConvocationPage(PdfViewPageMixin, Page):
                     'object': president,
                 })
             if parent.__class__.__name__ == 'CommissionPage':
-                for charge in members.get('Chargé de commission', []) + members.get('Chargée de commission', []):
+                charges = groups.get('Chargé de commission', {}).get('members', []) + groups.get('Chargée de commission', {}).get('members', [])
+                for charge in charges:
                     hosts.append({
                         'civility': charge.civility,
                         'function': 'Chargé de commission' if charge.civility == 'Monsieur' else 'Chargée de commission',
@@ -596,8 +625,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
             # On ajoute les variables au contexte
             context['position_m'] = position_m
             context['position_f'] = position_f
-            
-            
+               
         return context
     
     def get_template(self, request, *args, **kwargs):
@@ -759,10 +787,11 @@ class CompteRenduPage(PdfViewPageMixin, Page):
     ]
     
     def save(self, *args, **kwargs):
-        if not self.title:  # Si le titre n'est pas déjà défini
+        if not self.title:
             self.title = "compte-rendu"
-        if not self.slug:  # Si le slug n'est pas déjà défini
-            self.slug = "compte-rendu"
+        if not self.slug:
+            unique_suffix = uuid.uuid4().hex[:6]
+            self.slug = f'compte-rendu-{unique_suffix}'
         super().save(*args, **kwargs)
 
     def get_parent_type(self):
@@ -1020,13 +1049,14 @@ def cv_cr_filter(page, request):
     # Filtre conditionnel en fonction de la date sélectionnée
     if start_date:
         start_date = make_aware(datetime.datetime.strptime(start_date, "%Y-%m-%d"))
+        start_date = start_date.replace(hour=0, minute=0, second=0)
         convocations = convocations.filter(date__gte=start_date)
         comptes_rendus = comptes_rendus.filter(date__gte=start_date)
     if end_date:
         end_date = make_aware(datetime.datetime.strptime(end_date, "%Y-%m-%d"))
+        end_date = end_date.replace(hour=23, minute=59, second=59)
         convocations = convocations.filter(date__lte=end_date)
         comptes_rendus = comptes_rendus.filter(date__lte=end_date)
-
 
     # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
     # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))
@@ -1039,7 +1069,6 @@ def cv_cr_filter(page, request):
         
         if comptes_rendus:
             comptes_rendus = search_backend.search(search_query, comptes_rendus)
-
 
     # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
     # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))

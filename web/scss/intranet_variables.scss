@@ -183,20 +183,6 @@
         
         // HEADER
         --header-padding:1em;
-
-        // ZONE DE RECHERCHE
-        --searchbox-width: 300px;
-
-        // Petites icones 
-        --small-icon-size: 1.25em;
-
-        // Moyennes icones
-        --mid-icon-size:1.5em;
-
-        // Police générale pour toutes les pages de contenu
-        // H1 = 3x // H2 = 2.5x // H3 = 2x // H4 = 1.5x // TEXTE = 1x
-        --font-size:1.1rem;
-        
     }
 
     body {
@@ -218,8 +204,7 @@
             footer nav {
                 background: var(--wrapper-color-menu);
             }
-        }
-        
+        }        
         &.list, &.page, &.item {
             background:whitesmoke;
 
@@ -333,6 +318,15 @@
         
         // QUICKBAR
         --quickbar-button-size: 3.5em;
+
+        // ZONE DE RECHERCHE
+        --searchbox-width: 400px;
+
+        // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
+        --icon-size: 1.5rem;
+
+        // Police pour toutes les pages de contenu
+        --font-size:1.1rem;
     }
 }
 
@@ -366,7 +360,13 @@
         // QUICKBAR
         --quickbar-button-size: 3.25em;
 
-        // Font-size
+        // ZONE DE RECHERCHE
+        --searchbox-width: 350px;
+
+        // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
+        --icon-size: 1.3rem;
+
+        // Police pour toutes les pages de contenu
         --font-size:1rem;
     }
 }
@@ -375,7 +375,7 @@
 @media screen and (min-width: 800px) and (max-width: 1199px) {
     :root {
         // CGS-CONTENT
-        --container-width: 768px;
+        --container-width: 900px;
 
         // HEADER (Général)
         --header-height: 175px;
@@ -401,7 +401,13 @@
         // QUICKBAR
         --quickbar-button-size: 3em;
 
-        // Font-size
+        // ZONE DE RECHERCHE
+        --searchbox-width: 300px;
+
+        // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
+        --icon-size: 1.15rem;
+
+        // Police pour toutes les pages de contenu
         --font-size:.9rem;
     }
     .cgs-streamfield {
@@ -465,7 +471,13 @@
         // QUICKBAR
         --quickbar-button-size: 3em;
 
-        // Font-size
+        // ZONE DE RECHERCHE
+        --searchbox-width: 250px;
+
+        // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
+        --icon-size: 1.2rem;
+
+        // Police pour toutes les pages de contenu
         --font-size:.8rem;
     }
     .cgs-streamfield {
@@ -560,7 +572,13 @@
         // QUICKBAR
         --quickbar-button-size: 2.75em;
 
-        // Font-size
+        // ZONE DE RECHERCHE
+        --searchbox-width: 225px;
+
+        // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
+        --icon-size: 1rem;
+
+        // Police pour toutes les pages de contenu
         --font-size:.75rem;
     }
     .cgs-streamfield {

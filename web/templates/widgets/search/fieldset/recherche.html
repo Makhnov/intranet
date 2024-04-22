@@ -1,0 +1,5 @@
+
+<div>
+    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.search class_type="filter_search cgs-nofill cgs-mid-icon" %}
+    <input type="text" name="query" placeholder="Rechercher..." value="{% if request.GET.query %}{{ request.GET.query }}{% endif %}">
+</div>

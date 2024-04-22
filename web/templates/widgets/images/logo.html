@@ -1,13 +1,20 @@
 {% load static i18n wagtailcore_tags wagtailimages_tags cgsimages_tags %}
 {% wagtail_site as intranet %}
 
-{% if intranet_icon and intranet_icon.is_svg and "zerofill" not in class_type %}
-    {% with class=class_type %}
-        {{ intranet_icon|html_svg:class }}
-    {% endwith %}
-{% elif intranet_icon %}
-    {% image intranet_icon original as img %}
-    <img src="{{ img.url }}" alt="{{ intranet_icon.title }}" class="{{ class_type }}">
+{% if intranet_icon %}
+    {% if intranet_icon.is_svg %}
+        {% if "zerofill" not in class_type or not class_type %}
+            {% with class=class_type %}
+                {{ intranet_icon|html_svg:class }}
+            {% endwith %}
+        {% else %}
+            {% image intranet_icon original as img %}
+            <img src="{{ img.url }}" alt="{{ intranet_icon.title }}" class="{{ class_type }}">
+        {% endif %}
+    {% else %}
+        {% image intranet_icon original as img %}
+        <img src="{{ img.url }}" alt="{{ intranet_icon.title }}" class="{{ class_type }}">
+    {% endif %}
 {% else %}
     {% image intranet.root_page.specific.logo height-32 as img %}
     <img src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="Image par défaut" class={{ class_type }} />

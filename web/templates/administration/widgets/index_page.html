@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block footer_mid %}
-    {% if item_type == "commission" or item_type == "commissions" %}
+    {% if item_type == "commission" %}
         {% with class_type="nav" item_type="commissions" menu=commissions_menu logo_type=True index=True %}
             {% include 'administration/widgets/ul_item.html' %}
         {% endwith %}

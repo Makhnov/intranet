@@ -80,43 +80,22 @@ def spread(value, delimiter):
         return parts[0], parts[1]
     return value, ''
 
-# Récupérer l'extension d'un document
-
-
 @register.filter(name='get_extension_info')
 def get_extension_info(filename):
-    # Extraire l'extension du fichier
     print(filename)
     ext = filename.split('.')[-1].lower()  # Prend la dernière partie après le point et la convertit en minuscules
-    
-    # Obtenir le tuple correspondant à l'extension ou un tuple par défaut
     return FILE_EXTENSIONS.get(ext, ("unknown", "Type de fichier inconnu"))
 
+
 ####################################################################################################
-#########################      AMICALE, FAQ, RESSOURCES & PUBLIQUES        #########################
+#########################     RECHERCHE (filters.html et theme.html)       #########################
 #################################################################################################### 
 
 # FAQ INDEX
-@register.simple_tag
-def get_faq_index():
-    faq_page = FaqIndexPage.objects.live().first()
-    return faq_page
-
-# FAQ TAGS
-@register.inclusion_tag('agents/widgets/tags.html', takes_context=True)
-def faq_tags(context, class_type=None, index=None):
-    request = context['request']
-    settings = context['settings']
-    tags = Tag.objects.all().order_by('title')
-    selected = request.GET.get('tag', '')
-    return {
-        'request': request,
-        'settings':settings,
-        'selected': selected,
-        'tags': tags,
-        'class_type': class_type,
-        'index': index,
-}
+# @register.simple_tag
+# def get_faq_index():
+#     faq_page = FaqIndexPage.objects.live().first()
+#     return faq_page
     
 # FAQ THEMES
 @register.inclusion_tag('agents/widgets/themes.html', takes_context=True)
@@ -194,7 +173,6 @@ def amicale_themes(context, class_type=None, index=None):
         'ami': ami,
     }
 
-
 # CLOUD (PAGES PUBLIQUES ET RESSOURCES)
 @register.inclusion_tag('home/widgets/themes.html', takes_context=True)
 def cgs_cloud(context, class_type=None, index=None):
@@ -232,7 +210,7 @@ def cgs_cloud(context, class_type=None, index=None):
     }
     
 ####################################################################################################
-#########################                  ADMINISTRATION                  #########################
+#########################                     QUICKBAR                     #########################
 ####################################################################################################
 
 # ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)

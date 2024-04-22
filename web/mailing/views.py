@@ -152,8 +152,10 @@ def mailing_view(request):
                             messages.error(request, "Aucune page n'a été sélectionnée (Sélectionnez une convocation en fonction de sa date dans le menu déroulant).")
                         
                         if parent_page and hasattr(parent_page, 'get_members'):
-                            members = parent_page.get_members()
-                            for role, users in members.items():
+                            groups = parent_page.get_members()
+                            for role, data in groups.items():
+                                users = data.get('members', [])
+                                print(users)
                                 for user in users:
                                     if hasattr(user, 'email'):
                                         date_fr = formats.date_format(main_page.date, "d F Y")

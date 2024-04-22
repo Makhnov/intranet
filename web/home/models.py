@@ -1,4 +1,5 @@
 import io
+import uuid
 import zipfile
 from django.db import models
 from django.conf import settings
@@ -109,7 +110,12 @@ class RessourcesPage(MenuPage):
         search_end_date = request.GET.get('end_date', None)
         search_type = request.GET.get('type', None)
         search_extension = request.GET.get('extension', None)
-        is_root = not (search_start_date or search_end_date or search_type or search_extension or search_query)        
+        is_root = not (search_start_date or search_end_date or search_type or search_extension or search_query)   
+        
+        print(f"search_query: {search_query}")
+        print(f"search_type: {search_type}")
+        print(f"search_extension: {search_extension}")
+        print(f"is_root: {is_root}")
                          
         context['grouped_subpages'] = grouped_subpages
         context['search_query'] = search_query
@@ -356,10 +362,12 @@ class InstantDownloadPage(MenuPage):
         return super().serve(request)
     
     def save(self, *args, **kwargs):
-        if not self.title:  # Si le titre n'est pas déjà défini
+        if not self.title:
             self.title = "Téléchargement instantané"
-        if not self.slug:  # Si le slug n'est pas déjà défini
-            self.slug = "dlslug"
+        if not self.slug:
+            print("NOSLUG")
+            unique_suffix = uuid.uuid4().hex[:6]
+            self.slug = f"dlslug-{unique_suffix}"            
         super().save(*args, **kwargs)
         
     class Meta:

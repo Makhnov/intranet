@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.text import slugify
 from modelcluster.fields import ParentalKey
@@ -195,10 +196,11 @@ class FaqPage(Page):
         super().clean()
 
     def save(self, *args, **kwargs):
-        if not self.title:  # Si le titre n'est pas déjà défini
+        if not self.title:
             self.title = "Question pour FAQ"
-        if not self.slug:  # Si le slug n'est pas déjà défini
-            self.slug = "faqslug"
+        if not self.slug:
+            unique_suffix = uuid.uuid4().hex[:6]
+            self.slug = f"faqslug-{unique_suffix}"
         super().save(*args, **kwargs)
 
 # Page pour les enquêtes, les formulaires, etc.

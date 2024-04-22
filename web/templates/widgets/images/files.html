@@ -4,42 +4,107 @@
 {% with class=class_type %}
     {% if file_type == "doc" %}
         {% image settings.dashboard.IntranetIcons.doc_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "pdf" %}
         {% image settings.dashboard.IntranetIcons.pdf_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "calc" %}
         {% image settings.dashboard.IntranetIcons.calc_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "slide" %}
         {% image settings.dashboard.IntranetIcons.slide_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "image" %}
         {% image settings.dashboard.IntranetIcons.image_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "video" %}
         {% image settings.dashboard.IntranetIcons.video_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "audio" %}
         {% image settings.dashboard.IntranetIcons.audio_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "archive" %}
         {% image settings.dashboard.IntranetIcons.archive_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "code" %}
         {% image settings.dashboard.IntranetIcons.code_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "system" %}
         {% image settings.dashboard.IntranetIcons.system_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "ebook" %}
         {% image settings.dashboard.IntranetIcons.ebook_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% elif file_type == "unknown" %}
         {% image settings.dashboard.IntranetIcons.unknown_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% else %}
         {% image settings.dashboard.IntranetIcons.unknown_file original as img %}
-        <img src="{{ img.url }}" alt="{{ img.title }}" title="file_description" class="{{ class_type }}">
+        <img 
+            src="{{ img.url }}" 
+            alt="{{ img.title }}" 
+            {% if file_description %}title="file_description"{% endif %}
+            class="{{ class_type }}"
+        >
     {% endif %}
 {% endwith %}
