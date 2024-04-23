@@ -2,9 +2,17 @@
     <div class="cgs-container cgs-{{ item_type }}">
         {% if is_menu %}
             {% include 'administration/widgets/ul_item.html' with index=False %}
-        {% else %}
+        {% else %}            
             <div class="cgs-page">  
-                {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial="Masquer" %}
+                {% if request.GET %}
+                    {% with swap_initial="Masquer" %}
+                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
+                    {% endwith %}
+                {% else %}
+                    {% with swap_initial="Afficher" %}
+                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
+                    {% endwith %}
+                {% endif %}
                 {% include "widgets/search/filters.html" %}
 
                 <div class="cgs-list">
@@ -53,19 +61,52 @@
 
                     {% if children.convocation_pages_by_year or children.compterendu_pages_by_year %}
                         <ul class="{{ class_type }}-box {{ item_type }}">
+                            <h2>                                
+                                {% if request.GET.start_date or request.GET.end_date %}
+                                    {% if request.GET.start_date %}
+                                    Convocations du {{ request.GET.start_date }}
+                                    {% else %}
+                                    Convocations du *
+                                    {% endif %}
+                                    {% if request.GET.end_date %}
+                                    au {{ request.GET.end_date }}
+                                    {% else %}
+                                    au *
+                                    {% endif %}
+                                {% else %}
+                                Toutes les convocations
+                                {% endif %}
+                            </h2>
                             {% for year, convocations in children.convocation_pages_by_year.items %}
-                                    <h2>Convocations {{ year }}</h2>
+                                    <h3>{{ year }}</h3>
                                     {% for convocation in convocations %}
-                                        {% include 'administration/widgets/li_item.html' with item=convocation %}
+                                        {% include 'administration/widgets/li_item.html' with item=convocation item_text=True %}
                                     {% endfor %}
                             {% endfor %}
                         </ul>
 
                         <ul class="{{ class_type }}-box {{ item_type }}">
+                            <h2>
+                                {% if request.GET.start_date or request.GET.end_date %}
+                                    {% if request.GET.start_date %}
+                                    Comptes-Rendus du {{ request.GET.start_date }}
+                                    {% else %}
+                                    Comptes-Rendus du *
+                                    {% endif %}
+                                    {% if request.GET.end_date %}
+                                    au {{ request.GET.end_date }}
+                                    {% else %}
+                                    au *
+                                    {% endif %}
+                                {% else %}
+                                Tous les comptes-Rendus
+                                {% endif %}
+                                
+                            </h2>
                             {% for year, compterendus in children.compterendu_pages_by_year.items %}
-                                    <h2>Comptes-Rendus {{ year }}</h2>
+                                    <h3>{{ year }}</h3>
                                     {% for compterendu in compterendus %}
-                                        {% include 'administration/widgets/li_item.html' with item=compterendu %}
+                                        {% include 'administration/widgets/li_item.html' with item=compterendu item_text=False %}
                                     {% endfor %}
                             {% endfor %}
                         </ul>

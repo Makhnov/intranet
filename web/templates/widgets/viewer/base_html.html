@@ -33,8 +33,8 @@
             </a>
         </li>
         <li class="nav-item doc index">
-            <a href="/{{ main_dir }}/{{ sub_dir }}/" class="nav-link doc" title="Retour à l'index" alt="{{ sub_dir }} Index">
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home class_type="cgs-nofill" %}
+            <a href="/{{ main_dir }}/{{ sub_dir }}/" class="nav-link doc" title="Retour à l'index" alt="{{ sub_dir }} Index">                
+                {% include 'widgets/images/logo.html' with intranet_icon=page.get_parent.specific.logo class_type="cgs-bright" %}
             </a>
         </li>
     </ul>

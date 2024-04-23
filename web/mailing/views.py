@@ -41,14 +41,14 @@ def mailing_view(request):
                         destinataires = data.get('mail_to')
                         if not destinataires:
                             messages.error(request, "Veuillez saisir au moins une adresse email.")
-                            return
+                            return redirect('mailing')
 
                         print(colored('destinataires', 'green'), colored(destinataires, 'white', 'on_green'))
 
                         main_page = data.get(left_pages)
                         if not main_page:
                             messages.error(request, "Veuillez sélectionner une page.")
-                            return
+                            return redirect('mailing')
 
                         print(colored('main_page', 'green'), colored(main_page, 'white', 'on_green'))
 
@@ -99,6 +99,7 @@ def mailing_view(request):
                     else:
                         messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")
                 elif 'submit_right' in request.POST:
+                    sending = True
                     if right_form.is_valid():
                         data = right_form.cleaned_data
                         right_pages = data.get('right_pages')
@@ -113,33 +114,43 @@ def mailing_view(request):
                         print(colored('attachments', 'cyan'), colored(attachments, 'white', 'on_cyan'))
                         if attachments:
                             if hasattr(main_page, 'convocation_documents'):
-                                documents = main_page.convocation_documents.all()
-                                for attachment in documents:
-                                    document = attachment.document
-                                    if document and hasattr(document, 'filename'):
-                                        attachment_title = document.filename
-                                    elif document:
-                                        messages.error(request, "Assurez-vous que le document a un nom de fichier.")
-                                    else:
-                                        messages.error(request, "Aucun document n'a été trouvé.")
-
-                                    print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))
+                                # on vérifie si il existe des documents de type 'attachments'                                
+                                documents = main_page.convocation_documents.filter(version="attachments").all()
+                                if documents:                                    
+                                    print(colored('DOCUMENTS (LISTE)', 'cyan'), colored(documents, 'white', 'on_cyan')) 
+                                    for attachment in documents:
+                                        document = attachment.document
                                         
-                                    if hasattr(document, 'file'):
-                                        file = document.file
-                                        if hasattr(file, 'path'):
-                                            attachment_path = file.path
-                                                
-                                    print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))
-                                            
-                                    try:
-                                        with document.file.open('rb') as file:
-                                            email_attachments[attachment_title] = file.read()  # Stockez seulement le contenu en bytes
-                                    except Exception as e:
-                                        print(f"Erreur lors de la lecture du fichier {attachment_title}: {e}")
-                                        return redirect('mailing')
+                                        print(colored('document (single)', 'cyan'), colored(document, 'white', 'on_cyan'))                                    
+                                        if document and hasattr(document, 'filename'):                                        
+                                            attachment_title = document.filename
+                                        elif document:
+                                            messages.error(request, "Assurez-vous que le document a un nom de fichier.")
+                                            sending = False
+                                        else:
+                                            messages.error(request, "Aucun document n'a été trouvé dans les pièces jointes de cette page.")
+                                            sending = False
+
+                                        print(colored('attachment_title', 'cyan'), colored(attachment_title, 'white', 'on_cyan'))                                            
+                                        if hasattr(document, 'file'):
+                                            file = document.file
+                                            if hasattr(file, 'path'):
+                                                attachment_path = file.path
+                                                    
+                                        print(colored('attachment_path', 'cyan'), colored(attachment_path, 'white', 'on_cyan'))                                                
+                                        try:
+                                            with document.file.open('rb') as file:
+                                                email_attachments[attachment_title] = file.read()  # Stockez seulement le contenu en bytes
+                                        except Exception as e:
+                                            print(f"Erreur lors de la lecture du fichier {attachment_title}: {e}")
+                                            messages.error(request, "Erreur lors de la lecture des pièces jointes : {e}")
+                                            sending = False
+                                else:
+                                    messages.error(request, "Aucun version numérique n'a été trouvé dans les pièces jointes de cette page.")
+                                    sending = False
                             else:
                                 messages.error(request, "Aucune pièce jointe n'a été trouvée pour cette page.")
+                                sending = False
                         else:
                             print(colored('Pas de PJ', 'cyan'))
                             
@@ -148,14 +159,16 @@ def mailing_view(request):
                             # page_url = main_page.url if hasattr(main_page, 'url') else None
                         elif main_page:
                             messages.error(request, "La page principale n'a pas de parent.")
+                            sending = False
                         else:
                             messages.error(request, "Aucune page n'a été sélectionnée (Sélectionnez une convocation en fonction de sa date dans le menu déroulant).")
+                            sending = False
                         
                         if parent_page and hasattr(parent_page, 'get_members'):
                             groups = parent_page.get_members()
                             for role, data in groups.items():
                                 users = data.get('members', [])
-                                print(users)
+                                print(colored('users', 'cyan'), colored(users, 'white', 'on_cyan'))
                                 for user in users:
                                     if hasattr(user, 'email'):
                                         date_fr = formats.date_format(main_page.date, "d F Y")
@@ -174,18 +187,20 @@ def mailing_view(request):
                                         email_data.append(email_info)
                                 # break
                         else:
-                            messages.error(request, "Aucun membre n'a été trouvé pour cette page.")                        
+                            messages.error(request, "Aucun membre n'a été trouvé pour cette page.")
+                            sending = False
 
                         if email_data:
-                            print(colored('email_data', 'cyan'))
-                            print(colored('email_attachments', 'cyan'))
-                            email_sender.send_mass_email(email_data, attachments=email_attachments)
-                            messages.success(request, f"{len(email_data)} mails envoyés avec succès pour la convocation {parent_page.title} du {date_fr}.")
-                            return redirect('mailing')
+                            if sending:
+                                print(colored('email_data', 'cyan'))
+                                print(colored('email_attachments', 'cyan'))
+                                email_sender.send_mass_email(email_data, attachments=email_attachments)
+                                messages.success(request, f"{len(email_data)} mails envoyés avec succès pour la convocation {parent_page.title} du {date_fr}.")
+                                return redirect('mailing')
                         else:
-                            messages.error(request, "Aucun email n'a été envoyé. Vérifiez les données fournies.")              
+                            messages.error(request, "Aucun email n'a été envoyé. Vérifiez les données fournies.")
                     else:
-                        messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")
+                        messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")                        
                 elif 'submit_top' in request.POST:        
                     if top_form.is_valid():
                         data = top_form.cleaned_data
@@ -219,7 +234,7 @@ def mailing_view(request):
                         messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")
 
             except Exception as e:
-                messages.error(request, f"Une erreur s'est produite lors de la tentative d'envoi des emails: {str(e)}")
+                messages.error(request, f"Une erreur s'est produite lors de la tentative d'envoi des emails: {str(e)}")                
         else:
             messages.error(request, "Le formulaire n'est pas valide. Veuillez corriger les erreurs.")
     else:

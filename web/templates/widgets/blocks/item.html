@@ -1,0 +1,151 @@
+
+{% load wagtailcore_tags cgs_tags %}
+
+{% comment %} PARTIE VISIBLE {% endcomment %}
+<div class="list-block {{item_type}} cgs-swap">
+    <h4>
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}
+        {% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}
+    </h4>
+    <a class="cgs-button cgs-swapable" title="Afficher">
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type="cgs-nofill cgs-standard-icon" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden cgs-standard-icon" %}
+    </a>
+</div>
+
+{% comment %} CONTENU DEROULABLE {% endcomment %}
+<div class="list-content cgs-swap-hidden">
+    <div class="content-container">
+
+        {% comment %} LIEN DIRECT VERS LA PAGE CONCERNEE {% endcomment %}
+        <div class="content-item view {{ item_type }}">
+            <a 
+                href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+                class="{{ class_type }}-link {{ item_type }}" 
+                title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
+                alt="{{ item.title|default_if_none:'' }}"
+            >
+                <h5>Ouvrir la page</h5>
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill" %}
+            </a>
+        </div>
+
+        {% comment %} PREVISUALISER LA PAGE {% endcomment %}
+        <div class="content-item preview {{ item_type }}">         
+            <a class="cgs-preview" title="Voir une aperçu de {% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}" >
+                <h5>Prévisualiser</h5>
+                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.search class_type="cgs-nofill" %}            
+            </a>
+        </div>
+        <div class="content-item related">  
+
+            {% comment %} VERSION PDF OU DOCX D'UNE PAGE DE CONVOCATION, DE COMPTE-RENDU, OU GENERIQUE {% endcomment %}
+            {% if item.numeric %}
+                {% with document=item.numeric %}
+                    <div class="related-content cgs-numeric">
+                        <h5>Télécharger le fichier:</h5>
+                        <a 
+                            download 
+                            href="{{ document.document.file.url }}"                                 
+                            {% if document.title %}
+                                title="{{ document.title }}"
+                            {% elif document.document.title %}
+                                title="{{ document.document.title }}"
+                            {% elif document.document.filename %}
+                                title="{{ document.document.filename }}"
+                            {% else %}
+                                title="Télécharger la pièce jointe"
+                            {% endif %}                            
+                        >
+                            {% with file_info=document.document.filename|get_extension_info %}
+                                {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-big-icon" file_type=file_info.0 file_description=False %}
+                            {% endwith %}
+                        </a>
+                    </div>
+                {% endwith %}
+            {% endif %}
+
+            {% comment %} PIECE(S)-JOINTE(S) D'UNE PAGE DE CONVOCATION, DE COMPTE-RENDU, OU GENERIQUE {% endcomment %}
+            {% if item.attachments %}    
+                <div class="related-content cgs-attachments">
+                    <h5>Télécharger les pièces-jointes:</h5>
+                    {% for piece_jointe in item.attachments %}
+                        {% if piece_jointe %}
+                            <a 
+                                download 
+                                href="{{ piece_jointe.document.file.url }}"                                 
+                                {% if piece_jointe.title %}
+                                    title="{{ piece_jointe.title }}"
+                                {% elif piece_jointe.document.title %}
+                                    title="{{ piece_jointe.document.title }}"
+                                {% elif piece_jointe.document.filename %}
+                                    title="{{ piece_jointe.document.filename }}"
+                                {% else %}
+                                    title="Télécharger la pièce jointe"
+                                {% endif %}                            
+                            >
+                                {% with file_info=piece_jointe.document.filename|get_extension_info %}
+                                    {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-big-icon" file_type=file_info.0 file_description=False %}
+                                {% endwith %}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% comment %} CATEGORIE D'UNE PAGE DE FAQ, THEME D'UNE PAGE DE L'AMICALE, TYPE D'UNE PAGE HOME (Ressources, publiques) {% endcomment %}
+                {% if item.category %}
+                    <div class="related-content cgs-category">
+                        <h5>Catégorie:</h5>
+                        <p>{{ item.category }}</p>
+                    </div>
+                {% endif %}
+
+            {% comment %} TAGS D'UNE PAGE DE FAQ {% endcomment %}
+            {% if item.tags %}
+                <div class="related-content cgs-tags">
+                    <h5>Tags:</h5>
+                    <p>{{ item.tags }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% comment %} PREVIEW  {% endcomment %}
+<div class="list-preview cgs-hidden">
+    {% if item.body and item_text %}
+        {% if item.body and item_text %}
+            <div class="preview-content">
+                {{ item.body|richtext }}
+            </div>
+        {% elif item_image %}
+            <div class="preview-content">                
+            </div>
+        {% elif item_all %}
+            <div class="preview-content">                
+            </div>
+        {% else %}        
+            <div class="preview-content">
+                <p>Aucun contenu à afficher</p>
+            </div>
+        {% endif %}
+    {% endif %} 
+</div>
+
+{% comment %} <div class="faq-related-list">
+    <div class="faq-related cgs-swap">
+        <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}Thèmes similaires</h2>
+        <a class="cgs-button cgs-swapable" title="Afficher">
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
+        </a>
+    </div>                            
+    <div class="related-content cgs-swap-hidden">
+        <div>
+            {% for block in page.related %}
+                <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}<a href="{{ block.value.url }}">{{ block.value.question }}</a></p></div>
+            {% endfor %}
+        </div>
+    </div>
+</div> {% endcomment %}

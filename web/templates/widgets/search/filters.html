@@ -3,7 +3,11 @@
 {% block extra_css %}
 {% endblock extra_css %}
 
-<div class="cgs-search cgs-swap-visible" id="searchColumn">
+{% if request.GET %}
+    <div class="cgs-search cgs-swap-visible" id="searchColumn">
+{% else %}
+    <div class="cgs-search cgs-swap-hidden" id="searchColumn">
+{% endif %}
     <form id="cgs-search-form" action="{% pageurl page %}" method="get"> 
         {% include "widgets/header/vague.html" with vertical=True %}
         <section class="container de recherche">

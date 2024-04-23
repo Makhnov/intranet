@@ -525,4 +525,4 @@ class CustomPDFBlock(StructBlock):
 
     class Meta:
         label = _("PDF")
-        template = "widgets/blocks/PDF_block.html"
+        template = "widgets/blocks/fields/PDF.html"

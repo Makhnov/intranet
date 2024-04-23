@@ -68,15 +68,19 @@ valid_parent_classes = (
 
 @hooks.register("before_create_page")
 def before_create_page_hook(request, parent_page, page_class):
-    # S'active uniquement pour CompteRenduPage
     if page_class == CompteRenduPage:
         set_cr_defaults(request, parent_page, page_class=page_class)
-
+    #     single_numeric_version(request, parent_page, page_class=page_class)
+    # if page_class == ConvocationPage:
+    #     single_numeric_version(request, parent_page, page_class=page_class)
+        
 @hooks.register("before_edit_page")
 def before_edit_page_hook(request, page):
-    # S'active uniquement pour CompteRenduPage
     if isinstance(page.specific, CompteRenduPage):
         set_cr_defaults(request, page.get_parent(), page=page)
+    #     single_numeric_version(request, page.get_parent(), page=page)
+    # if isinstance(page.specific, ConvocationPage):
+    #     single_numeric_version(request, page.get_parent(), page=page)
 
 @hooks.register("after_create_page")
 def after_create_page_handler(request, page):
@@ -95,6 +99,7 @@ def after_edit_and_create(request, page):
     # Pour les ConvocationPage et CompteRenduPage, mettez à jour les titres et les slugs
     if isinstance(page_specific_administration, (ConvocationPage, CompteRenduPage)):
         update_convoc_and_cr_defaults(request, page)
+        # single_numeric_version(request, page)
         
     if isinstance(page_specific_administration, CompteRenduPage):
         update_presence_status(request, page)
@@ -115,27 +120,6 @@ def after_edit_only(request, page):
 #############
 # FONCTIONS #
 #############
-
-# On vérifie l'ancienneté de la convocation à sa création
-def convocation_old(request, page):
-    # print(colored(f"Starting convocation_old for: {page}", "green"))
-    
-    if page.specific.old:
-        return
-    else:    
-        request = request.POST.copy()
-        now = datetime.now()    
-        then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
-
-        if now > then:
-            # print("La date est passée")
-            page.specific.old = True
-        else:
-            # print("La date n'est pas passée")
-            page.specific.old = False
-
-        page.specific.save()
-        page.save_revision().publish()
 
 # Définition des champs par défaut pour les pages de type CompteRenduPage (before)
 def set_cr_defaults(request, parent_page, page=None, page_class=None):
@@ -195,6 +179,9 @@ def set_cr_defaults(request, parent_page, page=None, page_class=None):
     print(colored(f"Date de la convocation : {local_date}", "green"))
     request.POST["date"] = local_date
 
+# Vérification du caractère unique des "numeric" pour les convocations et les comptes-rendus
+# def single_numeric_version(request, parent_page, page=None, page_class=None):
+    
 # Définition des titres et slugs pour les pages de type ConvocationPage et CompteRenduPage
 def update_convoc_and_cr_defaults(request, page):
     # print(colored(f"Starting title and slugs status update for: {page}", "green"))
@@ -513,7 +500,28 @@ def get_formatted_date(user_date):
 def get_page_prefix(page_type):
     type_map = {ConvocationPage: "convocation", CompteRenduPage: "compte-rendu"}
     return type_map.get(page_type, "")
-  
+
+# On vérifie l'ancienneté de la convocation à sa création
+def convocation_old(request, page):
+    # print(colored(f"Starting convocation_old for: {page}", "green"))
+    
+    if page.specific.old:
+        return
+    else:    
+        request = request.POST.copy()
+        now = datetime.now()    
+        then = datetime.strptime(request.get("date"), "%Y-%m-%d %H:%M")
+
+        if now > then:
+            # print("La date est passée")
+            page.specific.old = True
+        else:
+            # print("La date n'est pas passée")
+            page.specific.old = False
+
+        page.specific.save()
+        page.save_revision().publish()
+
 # Fonction pour traiter les fichiers PDF et DOCX
 def import_file(request, page):
     page_specific = page.specific

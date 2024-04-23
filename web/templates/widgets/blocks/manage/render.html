@@ -121,14 +121,14 @@
 {% comment %} PDF {% endcomment %}
 {% elif block.block_type == 'PDF' %}
     <div class="cgs-block pdf">
-        {% include "widgets/blocks/PDF_block.html" %}
+        {% include "widgets/blocks/fields/PDF.html" %}
     </div>
 
 {% comment %} DOCX {% endcomment %}
 {% elif block.block_type == 'DOCX' %}
     {% if block.value.docx_content %}
         {% for value in block.value.docx_content %}
-            {% include "widgets/blocks/render_block.html" with block=value %}
+            {% include "widgets/blocks/manage/render.html" with block=value %}
         {% endfor %}
     {% endif %}
 {% endif %}

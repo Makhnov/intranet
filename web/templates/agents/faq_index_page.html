@@ -8,7 +8,15 @@
                 {% agents_themes class_type="menu" %}
             {% else %}
                 <div class="cgs-page">
-                    {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial="Masquer" %}
+                    {% if request.GET %}
+                        {% with swap_initial="Masquer" %}
+                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
+                        {% endwith %}
+                    {% else %}
+                        {% with swap_initial="Afficher" %}
+                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
+                        {% endwith %}
+                    {% endif %}
                     {% include "widgets/search/filters.html" %}
                     <div class="cgs-list">
                         {% include "agents/widgets/faq_list.html" with faqs=faqs %}

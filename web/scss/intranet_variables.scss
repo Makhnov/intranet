@@ -320,13 +320,23 @@
         --quickbar-button-size: 3.5em;
 
         // ZONE DE RECHERCHE
-        --searchbox-width: 400px;
+        --searchbox-width: 350px;
 
         // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
         --icon-size: 1.5rem;
 
         // Police pour toutes les pages de contenu
         --font-size:1.1rem;
+    }
+    .cgs-page {
+        div.cgs-list {
+            flex-direction: row;
+            align-items: flex-start;
+            
+            ul.list-box {
+                width: 40%;
+            }
+        }
     }
 }
 
@@ -361,7 +371,7 @@
         --quickbar-button-size: 3.25em;
 
         // ZONE DE RECHERCHE
-        --searchbox-width: 350px;
+        --searchbox-width: 300px;
 
         // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
         --icon-size: 1.3rem;
@@ -369,13 +379,23 @@
         // Police pour toutes les pages de contenu
         --font-size:1rem;
     }
+    .cgs-page {
+        div.cgs-list {
+            flex-direction: row;
+            align-items: flex-start;
+
+            ul.list-box {
+                width: 45%;
+            }
+        }
+    }
 }
 
 // ECRANS MOYENS, TABLETTES
 @media screen and (min-width: 800px) and (max-width: 1199px) {
     :root {
         // CGS-CONTENT
-        --container-width: 900px;
+        --container-width: 768px;
 
         // HEADER (Général)
         --header-height: 175px;
@@ -402,7 +422,7 @@
         --quickbar-button-size: 3em;
 
         // ZONE DE RECHERCHE
-        --searchbox-width: 300px;
+        --searchbox-width: 250px;
 
         // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
         --icon-size: 1.15rem;
@@ -435,6 +455,16 @@
     }
     #courbure_cache {
         display: block!important;
+    }
+    .cgs-page {
+        div.cgs-list {
+            flex-direction: column;
+            align-items: center;
+
+            ul.list-box {
+                width: 75%;
+            }
+        }
     }
 }
 
@@ -472,7 +502,7 @@
         --quickbar-button-size: 3em;
 
         // ZONE DE RECHERCHE
-        --searchbox-width: 250px;
+        --searchbox-width: 225px;
 
         // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
         --icon-size: 1.2rem;
@@ -519,7 +549,7 @@
             width:30%;
             
             a.header-link {
-                width:100%;
+                width:90%;
                 justify-content: center;
 
                 .logo-section.right {
@@ -536,6 +566,16 @@
     }
     #courbure_cache {
         display: block!important;
+    }
+    .cgs-page {
+        div.cgs-list {
+            flex-direction: column;
+            align-items: center;
+
+            ul.list-box {
+                width: 80%;
+            }
+        }
     }
 }
 
@@ -573,7 +613,7 @@
         --quickbar-button-size: 2.75em;
 
         // ZONE DE RECHERCHE
-        --searchbox-width: 225px;
+        --searchbox-width: 200px;
 
         // tailles des icones (calculées dans intranet.css chercher : "cgs-standard-icon"
         --icon-size: 1rem;
@@ -632,5 +672,15 @@
         &:nth-child(3) {
             width: 30%;
         }        
+    }
+    .cgs-page {
+        div.cgs-list {
+            flex-direction: column;
+            align-items: center;
+
+            ul.list-box {
+                width: 95%;
+            }
+        }
     }
 }

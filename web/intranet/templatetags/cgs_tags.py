@@ -82,8 +82,7 @@ def spread(value, delimiter):
 
 @register.filter(name='get_extension_info')
 def get_extension_info(filename):
-    print(filename)
-    ext = filename.split('.')[-1].lower()  # Prend la dernière partie après le point et la convertit en minuscules
+    ext = filename.split('.')[-1].lower()
     return FILE_EXTENSIONS.get(ext, ("unknown", "Type de fichier inconnu"))
 
 
@@ -91,12 +90,6 @@ def get_extension_info(filename):
 #########################     RECHERCHE (filters.html et theme.html)       #########################
 #################################################################################################### 
 
-# FAQ INDEX
-# @register.simple_tag
-# def get_faq_index():
-#     faq_page = FaqIndexPage.objects.live().first()
-#     return faq_page
-    
 # FAQ THEMES
 @register.inclusion_tag('agents/widgets/themes.html', takes_context=True)
 def agents_themes(context, class_type=None, index=None):
@@ -208,7 +201,8 @@ def cgs_cloud(context, class_type=None, index=None):
         'news': news,
         'page': page,
     }
-    
+
+
 ####################################################################################################
 #########################                     QUICKBAR                     #########################
 ####################################################################################################
@@ -263,7 +257,6 @@ def administration_quickbar(context):
         'page': page,
     }
 
-
 # AGENTS FAQ QUICKBAR (Les trois dernières FAQ)
 @register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)
 def agents_quickbar(context):
@@ -298,7 +291,6 @@ def agents_quickbar(context):
         items.append({'item_type':'faq', 'name': name, 'url': url, 'category': category})
     
     return {'items': items, 'settings': settings}
-
 
 # ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)
 @register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)

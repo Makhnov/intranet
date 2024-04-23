@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     console.log("Page d'administration chargée");
     // On récupère le type de menu

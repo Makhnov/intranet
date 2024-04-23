@@ -24,6 +24,11 @@ function whatTheHell() {
         expandableImages(EXPENDABLES);
     }
     
+    // Preview (texte en plein écran)
+    const PREVIEWS = document.querySelectorAll('.cgs-preview');
+    if (PREVIEWS.length > 0) {
+        preview(PREVIEWS);
+    }
     // SWAP
     const SWAPABLES = document.querySelectorAll('.cgs-swap');
     if (SWAPABLES.length > 0) {
@@ -127,6 +132,25 @@ function expandableImages(images) {
     });
 }
 
+// Fonction pour afficher une preview de certaines pages
+function preview(PREVIEWS) {
+    PREVIEWS.forEach(preview => {
+        preview.addEventListener('click', function() {
+            const box = preview.closest('li.list-item');
+            const view = box.querySelector('div.list-preview');
+
+            if (view) {
+                view.classList.remove('cgs-hidden');
+                view.addEventListener('click', function() {
+                    view.classList.add('cgs-hidden');
+                });
+            }
+
+
+        });
+    });
+}
+
 // Fonction pour gérer les éléments permutables
 function swap(swapables) {
 
@@ -146,9 +170,11 @@ function swap(swapables) {
         const swaper = swapable.querySelector('.cgs-swapable');
         const icons = swaper.querySelectorAll('svg, img');
         const heading = swapable.querySelector('p.cgs-heading');
+
         // On récupère les deux icones on affiche le bon (valeur du title)      
         const primaryIcon = icons[0];
         const secondaryIcon = icons[1];
+
         // On récupèes les infos : Smooth (true/false) et width/height (widht true/false)
         const smooth = swaper.getAttribute('data-smooth');
         const horizontal = swaper.getAttribute('data-width');
@@ -164,9 +190,11 @@ function swap(swapables) {
         while (next) {
             if (next.classList.contains('cgs-swap-visible')) {
                 next.classList.remove('cgs-swap-visible');
+                swapable.classList.add('cgs-open');
                 break;
             } else if (next.classList.contains('cgs-swap-hidden')) {
                 next.classList.remove('cgs-swap-hidden');
+                swapable.classList.remove('cgs-open');
                 hideSwapable(smooth, horizontal, next);
                 break;
             }            
@@ -176,6 +204,7 @@ function swap(swapables) {
         swaper.addEventListener('click', function () {
             primaryIcon.classList.toggle('cgs-hidden');
             secondaryIcon.classList.toggle('cgs-hidden');
+            swapable.classList.toggle('cgs-open');
             hideSwapable(smooth, horizontal, next);
             
             // Changement du titre pour le tooltip

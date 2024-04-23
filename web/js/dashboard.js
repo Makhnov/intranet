@@ -641,7 +641,7 @@ function convocationDate() {
     });
 
     function checkConvocationDate(date_section) {
-        console.log("Fonction checkConvocationDate");
+        // console.log("Fonction checkConvocationDate");
         // On récupère la valeur "old" de la convocation en fetchant son ID
         const form = document.querySelector('form#page-edit-form');
 
@@ -649,32 +649,32 @@ function convocationDate() {
             const action = form.getAttribute('action');
             const convocationId = action.split('/')[3];
             const ID = parseInt(convocationId);
-            console.log(convocationId);
+            // console.log(convocationId);
 
             if (convocationId == "add") {
-                console.log("CREATION DE CONVOCATION");
+                // console.log("CREATION DE CONVOCATION");
                 manageConvocationDate('create');
             } else if (ID) {
-                console.log("EDITION DE CONVOCATION");
+                // console.log("EDITION DE CONVOCATION");
                 fetch('/api/v2/pages/' + convocationId + '/')
                 .then(response => response.json())
                 .then(data => {
                     // On vérifie l'ancieneté de la convocation
                     const old = data.old ? data.old : false;                
-                    console.log(old);
+                    // console.log(old);
                     if (old) {
                         throw new Error("Ancienne convocation détectée");
                     } else {
-                        console.log("Nouvelle convocation détectée");
+                        // console.log("Nouvelle convocation détectée");
                         manageConvocationDate('new');
                     }
                 })
                 .catch(error => {
                     if (error.message === "Ancienne convocation détectée") {                    
-                        console.log(error.message);
+                        // console.log(error.message);
                         manageConvocationDate('old');
                     } else {
-                        console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+                        // console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
                         manageConvocationDate('error');
                     }
                 });
@@ -697,7 +697,7 @@ function convocationDate() {
 
             switch (state) {
                 case 'create':
-                    console.log("CREATE STEP 2");
+                    // console.log("CREATE STEP 2");
                     
                     // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
                     if (selectedDate < today) {
@@ -714,7 +714,7 @@ function convocationDate() {
 
                     break;
                 case 'new':
-                    console.log("NEW STEP 2");
+                    // console.log("NEW STEP 2");
                     // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
                     if (selectedDate < today) {
                         removeInfoBlock("cv-date");
@@ -729,7 +729,7 @@ function convocationDate() {
                     }
                     break;
                 case 'old':
-                    console.log("OLD STEP 2");
+                    // console.log("OLD STEP 2");
                     // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
                     if (selectedDate < today) {
                         removeInfoBlock("cv-date");
@@ -744,7 +744,7 @@ function convocationDate() {
                     }
                     break;
                 case 'error':
-                    console.log("ERROR STEP 2");
+                    // console.log("ERROR STEP 2");
                     removeInfoBlock("cv-date");
                     agendaSection.classList.remove('cgs-hidden');
                     break;

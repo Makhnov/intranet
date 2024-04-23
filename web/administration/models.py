@@ -1,12 +1,10 @@
 from termcolor import colored
 import uuid
 import math
-
 import datetime
-from django.utils.timezone import now
-from collections import defaultdict
 
 from django.utils.timezone import make_aware
+from collections import defaultdict
 from django.db import models
 from django import forms
 
@@ -20,6 +18,7 @@ from wagtail.admin.panels import (
     InlinePanel,
     PageChooserPanel,
     MultiFieldPanel,
+    MultipleChooserPanel,
 )
 
 # Blocks
@@ -46,7 +45,7 @@ from home.views import custom_content_panels, custom_promote_panels
 from wagtail.contrib.table_block.blocks import TableBlock
 
 # Blocks, Medias, PJ, etc.
-from utils.widgets import PiecesJointes as PJBlock
+from utils.widgets import JSInlinePanel, PiecesJointes as PJBlock
 from utils.streamfield import (
     CustomMediaBlock as MediaBlock,
     CustomLinkBlock as LinkBlock,
@@ -537,8 +536,9 @@ class ConvocationPage(PdfViewPageMixin, Page):
     content_panels = custom_content_panels(["title"]) + [
         FieldPanel("date", attrs={'data-id': "date"}),
         FieldPanel("body", attrs={'data-id': "body"}),
-        InlinePanel(
+        JSInlinePanel(
             "convocation_documents",
+            # chooser_field_name="version", # Version pour les multifieldpanel
             label=_("Document"),
             heading=_("Attachments"),
             classname="collapsible",
@@ -559,7 +559,7 @@ class ConvocationPage(PdfViewPageMixin, Page):
         index.FilterField('date'),
         index.SearchField('body'),
     ]
-    
+                        
     def save(self, *args, **kwargs):
         if not self.title:
             self.title = "Convocation"
@@ -583,9 +583,9 @@ class ConvocationPage(PdfViewPageMixin, Page):
     
     def get_context(self, request, **kwargs):
         context = super().get_context(request, **kwargs)
+        parent = self.get_parent().specific
         context['is_pdf'] = 'pdf' in request.path
         context['old'] = self.old
-        parent = self.get_parent().specific
         context['parent'] = parent
 
         if hasattr(parent, 'get_members'):
@@ -636,6 +636,14 @@ class ConvocationPage(PdfViewPageMixin, Page):
             parent_page_slug = parent_page.slug
             template_path = f"administration/{parent_page_slug}/convocation_page.html"
         return template_path
+    
+    @property
+    def numeric(self):
+        return self.convocation_documents.filter(version='numeric').first()
+
+    @property
+    def attachments(self):
+        return self.convocation_documents.filter(version='attachments').all()
     
     class Meta:
         verbose_name = "convocation"
@@ -881,6 +889,14 @@ class CompteRenduPage(PdfViewPageMixin, Page):
             template_path = f"administration/{parent_page_slug}/compte_rendu_page.html"
         return template_path
     
+    @property
+    def numeric(self):
+        return self.compte_rendu_documents.filter(version='numeric').first()
+
+    @property
+    def attachments(self):
+        return self.compte_rendu_documents.filter(version='attachments').all()
+        
     class Meta:
         verbose_name = "compte-rendu"
         verbose_name_plural = "comptes-rendus"
@@ -888,7 +904,7 @@ class CompteRenduPage(PdfViewPageMixin, Page):
 ###############
 ##  WIDGETS  ##
 ############### 
-
+            
 # Liste de documents (GenericPage)
 class AdministrationPieceJointe(PJBlock):
     """ Modèle de pièce jointe spécifique à la page enquête/formulaire de l'administration """
@@ -898,7 +914,7 @@ class AdministrationPieceJointe(PJBlock):
         on_delete=models.CASCADE,
         related_name="administration_documents",
     )
-   
+
 # Liste de documents (convoc)
 class ConvocationPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la ConvocationPage."""
@@ -908,7 +924,19 @@ class ConvocationPieceJointe(PJBlock):
         on_delete=models.CASCADE,
         related_name="convocation_documents",
     )
-
+    version = models.CharField(
+        max_length=15, 
+        choices=[('numeric', _('Numeric version')), ('attachments', _('Attachments'))],
+        default='numeric',
+        blank=False,
+        null=False,
+        verbose_name=_("Type"),
+        help_text=_("Choose if this is supposed to be a numeric version of the form or an attachment."),
+    )
+    panels = PJBlock.panels + [
+        FieldPanel('version'),
+    ]
+            
 # Liste de documents (cr)
 class CompteRenduPieceJointe(PJBlock):
     """Modèle de pièce jointe spécifique à la CompteRenduPage."""
@@ -918,6 +946,18 @@ class CompteRenduPieceJointe(PJBlock):
         on_delete=models.CASCADE,
         related_name="compte_rendu_documents",
     )
+    version = models.CharField(
+        max_length=15, 
+        choices=[('numeric', _('Numeric version')), ('attachments', _('Attachments'))],
+        default='numeric',
+        blank=False,
+        null=False,
+        verbose_name=_("Type"),
+        help_text=_("Choose if this is supposed to be a numeric version of the form or an attachment."),
+    )
+    panels = PJBlock.panels + [
+        FieldPanel('version'),
+    ]
 
 # Etat de présence
 class PresenceStatus(models.IntegerChoices):
@@ -1011,7 +1051,7 @@ def get_admin_menu():
     if date_from and today < date_from:
         is_form = False
     
-    print(colored(f'Today : {today}', 'green', 'on_white'), colored(enquete.date_from, 'green', 'on_white'), colored(enquete.date_to, 'green', 'on_white'))
+    # print(colored(f'Today : {today}', 'green', 'on_white'), colored(enquete.date_from, 'green', 'on_white'), colored(enquete.date_to, 'green', 'on_white'))
     
     q_index = math.floor(len(pages) / 2)
     enquete_page = None
@@ -1023,8 +1063,8 @@ def get_admin_menu():
     if enquete_page and is_form:
         pages.insert(q_index, enquete_page)
 
-    print(colored("is_form", "green"), colored(is_form, "white", "on_green"))
-    print(colored("pages", "green"), colored(pages, "white", "on_green"))
+    # print(colored("is_form", "green"), colored(is_form, "white", "on_green"))
+    # print(colored("pages", "green"), colored(pages, "white", "on_green"))
     return [pages, is_form]
 
 # Fonction pour filtrer les convocations et les comptes-rendus
@@ -1039,9 +1079,9 @@ def cv_cr_filter(page, request):
 
     # Filtre conditionnel en fonction du type sélectionné
     if type_filter in ['*', 'convocations']:
-        convocations = ConvocationPage.objects.live().descendant_of(page).order_by('date')
+        convocations = ConvocationPage.objects.live().descendant_of(page).order_by('-date')
     if type_filter in ['*', 'comptes_rendus']:
-        comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('date')
+        comptes_rendus = CompteRenduPage.objects.live().descendant_of(page).order_by('-date')
 
     # print(colored("convocations", "green"), colored(convocations, "white", "on_green"))
     # print(colored("comptes_rendus", "green"), colored(comptes_rendus, "white", "on_green"))

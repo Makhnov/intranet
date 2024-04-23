@@ -5,7 +5,7 @@
 {% endblock extra_css %}
 
 {% for block in value %}
-    {% include "widgets/blocks/render_block.html" with block=block %}
+    {% include "widgets/blocks/manage/render.html" with block=block %}
 {% endfor %}
 
 {% block extra_js %}

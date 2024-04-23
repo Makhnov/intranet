@@ -2,7 +2,7 @@
 from wagtail.models import Orderable
 from wagtail.documents.models import Document
 from wagtail.fields import models
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
 from wagtail.models import Site
 
 # Traductions
@@ -12,6 +12,12 @@ from django.utils.translation import gettext_lazy as _
 from dashboard.models import IntranetIcons
 from utils.variables import FILE_EXTENSIONS
 
+# Gestion des évenements js
+class JSInlinePanel(InlinePanel):
+    class BoundPanel(InlinePanel.BoundPanel):
+        class Media:
+            js = ('js/cms.min.js',)
+            
 # Carrousel d'image (Galerie)
 class GalleryImage(Orderable):
     image = models.ForeignKey(
@@ -51,7 +57,6 @@ class PiecesJointes(Orderable):
         null=True,
         blank=True,
     )
-
     panels = [
         MultiFieldPanel(
             [

@@ -294,6 +294,7 @@ def custom_process_form(page, request, *args, **kwargs):
         )
 
 
+# ETAPE 3 : On sauvegarde les données du formulaire
 @register("process_form_submission")
 def save_form_submission_data(instance, form):
     """ Sauvegarde les données du formulaire. """    
