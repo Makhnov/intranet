@@ -176,12 +176,6 @@ function swap(swapables) {
         const smooth = swaper.getAttribute('data-smooth');
         const horizontal = swaper.getAttribute('data-width');
 
-        if (swaper.title == "Masquer") {
-            primaryIcon.classList.add('cgs-hidden');
-        } else {
-            secondaryIcon.classList.add('cgs-hidden');
-        }
-
         // Sélection du prochain élément cgs-hidden
         let next = swapable.nextElementSibling;
         while (next) {

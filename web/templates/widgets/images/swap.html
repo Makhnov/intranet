@@ -8,30 +8,58 @@
     {% if smooth %}data-smooth=True{% endif %} 
     {% if horizontal %}data-width=True{% endif %} 
 >
+
+{% if swap_initial == "Afficher" %}
     {% if chevron %}
-        {% if horizontal %}        
+        {% if horizontal %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more_right %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less_left class_type="cgs-hidden" %}
+        {% else %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type=primary_class %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type=secondary_class class_type="cgs-hidden" %}
+        {% endif %}
+    {% elif cross %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.open class_type=primary_class %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type=secondary_class class_type="cgs-hidden" %}
+    {% elif filter %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.apply_filter class_type=primary_class %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter class_type=secondary_class class_type="cgs-hidden" %}
+    {% elif search %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in class_type=primary_class %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out class_type=secondary_class class_type="cgs-hidden" %}
+    {% elif star %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star class_type=primary_class %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star_out class_type=secondary_class class_type="cgs-hidden" %}
+    {% else %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type=primary_class %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type=secondary_class class_type="cgs-hidden" %}
+    {% endif %}
+{% else %}
+    {% if chevron %}
+        {% if horizontal %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more_right class_type="cgs-hidden" %}
             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less_left %}
         {% else %}
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type=primary_class class_type="cgs-hidden" %}
+            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type=secondary_class %}
         {% endif %}
-    {% elif cross %}    
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.open %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close %}
-    {% elif filter %}    
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.apply_filter %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter %}
+    {% elif cross %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.open class_type=primary_class class_type="cgs-hidden" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type=secondary_class %}
+    {% elif filter %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.apply_filter class_type=primary_class class_type="cgs-hidden" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter class_type=secondary_class %}
     {% elif search %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in class_type=primary_class class_type="cgs-hidden" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out class_type=secondary_class %}
     {% elif star %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star_out %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star class_type=primary_class class_type="cgs-hidden" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star_out class_type=secondary_class %}
     {% else %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less %}    
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type=primary_class class_type="cgs-hidden" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type=secondary_class %}
     {% endif %}
+{% endif %}
 </a>
 
 {% if heading %}
