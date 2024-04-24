@@ -7,19 +7,11 @@
             {% if is_root %}   
                 {% agents_themes class_type="menu" %}
             {% else %}
-                <div class="cgs-page">
-                    {% if request.GET %}
-                        {% with swap_initial="Masquer" %}
-                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                        {% endwith %}
-                    {% else %}
-                        {% with swap_initial="Afficher" %}
-                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                        {% endwith %}
-                    {% endif %}
+                <div class="cgs-page {{ section }}">
+                    {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
                     {% include "widgets/search/filters.html" %}
-                    <div class="cgs-list">
-                        {% include "agents/widgets/faq_list.html" with faqs=faqs %}
+                    <div class="cgs-list {{ section }}">
+                        {% include "agents/widgets/faq_list.html" with class_type="list" item_type="faq" %}
                     </div>
                 </div>
             {% endif %}
@@ -28,9 +20,5 @@
 {% endblock %}
 
 {% block footer_left %}
-  {% include 'widgets/search/query.html' %}
-{% endblock %}
-
-{% block quickbar %}
     {% agents_quickbar %}
 {% endblock %}

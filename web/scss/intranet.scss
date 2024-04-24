@@ -66,6 +66,14 @@ html {// INITIALISATIONS
     .cgs-search a {
         all:initial;
     }
+    .cgs-fixed-icon, a.cgs-fixed-icon img, a.cgs-fixed-icon svg {
+        cursor: pointer;
+        height: 1.75rem!important;
+        width: 1.75rem!important;
+        min-height: 1.75rem!important;
+        min-width: 1.75rem!important;
+        aspect-ratio: 1/1!important;
+    }
     .cgs-small-icon, a.cgs-small-icon img, a.cgs-small-icon svg {
         cursor: pointer;
         height: calc(var(--icon-size) * 0.66);
@@ -342,7 +350,7 @@ main {
 /***********************************************   FOOTER                                                 *****************************************************/
 div.cgs-content {//footer
 
-    footer.cgs, footer::before, footer > nav, footer div.cgs-box, footer ul.nav-box, footer li.nav-item, footer cgs-search {
+    footer.cgs, footer::before, footer > nav, footer div.cgs-box, footer ul.nav-box, footer li.nav-item, footer cgs-news {
         height: var(--footer-height);
     }
 
@@ -784,11 +792,11 @@ footer nav.footer.cgs-nav {
     grid-template-columns: var(--footer-height) var(--footer-height) 1fr 1fr var(--footer-height) var(--footer-height); // footer_left, icone_left, footer_center, icone_right, footer_right 
     grid-template-rows: 1fr;
 
-    & > *:not(cgs-search) {
+    & > *:not(cgs-news) {
         justify-self: center;
         align-self: center;
     }
-    cgs-search {
+    cgs-news {
         grid-column: 1;
         &.cgs-open {
             grid-column: 1 / span 4;
@@ -943,47 +951,88 @@ footer nav.footer.cgs-nav {
 }
 
 /***********************************************                       SEARCHBAR SEARCHBLOCK                         ***************************************************/
-#searchColumn {
-    .cgs-close {
-        margin-left:3px;
-    }
-}
 
-cgs-search {
+cgs-news {
     align-self: flex-start;
-
     display: flex;
     justify-content: flex-start;
-    column-gap: calc(var(--nav-icon-margin) * .75);
-
-    svg {
-        cursor: pointer;
-
+    
+    > div {
         flex:none;
-        height: 1.75em;
-        width: 1.75em;
-        padding-left: 1em;
-        margin: auto 0;
+
+        height: var(--footer-height);
+        width: var(--footer-height);
+
+        &.highlighted:not(.cgs-open, :hover) a svg {            
+            path {
+                animation: linear 2s infinite blinkSVG;
+            }
+        }
+        a {
+            cursor: pointer;    
+            height: 100%;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            svg {                
+                height: 75%!important;
+                width: 75%!important;
+
+                path:first-child {
+                    stroke: black;
+                    stroke-width: 1.25;
+                }
+            
+                path:last-child {
+                    stroke-dasharray: 1000;
+                    stroke-dashoffset: 1000;
+                }
+            }            
+        }
     }
 
-    form {
-        display: flex; 
-        height: 2em;
-        margin: auto 0;
+    > nav.cgs-news {
+        flex:none;
 
-        input {
-            all:initial;
-            border-bottom: 2px solid var(--cgs-logo-1);
+        width:100%;
+        height: var(--footer-height);
+        display: flex;
+        justify-content: flex-start;
+
+        ul {
+            width:100%;
             height: 100%;
-            width: 0%;
-            transition: all .3s ease-in-out;
 
-            &.cgs-open {                
-                width:100%;
-                min-width: 300px;
-                // max-width:calc(100vw - ((var(--nav-icon-margin) * .75) + 4em));
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            li {
+                height: var(--footer-height);
+                width: var(--footer-height);
+
+                a {
+                    height: 100%;
+                    width: 100%;
+        
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:hover svg, &:hover img {
+                        transform: scale(1.25);
+                    }
+
+                    svg, img {
+                        height: 60%!important;
+                        width: 60%!important;
+                    }
+                }
             }
         }
     }
 }
-

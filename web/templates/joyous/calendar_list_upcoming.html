@@ -9,14 +9,14 @@
 </div>
 {% endblock cal_subtitle %}
 
-{% block footer_left %}
-<div class="joy-export">
-  <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
-    &nbsp;&nbsp;&nbsp;
-  <a href="{{ request.path }}?format=rss">{% trans "RSS Feed" %}</a>
-</div>
+{% block quickbar %}
+  <div class="joy-export">
+    <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
+      &nbsp;&nbsp;&nbsp;
+    <a href="{{ request.path }}?format=rss">{% trans "RSS Feed" %}</a>
+  </div>
 {% endblock %}
 
-{% block footer_mid %}
+{% block footer_mid %}{% comment %} ex_footer {% endcomment %}
   {% include "joyous/includes/events_view_choices.html" with is_upcoming=True listLink=_("Past Events") %}
 {% endblock footer_mid %}

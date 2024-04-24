@@ -8,37 +8,28 @@
                 {% amicale_themes class_type="menu" %}
             {% else %}
                 <div class="cgs-page">         
-                    {% if request.GET %}
-                        {% with swap_initial="Masquer" %}
-                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                        {% endwith %}
-                    {% else %}
-                        {% with swap_initial="Afficher" %}
-                            {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                        {% endwith %}
-                    {% endif %}
+                    {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
                     {% include "widgets/search/filters.html" %}
                     
-                    <div class="cgs-list">
+                    <div class="cgs-list {{ section }}">
                         {% if members %}
                             {% include 'widgets/blocks/members.html' with members=members %}
                         {% endif %}
                         {% with class_type="list" %}
                             {% if amicale_news %}
                                 <ul class="{{ class_type }}-box amicale">
-                                    <h2>Nouvelles du Cagire</h2>
+                                    <h3 class="h2">Nouvelles du Cagire</h3>
                                     {% for item in amicale_news %}
-                                        {% include "amicale/widgets/li_item.html" with item_type="news" %}
+                                        <li class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% endif %}"> 
+                                            {% include "widgets/blocks/item.html" with item_type="news" %}
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
 
                             {% if amicale_sorties %}
                                 <ul class="{{ class_type }}-box amicale">
-                                    <h2>Prochaines sorties</h2>
-                                    {% for item in amicale_sorties %}
-                                        {% include "amicale/widgets/li_item.html" with item_type="sorties" %}
-                                    {% endfor %}
+                                    <h3 class="h2">Prochaines sorties</h3>
                                     {% if not ami %}
                                         <p class="inscription">
                                             <span>
@@ -54,14 +45,21 @@
                                             </span>
                                         </p>
                                     {% endif %}
+                                    {% for item in amicale_sorties %}
+                                        <li class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% endif %}">
+                                            {% include "widgets/blocks/item.html" with item_type="sorties" %}
+                                        </li>                                        
+                                    {% endfor %}
                                 </ul>
                             {% endif %}
 
                             {% if amicale_divers %}
                                 <ul class="{{ class_type }}-box amicale">
-                                    <h2>Autres</h2>
+                                    <h3 class="h2">Autres</h3>
                                     {% for item in amicale_divers %}
-                                        {% include "amicale/widgets/li_item.html" with item_type="divers" %}
+                                        <li class="{{ class_type }}-item{% if item_type %} {{ item_type }}{% endif %}">
+                                            {% include "widgets/blocks/item.html" with item_type="divers" %}
+                                        </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
@@ -73,6 +71,6 @@
     </main>
 {% endblock %}
 
-{% block quickbar %}
+{% block footer_left %}
     {% amicale_quickbar %}
 {% endblock %}

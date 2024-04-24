@@ -22,6 +22,12 @@
     {% elif filter %}    
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.apply_filter %}
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.reset_filter %}
+    {% elif search %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_in %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.zoom_out %}
+    {% elif star %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.star_out %}
     {% else %}
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less %}    

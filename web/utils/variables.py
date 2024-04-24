@@ -127,7 +127,15 @@ THEMES = [
     {'code': 'dark', 'name': _('Sombre')},
     {'code': 'system', 'name': _('Système')}
 ]
-      
+
+# Couleurs
+COLORS = [
+    {'code': 'fonce', 'name': _('Vert émeraude')},
+    {'code': 'clair', 'name': _('Vert pomme')},
+    {'code': 'cyan', 'name': _('Cyan')},
+    {'code': 'gris', 'name': _('Gris')},
+]
+
 # Civilités
 CIVILITIES = [
     {'code': 'M', 'name': _('Monsieur')},

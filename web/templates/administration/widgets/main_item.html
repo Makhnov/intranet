@@ -3,21 +3,13 @@
         {% if is_menu %}
             {% include 'administration/widgets/ul_item.html' with index=False %}
         {% else %}            
-            <div class="cgs-page">  
-                {% if request.GET %}
-                    {% with swap_initial="Masquer" %}
-                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                    {% endwith %}
-                {% else %}
-                    {% with swap_initial="Afficher" %}
-                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                    {% endwith %}
-                {% endif %}
+            <div class="cgs-page">
+                {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
                 {% include "widgets/search/filters.html" %}
 
-                <div class="cgs-list">
+                <div class="cgs-list {{ section }}">
                     {% if members %}
-                        {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True heading="Afficher la liste des membres" wrap_class="members" swap_class="cgs-standard-icon" swap_initial="Afficher" %}
+                        {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True wrap_class="members" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
                         <section class="cgs-members cgs-swap-hidden">
                             <div id="action-buttons" class="cgs-action">
                                 <button id="cgs-copy" alt="Copy button (clipboard)" title="Copier dans le presse-papier">
@@ -59,24 +51,9 @@
                         </section>
                     {% endif %}
 
-                    {% if children.convocation_pages_by_year or children.compterendu_pages_by_year %}
-                        <ul class="{{ class_type }}-box {{ item_type }}">
-                            <h2>                                
-                                {% if request.GET.start_date or request.GET.end_date %}
-                                    {% if request.GET.start_date %}
-                                    Convocations du {{ request.GET.start_date }}
-                                    {% else %}
-                                    Convocations du *
-                                    {% endif %}
-                                    {% if request.GET.end_date %}
-                                    au {{ request.GET.end_date }}
-                                    {% else %}
-                                    au *
-                                    {% endif %}
-                                {% else %}
-                                Toutes les convocations
-                                {% endif %}
-                            </h2>
+                    {% if children.convocation_pages_by_year %}
+                        <ul class="{{ class_type }}-box {{ item_type }} {{ section }}">
+                            <h2>CONVOCATIONS</h2>
                             {% for year, convocations in children.convocation_pages_by_year.items %}
                                     <h3>{{ year }}</h3>
                                     {% for convocation in convocations %}
@@ -84,25 +61,10 @@
                                     {% endfor %}
                             {% endfor %}
                         </ul>
-
-                        <ul class="{{ class_type }}-box {{ item_type }}">
-                            <h2>
-                                {% if request.GET.start_date or request.GET.end_date %}
-                                    {% if request.GET.start_date %}
-                                    Comptes-Rendus du {{ request.GET.start_date }}
-                                    {% else %}
-                                    Comptes-Rendus du *
-                                    {% endif %}
-                                    {% if request.GET.end_date %}
-                                    au {{ request.GET.end_date }}
-                                    {% else %}
-                                    au *
-                                    {% endif %}
-                                {% else %}
-                                Tous les comptes-Rendus
-                                {% endif %}
-                                
-                            </h2>
+                    {% endif %}
+                    {% if children.compterendu_pages_by_year %} 
+                        <ul class="{{ class_type }}-box {{ item_type }} {{ section }}">
+                            <h2>COMPTES-RENDUS</h2>
                             {% for year, compterendus in children.compterendu_pages_by_year.items %}
                                     <h3>{{ year }}</h3>
                                     {% for compterendu in compterendus %}

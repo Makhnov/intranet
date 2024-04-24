@@ -1,0 +1,11 @@
+{% if items %}
+    <nav class="cgs-news news {{item.item_type}} cgs-swap-hidden">
+        <ul class="news-box {{item.item_type}} incomming">
+            {% for item in items %}
+                {% with item_type=item.item_type class_type="news" name=item.name url=item.url theme=item.category %}
+                    {% include 'widgets/news/item.html' %}
+                {% endwith %}  
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}

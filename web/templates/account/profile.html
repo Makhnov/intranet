@@ -90,31 +90,31 @@
 				{% comment %} Last Name  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Last name" %}</label>
-				<p class="mb-0">{{ user.last_name|default:'' }}</p>
+				<p class="mb-0">{{ user_base.last_name|default:'' }}</p>
 				</div>
 	
 				{% comment %} First Name  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "First name" %}</label>
-				<p class="mb-0">{{ user.first_name|default:'' }}</p>
+				<p class="mb-0">{{ user_base.first_name|default:'' }}</p>
 				</div>
 
 				{% comment %} Civility {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Civility" %}</label>
-				<p class="mb-0">{{ user.civility|default:'' }}</p>
+				<p class="mb-0">{{ user_base.civility.name|default:'' }}</p>
 				</div>
 
 				{% comment %} Date of Birth  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Date of birth" %}</label>
-				<p class="mb-0">{{ request.user.date_of_birth|date:"D. d M. Y"|default:'' }}</p>
+				<p class="mb-0">{{ user_base.date_of_birth|date:"D d M Y"|default:'' }}</p>
 				</div>
 				
 				{% comment %} Mobile Phone  {% endcomment %}
 				<div class="col border py-2">
 					<label class="text-muted"> {% trans "Mobile phone" %}:</label>
-					<p class="mb-0">{{ request.user.mobile_phone|default:'' }}</p>
+					<p class="mb-0">{{ user_base.mobile_phone|default:'' }}</p>
 				</div>
 			</div>
 
@@ -125,25 +125,25 @@
 				{% comment %} Address Line 1  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Address line 1" %}</label>
-				<p class="mb-0">{{ request.user.address1|default:'' }}</p>
+				<p class="mb-0">{{ user_base.address1|default:'' }}</p>
 				</div>
 			
 				{% comment %} Address Line 2  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Address line 2" %}</label>
-				<p class="mb-0">{{ request.user.address2|default:'' }}</p>
+				<p class="mb-0">{{ user_base.address2|default:'' }}</p>
 				</div>
 			
 				{% comment %} Postal Code  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Postal Code" %}</label>
-				<p class="mb-0">{{ request.user.zip_code|default:'' }}</p>
+				<p class="mb-0">{{ user_base.zip_code|default:'' }}</p>
 				</div>
 			
 				{% comment %} City  {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "City" %}</label>
-				<p class="mb-0">{{ request.user.city|default:'' }}</p>
+				<p class="mb-0">{{ user_base.city|default:'' }}</p>
 				</div>
 			</div>
 
@@ -154,32 +154,41 @@
 				{% comment %} Theme (sombre/clair) {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Theme" %}:</label>
-				<p class="mb-0">{{ request.user.wagtail_userprofile.theme|default:'' }}</p>
+				<p class="mb-0">{{ user_extra.theme.name|default:'' }}</p>
 				</div>
 
-				{% comment %} Language (fr/en) {% endcomment %}
+				{% comment %} Couleur des icones {% endcomment %}
 				<div class="col border py-2">
-				<label class="text-muted"> {% trans "Language" %}:</label>
-				<p class="mb-0">{{ request.user.wagtail_userprofile.preferred_language|default:'' }}</p>
-				</div>
-
-				{% comment %} Fuseau horaire {% endcomment %}
-				<div class="col border py-2">
-				<label class="text-muted"> {% trans "Timezone" %}:</label>
-				<p class="mb-0">{{ request.user.wagtail_userprofile.current_time_zone|default:'' }}</p>
+				<label class="text-muted">{% trans "Icons color"%}:</label>
+				<p class="mb-0">{{ user_extra.icon.name|default:'' }}</p>
 				</div>
 
 				{% comment %} Photo de profil {% endcomment %}
 				<div class="col border py-2">
 				<label class="text-muted"> {% trans "Profile picture" %}:</label>
-				{% if request.user.wagtail_userprofile.avatar %}
-					<img class="cgs-huge-icon cgs-expandable" src="{{ request.user.wagtail_userprofile.avatar.url }}" alt="{{ request.user.get_full_name|default:'' }}">	
+				{% if user_extra.avatar %}
+					<p><img class="cgs-huge-icon cgs-expandable" src="{{ user_extra.avatar }}" alt="{{ user_base.get_full_name|default:'' }}"></p>
 				{% else %}
 					{% image settings.dashboard.IntranetIcons.user_profile original as img %}
-					<img class="cgs-huge-icon cgs-expandable" src="{{ img.url }}" alt="{{ request.user.get_full_name|default:'' }}">	
+					<p><img class="cgs-huge-icon cgs-expandable" src="{{ img.url }}" alt="{{ user_base.get_full_name|default:'' }}"></p>
 				{% endif %}
 				</div>
 
+				{% comment %} Language (fr/en) {% endcomment %}
+				{% comment %} 
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Language" %}:</label>
+				<p class="mb-0">{{ user_extra.preferred_language|default:'' }}</p>
+				</div> 
+				{% endcomment %}
+
+				{% comment %} Fuseau horaire {% endcomment %}
+				{% comment %} 
+				<div class="col border py-2">
+				<label class="text-muted"> {% trans "Timezone" %}:</label>
+				<p class="mb-0">{{ user_extra.current_time_zone|default:'' }}</p>
+				</div> 
+				{% endcomment %}
 			</div>			
 		</div>
 
@@ -195,21 +204,21 @@
 					<!-- Champ Nom -->
 					<div class="form-group no-input">
 						<label>{% trans "Last name" %}</label>
-						<input type="text" class="form-control" value="{{ request.user.last_name }}" readonly>
+						<input type="text" class="form-control" value="{{ user_base.last_name }}" readonly>
 					</div>
 
 					<!-- Champ prénom  -->
 					<div class="form-group no-input">
 						<label for="first_name">{% trans "First name" %}</label>
-						<input type="text" class="form-control" value="{{ request.user.first_name }}" readonly>
+						<input type="text" class="form-control" value="{{ user_base.first_name }}" readonly>
 					</div>
 
 					<!-- Champ Civilité -->
 					<div class="form-group">
 						<label for="civility">{% trans "Civility" %}</label>
 						<select class="form-control" id="civility" name="civility">
-							{% for cv in civilities %}
-								<option value="{{ cv.code }}" {% if request.user.wagtail_userprofile.theme == cv.code %}selected{% endif %}>{{ cv.name }}</option>
+							{% for gender in genders %}
+								<option value="{{ gender.code }}" {% if user_base.civility.code == gender.code %}selected{% endif %}>{{ gender.name }}</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -217,13 +226,13 @@
 					<!-- Champ Date de Naissance -->
 					<div class="form-group">
 						<label for="date_of_birth">{% trans "Date of birth" %}</label>
-						<input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ request.user.date_of_birth|date:'Y-m-d' }}">
+						<input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ user_base.date_of_birth|date:'Y-m-d' }}">
 					</div>
 
 					<!-- Champ Téléphone Mobile -->
 					<div class="form-group">
 						<label for="mobile_phone">{% trans "Mobile phone" %}</label>
-						<input type="text" class="form-control" id="mobile_phone" name="mobile_phone" value="{{ request.user.mobile_phone }}">
+						<input type="text" class="form-control" id="mobile_phone" name="mobile_phone" value="{{ user_base.mobile_phone }}">
 					</div>
 				</div>
 
@@ -233,25 +242,25 @@
 					<!-- Champ Adresse Ligne 1 -->
 					<div class="form-group">
 						<label for="address1">{% trans "Address line 1" %}</label>
-						<input type="text" class="form-control" id="address1" name="address1" value="{{ request.user.address1 }}">
+						<input type="text" class="form-control" id="address1" name="address1" value="{{ user_base.address1 }}">
 					</div>
 
 					<!-- Champ Adresse Ligne 2 -->
 					<div class="form-group">
 						<label for="address2">{% trans "Address line 2" %}</label>
-						<input type="text" class="form-control" id="address2" name="address2" value="{{ request.user.address2 }}">
+						<input type="text" class="form-control" id="address2" name="address2" value="{{ user_base.address2 }}">
 					</div>
 
 					<!-- Champ Code Postal -->
 					<div class="form-group">
 						<label for="zip_code">{% trans "Postal Code" %}</label>
-						<input type="text" class="form-control" id="zip_code" name="zip_code" value="{{ request.user.zip_code }}">
+						<input type="text" class="form-control" id="zip_code" name="zip_code" value="{{ user_base.zip_code }}">
 					</div>
 
 					<!-- Champ Ville -->
 					<div class="form-group">
 						<label for="city">{% trans "City" %}</label>
-						<input type="text" class="form-control" id="city" name="city" value="{{ request.user.city }}">
+						<input type="text" class="form-control" id="city" name="city" value="{{ user_base.city }}">
 					</div>
 				</div>
 
@@ -259,31 +268,21 @@
 					<legend>{% trans "Parameters" %}</legend>
 
 					<!-- Champ Thème d'affichage -->
-					<div class="form-group">
+					<div class="form-group no-input">
 						<label for="theme">{% trans "Theme" %}</label>
-						<select class="form-control" id="theme" name="theme">
-							{% for theme in themes %}
-								<option value="{{ theme.code }}" {% if request.user.wagtail_userprofile.theme == theme.code %}selected{% endif %}>{{ theme.name }}</option>
+						<select class="form-control" id="theme" name="theme" readonly>
+							{% for style in styles %}
+								<option value="{{ style.code }}" {% if user_extra.theme.code == style.code %}selected{% endif %}>{{ style.name }}</option>
 							{% endfor %}
 						</select>
 					</div>
 
-					<!-- Champ Langue préférée -->
+					<!-- Couleur des icones -->
 					<div class="form-group">
-						<label for="preferred_language">{% trans "Language" %}</label>
-						<select class="form-control" id="preferred_language" name="preferred_language">
-							{% for language in languages %}
-								<option value="{{ language.code }}" {% if request.user.wagtail_userprofile.preferred_language == language.code %}selected{% endif %}>{{ language.name }}</option>
-							{% endfor %}
-						</select>
-					</div>
-
-					<!-- Champ Fuseau horaire -->
-					<div class="form-group">
-						<label for="current_time_zone">{% trans "Timezone" %}</label>
-						<select class="form-control" id="current_time_zone" name="current_time_zone">
-							{% for timezone in timezones %}
-								<option value="{{ timezone.code }}" {% if request.user.wagtail_userprofile.current_time_zone == timezone.code %}selected{% endif %}>{{ timezone.name }}</option>
+						<label for="icons">{% trans "Icons" %}</label>
+						<select class="form-control" id="icons" name="icons">
+							{% for color in colors %}
+								<option value="{{ color.code }}" {% if user_extra.icon.code == color.code %}selected{% endif %}>{{ color.name }}</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -297,22 +296,22 @@
 								{% trans "Delete actual" %}
 							</label>
 						</div>
-						{% if request.user.wagtail_userprofile.avatar %}
+						{% if user_extra.avatar %}
 							{% image settings.dashboard.IntranetIcons.user_profile original as img %}
 							<img 
 								id="preview_avatar" 
 								class="cgs-huge-icon cgs-expandable" 
-								alt="{{ request.user.get_full_name|default:'' }}"
-								src="{{ request.user.wagtail_userprofile.avatar.url }}" 
+								alt="{{ user_base.get_full_name|default:'' }}"
+								src="{{ user_extra.avatar }}" 
 								data-default="{{ img.url }}"
-								data-current="{{ request.user.wagtail_userprofile.avatar.url }}"
-							/>							
+								data-current="{{ user_extra.avatar }}"
+							/>
 						{% else %}
 							{% image settings.dashboard.IntranetIcons.user_profile original as img %}
 							<img 
 								id="preview_avatar" 
 								class="cgs-huge-icon cgs-expandable" 
-								alt="{{ request.user.get_full_name|default:'' }}"
+								alt="{{ user_base.get_full_name|default:'' }}"
 								src="{{ img.url }}" 
 								data-default="{{ img.url }}"
 								data-current="{{ img.url }}"
@@ -322,6 +321,29 @@
 					<div class="form-group nofill">
 						<input type="file" class="form-control" id="avatar" name="avatar">
 					</div>
+					
+					{% comment %} 
+					<!-- Champ Langue préférée -->
+					<div class="form-group">
+						<label for="preferred_language">{% trans "Language" %}</label>
+						<select class="form-control" id="preferred_language" name="preferred_language">
+							{% for language in languages %}
+								<option value="{{ language.code }}" {% if user_extra.preferred_language == language.code %}selected{% endif %}>{{ language.name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+
+					<!-- Champ Fuseau horaire -->
+					<div class="form-group">
+						<label for="current_time_zone">{% trans "Timezone" %}</label>
+						<select class="form-control" id="current_time_zone" name="current_time_zone">
+							{% for timezone in timezones %}
+								<option value="{{ timezone.code }}" {% if user_extra.current_time_zone == timezone.code %}selected{% endif %}>{{ timezone.name }}</option>
+							{% endfor %}
+						</select>
+					</div> 
+					{% endcomment %}
+
 					<div class="cgs-hidden">
 					    <input type="hidden" name="next" value="{{ request.GET.next }}">
 					</div>

@@ -25,10 +25,6 @@
 	{% endif %}
 {% endblock %}
 
-{% block footer_left %}
-	{% include 'widgets/search/query.html' %}
-{% endblock %}
-
 {% block footer_mid %}
 	{% if is_root %}   
 		{% amicale_themes class_type="nav" index=False %}

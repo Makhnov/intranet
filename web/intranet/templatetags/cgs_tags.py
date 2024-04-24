@@ -208,7 +208,7 @@ def cgs_cloud(context, class_type=None, index=None):
 ####################################################################################################
 
 # ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)
-@register.inclusion_tag('administration/widgets/quickbar.html', takes_context=True)
+@register.inclusion_tag('administration/widgets/news.html', takes_context=True)
 def administration_quickbar(context):
     request = context['request']
     user = request.user
@@ -258,7 +258,7 @@ def administration_quickbar(context):
     }
 
 # AGENTS FAQ QUICKBAR (Les trois dernières FAQ)
-@register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)
+@register.inclusion_tag('widgets/news/news.html', takes_context=True)
 def agents_quickbar(context):
     settings = context.get('settings', None)
     request = context['request']
@@ -293,7 +293,7 @@ def agents_quickbar(context):
     return {'items': items, 'settings': settings}
 
 # ADMINISTRATION QUICKBAR (prochaine convoc, dernier compte-rendu)
-@register.inclusion_tag('widgets/quickbar/quickbar.html', takes_context=True)
+@register.inclusion_tag('widgets/news/news.html', takes_context=True)
 def amicale_quickbar(context):
     settings = context.get('settings', None)
     

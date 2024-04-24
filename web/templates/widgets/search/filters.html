@@ -1,23 +1,16 @@
 {% load static i18n wagtailcore_tags cgs_tags %}
 
-{% block extra_css %}
-{% endblock extra_css %}
+<fieldset class="active">    
+    {% include 'widgets/images/swap.html' with wrapper=True chevron=True smooth=True horizontal=False wrap_class="active-icon" swap_class="cgs-standard-icon" swap_initial="Masquer" %}
+    {% include "widgets/search/fieldset/active.html" %}
+</fieldset>
 
-{% if request.GET %}
-    <div class="cgs-search cgs-swap-visible" id="searchColumn">
-{% else %}
-    <div class="cgs-search cgs-swap-hidden" id="searchColumn">
-{% endif %}
+<div class="cgs-search cgs-swap-hidden" id="searchColumn">
     <form id="cgs-search-form" action="{% pageurl page %}" method="get"> 
-        {% include "widgets/header/vague.html" with vertical=True %}
         <section class="container de recherche">
-
-            <fieldset class="active">
-                <legend>Filtres actifs :</legend>
-                {% include "widgets/search/fieldset/active.html" %}
-            </fieldset>
-
+            <p>Sélectionnez un ou plusieurs filtres</p>
             <fieldset class="recherche">
+                <legend>Recherche par mot-clef:</legend>
                 {% include "widgets/search/fieldset/recherche.html" %}
             </fieldset>
             
@@ -44,7 +37,10 @@
                     </fieldset>
                 {% elif field == "date" %}
                     <fieldset class="dates">
-                        <legend>Filtrer par date:</legend>
+                        <legend>
+                            Filtrer par date:
+                            <span>Vous pouvez n'entrer qu'une seule date</span>
+                        </legend>
                         {% include "widgets/search/fieldset/dates.html" %}
                     </fieldset>
                 {% endif %}
@@ -56,6 +52,3 @@
         </section>
     </form>
 </div>
-
-{% block extra_js %}
-{% endblock extra_js %}

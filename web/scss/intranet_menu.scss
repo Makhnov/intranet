@@ -228,12 +228,3 @@ li.menu-item {
 
     }
 }
-
-@keyframes drawSVG {
-    from {
-        stroke-dasharray: 0, 1000;
-    }
-    to {
-        stroke-dasharray: 1000, 0;
-    }
-}

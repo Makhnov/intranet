@@ -32,11 +32,5 @@
 {% endblock %}
 
 {% block footer_left %}
-    {% if item_type != "commissions" %}
-        {% include 'widgets/search/query.html' %}
-    {% endif %}
-{% endblock %}
-
-{% block quickbar %}
     {% administration_quickbar %}     
 {% endblock %}

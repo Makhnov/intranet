@@ -161,6 +161,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "accompte.middleware.CGSProfileMiddleware",
 ]
 
 ROOT_URLCONF = "intranet.urls"

@@ -19,8 +19,8 @@
 </main>
 {% endblock %}
 
-{% block footer_left %}
-<div class="joy-export">
-  <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
-</div>
+{% block quickbar %}{% comment %} ex_footer {% endcomment %}
+  <div class="joy-export">
+    <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
+  </div>
 {% endblock %}

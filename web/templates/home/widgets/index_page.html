@@ -13,27 +13,20 @@
         {% if is_root %}   
             {% cgs_cloud class_type="menu" %}
         {% else %}
-            <div class="cgs-page">  
-                {% if request.GET %}
-                    {% with swap_initial="Masquer" %}
-                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                    {% endwith %}
-                {% else %}
-                    {% with swap_initial="Afficher" %}
-                        {% include 'widgets/images/swap.html' with wrapper=True filter=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-standard-icon" swap_initial=swap_initial %}
-                    {% endwith %}
-                {% endif %}
+            <div class="cgs-page">
+                {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
                 {% include "widgets/search/filters.html" %}
                 
                 <div class="cgs-{{ class_type }}">
                     {% for type, pages in grouped_subpages.items %}
                         {% if pages %}
                             {% if type == 'generic' %}
-                                <h2>Pages web</h2>
-                                <ul class="{{ class_type }}-box {{ item_type }} webpages">
-                                    {% for page in pages %}
+                                <ul class="{{ class_type }}-box {{ item_type }} webpages {{ section }}">
+                                    <h3 class="h2">Pages web</h3>
+                                    {% for item in pages %}
                                         <li class="{{ class_type }}-item {{ item_type }} webpage">
-                                            <a 
+                                            {% include "widgets/blocks/item.html" with item_type="webpage" %}
+                                            {% comment %} <a 
                                                 href="{{ page.url }}"
                                                 class="{{ class_type }}-link {{ item_type }} webpage" 
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
@@ -42,18 +35,19 @@
                                             >                                            
                                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-standard-icon" %}
                                             <p>{{ page.title }}</p>
-                                            </a>
+                                            </a> {% endcomment %}
                                         </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
                             
                             {% if type == 'download' %}
-                                <h2>Documents</h2>
-                                <ul class="{{ class_type }}-box {{ item_type }} documents">
-                                    {% for page in pages %}
+                                <ul class="{{ class_type }}-box {{ item_type }} documents {{ section }}">
+                                    <h3 class="h2">Documents</h3>
+                                    {% for item in pages %}
                                         <li class="{{ class_type }}-item {{ item_type }} document">
-                                            <a 
+                                            {% include "widgets/blocks/item.html" with item_type="document" %}
+                                            {% comment %} <a 
                                                 href="{{ page.url }}"
                                                 class="{{ class_type }}-link {{ item_type }} document" 
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
@@ -61,18 +55,19 @@
                                             > 
                                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-standard-icon" %}
                                             <p>{{ page.title }}{% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-standard-icon cgs-zerofill" %}</p>                                            
-                                            </a>
+                                            </a> {% endcomment %}
                                         </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
                             
                             {% if type == 'form' %}
-                                <h2>Formulaires divers</h2>
-                                <ul class="{{ class_type }}-box {{ item_type }} formulaires">
-                                    {% for page in pages %}
+                                <ul class="{{ class_type }}-box {{ item_type }} formulaires {{ section }}">
+                                    <h3 class="h2">Formulaires divers</h3>
+                                    {% for item in pages %}
                                         <li class="{{ class_type }}-item {{ item_type }} formulaire">
-                                            <a 
+                                            {% include "widgets/blocks/item.html" with item_type="formulaire" %}
+                                            {% comment %} <a 
                                                 href="{{ page.url }}"
                                                 class="{{ class_type }}-link {{ item_type }} formulaire" 
                                                 title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
@@ -80,7 +75,7 @@
                                             > 
                                             {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-nofill cgs-standard-icon" %}
                                             <p>{{ page.title }}</p>
-                                            </a>
+                                            </a> {% endcomment %}
                                         </li>
                                     {% endfor %}
                                 </ul>
@@ -93,10 +88,6 @@
         </main>   
     {% endif %} 
 {% endblock content %}
-
-{% block footer_left %}
-  {% include 'widgets/search/query.html' %}
-{% endblock %}
 
 {% block footer_mid %}
     {% if is_root %}

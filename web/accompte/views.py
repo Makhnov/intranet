@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 
-from utils.variables import TIMEZONES, LANGUAGES, THEMES, CIVILITIES
+from utils.variables import COLORS, THEMES, CIVILITIES #, TIMEZONES, LANGUAGES
 from allauth.account.views import PasswordChangeView
 
 class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
@@ -21,66 +21,85 @@ class CustomPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 def profile_view(request):
-    civilities = CIVILITIES
-    timezones = TIMEZONES
-    languages = LANGUAGES
-    themes = THEMES
-    
-    
-    return render(request, "account/profile.html", {
-        'civilities': civilities,
-        'timezones': timezones,
-        'languages': languages,
-        'themes': themes,
-    })
+    user = request.user
+    user_profile = user.cgs_userprofile
+
+    # Accéder aux thèmes et couleurs avec le code et le nom
+    theme = next((item for item in THEMES if item['code'] == user_profile.theme), {'name': '', 'code': ''})
+    icon = next((item for item in COLORS if item['code'] == user_profile.icons), {'name': '', 'code': ''})
+    civility = next((item for item in CIVILITIES if item['code'] == user.civility), {'name': '', 'code': ''})
+    print(civility)
+    # Groupes de contextes
+    user_base = {
+        'get_full_name': user.get_full_name(),
+        'last_name': user.last_name,
+        'first_name': user.first_name,
+        'civility': civility,
+        'date_of_birth': user.date_of_birth,
+        'mobile_phone': user.mobile_phone,
+        'address1': user.address1,
+        'address2': user.address2,
+        'zip_code': user.zip_code,
+        'city': user.city,
+    }
+    user_extra = {
+        'theme': theme,
+        'icon': icon,
+        'avatar': user_profile.avatar.url if user_profile.avatar else None,
+    }
+    context = {
+        'user_base': user_base,
+        'user_extra': user_extra,
+        'styles': THEMES,
+        'colors': COLORS,
+        'genders': CIVILITIES,
+    }
+    return render(request, "account/profile.html", context)
 
 
 @login_required
 def profile_update(request):
     user = request.user
-    user_profile = user.wagtail_userprofile
+    user_profile = user.cgs_userprofile
     
     if request.method == 'POST':
         
         redirect_to = 'account_profile'
-        next_url = request.POST.get('next', None)
-        print(next_url)
-        
+        next_url = request.POST.get('next', None)        
         if next_url:
-            redirect_to = next_url
+            redirect_to = next_url        
+ 
+        # Civilité, adresse
+        user.civility = request.POST.get('civility', user.civility)
+        user.address1 = request.POST.get('address1', user.address1)
+        user.address2 = request.POST.get('address2', user.address2)
+        user.zip_code = request.POST.get('zip_code', user.zip_code)
+        user.city = request.POST.get('city', user.city)
         
-        print(redirect_to)
+        # Thème et icônes       
+        # user_profile.theme = request.POST.get('theme', user_profile.theme)
+        user_profile.icons = request.POST.get('icons', user_profile.icons)
         
-        user_profile.theme = request.POST.get('theme', user_profile.theme)
-        user_profile.preferred_language = request.POST.get('preferred_language', user_profile.preferred_language)
-        user_profile.current_time_zone = request.POST.get('current_time_zone', user_profile.current_time_zone)
+        # Numéro de téléphone
+        mobile_phone = request.POST.get('mobile_phone', user.mobile_phone)
+        mobile_phone = mobile_phone.replace(" ", "")
+        if mobile_phone.startswith("0"):
+            mobile_phone = "+33" + mobile_phone[1:]
+        user.mobile_phone = mobile_phone
         
-        date_of_birth = request.POST.get('date_of_birth', '').strip()
+        # Date de naissance 
+        date_of_birth = request.POST.get('date_of_birth', user.date_of_birth)
+        print(f'date_of_birth: {date_of_birth}')
         if date_of_birth:
             try:
                 user.date_of_birth = datetime.datetime.strptime(date_of_birth, '%Y-%m-%d').date()
             except ValueError:
                 messages.error(request, _("Le format de la date n'est pas valide. Le format correct est AAAA-MM-JJ."))
                 return render(request, 'account/profile.html', {'user_profile': user_profile, 'user': user})
-        else:
-            user.date_of_birth = None 
-
-        civility = request.POST.get('civility', user.civility)
-        mobile_phone = request.POST.get('mobile_phone', user.mobile_phone)
-        address1 = request.POST.get('address1', user.address1)
-        address2 = request.POST.get('address2', user.address2)
-        zip_code = request.POST.get('zip_code', user.zip_code)
-        city = request.POST.get('city', user.city)
-
-        print(date_of_birth)
-        
-        user.civility = civility
-        user.mobile_phone = mobile_phone
-        user.address1 = address1
-        user.address2 = address2
-        user.zip_code = zip_code
-        user.city = city
-                
+        else:            
+            user.date_of_birth = None
+            
+        # Icone de profil    
         if 'clear_avatar' in request.POST and request.POST['clear_avatar'] == 'on':
             user_profile.avatar.delete(save=True)
                     
@@ -116,7 +135,7 @@ def profile_update(request):
                     'user': user
                 })
         
-        # Sauvegarder les modifications non relatives à l'image
+        # Sauvegarder les modifications
         user.save()
         user_profile.save()
         

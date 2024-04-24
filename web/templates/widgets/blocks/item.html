@@ -1,11 +1,14 @@
-
 {% load wagtailcore_tags cgs_tags %}
 
 {% comment %} PARTIE VISIBLE {% endcomment %}
 <div class="list-block {{item_type}} cgs-swap">
     <h4>
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}
-        {% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}
+        {% if item_type == 'faq' %}
+            {% if item.question %}{{ item.question }}{% else %}{{ item.title }}{% endif %}
+        {% else %}
+            {% if item.heading %}{{ item.heading }}{% else %}{{ item.title }}{% endif %}
+        {% endif %}
     </h4>
     <a class="cgs-button cgs-swapable" title="Afficher">
         {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more class_type="cgs-nofill cgs-standard-icon" %}
@@ -18,23 +21,56 @@
     <div class="content-container">
 
         {% comment %} LIEN DIRECT VERS LA PAGE CONCERNEE {% endcomment %}
-        <div class="content-item view {{ item_type }}">
-            <a 
-                href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
-                class="{{ class_type }}-link {{ item_type }}" 
-                title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
-                alt="{{ item.title|default_if_none:'' }}"
-            >
-                <h5>Ouvrir la page</h5>
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill" %}
-            </a>
-        </div>
-
+        {% if item_type == 'document' %}
+            <div class="content-item view {{ item_type }}">
+                <a 
+                    href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+                    class="{{ class_type }}-link {{ item_type }}" 
+                    title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
+                    alt="{{ item.title|default_if_none:'' }}"
+                >
+                    <h5>
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-standard-icon" %}
+                        Télécharger {{ item.title }}
+                    </h5>       
+                    {% include 'widgets/images/logo.html' with intranet_icon=item.logo class_type="cgs-zerofill cgs-standard-icon" %}
+                </a>
+            </div>
+        {% else %}
+            <div class="content-item view {{ item_type }}">
+                <a 
+                    href="{% if item.slug %}{% slugurl item.slug %}{% endif %}"
+                    class="{{ class_type }}-link {{ item_type }}" 
+                    title="{% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}"
+                    alt="{{ item.title|default_if_none:'' }}"
+                >
+                    <h5>Ouvrir la page</h5>
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill" %}
+                </a>
+            </div>
+        {% endif %}
         {% comment %} PREVISUALISER LA PAGE {% endcomment %}
         <div class="content-item preview {{ item_type }}">         
             <a class="cgs-preview" title="Voir une aperçu de {% if item.tooltip %}{{ item.tooltip}}{% elif item.slug %}{{ item.slug}}{% endif %}" >
-                <h5>Prévisualiser</h5>
-                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.search class_type="cgs-nofill" %}            
+                {% if item_type == 'document' %}
+                    <h5>Nom(s) :</h5>
+                    {% for doc in item.download_documents.all %}
+                    {% comment %} {{ doc.title }}{{ doc.document.title }}{{ doc.document.filename }} {% endcomment %}
+                        {% if doc.title %}
+                            <p>{{ doc.title }}</p>
+                        {% elif doc.document.title %}
+                            <p>{{ doc.document.title }}</p>
+                        {% elif doc.document.filename %}
+                            <p>{{ doc.document.filename }}</p>
+                        {% else %}
+                            <p>Doc inconnu</p>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <h5>Prévisualiser</h5>
+                    {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.search class_type="cgs-nofill" %}
+                {% endif %}
+        
             </a>
         </div>
         <div class="content-item related">  
@@ -97,7 +133,7 @@
                 {% if item.category %}
                     <div class="related-content cgs-category">
                         <h5>Catégorie:</h5>
-                        <p>{{ item.category }}</p>
+                        <p>{{ item.category }} {% include 'widgets/images/logo.html' with intranet_icon=category.logo class_type="cgs-nofill cgs-mid-icon" %}</p>
                     </div>
                 {% endif %}
 
@@ -105,7 +141,11 @@
             {% if item.tags %}
                 <div class="related-content cgs-tags">
                     <h5>Tags:</h5>
-                    <p>{{ item.tags }}</p>
+                    <p>
+                        {% for tag in item.tags.all %}
+                            <a href="{% slugurl 'faq' %}?tag={{ tag.slug }}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </p>
                 </div>
             {% endif %}
         </div>
@@ -130,22 +170,27 @@
                 <p>Aucun contenu à afficher</p>
             </div>
         {% endif %}
-    {% endif %} 
+    {% endif %}
+    {% if item.answer and item_text %}
+            <div class="preview-content">
+                {% if item.answer %}
+                    {% if item.answer|length > 0 %}
+                        {% with first_block=item.answer.0 %}
+                            {% if first_block.block_type == 'single_answer' %}
+                                <div class="preview-content">
+                                    {% comment %} Vérifie que le premier élément est une réponse simple et affiche les headings et paragraphs qu'il contient. {% endcomment %}
+                                    {% for inner_block in first_block.value %}
+                                        {% if inner_block.block_type == 'heading' %}
+                                            <h6>{{ inner_block.value }}</h6>
+                                        {% elif inner_block.block_type == 'paragraph' %}
+                                            <p>{{ inner_block.value|richtext }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                {% endif %}
+            </div>
+    {% endif %}
 </div>
-
-{% comment %} <div class="faq-related-list">
-    <div class="faq-related cgs-swap">
-        <h2>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}Thèmes similaires</h2>
-        <a class="cgs-button cgs-swapable" title="Afficher">
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.more %}
-            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.less class_type="cgs-hidden" %}
-        </a>
-    </div>                            
-    <div class="related-content cgs-swap-hidden">
-        <div>
-            {% for block in page.related %}
-                <div><p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.categories %}<a href="{{ block.value.url }}">{{ block.value.question }}</a></p></div>
-            {% endfor %}
-        </div>
-    </div>
-</div> {% endcomment %}

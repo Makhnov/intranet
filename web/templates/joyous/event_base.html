@@ -37,12 +37,12 @@
 </main>
 {% endblock content %}
 
-{% block footer_left %}
-<div class="joy-export">
-  <a href="{{ request.path }}?format=google" target="_blank">{% trans "Google Calendar" %}</a>
-  &nbsp;&nbsp;&nbsp;
-  <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
-</div>
+{% block quickbar %}{% comment %} ex_footer {% endcomment %}
+  <div class="joy-export">
+    <a href="{{ request.path }}?format=google" target="_blank">{% trans "Google Calendar" %}</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="{{ request.path }}?format=ical">{% trans "Export iCal" %}</a>
+  </div>
 {% endblock %}
 
 {% comment %}Ajout du lien retour à l'index du calendrier{% endcomment %}

@@ -215,6 +215,24 @@ class IntranetIcons(BaseSiteSetting):
         verbose_name=_("Inscription"),
         help_text=_("Inscription form (Amicale, contact, etc.)"),
     )
+    star = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Star"),
+        help_text=_("New informations added in the last 14 days"),
+    )
+    star_out = models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Star out"),
+        help_text=_("Closing news section"),
+    )
     site_web = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -705,15 +723,6 @@ class IntranetIcons(BaseSiteSetting):
         related_name='+',
         verbose_name=_("Spinner")
     )
-    star = models.ForeignKey(
-        get_image_model_string(),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        verbose_name=_("Star"),
-        help_text=_("New informations added in the last 14 days"),
-    )
 
     # FICHIERS
     image_file = models.ForeignKey(
@@ -926,6 +935,7 @@ class IntranetIcons(BaseSiteSetting):
                 FieldPanel('inscription', heading=_("Inscription")),          
                 FieldPanel('spinner', heading=_("Spinner")),
                 FieldPanel('star', heading=_("Star")),
+                FieldPanel('star_out', heading=_("Star out")),
                 FieldPanel('site_web', heading=_("Site web officiel")),
                 FieldPanel('office_tourisme', heading=_("Office de tourisme")),
                 FieldPanel('facebook_icon', heading=_("Facebook")),

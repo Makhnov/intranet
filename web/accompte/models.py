@@ -1,9 +1,30 @@
-# Page de menu
+# Utilitaires
 from utils.menu_pages import MenuPage, menu_page_save
+from utils.variables import THEMES, COLORS
 
 # Traduction
 from django.utils.translation import gettext_lazy as _
 
+from django.db import models
+from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+
+####################
+##   PROFIL CGS   ##
+#################### 
+
+class CGSUserProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cgs_userprofile')
+    theme = models.CharField(max_length=10, choices=[(theme['code'], theme['name']) for theme in THEMES], default='clair')
+    icons = models.CharField(max_length=10, choices=[(color['code'], color['name']) for color in COLORS], default='cyan')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+
+    def __str__(self):
+        return f'Profile of {self.user.username}'
+
+####################
+## PAGES DIVERSES ##
+#################### 
 
 # Section pages diverses
 class AccountPage(MenuPage):

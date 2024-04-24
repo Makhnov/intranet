@@ -4,13 +4,13 @@
 <div class="form-check">
     <input class="form-check-input" type="radio" name="category" value="{{ category.slug }}" id="category{{ category.id }}" {% if request.GET.category == category.slug %}checked{% endif %}>
     <label title="Catégorie {{ category.title }}" class="form-check-label" for="category{{ category.id }}">
-        {% include 'widgets/images/logo.html' with intranet_icon=category.logo class_type="cgs-nofill cgs-big-icon white" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=category.logo class_type="cgs-nofill cgs-huge-icon white" %}
     </label>
 </div>
 {% endfor %}
 <div class="form-check">
     <input class="form-check-input" type="radio" name="category" value="*" id="allCategories" {% if not request.GET.category or request.GET.category == "*" %}checked{% endif %}>
     <label title="Afficher toutes les questions" class="form-check-label" for="allCategories">
-        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.faq_all class_type="cgs-nofill cgs-big-icon white" %}
+        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.faq_all class_type="cgs-nofill cgs-huge-icon white" %}
     </label>
 </div>

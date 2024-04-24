@@ -3,8 +3,12 @@
 <li class="header-item">   
     <nav class="cgs-nav profile">
         <ul class="nav-box profile">
-            {% if request.user.wagtail_userprofile.avatar %}  
-                <img src="{% avatar_url request.user %}" alt="" class="avatar cgs-nofill"/>
+            {% if request.user.cgs_userprofile.avatar %}
+                    <img 
+                        class="avatar cgs-nofill" 
+                        alt="{{ user_base.get_full_name|default:'' }}"
+                        src="{{ request.user.cgs_userprofile.avatar.url }}" 
+                    />
             {% else %}  
                 {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.user_profile class_type="avatar cgs-nofill" %}
             {% endif %}

@@ -139,7 +139,7 @@ div.cgs-container {
                         }
                     }
                     &.no-input {
-                        input {
+                        input, select {
                             overflow: hidden;
                             text-overflow: ellipsis;
                             user-select: none;

@@ -525,21 +525,3 @@ div.faq-law-list, div.faq-tags-list, div.faq-related-list {
         }
     }
 }
-
-/***************************************************************************************************************************************************************
- * BARRE D'ACCES RAPIDE
- **************************************************************************************************************************************************************/
-
-cgs-quickbar {
-    .cgs-search-menu {
-        display: flex;
-        flex-direction: column;
-        align-self: flex-end;
-    }
-    svg.cgs-quickbar-svg {
-        cursor: pointer;
-        height: var(--nav-icon-size);
-        width: auto;
-        aspect-ratio: 1/1;
-    }
-}

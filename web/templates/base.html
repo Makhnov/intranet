@@ -33,7 +33,6 @@
 		{# Global stylesheets #}
 		<link rel="stylesheet" type="text/css" href="{% static 'css/variables.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/intranet.min.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'css/quickbar.min.css' %}">
 
 		{% if is_menu or is_root %}
 			<link rel="stylesheet" type="text/css" href="{% static 'css/menu.min.css' %}">
@@ -95,8 +94,11 @@
 		{# Footer #}
 		<footer class="cgs">
 			<nav class="cgs-nav footer">
-				{% block footer_left %}{% endblock %}
-
+				<cgs-news>
+					{% include 'widgets/images/swap.html' with wrapper=True star=True smooth=False horizontal=True wrap_class="news" swap_class="news" swap_initial="Afficher" %}
+					{% block footer_left %}{% endblock %}
+				</cgs-news>
+				
 				<div class="cgs-box left cgs-hidden">
 					{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.previous_item class_type="cgs-nofill" %}
 				</div>
@@ -113,20 +115,6 @@
 
 		</div>
 
-		{# Quickbar #}
-		<cgs-quickbar class="cgs-hidden">
-			<div class="cgs-container cgs-quickbar-container">
-				<button aria-controls="cgs-userbar-items" aria-haspopup="true" class="w-userbar-trigger cgs-swap" id="cgs-userbar-trigger" data-cgs-userbar-trigger="" aria-expanded="false" title="Menu contextuel">
-					<div class="cgs-swapable">
-						{% include 'widgets/images/swap.html' with cross=True swap_initial="Masquer" %}
-					</div>
-				</button>
-				<div class="cgs-quickbar-content cgs-swap-visible">          
-					{% block quickbar %}{% endblock %}
-				</div>     
-			</div>
-		</cgs-quickbar>
-
 		<cgs-utils class="cgs-hidden">
 			<div id="cgs-close">
 				{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.close class_type="cgs-nofill" %}
@@ -137,8 +125,12 @@
 		</cgs-utils>
 
 		{# Global javascript #}
+		<script>
+			const USER_THEME = "{{ request.user_theme }}"; // "light", "dark", "system"
+			const USER_ICONS = "{{ request.user_icons }}"; // "fonce", "clair", "cyan", "gris"
+			const USER_AVATAR = "{{ request.user_avatar_url }}"; // URL
+		</script>		
 		<script src="{% static 'js/intranet.min.js' %}"></script>
-		<script src="{% static 'js/quickbar.min.js' %}"></script>
 
 		{% if is_menu or is_root %}
 			<script class="{{ menu_type }}" type="module" src="{% static 'js/menu.min.js' %}"></script>

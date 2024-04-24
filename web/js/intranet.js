@@ -1,6 +1,6 @@
 // Gestion du comportement des sous-menus pour les menus déroulants
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Fichier intranet.js chargé");    
+    CGSTheme(USER_THEME, USER_ICONS, USER_AVATAR);
     whatTheHell();
 });
 
@@ -41,19 +41,13 @@ function whatTheHell() {
         footerScroll(FOOTER);
     }
 
-    // Vague du formulaire de recherche
-    const SEARCHBAR = document.getElementById('searchColumn');
-    if (SEARCHBAR) {
-        VerticalWave(SEARCHBAR);      
-    }
-
     // Agrandissement de la barre de recherche
-    const ZOOM = document.querySelector('cgs-search');
-    if (ZOOM) {
-        searchBar(ZOOM);
+    const NEWS = document.querySelector('cgs-news');
+    if (NEWS) {
+        newsBlock(NEWS);
     }
 
-    // Gestion de la recherche
+    // Gestion de la zone de recherche
     const FORM = document.querySelector('#searchColumn form');
     if (FORM) {
         searchBlock(FORM);
@@ -73,6 +67,18 @@ function whatTheHell() {
 
 //////////////////////////////////////////   FONCTIONS GLOBALES    //////////////////////////////////////////////////
 
+function CGSTheme(theme, icons, avatar) {
+    if (!sessionStorage.getItem('selectedColor')) {
+        const defaultColor = CGS_COLORS[icons];
+        document.documentElement.style.setProperty('--cgs-theme-primary', defaultColor);
+        console.log('Couleur appliquée par défaut:', defaultColor);
+    } else {
+        const sessionColor = sessionStorage.getItem('selectedColor');
+        document.documentElement.style.setProperty('--cgs-theme-primary', sessionColor);
+        console.log('Couleur appliquée depuis sessionStorage:', sessionColor);
+    }
+}
+
 function cgsMessages(msgs) {
     msgs.forEach(msg => {
         const close = msg.querySelector('.msg-close');
@@ -87,28 +93,19 @@ function cgsMessages(msgs) {
 
 // Fonction pour changer la couleur des icônes quand on clique sur les éléments du logo
 function iconColors(divs) {
-    const pochoirColors = ['#008770', '#00b3be', '#92d400', '#928b81'];
-
     // Fonction pour changer la couleur primary et stocker la sélection
     const changeColor = (color) => {
         document.documentElement.style.setProperty('--cgs-theme-primary', color);
-        localStorage.setItem('selectedColor', color);
+        sessionStorage.setItem('selectedColor', color); // Utilisation de sessionStorage pour la durée de la session
     };
 
-    // Appliquez la couleur stockée (si elle existe)
-    const storedColor = localStorage.getItem('selectedColor');
-    if (storedColor) {
-        changeColor(storedColor);
-    }
-
     // Gestionnaire d'événements pour chaque div
-    divs.forEach((div, index) => {
+    divs.forEach((div) => {
         div.addEventListener('click', (event) => {
-            // Empêchez l'ouverture du lien <a>
-            event.preventDefault();
-
-            // Changer la couleur primary et stocker la sélection
-            changeColor(pochoirColors[index]);
+            event.preventDefault(); // Empêchez l'ouverture du lien <a>
+            const key = div.getAttribute('data-color'); // récupérer le data-color (la clef pour CGS_COLORS)
+            changeColor(CGS_COLORS[key]); // Changer la couleur primary et stocker la sélection en session
+            console.log('Couleur changée et stockée en session:', CGS_COLORS[key]);
         });
     });
 }
@@ -156,7 +153,7 @@ function swap(swapables) {
 
     function hideSwapable(smooth=false, direction=false, element) {
         if (smooth) {
-            if (direction) {        
+            if (direction) {
                 element.classList.toggle('cgs-width-none');
             } else {
                 element.classList.toggle('cgs-height-none');
@@ -201,27 +198,39 @@ function swap(swapables) {
             next = next.nextElementSibling;
         }
 
-        swaper.addEventListener('click', function () {
-            primaryIcon.classList.toggle('cgs-hidden');
-            secondaryIcon.classList.toggle('cgs-hidden');
-            swapable.classList.toggle('cgs-open');
-            hideSwapable(smooth, horizontal, next);
-            
-            // Changement du titre pour le tooltip
-            if (swaper.getAttribute('title') === 'Afficher') {
-                swaper.setAttribute('title', 'Masquer');                
-                if (heading) {
-                    const newContent = heading.textContent.replace('Afficher', 'Masquer');                    
-                    heading.textContent = newContent;
+        // console.log("SWAP: ", swapable, "NEXT: ", next);
+
+        if (next) {
+            swaper.addEventListener('click', function () {
+                primaryIcon.classList.toggle('cgs-hidden');
+                secondaryIcon.classList.toggle('cgs-hidden');
+                swapable.classList.toggle('cgs-open');
+                news = swapable.closest('cgs-news');
+                if (news) {
+                    news.classList.toggle('cgs-open');
                 }
-            } else {
-                swaper.setAttribute('title', 'Afficher');
-                if (heading) {
-                    const newContent = heading.textContent.replace('Masquer', 'Afficher');                    
-                    heading.textContent = newContent;
+                hideSwapable(smooth, horizontal, next);
+                
+                // Changement du titre pour le tooltip
+                if (swaper.getAttribute('title') === 'Afficher') {
+                    swaper.setAttribute('title', 'Masquer');                
+                    if (heading) {
+                        const newContent = heading.textContent.replace('Afficher', 'Masquer');                    
+                        heading.textContent = newContent;
+                    }
+                } else {
+                    swaper.setAttribute('title', 'Afficher');
+                    if (heading) {
+                        const newContent = heading.textContent.replace('Masquer', 'Afficher');                    
+                        heading.textContent = newContent;
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            swaper.addEventListener('click', function () {    
+                console.info("Pas de prochain élément à afficher");
+            });
+        }
     }
 }
 
@@ -279,72 +288,35 @@ function footerScroll(footerBox) {
     });
 }
 
-// Mise en forme de la vague du formulaire de recherche
-function VerticalWave(search) {
-    console.log("VerticalWave");
-
-    const resizeObserver = new ResizeObserver(waveForm);
-    resizeObserver.observe(search);  
-
-    function waveForm() {
-        console.log("WaveForm", search);
-
-        const width = search.offsetWidth;
-        const height = search.offsetHeight;
-
-        const Yscale = 1.075 / (160 / width);
-        const Xscale = 1 / (800 / height);
-
-        document.documentElement.style.setProperty('--courbure-scaling-x', Xscale);
-        document.documentElement.style.setProperty('--courbure-scaling-y', Yscale);
+// Gestion de la partie NEWS
+function newsBlock(box) {
+    const button = box.querySelector('div.news');
+    const news = box.querySelectorAll('nav.news li');
+    let highlight = false;
+    for (const item of news) {
+        // On vérifie si un des items contient une des classes du tableau HIGHLIGHTED
+        if ([...item.classList].some(className => HIGHLIGHTED.includes(className))) {
+            console.log(item);
+            highlight = true
+        }
+    }        
+    console.log("BUTTON", button, "NEWS", news);
+    if (news && highlight) {
+        button.classList.add('highlighted');
     }
 }
 
-// Fonction pour ouvrir et fermer la barre de recherche
-function searchBar(searchBox) {
-    searchButtons = searchBox.children;
-    const searchBase = searchButtons[0];
-    const searchOut = searchButtons[1];
-    const searchIn = searchButtons[2];
-
-    const searchBar = document.querySelector('cgs-search > form > input');
-
-    searchBase.addEventListener('click', () => {
-        searchBase.classList.add('cgs-hidden');
-        searchOut.classList.remove('cgs-hidden');
-        searchBar.classList.add('cgs-open');
-        searchBox.classList.add('cgs-open');
-    });
-    searchOut.addEventListener('click', () => {
-        searchOut.classList.add('cgs-hidden');
-        searchIn.classList.remove('cgs-hidden');
-        searchBar.classList.remove('cgs-open');
-        searchBox.classList.remove('cgs-open');
-    });
-    searchIn.addEventListener('click', () => {
-        searchIn.classList.add('cgs-hidden');
-        searchOut.classList.remove('cgs-hidden');
-        searchBar.classList.add('cgs-open');
-        searchBox.classList.add('cgs-open');
-    });
-    searchBar.addEventListener('focus', () => {
-        searchBar.classList.add('cgs-open');
-        searchBase.classList.add('cgs-hidden');
-        searchIn.classList.add('cgs-hidden');
-        searchOut.classList.remove('cgs-hidden');
-        searchBox.classList.add('cgs-open');
-    });
-}
-
-// Gestion de la zone de recherche (vague verticale)
+// Gestion de la zone de recherche
 function searchBlock(form) {
 
     ////////////////// INITIALISATION DES VARIABLES ////////////////////
 
     const urlParams = new URLSearchParams(window.location.search);
+    const activeBox = document.querySelector('fieldset.active');
 
     const activeCategoryDiv = document.getElementById('activeCategory');    
     const categoryName = activeCategoryDiv.getAttribute('data-name');
+    console.log("CategoryName : ", categoryName);
     const selectedCategory = urlParams.get(categoryName);
     const categoryButtons = document.querySelectorAll(`input[name="${categoryName}"]`);
     const categoryLabel = activeCategoryDiv.getAttribute('data-nom');
@@ -364,7 +336,7 @@ function searchBlock(form) {
     const activeQueryDiv = document.getElementById('activeQuery');
     const activeDateDiv = document.getElementById('activeDate');
     
-    const queryButton = document.querySelector('fieldset.recherche .filter_search');
+    // const queryButton = document.querySelector('fieldset.recherche .filter_search');
     ///////////////////// ECOUTEURS D'EVENEMENTS ///////////////////////
 
     // Choix d'une catégorie
@@ -385,11 +357,6 @@ function searchBlock(form) {
         });
     }
 
-    // Recherche par mot-clé
-    queryButton.addEventListener('click', function() {
-        submitForm();
-    });
-
     // Ajout d'un tag par les tags populaires
     if (tagButtons) {
         tagButtons.forEach(button => {
@@ -402,19 +369,23 @@ function searchBlock(form) {
     }
 
     // Une recherche a été faite (automatique pour les FAQS)
-    // console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);    
-    if (selectedCategory || selectedExtension || selectedTags.length > 0 || selectedQuery || selectedDate[0] || selectedDate[1]) {
-    
+    // console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);
+
+    if (
+        (selectedCategory && selectedCategory != "*") || 
+        (selectedExtension && selectedExtension != "*") || 
+        (selectedQuery && selectedQuery != "") || 
+        selectedTags.length > 0 || 
+        selectedDate[0] || 
+        selectedDate[1]
+    ) {
+        // Afficher la catégorie active
+        activeBox.style.display = 'flex';
+
         // Afficher la catégorie active
         if (selectedCategory) {
-            console.log('CATEGORIE: ', selectedCategory);
             // ajout d'un bouton cliquable (pour supprimer la catégorie en cours et sélectionner automatiquement "toutes")
-            const div = document.createElement('div');        
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            const span = document.createElement('span');
-            svg.id = 'svg_close_categorie';
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
+            const onClickFunction = function() {
                 categoryButtons.forEach(radio => {
                     radio.checked = false;                    
                 });
@@ -425,21 +396,12 @@ function searchBlock(form) {
                 }
                 submitForm();
             };
-            span.textContent = `${categoryLabel} : ${selectedCategory}`;
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeCategoryDiv.appendChild(div);
+            addActive(activeCategoryDiv, categoryLabel, selectedCategory, onClickFunction);
         }
 
         // Afficher l'extension active
         if (selectedExtension) {
-            console.log('EXTENSION: ', selectedExtension);
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            svg.id = 'svg_close_extension';
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
+            const onClickFunction = function() {
                 extensionButtons.forEach(radio => {
                     radio.checked = false;
                 });
@@ -450,30 +412,17 @@ function searchBlock(form) {
                 }
                 submitForm();
             };
-            span.textContent = `Fichier : ${selectedExtension.split('_')[0]}`;
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeExtensionDiv.appendChild(div);
+            addActive(activeExtensionDiv, 'Fichier', selectedExtension.split('_')[0], onClickFunction);
         } 
 
         // Afficher la recherche active
         if (selectedQuery) {
-            const div = document.createElement('div');
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            const span = document.createElement('span');
-        
-            svg.id = 'svg_close_query';
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
+            const onClickFunction = function() {
                 const queryInput = document.querySelector('input[name="query"]');
                 queryInput.value = '';
-                console.log(queryInput.value);
                 submitForm();
             };
-            span.textContent = `Recherche : ${selectedQuery}`;
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeQueryDiv.appendChild(div);
+            addActive(activeQueryDiv, 'Recherche', selectedQuery, onClickFunction);
         }
 
         // Afficher les tags actifs
@@ -484,44 +433,57 @@ function searchBlock(form) {
 
         // Afficher la date de début
         if (selectedDate[0]) {
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            svg.id = 'svg_close_start_date';
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
+            const onClickFunction = function() {
                 const startDateInput = document.querySelector('input[name="start_date"]');
                 startDateInput.value = '';
                 submitForm();
-            };
-            span.textContent = `Début : ${selectedDate[0]}`;
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeDateDiv.appendChild(div);
+            }
+            addActive(activeDateDiv, 'Début', selectedDate[0], onClickFunction);
         }
 
         // Afficher la date de fin
         if (selectedDate[1]) {
-            const div = document.createElement('div');
-            const span = document.createElement('span');
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            svg.id = 'svg_close_end_date';
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
+            const onClickFunction = function() {
                 const endDateInput = document.querySelector('input[name="end_date"]');
                 endDateInput.value = '';
                 submitForm();
             };
-            span.textContent = `Fin : ${selectedDate[1]}`;
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeDateDiv.appendChild(div);
+            addActive(activeDateDiv, 'Fin', selectedDate[1], onClickFunction);
         }
 
     }
-
+    
     /////////////////////// FONCTIONS DIVERSES /////////////////////////
 
+    // Ajouter un élément actif
+    function addActive(box, label, value, onClickFunction) {
+        const div = document.createElement('div');        
+        
+        const p = document.createElement('p');
+        p.classList.add('active-item');
+
+        const spanKey = document.createElement('span');
+        spanKey.classList.add('key');
+        spanKey.textContent = label + ' : ';
+
+        const spanField = document.createElement('span');
+        spanField.classList.add('field');
+        spanField.textContent = value;            
+        
+        const svg = document.querySelector('#cgs-close svg').cloneNode(true);
+        svg.id = 'svg_close_categorie';
+        svg.classList.add('cgs-mid-icon', 'cgs-close');
+        svg.onclick = onClickFunction;
+        
+        p.appendChild(spanKey);
+        p.appendChild(spanField);
+        div.appendChild(p);
+        div.appendChild(svg);
+        box.appendChild(div);
+
+        return div;
+    }
+    
     // Ajout d'un tag en utilisant les tags personnalisés
     function addTag(tagName) {
         if (![...activeTagsDiv.children].some(tagDisplay => tagDisplay.textContent.startsWith(tagName))) {
@@ -531,28 +493,15 @@ function searchBlock(form) {
             input.value = tagName;
             CGSFORM.appendChild(input);
     
-            // Créer un div pour le tag actif
-            const div = document.createElement('div');
-            div.className = 'active-tag-div'; // ajouter une classe pour le style si nécessaire
-            
-            // Créer un span pour le texte du tag
-            const span = document.createElement('span');
-            span.textContent = tagName;
-    
-            // Cloner et préparer le SVG pour le bouton de suppression
-            const svg = document.querySelector('#cgs-close svg').cloneNode(true);
-            svg.id = 'svg_close_' + tagName; // Assurez-vous que l'ID est unique
-            svg.classList.add('cgs-mid-icon', 'cgs-close');
-            svg.onclick = function() {
-                CGSFORM.removeChild(input); // Retirer l'input caché
-                activeTagsDiv.removeChild(div); // Retirer le div du tag actif
-                submitForm(); // Resoumettre le formulaire pour mettre à jour les résultats
+            // Fonction onClick personnalisée qui nécessite le div
+            const onClickFunction = function() {
+                CGSFORM.removeChild(input);
+                activeTagsDiv.removeChild(div); // div doit être défini dans cette portée
+                submitForm();
             };
     
-            // Assembler le div du tag actif
-            div.appendChild(span);
-            div.appendChild(svg);
-            activeTagsDiv.appendChild(div);
+            // Ajouter un élément actif et récupérer le div créé
+            const div = addActive(activeTagsDiv, 'Tag', tagName, onClickFunction);
         }
     }
 
@@ -602,3 +551,14 @@ function avatarToggle() {
         });
     }
 }
+
+//////////////////////////////////////////   VARIABLES   //////////////////////////////////////////////////
+
+const CGS_COLORS = {
+    fonce: '#008770',
+    cyan: '#00b3be',
+    clair: '#92d400',
+    gris: '#928b81'
+};
+
+const HIGHLIGHTED = ["convoc", "enquete", "amicale"]
