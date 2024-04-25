@@ -146,10 +146,10 @@ def mailing_view(request):
                                             messages.error(request, "Erreur lors de la lecture des pièces jointes : {e}")
                                             sending = False
                                 else:
-                                    messages.error(request, "Aucun version numérique n'a été trouvé dans les pièces jointes de cette page.")
+                                    messages.error(request, "😥 Votre pièce jointe n'a pas le bon type. Sélectionnez 'Pièces jointes' dans le menu déroulant [Type] de la page.")
                                     sending = False
                             else:
-                                messages.error(request, "Aucune pièce jointe n'a été trouvée pour cette page.")
+                                messages.error(request, "Aucune 'Pièces jointes' n'a été trouvée pour cette page.")
                                 sending = False
                         else:
                             print(colored('Pas de PJ', 'cyan'))
@@ -174,10 +174,13 @@ def mailing_view(request):
                                         date_fr = formats.date_format(main_page.date, "d F Y")
                                         heure_fr = formats.date_format(main_page.date, "H:i")
                                         sujet = f"Convocation {parent_page.title} du {date_fr}"
-                                        contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}. Vous trouverez ci-joint la convocation et l'ordre du jour. Cordialement, "
-                                        # destinataire = [user.email]
+                                        odj = ''
+                                        if hasattr(main_page, 'body'):
+                                            odj = f'L\'ordre du jour sera le suivant : {main_page.body}. '                                            
+                                        contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}. {odj}Cordialement, "
+                                        destinataire = [user.email]
                                         # destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
-                                        destinataire = ['09140@tuta.io']                                        
+                                        # destinataire = ['09140@tuta.io']                                        
                                         email_info = {
                                             'sujet': sujet,
                                             'message': contenu,

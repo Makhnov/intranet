@@ -357,6 +357,16 @@ EMAIL_USE_SSL = os.getenv("WAGTAIL_EMAIL_USE_SSL", False)
 EMAIL_HOST_PASSWORD = os.getenv("WAGTAIL_EMAIL_HOST_PASSWORD", "password")
 EMAIL_HOST_USER = os.getenv("WAGTAIL_EMAIL_HOST_USER", "intranet.com")
 
+CGS_REPLY_TO = {
+    'conseil': "secretariat",
+    'commissions': "secretariat",
+    'bureau': "claire.legal",
+    'conference': "secretariat",
+    'amicale': "amicale",
+    'faq': "rh",
+    'home': "secretariat",
+}
+
 # PDF2Images
 POPPLER_PATH = os.getenv("POPPLER_PATH", r"C:\\Program Files\\poppler-24.02.0\\Library\\bin")
 
