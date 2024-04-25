@@ -176,8 +176,8 @@ def mailing_view(request):
                                         sujet = f"Convocation {parent_page.title} du {date_fr}"
                                         odj = ''
                                         if hasattr(main_page, 'body'):
-                                            odj = f'L\'ordre du jour sera le suivant : {main_page.body}. '                                            
-                                        contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}. {odj}Cordialement, "
+                                            odj = f'L\'ordre du jour sera le suivant : {main_page.body}'                                            
+                                        contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}.{odj}Cordialement, "
                                         destinataire = [user.email]
                                         # destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
                                         # destinataire = ['09140@tuta.io']                                        
