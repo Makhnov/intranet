@@ -74,7 +74,7 @@ def cgs_mail(sujet, contenu, expediteur, destinataires, fichiers=None):
         subject=sujet,
         body=contenu,
         from_email=f'{expediteur}@cagiregaronnesalat.fr',
-        to=destinataires,
+        to=destinataires,        
         connection=connection
     )
     
@@ -118,6 +118,7 @@ def cgs_mass_mail(email_data):
             body=email_info['message'],
             from_email=f"{email_info['expediteur']}@cagiregaronnesalat.fr",
             to=email_info['destinataires'],
+            reply_to=['service.informatique@cagiregaronnesalat.fr'],
             connection=connection
         )
 

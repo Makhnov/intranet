@@ -356,6 +356,22 @@
             }
         }
     }
+    body.item {
+        div.cgs-container {
+            align-items: center;
+            justify-content: center;
+
+            &.cgs-home {
+                max-width: 70%;
+            }
+            &.cgs-amicale {
+                max-width: 70%;
+            }
+            &.cgs-faq {
+                max-width: 70%;
+            }
+        }
+    }
 }
 
 // GRANDS ECRANS

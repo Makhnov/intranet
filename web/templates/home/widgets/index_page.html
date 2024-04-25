@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags cgs_tags static %}
+{% load restriction_tags wagtailcore_tags wagtailimages_tags wagtailuserbar menu_tags cgs_tags static %}
 
 {% block extra_css %}
   <link rel="stylesheet" type="text/css" href="{% static 'css/divers.min.css' %}">
@@ -24,19 +24,21 @@
                                 <ul class="{{ class_type }}-box {{ item_type }} webpages {{ section }}">
                                     <h3 class="h2">Pages web</h3>
                                     {% for item in pages %}
-                                        <li class="{{ class_type }}-item {{ item_type }} webpage">
-                                            {% include "widgets/blocks/item.html" with item_type="webpage" %}
-                                            {% comment %} <a 
-                                                href="{{ page.url }}"
-                                                class="{{ class_type }}-link {{ item_type }} webpage" 
-                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
-                                                alt="{{ page.title|default_if_none:'' }}"
-                                                target="_blank"
-                                            >                                            
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-standard-icon" %}
-                                            <p>{{ page.title }}</p>
-                                            </a> {% endcomment %}
-                                        </li>
+                                        {% comment %} {% authorized_user item as visible %}
+                                        {% if visible %}{% endif %}{% endcomment %}
+                                            <li class="{{ class_type }}-item {{ item_type }} webpage">
+                                                {% include "widgets/blocks/item.html" with item_type="webpage" %}
+                                                {% comment %} <a 
+                                                    href="{{ page.url }}"
+                                                    class="{{ class_type }}-link {{ item_type }} webpage" 
+                                                    title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
+                                                    alt="{{ page.title|default_if_none:'' }}"
+                                                    target="_blank"
+                                                >                                            
+                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-standard-icon" %}
+                                                <p>{{ page.title }}</p>
+                                                </a> {% endcomment %}
+                                            </li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}

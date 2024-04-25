@@ -175,15 +175,16 @@ def mailing_view(request):
                                         heure_fr = formats.date_format(main_page.date, "H:i")
                                         sujet = f"Convocation {parent_page.title} du {date_fr}"
                                         contenu = f"Bonjour {user.get_full_name()}, nous avons le plaisir de vous inviter à la réunion de {parent_page.title} qui se tiendra le {date_fr} à {heure_fr}. Vous trouverez ci-joint la convocation et l'ordre du jour. Cordialement, "
-                                        destinataire = [user.email]
+                                        # destinataire = [user.email]
                                         # destinataires = ['makh@tutanota.com', '09140@tuta.io', 'nic@tuta.com']
-                                        # destinataire = [random.choice(destinataires)]                                        
+                                        destinataire = ['09140@tuta.io']                                        
                                         email_info = {
                                             'sujet': sujet,
                                             'message': contenu,
                                             'expediteur': 'convocation',
                                             'destinataires': destinataire
                                         }
+                                        
                                         email_data.append(email_info)
                                 # break
                         else:
