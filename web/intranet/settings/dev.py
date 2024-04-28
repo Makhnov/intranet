@@ -14,8 +14,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # Général
 SITE_ID = 1
-INTERNAL_IPS = '127.0.0.1:8000'
-WAGTAIL_SITE_NAME="intranet 3cgs"
+INTERNAL_IPS = "127.0.0.1:8000"
+WAGTAIL_SITE_NAME = "intranet 3cgs"
 
 try:
     from .local import *

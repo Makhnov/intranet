@@ -3,7 +3,7 @@ version: '3.8'
 networks:
   backend:
     name: backend
-    driver: bridge  
+    driver: bridge
   frontend:
     name: frontend
     driver: bridge
@@ -13,7 +13,7 @@ volumes:
     name: postgres_data
   static_volume:
     name: static_volume
-  media_volume:  
+  media_volume:
     name: media_volume
 
 services:
@@ -32,16 +32,16 @@ services:
       - backend
 
   redis:
-      container_name: redis
-      restart: always
-      image: "redis:alpine"
-      ports:
-        - "6379:6379"
-      volumes:
-        - /home/webmaster/docker_intranet/etc/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
-      networks:
-        - backend
-      command: redis-server /usr/local/etc/redis/redis.conf
+    container_name: redis
+    restart: always
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/webmaster/docker_intranet/etc/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - backend
+    command: redis-server /usr/local/etc/redis/redis.conf
 
   web:
     container_name: web
@@ -71,7 +71,7 @@ services:
     image: nginx:latest
     container_name: nginx
     restart: always
-    depends_on:    
+    depends_on:
       - web
     volumes:
       - ./certbot/www:/var/www/certbot/:ro
@@ -100,7 +100,6 @@ services:
     volumes:
       - media_volume:/app/media:rw
       - static_volume:/app/static:rw
-
   # certbot:
   #   container_name: certbot
   #   image: certbot/certbot

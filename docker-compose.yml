@@ -3,7 +3,7 @@ version: '3.8'
 networks:
   backend:
     name: backend
-    driver: bridge  
+    driver: bridge
   frontend:
     name: frontend
     driver: bridge
@@ -13,7 +13,7 @@ volumes:
     name: postgres_data
   static_volume:
     name: static_volume
-  media_volume:  
+  media_volume:
     name: media_volume
 
 services:
@@ -36,9 +36,9 @@ services:
     networks:
       - frontend
       - backend
-#    command: tail -f /dev/null
+    #    command: tail -f /dev/null
     command: python manage.py runserver
-    
+
   db:
     image: postgres:14.0-alpine
     container_name: db
@@ -59,4 +59,3 @@ services:
       - "6379:6379"
     networks:
       - backend
-
