@@ -305,6 +305,8 @@ LANGUAGE_CODE = "fr"
 
 TIME_ZONE = "Europe/Paris"
 
+WAGTAIL_USER_TIME_ZONES = ['Europe/Paris']
+
 USE_I18N = True
 
 USE_L10N = True
