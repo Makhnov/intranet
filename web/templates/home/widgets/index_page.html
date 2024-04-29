@@ -8,87 +8,86 @@
 {% block body_class %}cgs-home {{ item_type }} {% if is_root %}menu{% else %}{{ class_type }}{% endif %}{% endblock %}
 
 {% block content %}
-<main class="main-content">          
-    <div class="cgs-container cgs-{{ item_type }}">
-        {% if is_root %}   
-            {% cgs_cloud class_type="menu" %}
-        {% else %}
-            <div class="cgs-page">
-                {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
-                {% include "widgets/search/filters.html" %}
-                
-                <div class="cgs-{{ class_type }}">
-                    {% for type, pages in grouped_subpages.items %}
-                        {% if pages %}
-                            {% if type == 'generic' %}
-                                <ul class="{{ class_type }}-box {{ item_type }} webpages {{ section }}">
-                                    <h3 class="h2">Pages web</h3>
-                                    {% for item in pages %}
-                                        {% comment %} {% authorized_user item as visible %}
-                                        {% if visible %}{% endif %}{% endcomment %}
-                                            <li class="{{ class_type }}-item {{ item_type }} webpage">
-                                                {% include "widgets/blocks/item.html" with item_type="webpage" %}
-                                                {% comment %} <a 
-                                                    href="{{ page.url }}"
-                                                    class="{{ class_type }}-link {{ item_type }} webpage" 
-                                                    title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
-                                                    alt="{{ page.title|default_if_none:'' }}"
-                                                    target="_blank"
-                                                >                                            
-                                                {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_generic class_type="cgs-nofill cgs-standard-icon" %}
-                                                <p>{{ page.title }}</p>
-                                                </a> {% endcomment %}
-                                            </li>
-                                    {% endfor %}
-                                </ul>
+    <main class="main-content">
+        <div class="cgs-container cgs-{{ item_type }}">
+
+            {% if is_root %}   
+                {% cgs_cloud class_type="menu" %}
+            {% else %}
+
+                <div class="cgs-page">
+                    {% include 'widgets/images/swap.html' with wrapper=True search=True smooth=True horizontal=True wrap_class="recherche" swap_class="cgs-fixed-icon" swap_initial="Afficher" %}
+                    {% include "widgets/search/filters.html" %}
+                    
+                    <div class="cgs-{{ class_type }}">                    
+                        {% for type, pages in grouped_subpages.items %}
+                            {% if pages %}
+                                {% if type == 'generic' %}
+                                    <ul class="{{ class_type }}-box {{ item_type }} webpages {{ section }}">
+                                        <h3 class="h2">Pages web</h3>
+                                        {% for item in pages %}
+                                            {% if item_type != "public" %}
+                                                <li class="{{ class_type }}-item {{ item.item_type }} webpage">
+                                                    {% include "widgets/blocks/item.html" with item_type="webpage" %}
+                                                </li>
+                                            {% else %}
+                                                {% authorized_user item as visible %}
+                                                {% if visible %}
+                                                    <li class="{{ class_type }}-item {{ item.item_type }} webpage">
+                                                        {% include "widgets/blocks/item.html" with item_type="webpage" %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                
+                                {% if type == 'download' %}
+                                    <ul class="{{ class_type }}-box {{ item_type }} documents {{ section }}">
+                                        <h3 class="h2">Documents</h3>
+                                        {% for item in pages %}
+                                            {% if item_type != "public" %}
+                                                <li class="{{ class_type }}-item {{ item.item_type }} document">
+                                                    {% include "widgets/blocks/item.html" with item_type="document" %}
+                                                </li>
+                                            {% else %}
+                                                {% authorized_user item as visible %}
+                                                {% if visible %}
+                                                    <li class="{{ class_type }}-item {{ item.item_type }} document">
+                                                        {% include "widgets/blocks/item.html" with item_type="document" %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                
+                                {% if type == 'form' %}
+                                    <ul class="{{ class_type }}-box {{ item_type }} formulaires {{ section }}">
+                                        <h3 class="h2">Formulaires divers</h3>
+                                        {% for item in pages %}
+                                            {% if item_type != "public" %}
+                                                <li class="{{ class_type }}-item {{ item.item_type }} form">
+                                                    {% include "widgets/blocks/item.html" with item_type="form" %}
+                                                </li>
+                                            {% else %}
+                                                {% authorized_user item as visible %}
+                                                {% if visible %}
+                                                    <li class="{{ class_type }}-item {{ item.item_type }} form">
+                                                        {% include "widgets/blocks/item.html" with item_type="form" %}
+                                                    </li>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             {% endif %}
-                            
-                            {% if type == 'download' %}
-                                <ul class="{{ class_type }}-box {{ item_type }} documents {{ section }}">
-                                    <h3 class="h2">Documents</h3>
-                                    {% for item in pages %}
-                                        <li class="{{ class_type }}-item {{ item_type }} document">
-                                            {% include "widgets/blocks/item.html" with item_type="document" %}
-                                            {% comment %} <a 
-                                                href="{{ page.url }}"
-                                                class="{{ class_type }}-link {{ item_type }} document" 
-                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
-                                                alt="{{ page.title|default_if_none:'' }}"
-                                            > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_download class_type="cgs-nofill cgs-standard-icon" %}
-                                            <p>{{ page.title }}{% include 'widgets/images/logo.html' with intranet_icon=page.logo class_type="cgs-standard-icon cgs-zerofill" %}</p>                                            
-                                            </a> {% endcomment %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            
-                            {% if type == 'form' %}
-                                <ul class="{{ class_type }}-box {{ item_type }} formulaires {{ section }}">
-                                    <h3 class="h2">Formulaires divers</h3>
-                                    {% for item in pages %}
-                                        <li class="{{ class_type }}-item {{ item_type }} formulaire">
-                                            {% include "widgets/blocks/item.html" with item_type="formulaire" %}
-                                            {% comment %} <a 
-                                                href="{{ page.url }}"
-                                                class="{{ class_type }}-link {{ item_type }} formulaire" 
-                                                title="{% if page.tooltip %}{{ page.tooltip}}{% elif page.slug %}{{ page.slug}}{% endif %}"
-                                                alt="{{ page.title|default_if_none:'' }}"
-                                            > 
-                                            {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.home_form class_type="cgs-nofill cgs-standard-icon" %}
-                                            <p>{{ page.title }}</p>
-                                            </a> {% endcomment %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
-                
-            </div>
-        </main>   
-    {% endif %} 
+            {% endif %} 
+        </div>
+    </main>  
 {% endblock content %}
 
 {% block footer_mid %}

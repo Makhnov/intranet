@@ -527,32 +527,28 @@ class AdvancedFormSetting(AbstractFormSetting):
 
 # Recherche générique (RessourcesPage, PublicPage)
 def generic_search(request, parent_page):
-    print('GENERIC SEARCH')
+    user = request.user
     search_query = request.GET.get('query', '')
     page_type = request.GET.get('type', '*')
     extension = request.GET.get('extension', None)
 
-    print(f"search_query: {search_query}")
-    print(f"page_type: {page_type}")
-    print(f"extension: {extension}")
-    
     # On récupère toutes les sous-pages
     subpages = Page.objects.child_of(parent_page).specific()
 
     # On applique le filtrage par type
     if page_type != '*':
         filtered_subpages = []
-        for subpage in subpages:
+        for subpage in subpages:            
             if page_type == 'generic' and isinstance(subpage, GenericPage):
                 filtered_subpages.append(subpage)
             elif page_type == 'download' and isinstance(subpage, InstantDownloadPage):
-                print("DOWNLOAD", subpage.heading, extension)
+                # print("DOWNLOAD", subpage.heading, extension)
                 if extension and hasattr(subpage, 'heading'):
                     # Diviser le heading pour obtenir les différentes extensions
                     heading_extensions = subpage.heading.split(", ")
                     # Vérifier si l'extension recherchée est dans la liste des extensions du heading
                     if extension in heading_extensions:
-                        print(f'extension: {extension}  subpage.heading: {subpage.heading}')
+                        # print(f'extension: {extension}  subpage.heading: {subpage.heading}')
                         filtered_subpages.append(subpage)
                     else:
                         print(f'extension not found in subpage.heading: {extension}  subpage.heading: {subpage.heading}')

@@ -1,6 +1,5 @@
 from wagtail.models import PageViewRestriction
 from termcolor import colored
-import datetime
 
 from accompte.models import (
     AccountPage, 
@@ -8,7 +7,7 @@ from accompte.models import (
     LoginPage,    
     LogoutPage, 
     SignupPage,
-    EmailPage, 
+    EmailPage,
     PasswordPage, 
     PasswordResetPage, 
     PasswordChangePage, 
@@ -17,6 +16,7 @@ from accompte.models import (
 from administration.models import AdministrationFormPage, CommissionsIndexPage
 from amicale.models import AmicaleIndexPage, AmicalePage
 from home.models import RessourcesPage, HomePage, PublicPage
+from ls.joyous.models import CalendarPage
 
 # Pages publiques
 no_restricted_pages = [
@@ -24,6 +24,7 @@ no_restricted_pages = [
     PublicPage, 
     LoginPage, 
     SignupPage,
+    CalendarPage,
 ]
 
 # Pages restreintes aux utilisateurs authentifiés
@@ -40,7 +41,6 @@ login_restricted_pages = [
     PasswordSetPage,
 ]
 
-
 # Vérification des droits d'accès aux pages
 def check_page_access(user, page, bool):
     # print(colored(f'Checking access for {user} to page {page}', 'yellow'))
@@ -55,7 +55,7 @@ def check_page_access(user, page, bool):
         if page.type == 'sorties':
             ami = user.groups.filter(name='Amicale').exists()
             # print(colored(f'Access : {user} for {page} check if member of the amicale : {ami}', 'black', 'on_green'))
-            return ami
+            return ami    
 
     if isinstance(page, tuple(no_restricted_pages)):
         # print(colored(f'Access granted: {page} is a public page', 'black', 'on_green'))
@@ -90,7 +90,6 @@ def check_page_access(user, page, bool):
 # Vérification des droits d'accès aux pages enfants
 def check_child_pages_access(user, page, bool):
     children = page.get_children().live()
-
     for child in children:
         if check_page_access(user, child, bool):
             # print(colored(f'Access granted: {user} has access to at least one child of {page} ({child})', 'black', 'on_green'))
