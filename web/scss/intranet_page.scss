@@ -8,7 +8,6 @@ main {
     width: 100%!important;
     margin: 0!important;
 }
-
 main h1 {
     width: 100%;
     text-align: center;
@@ -18,7 +17,6 @@ main h1 {
     font-size: calc(3 * var(--font-size));
     font-weight: 800;
 }
-
 div.cgs-container.cgs-administration {
     flex-direction: column;
     
@@ -27,15 +25,12 @@ div.cgs-container.cgs-administration {
         flex-direction: column;
     }
 }
-
 div.cgs-container > div.cgs-page {
     width: 100%;
 }
-
 body.list div.cgs-page, body.doc div.cgs-page {
     display: flex;
 }
-
 body.page div.cgs-page {
     flex-direction: column;
     justify-content: flex-start;
@@ -46,7 +41,6 @@ body.page div.cgs-page {
         width: 100%;
     }
 }
-
 div.cgs-page > div.cgs-block {
     display: flex;
     flex-direction: column;
@@ -157,11 +151,12 @@ div.cgs-page {// LISTE PRINCIPALE DE LA PAGE
     > div.cgs-list {
         width: 100%;
         position: relative;
-        flex:0 1 auto;
-        padding-top: 100px;
+        flex: 0 1 auto;
+        padding: 100px 1rem 0 1rem;
 
         display: flex;        
-
+        column-gap: 1rem;
+        
         h2, h3.h2 {
             width: 100%;
             margin: 1rem 0 .5rem 0;
@@ -182,11 +177,12 @@ div.cgs-page {// LISTE PRINCIPALE DE LA PAGE
             margin: .5rem 0 1.5rem 0;
         }
 
-        ul.list-box {// LISTE D'ITEMS 
+        ul.list-box {// LISTE D'ITEMS             
+            flex: 0 1 auto;
+
             display: flex;
             flex-direction: column;
-            align-items: center;
-
+            align-items: center;            
             row-gap: .2rem;
             
             ul {
@@ -230,9 +226,11 @@ div.cgs-list {// LISTE PRINCIPALE ITEM VISIBLES (AVANT CLIC)
             
             &.cgs-open, &:hover {
                 --cgs-theme-light: var(--content-clair);
+                --cgs-logo-4:var(--texte-fonce);
                 
                 ~ div.list-content {
                     --cgs-theme-light: var(--content-clair);
+                    --cgs-logo-4:var(--texte-tres-fonce);
                 }
             }
     
@@ -242,7 +240,7 @@ div.cgs-list {// LISTE PRINCIPALE ITEM VISIBLES (AVANT CLIC)
                 user-select: none;
                 pointer-events: none;
 
-                height: calc(var(--icon-size) * 1.5);
+                height: calc(var(--icon-size) * 2);
                 width: calc(100% - 3 * var(--font-size));
                 padding-top: calc(var(--font-size) / 4);
                 padding-bottom: calc(var(--font-size) / 4);
@@ -274,7 +272,7 @@ div.cgs-list {// LISTE PRINCIPALE ITEM VISIBLES (AVANT CLIC)
                 cursor: pointer;      
                 position:absolute;
 
-                height: calc(var(--icon-size) * 1.5);
+                height: calc(var(--icon-size) * 2);
                 width: calc(100% - var(--font-size));
                 padding: calc(var(--font-size) / 4) calc(var(--font-size) / 2);
                 margin:0;
@@ -327,7 +325,7 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
-                row-gap: .25rem;
+                row-gap: 1rem;
 
                 &:first-child {
                     border-top: 4px solid var(--vert-fonce);
@@ -335,36 +333,29 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
 
                 div.content-item {
                     width: 100%;
-                    height: calc(var(--icon-size) * 1.5);
 
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-start;
                     align-items: center;
-                    column-gap: 1rem;
+                    column-gap: .5rem;
 
-                    a {
-                        all: initial;
-
-                        &:hover {
-                            h5 {
-                                color:var(--cgs-color-menu-5);
-                                font-weight: 600;
-                            }
-                            svg, img {
-                                transform: scale(1.25);
-                            }
+                    > a, > div {
+                        * {
+                            overflow: hidden;
                         }
 
                         h5 {
                             width: fit-content;
                             margin:0;
-    
+                            padding-bottom: .5rem;
+
                             display: flex;
                             flex-direction: row;
                             justify-content: flex-start;
                             align-items: center;
                             column-gap: .5rem;
+                            color:var(--cgs-logo-4);
                         }
 
                         svg, img {
@@ -374,21 +365,34 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
                         }
                     }
 
-                    &.view, &.preview {    
-                        a {
-                            width: 100%;
-                            cursor: pointer;
+                    > a {
+                        width: 100%;
+                        cursor: pointer;
 
-                            display: flex;
-                            flex-direction: row;  
-                            justify-content: space-between;
-                            text-decoration: none;
-
+                        display: flex;
+                        flex-direction: row;  
+                        justify-content: space-between;
+                        text-decoration: none;
+   
+                        &:hover {
+                            h5 {
+                                color:var(--cgs-color-menu-5);
+                                font-weight: 600;
+                            }
+                            
+                            svg, img {
+                                transform: scale(1.25);                                
+                            }
                         }
-                    }
+                    }                    
+                    
+                    > div {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }                 
 
                     &.related {
-                        height: calc(var(--icon-size) * 1.5);
                         width: 100%;
 
                         display: flex;
@@ -400,14 +404,13 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
 
                         > div {
                             flex:1 1 auto;
-                            height: calc(var(--icon-size) * 1.5);
 
                             display: flex;
                             flex-direction: row;
-                            flex-wrap: nowrap;
+                            flex-wrap: wrap;
                             align-items: center;
-                            column-gap: .25rem;
-
+                            column-gap: .5rem;
+                            
                             &:nth-child(odd):not(:last-child) {
                                 justify-content: flex-start;
                             }
@@ -425,14 +428,17 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
                             }
 
                             h5 {
-                                width: fit-content;
-                                height: calc(var(--icon-size) * 1.5);
-                                margin:0;
-                                padding:0;
+                                img, svg {
+                                    cursor: initial!important;
+                                }
+                            }
+                            > div {
+                                flex: none;
 
                                 display: flex;
-                                align-items: center;
-                                justify-content: flex-start;
+                                flex-direction: row;
+                                flex-wrap: nowrap;
+                                column-gap: .5rem;                                
                             }
 
                             a {
@@ -441,6 +447,14 @@ div.cgs-list {// LISTE PRINCIPALE CONTENU D'UN ITEM (APRES CLIC)
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
+                                &:hover {
+                                    p {
+                                        color:var(--cgs-color-menu-5);
+                                    }
+                                    svg, img {
+                                        transform: scale(1.25);                                
+                                    }
+                                }
                             }
                         }
                     }

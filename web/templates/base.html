@@ -71,8 +71,10 @@
 					{% include "widgets/header/pochoir.html" %}{# Logo CGS #}
 					{% if user.is_authenticated %}{# utilisateurs connectés #}
 						<li class="header-item">
-							<span class="header-user">Intranet de</span> 
-							<span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
+                            <p>
+                                <span class="header-user">Intranet de</span>
+                                <span class="header-user">{{ user.first_name }} {{ user.last_name }}</span>
+                            </p>
 							<nav class="cgs-nav header">
 								{% with class_type="nav" logo_settings=True home=True %}
 									{% flat_menu 'home' show_menu_heading=True max_levels=1 %}

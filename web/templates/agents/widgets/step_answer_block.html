@@ -17,7 +17,7 @@
                 <li class="step-item primary">
                     <div class="step-name cgs-swap primary">
                         {% if block.ordonnated %}
-                            {% include "agents/widgets/ol.html" with item_value=item.step_item item_number=forloop.counter %}
+                            {% include "widgets/images/ol.html" with item_value=item.step_item item_number=forloop.counter %}
                         {% else %}
                             <p>{% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.ul_item %}{{ item.step_item }}</p>
                         {% endif %}
