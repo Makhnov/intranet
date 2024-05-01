@@ -6,14 +6,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const mapBox = document.getElementById('carte');
         const routeBox = document.getElementById('itineraire');
         const openInLink = document.getElementById('open-in-maps');
-        
+
         if (!mapBox) throw new Error("Élément de carte introuvable.");
         const mapInfo = map(mapBox);
         itineraire(mapInfo.start, mapInfo.end, openInLink);
 
         const openRoute = document.querySelector('a.open-route');
         if (openRoute) {
-            openRoute.addEventListener('click', function() {
+            openRoute.addEventListener('click', function () {
                 // Activation du contrôle de routage
                 createRoute(mapInfo.map, mapInfo.start, mapInfo.end);
                 // Lancement de la fonction positionBox
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     } catch (error) {
         console.error("Erreur lors de l'initialisation de la carte ou des contrôles de routage:", error);
-    }    
+    }
 });
 
 function map(box) {
@@ -45,7 +45,7 @@ function map(box) {
 
     // Création de la carte
     const map = L.map(box).setView([startLat, startLng], 13);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 19}).addTo(map);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
 
     // Ajout des marqueurs
     const departMarker = L.marker([startLat, startLng]).addTo(map).bindPopup(startTxt);
@@ -56,11 +56,11 @@ function map(box) {
     departMarker._icon.classList.add("map-depart");
     destinationMarker._icon.classList.add("map-destination");
 
-    return {'map': map, 'start': [startLat, startLng], 'end': [endLat, endLng]};
+    return { 'map': map, 'start': [startLat, startLng], 'end': [endLat, endLng] };
 }
 
 function observeRouting(mapBox, routeBox) {
-    const observer = new MutationObserver(function(mutations) {
+    const observer = new MutationObserver(function (mutations) {
         mutations.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
                 if (node instanceof HTMLElement && (node.classList.contains('leaflet-routing-container') || node.classList.contains('leaflet-routing-error'))) {
@@ -106,7 +106,7 @@ function createRoute(map, start, end) {
 function positionBox() {
     const mapBox = document.getElementById('carte');
     const openInBox = document.getElementById('open-in-box');
-    const sectionBox = document.querySelector('section.amicale-map');
+    const sectionBox = document.querySelector('section.amicale.map');
 
     if (mapBox && openInBox) {
 

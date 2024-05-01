@@ -4,9 +4,16 @@ body.cgs-amicale, body.cgs-ressources, body.cgs-public, body.cgs-events, body.cg
         min-height: 100vh!important;
     }
 } 
-main {
-    width: 100%!important;
-    margin: 0!important;
+body {
+    main {
+        width: 100%!important;
+        margin: 0!important;        
+    }
+    &.item {
+        main {
+            align-items: center;
+        }
+    }
 }
 main h1 {
     width: 100%;

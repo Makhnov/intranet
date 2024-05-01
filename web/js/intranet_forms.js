@@ -1,3 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("Fichier froms.js chargé");
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("Fichier forms.js chargé");
 });

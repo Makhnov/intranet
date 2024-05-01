@@ -6,11 +6,7 @@
     <main>
         <div class="cgs-container cgs-agents">
             <div class="cgs-page">  
-                {% if page.form %}
-                    {% for block in page.form %}                    
-                        {% include_block block %}
-                    {% endfor %}
-                {% endif %}
+                {% include "widgets/forms/base.html" with form_id="questionnaire-agents" form_class="agents" %}
             </div>
         </div>
     </main>  

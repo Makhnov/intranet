@@ -1,6 +1,7 @@
 from termcolor import colored
 
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.timezone import datetime
 from modelcluster.fields import ParentalKey
 
@@ -276,6 +277,8 @@ class AmicalePage(Page):
         lat = None
         lng = None
         
+        print(self.date)
+
         if self.use_map:
             a1 = user.address1
             a2 = user.address2
@@ -285,8 +288,8 @@ class AmicalePage(Page):
             lat, lng = geocode(a1, a2, zc, city, '')
               
             if home and (lat is None or lng is None):
-                messages.warning(request, "Vous n'avez pas d'adresse définie dans votre profil. Cliquez sur la roue crantée pour la renseigner.")
-
+                message = mark_safe("Vous n'avez pas d'adresse définie dans votre profil ou elle n'est pas reconnue. Cliquez sur la roue crantée pour la renseigner (Si vous voulez tester votre adresse cliquez sur la carte ci-contre). <a href='https://nominatim.osm.org/ui/search.html' target='_blank'><span>🗺️</span></a>")
+                messages.warning(request, message)
         link = False
         if request.GET.get('inscription') == 'true':
             link = True 

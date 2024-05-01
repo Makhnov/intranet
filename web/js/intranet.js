@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
     whatTheHell();
 });
 
-function whatTheHell() {    
-    
+function whatTheHell() {
+
     // Si le logo cgs est présent, on active les écouteurs d'événements
     const CGS = document.querySelectorAll('.logo-pochoir.right');
     if (CGS.length > 0) {
         iconColors(CGS);
     }
-    
+
     // Ouverture et fermeture du menu utilisateur
     const PROFILE = document.querySelector('ul.profile > .avatar');
     if (PROFILE) {
@@ -23,7 +23,7 @@ function whatTheHell() {
     if (EXPENDABLES.length > 0) {
         expandableImages(EXPENDABLES);
     }
-    
+
     // Preview (texte en plein écran)
     const PREVIEWS = document.querySelectorAll('.cgs-preview');
     if (PREVIEWS.length > 0) {
@@ -113,16 +113,16 @@ function iconColors(divs) {
 // Fonction pour afficher les images en plein écran
 function expandableImages(images) {
     images.forEach(img => {
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             const fullscreenDiv = document.createElement('div');
             fullscreenDiv.classList.add('cgs-fullscreen-container');
-    
+
             const cloneImg = this.cloneNode();
             fullscreenDiv.appendChild(cloneImg);
 
             document.body.appendChild(fullscreenDiv);
-    
-            fullscreenDiv.addEventListener('click', function() {
+
+            fullscreenDiv.addEventListener('click', function () {
                 this.remove();
             });
         });
@@ -132,13 +132,13 @@ function expandableImages(images) {
 // Fonction pour afficher une preview de certaines pages
 function preview(PREVIEWS) {
     PREVIEWS.forEach(preview => {
-        preview.addEventListener('click', function() {
+        preview.addEventListener('click', function () {
             const box = preview.closest('li.list-item');
             const view = box.querySelector('div.list-preview');
 
             if (view) {
                 view.classList.remove('cgs-hidden');
-                view.addEventListener('click', function() {
+                view.addEventListener('click', function () {
                     view.classList.add('cgs-hidden');
                 });
             }
@@ -151,7 +151,7 @@ function preview(PREVIEWS) {
 // Fonction pour gérer les éléments permutables
 function swap(swapables) {
 
-    function hideSwapable(smooth=false, direction=false, element) {
+    function hideSwapable(smooth = false, direction = false, element) {
         if (smooth) {
             if (direction) {
                 element.classList.toggle('cgs-width-none');
@@ -188,7 +188,7 @@ function swap(swapables) {
                 swapable.classList.remove('cgs-open');
                 hideSwapable(smooth, horizontal, next);
                 break;
-            }            
+            }
             next = next.nextElementSibling;
         }
 
@@ -204,24 +204,24 @@ function swap(swapables) {
                     news.classList.toggle('cgs-open');
                 }
                 hideSwapable(smooth, horizontal, next);
-                
+
                 // Changement du titre pour le tooltip
                 if (swaper.getAttribute('title') === 'Afficher') {
-                    swaper.setAttribute('title', 'Masquer');                
+                    swaper.setAttribute('title', 'Masquer');
                     if (heading) {
-                        const newContent = heading.textContent.replace('Afficher', 'Masquer');                    
+                        const newContent = heading.textContent.replace('Afficher', 'Masquer');
                         heading.textContent = newContent;
                     }
                 } else {
                     swaper.setAttribute('title', 'Afficher');
                     if (heading) {
-                        const newContent = heading.textContent.replace('Masquer', 'Afficher');                    
+                        const newContent = heading.textContent.replace('Masquer', 'Afficher');
                         heading.textContent = newContent;
                     }
                 }
             });
         } else {
-            swaper.addEventListener('click', function () {    
+            swaper.addEventListener('click', function () {
                 console.info("Pas de prochain élément à afficher");
             });
         }
@@ -241,9 +241,9 @@ function footerScroll(footerBox) {
     // Visibilité des chevrons
     const updateFooterArrows = () => {
         if (footerBox.scrollLeft === 0) {
-        footerLeft.classList.add('cgs-hidden');
+            footerLeft.classList.add('cgs-hidden');
         } else {
-        footerLeft.classList.remove('cgs-hidden');
+            footerLeft.classList.remove('cgs-hidden');
         }
 
         if (footerBox.scrollLeft + footerBox.offsetWidth >= footerBox.scrollWidth) {
@@ -293,8 +293,8 @@ function newsBlock(box) {
             console.log(item);
             highlight = true
         }
-    }        
-    console.log("BUTTON", button, "NEWS", news);
+    }
+    // console.log("BUTTON", button, "NEWS", news);
     if (news && highlight) {
         button.classList.add('highlighted');
     }
@@ -308,7 +308,7 @@ function searchBlock(form) {
     const urlParams = new URLSearchParams(window.location.search);
     const activeBox = document.querySelector('fieldset.active');
 
-    const activeCategoryDiv = document.getElementById('activeCategory');    
+    const activeCategoryDiv = document.getElementById('activeCategory');
     const categoryName = activeCategoryDiv.getAttribute('data-name');
     console.log("CategoryName : ", categoryName);
     const selectedCategory = urlParams.get(categoryName);
@@ -320,8 +320,8 @@ function searchBlock(form) {
     const extensionButtons = document.querySelectorAll('input[name="extension"]');
 
     const selectedTags = urlParams.getAll('tag');
-    const selectedQuery = urlParams.get('query');    
-    const selectedDate = [urlParams.get('start_date'), urlParams.get('end_date')];    
+    const selectedQuery = urlParams.get('query');
+    const selectedDate = [urlParams.get('start_date'), urlParams.get('end_date')];
     const tagButtons = document.querySelectorAll('.tag-button');
 
     const CGSFORM = document.getElementById('cgs-search-form');
@@ -329,23 +329,23 @@ function searchBlock(form) {
     const activeTagsDiv = document.getElementById('activeTags');
     const activeQueryDiv = document.getElementById('activeQuery');
     const activeDateDiv = document.getElementById('activeDate');
-    
+
     // const queryButton = document.querySelector('fieldset.recherche .filter_search');
     ///////////////////// ECOUTEURS D'EVENEMENTS ///////////////////////
 
     // Choix d'une catégorie
     if (categoryButtons) {
         categoryButtons.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 submitForm();
             });
-        }); 
+        });
     }
 
     // Choix d'une extension 
     if (extensionButtons) {
         extensionButtons.forEach(radio => {
-            radio.addEventListener('change', function() {
+            radio.addEventListener('change', function () {
                 submitForm();
             });
         });
@@ -354,7 +354,7 @@ function searchBlock(form) {
     // Ajout d'un tag par les tags populaires
     if (tagButtons) {
         tagButtons.forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const tagName = this.getAttribute('data-tag');
                 addTag(tagName);
                 submitForm();
@@ -366,11 +366,11 @@ function searchBlock(form) {
     // console.log("Category :", (selectedCategory), "Tags :", selectedTags, "Query :", selectedQuery, "Date :", selectedDate, "Extension :", selectedExtension);
 
     if (
-        (selectedCategory && selectedCategory != "*") || 
-        (selectedExtension && selectedExtension != "*") || 
-        (selectedQuery && selectedQuery != "") || 
-        selectedTags.length > 0 || 
-        selectedDate[0] || 
+        (selectedCategory && selectedCategory != "*") ||
+        (selectedExtension && selectedExtension != "*") ||
+        (selectedQuery && selectedQuery != "") ||
+        selectedTags.length > 0 ||
+        selectedDate[0] ||
         selectedDate[1]
     ) {
         // Afficher la catégorie active
@@ -379,9 +379,9 @@ function searchBlock(form) {
         // Afficher la catégorie active
         if (selectedCategory) {
             // ajout d'un bouton cliquable (pour supprimer la catégorie en cours et sélectionner automatiquement "toutes")
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 categoryButtons.forEach(radio => {
-                    radio.checked = false;                    
+                    radio.checked = false;
                 });
                 if (!selectedExtension) {
                     extensionButtons.forEach(radio => {
@@ -395,7 +395,7 @@ function searchBlock(form) {
 
         // Afficher l'extension active
         if (selectedExtension) {
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 extensionButtons.forEach(radio => {
                     radio.checked = false;
                 });
@@ -407,11 +407,11 @@ function searchBlock(form) {
                 submitForm();
             };
             addActive(activeExtensionDiv, 'Fichier', selectedExtension.split('_')[0], onClickFunction);
-        } 
+        }
 
         // Afficher la recherche active
         if (selectedQuery) {
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 const queryInput = document.querySelector('input[name="query"]');
                 queryInput.value = '';
                 submitForm();
@@ -422,12 +422,12 @@ function searchBlock(form) {
         // Afficher les tags actifs
         if (selectedTags.length > 0) {
             // Afficher les tags actifs
-            selectedTags.forEach(tagName => addTag(tagName));    
+            selectedTags.forEach(tagName => addTag(tagName));
         }
 
         // Afficher la date de début
         if (selectedDate[0]) {
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 const startDateInput = document.querySelector('input[name="start_date"]');
                 startDateInput.value = '';
                 submitForm();
@@ -437,7 +437,7 @@ function searchBlock(form) {
 
         // Afficher la date de fin
         if (selectedDate[1]) {
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 const endDateInput = document.querySelector('input[name="end_date"]');
                 endDateInput.value = '';
                 submitForm();
@@ -446,13 +446,13 @@ function searchBlock(form) {
         }
 
     }
-    
+
     /////////////////////// FONCTIONS DIVERSES /////////////////////////
 
     // Ajouter un élément actif
     function addActive(box, label, value, onClickFunction) {
-        const div = document.createElement('div');        
-        
+        const div = document.createElement('div');
+
         const p = document.createElement('p');
         p.classList.add('active-item');
 
@@ -462,13 +462,13 @@ function searchBlock(form) {
 
         const spanField = document.createElement('span');
         spanField.classList.add('field');
-        spanField.textContent = value;            
-        
+        spanField.textContent = value;
+
         const svg = document.querySelector('#cgs-close svg').cloneNode(true);
         svg.id = 'svg_close_categorie';
         svg.classList.add('cgs-mid-icon', 'cgs-close');
         svg.onclick = onClickFunction;
-        
+
         p.appendChild(spanKey);
         p.appendChild(spanField);
         div.appendChild(p);
@@ -477,7 +477,7 @@ function searchBlock(form) {
 
         return div;
     }
-    
+
     // Ajout d'un tag en utilisant les tags personnalisés
     function addTag(tagName) {
         if (![...activeTagsDiv.children].some(tagDisplay => tagDisplay.textContent.startsWith(tagName))) {
@@ -486,14 +486,14 @@ function searchBlock(form) {
             input.name = 'tag';
             input.value = tagName;
             CGSFORM.appendChild(input);
-    
+
             // Fonction onClick personnalisée qui nécessite le div
-            const onClickFunction = function() {
+            const onClickFunction = function () {
                 CGSFORM.removeChild(input);
                 activeTagsDiv.removeChild(div); // div doit être défini dans cette portée
                 submitForm();
             };
-    
+
             // Ajouter un élément actif et récupérer le div créé
             const div = addActive(activeTagsDiv, 'Tag', tagName, onClickFunction);
         }
@@ -502,7 +502,7 @@ function searchBlock(form) {
     // Soumission du formulaire
     function submitForm() {
         CGSFORM.submit();
-    }        
+    }
 }
 
 // Modification des informations personnelles
@@ -527,11 +527,11 @@ function avatarToggle() {
     const previewAvatar = document.getElementById('preview_avatar');
 
     if (clearAvatar && previewAvatar) {
-        clearAvatar.addEventListener('click', function() {
+        clearAvatar.addEventListener('click', function () {
             const defaultSrc = previewAvatar.getAttribute('data-default');
             const currentSrc = previewAvatar.getAttribute('data-current');
             console.log(clearAvatar.checked);
-            
+
             if (clearAvatar.checked) {
                 if (defaultSrc === currentSrc) {
                     alert("🚫 Vous utilisez déjà l'avatar par défaut, il n'y a rien à réinitialiser.");

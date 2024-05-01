@@ -12,6 +12,7 @@
             {% if table.mergeCells %}data-merge="{{ table.mergeCells }}"{% endif %}
             {% if table.data|length %}data-rows="{{ table.data|length }}"{% endif %}
             {% if table.data.0|length %}data-cols="{{ table.data.0|length }}"{% endif %}
+            {% comment %} {% if table.data %}data-table="{{ table.data }}"{% endif %} {% endcomment %}
         >
             {% for row in table.data %}
             <tr>

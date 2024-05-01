@@ -1,5 +1,0 @@
-<h2>{{ value.form.title }}</h2>
-<form id="inscription-sortie" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
-    {% include 'widgets/forms/fields.html' %}
-    <input type="submit" value="{{ value.form.submit_button_text }}">
-</form>

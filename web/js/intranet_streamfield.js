@@ -8,11 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
             getTableData(box);
         });
     }
+
+    const PARAGRAPHS = document.querySelectorAll('div.paragraph');
+    if (PARAGRAPHS.length > 1) {
+        stylingParagraphs(PARAGRAPHS);
+    }
 });
 
 
 // Récupération des valeurs des attributs data-row et data-column
-function getTableData(box) { 
+function getTableData(box) {
     const tableaux = box.querySelectorAll('table');
     const containerWidth = box.offsetWidth;
     // console.log(containerWidth);
@@ -20,12 +25,12 @@ function getTableData(box) {
     if (tableaux) {
         for (let i = 0; i < tableaux.length; i++) {
             merge_cells(tableaux[i]);
-        }           
+        }
     }
 
     function merge_cells(tab) {
         // console.log(tab);
-        const mergeRaw = tab.getAttribute('data-merge');            
+        const mergeRaw = tab.getAttribute('data-merge');
         if (mergeRaw) {
             const merge = JSON.parse(mergeRaw.replace(/'/g, '"'));
             merge.forEach(m => {
@@ -36,39 +41,39 @@ function getTableData(box) {
                 const cell = tab.rows[row].cells[col];
                 cell.colSpan = colspan;
                 cell.rowSpan = rowspan;
-    
+
                 // Vérifier si la cellule touche le bord droit du tableau
                 if ((col + colspan) === tab.rows[row].cells.length) {
                     cell.style.borderRight = "2px solid var(--vert)";
                 }
 
-    
+
                 // Vérifier si la cellule touche le fond du tableau
                 if ((row + rowspan) === tab.rows.length) {
                     cell.style.borderBottom = "2px solid var(--vert)";
-                }     
-                
+                }
+
                 // Vérifier si on a un rowspan pour ajuster la cellule de la dernière ligne concernée par ce rowspan
                 if (rowspan > 1) {
-                // Calculer l'indice de la dernière ligne affectée par le rowspan
-                const lastRowAffected = row + rowspan - 1;
+                    // Calculer l'indice de la dernière ligne affectée par le rowspan
+                    const lastRowAffected = row + rowspan - 1;
 
-                // S'assurer que cette dernière ligne existe dans le tableau
-                if (lastRowAffected < tab.rows.length) {
-                    // Trouver la cellule à gauche de la cellule fusionnée sur la dernière ligne affectée
-                    // Il faut s'assurer que 'col - 1' est valide (c'est-à-dire qu'il y a une cellule à gauche)
-                    if (col > 0 && tab.rows[lastRowAffected].cells[col - 1]) {
-                        // Ajouter la classe "cgs-not-last" à cette cellule
-                        tab.rows[lastRowAffected].cells[col - 1].classList.add("cgs-not-last");
+                    // S'assurer que cette dernière ligne existe dans le tableau
+                    if (lastRowAffected < tab.rows.length) {
+                        // Trouver la cellule à gauche de la cellule fusionnée sur la dernière ligne affectée
+                        // Il faut s'assurer que 'col - 1' est valide (c'est-à-dire qu'il y a une cellule à gauche)
+                        if (col > 0 && tab.rows[lastRowAffected].cells[col - 1]) {
+                            // Ajouter la classe "cgs-not-last" à cette cellule
+                            tab.rows[lastRowAffected].cells[col - 1].classList.add("cgs-not-last");
+                        }
                     }
                 }
-            }
             });
             empty_cells(tab, true);
         } else {
             empty_cells(tab, false);
         }
-    }      
+    }
 
     function empty_cells(tab, merge) {
         let emptyCells = 0;
@@ -80,7 +85,7 @@ function getTableData(box) {
                     tab.rows[i].cells[j].innerHTML = "";
                     if (merge) {
                         emptyCells++;
-                    }                   
+                    }
                 }
             }
             if (emptyCells > 0) {
@@ -93,4 +98,35 @@ function getTableData(box) {
             }
         }
     }
+}
+
+// Mise en forme des paragraphes
+function stylingParagraphs(blocks) {
+    let right = true;
+    let next;
+    let columnNext;
+
+    blocks.forEach(block => {
+        if (right) {
+            if (block.classList.contains('cgs-right') && (block != next)) {
+                block.classList.add('cgs-colored');
+                right = false;
+            }
+        } else {
+            if (block.classList.contains('cgs-left') || block.classList.contains('cgs-justify')) {
+                block.classList.add('cgs-colored');
+                right = true;
+                next = block.nextElementSibling;
+            }
+        }
+
+        if (block != columnNext) {
+            block.classList.add('cgs-column-colored');
+            columnNext = block.nextElementSibling;
+        }
+
+        // console.log('BLOCK', block);
+        // console.log('NEXT', next);
+        // console.log('COLUMN NEXT', next);
+    });
 }

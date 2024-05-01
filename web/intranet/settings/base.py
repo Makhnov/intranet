@@ -443,13 +443,9 @@ WAGTAILSTREAMFORMS_ENABLE_FORM_PROCESSING = True
 WAGTAILSTREAMFORMS_ADVANCED_SETTINGS_MODEL = "home.AdvancedFormSetting"
 WAGTAILSTREAMFORMS_DEFAULT_TO_ADDRESS = "secretariat@cagiregaronnesalat.fr"
 WAGTAILSTREAMFORMS_FORM_TEMPLATES = (
-    ("widgets/forms/contact.html", "Formulaire de contact"),
-    ("widgets/forms/amicale.html", "Inscription à l'amicale"),
-    ("widgets/forms/sortie.html", "Sorties de l'amicale"),
-    ("widgets/forms/agents.html", "Formulaire pour les agents"),
-    ("widgets/forms/administration.html", "Formulaire pour les élus"),
-    ("widgets/forms/home.html", "Formulaire pour les pages génériques"),
-    ("streamforms/form_block.html", "Formulaire par défaut"),
+    ("widgets/forms/form.html", "Formulaire CGS (défaut)"),
+    ("widgets/forms/survey.html", "Enquête, sondage, etc."),
+    ("widgets/forms/contact.html", "Formulaire de contact"),    
 )
 
 # Calendrier

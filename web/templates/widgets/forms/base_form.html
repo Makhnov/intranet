@@ -2,11 +2,3 @@
 {% load i18n static wagtailcore_tags menu_tags %}
 
 {% block body_class %}cgs-form page {{menu_type}} {% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.min.css' %}">
-{% endblock extra_css %}
-
-{% block extra_js %}
-	<script type="module" src="{% static 'js/forms.min.js' %}"></script>
-{% endblock %}

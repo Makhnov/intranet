@@ -6,5 +6,7 @@
     {% for field in form.visible_fields %}
         {% include 'streamforms/partials/form_field.html' %}
     {% endfor %}
-    <input type="submit" value="{{ value.form.submit_button_text }}">
+        <div class="field-row submit">
+        <input type="submit" value="{{ value.form.submit_button_text }}">
+    </div>
 </form>

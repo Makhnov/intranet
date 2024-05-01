@@ -1,7 +1,0 @@
-<h1>{{ value.form.title }}</h1>
-<form id="formulaire-home" {% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ value.form_action }}" method="post" novalidate>
-    {{ form.media }}
-    {% csrf_token %}
-    {% include 'widgets/forms/fields.html' %}
-    <input type="submit" value="{{ value.form.submit_button_text }}">
-</form>

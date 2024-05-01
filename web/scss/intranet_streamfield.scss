@@ -38,17 +38,13 @@
     div.cgs-justify {
         grid-column: 1;
     
-        &.paragraph * {
+        &.paragraph *:not(h2, h3, h4) {
             text-align: justify;        
         }
     }
     
     div.cgs-right {
         grid-column: 2;
-    
-        &.paragraph * {
-            text-align: right;
-        }
     }
 }
 
@@ -183,25 +179,34 @@
         font-weight: 800;
     }
     h2 {
+        text-align: center;
         color:var(--cgs-logo-3);
-        font-size: calc(2.25 * var(--font-size));    
+        font-size: calc(2.25 * var(--font-size));
+        margin: 0 0 calc(0.5 * var(--nav-icon-margin)) 0;
     }
     h3 {
         color:var(--cgs-logo-2);
         font-size: calc(1.75 * var(--font-size));
+        margin: 0 0 calc(0.25 * var(--nav-icon-margin)) 0;
     }
     h4{
         color:var(--cgs-logo-5);
         font-size: calc(1.5 * var(--font-size));
+        margin: 0 0 calc(0.125 * var(--nav-icon-margin)) 0;
     }
-    
+    p, ul, ol {
+        margin: 0 0 var(--nav-icon-margin);
+    }
     legend {
         color:var(--cgs-logo-1);
         font-size: calc(.9 * var(--font-size));
-    }
-    
+    }    
     div.cgs-block.paragraph {
+        position: relative;
         padding: 0 1rem;
+        justify-content: flex-start!important;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+
         p {
             color:var(--cgs-logo-4);
             font-size: var(--font-size);

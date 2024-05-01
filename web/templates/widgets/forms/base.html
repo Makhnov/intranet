@@ -1,0 +1,17 @@
+{% load static wagtailcore_tags %}
+
+<section class="{{ form_class }} form">
+    <div class="{{ form_class }} form mb-4">
+        {% for block in page.form %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+</section>
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/forms.min.css' %}">
+{% endblock extra_css %}
+
+{% block extra_js %}
+	<script type="module" src="{% static 'js/forms.min.js' %}"></script>
+{% endblock %}

@@ -28,7 +28,7 @@ def profile_view(request):
     theme = next((item for item in THEMES if item['code'] == user_profile.theme), {'name': '', 'code': ''})
     icon = next((item for item in COLORS if item['code'] == user_profile.icons), {'name': '', 'code': ''})
     civility = next((item for item in CIVILITIES if item['code'] == user.civility), {'name': '', 'code': ''})
-    print(civility)
+
     # Groupes de contextes
     user_base = {
         'get_full_name': user.get_full_name(),
@@ -65,7 +65,7 @@ def profile_update(request):
     if request.method == 'POST':
         
         redirect_to = 'account_profile'
-        next_url = request.POST.get('next', None)        
+        next_url = request.POST.get('next', None)
         if next_url:
             redirect_to = next_url        
  

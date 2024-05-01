@@ -116,15 +116,21 @@ html {// INITIALISATIONS
     }
 }
 
+.cgs-target {
+    outline-width: 3px;
+    outline-style: solid;
+    outline-color: transparent;
+
+    &:target {
+        animation: border-blink 3s infinite;
+    }
+}
+
 .cgs-highlighted {
     p {
         font-weight: bold!important;
         animation: color-blink 5s infinite;
     }
-}
-@keyframes color-blink {
-    0%, 10%, 20%, 100% { color: white; }
-    5%, 15% { color: var(--cgs-color-menu-5); }
 }
 
 .cgs-hidden, .cgs-swap-hidden {// OBJETS CACHES (instant)
@@ -262,6 +268,24 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
         font-family: 'rhino';
     }
 
+    > p > a {
+        all: initial;
+        cursor: pointer;
+        
+        flex: none;        
+        height: var(--footer-height);
+        width: var(--footer-height);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        span {
+            font-size: 2.25rem;
+            padding-bottom: .25rem;          
+        }
+    }
+
     svg, image {
         cursor: pointer;
         flex:none;
@@ -269,6 +293,16 @@ div.cgs-message {// Django/Wagtail - messages pour les utilisateurs
         height: 24px;
         width: 24px;
     }
+}
+
+@keyframes border-blink {
+    0%, 10%, 20%, 100% { outline-color: transparent; }
+    5%, 15% { outline-color: var(--cgs-color-menu-5); }
+}
+
+@keyframes color-blink {
+    0%, 10%, 20%, 100% { color: white; }
+    5%, 15% { color: var(--cgs-color-menu-5); }
 }
 
 @keyframes messages {

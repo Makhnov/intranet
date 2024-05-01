@@ -332,6 +332,12 @@
 		// Police pour toutes les pages de contenu
 		--font-size:1.1rem;
 	}
+    .cgs-streamfield {
+        // Couleurs        
+        .cgs-colored {
+            background-color: var(--content-clair);
+        }
+    }
 	body.list {
 		div.cgs-list:not(.agents) {           
 			flex-direction: row;
@@ -359,13 +365,13 @@
 			justify-content: center;
 
 			&.cgs-home {
-				max-width: 70%;
+				max-width: 80%;
 			}
 			&.cgs-amicale {
-				max-width: 70%;
+				max-width: 80%;
 			}
 			&.cgs-faq {
-				max-width: 70%;
+				max-width: 80%;
 			}
 		}
 	}
@@ -410,6 +416,12 @@
 		// Police pour toutes les pages de contenu
 		--font-size:1rem;
 	}
+    .cgs-streamfield {
+        // Couleurs        
+        .cgs-colored {
+            background-color: var(--content-clair);
+        }
+    }
 	body.list {
 		div.cgs-list:not(.agents) {
 			flex-direction: row;
@@ -428,6 +440,22 @@
 
 			ul.list-box {
 				width: 70%;
+			}
+		}
+	}
+    body.item {
+		div.cgs-container {
+			align-items: center;
+			justify-content: center;
+
+			&.cgs-home {
+				max-width: 85%;
+			}
+			&.cgs-amicale {
+				max-width: 85%;
+			}
+			&.cgs-faq {
+				max-width: 85%;
 			}
 		}
 	}
@@ -486,14 +514,15 @@
 			width: 75%!important;
 		}
 
-		/// Alignement
+        // Alignement
 		div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
-			grid-column: 1!important;
+            grid-column: 1!important;
+	    }
 
-			* {
-				text-align: left!important;
-			}
-		}
+        // Couleurs        
+        .cgs-column-colored {
+            background-color: var(--content-clair);
+        }
 	}
 	#courbure_cache {
 		display: block!important;
@@ -506,6 +535,22 @@
 			
 			ul.list-box {
 				width: 75%;
+			}
+		}
+	}
+    body.item {
+		div.cgs-container {
+			align-items: center;
+			justify-content: center;
+
+			&.cgs-home {
+				max-width: 90%;
+			}
+			&.cgs-amicale {
+				max-width: 90%;
+			}
+			&.cgs-faq {
+				max-width: 90%;
 			}
 		}
 	}
@@ -555,29 +600,31 @@
 	}
 	.cgs-streamfield {
 		grid-template-columns: 100%!important;
-		div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
 
-		/// Taille
-		.cgs-icon {
-			width:33%!important;
-		}
-		.cgs-small {
-			width: 50%!important;
-		}
-		.cgs-medium, .cgs-large {
-			width: 80%!important;
-		}
-		.cgs-full {
-			width: 95%!important;
-		}
-		
-		/// Alignement            
-			grid-column: 1!important;
-			* {
-				text-align: left!important;
-			}
-		}
-	}
+        /// Taille
+        .cgs-icon {
+            width:33%!important;
+        }
+        .cgs-small {
+            width: 50%!important;
+        }
+        .cgs-medium, .cgs-large {
+            width: 80%!important;
+        }
+        .cgs-full {
+            width: 95%!important;
+        }	
+
+        // Alignement
+		div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
+            grid-column: 1!important;
+	    }
+
+        // Couleurs        
+        .cgs-column-colored {
+            background-color: var(--content-clair);
+        }
+    }
 	#courbure_cache {
 		display: block!important;
 	}
@@ -621,6 +668,22 @@
 
 			ul.list-box {
 				width: 80%;
+			}
+		}
+	}
+    body.item {
+		div.cgs-container {
+			align-items: center;
+			justify-content: center;
+
+			&.cgs-home {
+				max-width: 95%;
+			}
+			&.cgs-amicale {
+				max-width: 95%;
+			}
+			&.cgs-faq {
+				max-width: 95%;
 			}
 		}
 	}
@@ -685,13 +748,15 @@
 			width: 100%!important;
 		}
 		
-		/// Alignement
+        // Alignement
 		div.cgs-justify, div.cgs-left, div.cgs-right, div.cgs-center {
-			grid-column: 1!important;
-			* {
-				text-align: left!important;
-			}
-		}
+            grid-column: 1!important;
+	    }
+
+        // Couleurs        
+        .cgs-column-colored {
+            background-color: var(--content-clair);
+        }
 	}
 	#courbure_cache {
 		display: block!important;
@@ -734,6 +799,22 @@
 			}
 		}
 	}
+    body.item {
+		div.cgs-container {
+			align-items: center;
+			justify-content: center;
+
+			&.cgs-home {
+				max-width: 95%;
+			}
+			&.cgs-amicale {
+				max-width: 95%;
+			}
+			&.cgs-faq {
+				max-width: 95%;
+			}
+		}
+	}
 }
 
 @keyframes drawSVG {
@@ -744,6 +825,7 @@
 		stroke-dasharray: 1000, 0;
 	}
 }
+
 @keyframes blinkSVG {
 	0%, 20%, 40%, 100% {
 		stroke: black;
