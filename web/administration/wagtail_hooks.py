@@ -232,7 +232,7 @@ def create_convocation_users(request, page):
     # print(colored(f"Starting convc_users status update for: {page}", "green"))
     # On vérifie la date de la convocation, on la signifie comme "ancienne" le cas échéant
     if page.specific.old:
-        print("La convocation est marquée comme ancienne.")
+        # print("La convocation est marquée comme ancienne.")
         return
     
     try:            
@@ -251,7 +251,7 @@ def create_convocation_users(request, page):
         # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
         if function_field == 'functions_commissions':
             users = get_active_users().filter(commissions=parent_page)
-            print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))        
+            # print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))        
         else:
             #Filtre de base pour récupérer les utilisateurs associés à la page parent            
             users = get_active_users().filter(
@@ -265,7 +265,7 @@ def create_convocation_users(request, page):
                 substitutes = get_active_users().filter(**{function_field: '4'})
 
         for user in users:
-            print(colored("Utilisateur :", "green"), colored(user, "green", "on_white"))
+            # print(colored("Utilisateur :", "green"), colored(user, "green", "on_white"))
 
             alternate = None
             # COMMISIONS ET GROUPE DE TRAVAIL (1 - Chargé de commission, 2 - Président, 3 - Membre)
@@ -329,11 +329,11 @@ def create_convocation_users(request, page):
                 municipality=municipality_value,
                 alternate=alternate,
             )
-            print(f'CU Créée : {cu}')
+            # print(f'CU Créée : {cu}')
         return
     
     except Exception as e:
-        print(f'Erreur lors de la création des utilisateurs de convocation : {e}')
+        print(f'Erreur lors de la création des utilisateurs de convocation : {e}')        
         return False
     
 # Fonction qui met à jour les statuts de présence des utilisateurs

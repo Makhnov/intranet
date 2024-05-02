@@ -861,7 +861,6 @@ function compteRenduUsers() {
 
     // Fonction qui met à jour le titre d'une section
     function updateSectionTitle(section, newTitle) {
-        console.log(section);
         const h3 = section.querySelector('h3');
         h3.textContent = newTitle;
     }
@@ -1229,7 +1228,6 @@ function compteRenduUsers() {
 
                             // RECUPERATION DES DONNEES, LISTENERS
                             if (data && participants) {
-                                console.log(participants);
                                 updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", false);
                                 updateSectionTitle(unreplacedSection, 'Absents lors du bureau :')
                             }
@@ -1246,7 +1244,6 @@ function compteRenduUsers() {
 
                             // RECUPERATION DES DONNEES, LISTENERS
                             if (data && participants) {
-                                console.log(participants);
                                 updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", 'function');
                                 updateSectionTitle(unreplacedSection, '🚨 Présents 🚨 à la commission :')
                             }
@@ -1263,7 +1260,6 @@ function compteRenduUsers() {
 
                             // RECUPERATION DES DONNEES, LISTENERS
                             if (data && participants) {
-                                console.log(participants);
                                 updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", 'municipality');
                                 updateSectionTitle(unreplacedSection, 'Absents à la conférence :')
                             }
