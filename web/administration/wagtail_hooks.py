@@ -249,23 +249,25 @@ def create_convocation_users(request, page):
         # print(colored(f"Function Field : {function_field}", "green"))
         
         # Si la page parente est une commission, on ajoute un filtre pour l'id de la commission
-        if isinstance(parent_page, CommissionPage):
+        if function_field == 'functions_commissions':
             users = get_active_users().filter(commissions=parent_page)
-            # print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))
-        
+            print(colored("CommissionPage détectée :", "green"), colored(parent_page, "green", "on_white"), colored(f'users : {users}', "green"))        
         else:
-            #Filtre de base pour récupérer les utilisateurs associés à la page parent
+            #Filtre de base pour récupérer les utilisateurs associés à la page parent            
             users = get_active_users().filter(
                 ~Q(**{function_field: 'empty'}), # Aucune fonction
                 ~Q(**{function_field: ''}),  # ""
                 ~Q(**{function_field: None}), # ""
                 ~Q(**{function_field: '4'})  # Suppléants exclus       
             )
+            # Si la page est un conseil on récupère les suppléants
+            if function_field == 'function_council':
+                substitutes = get_active_users().filter(**{function_field: '4'})
 
-            # On stocke les remplaçants
-            substitutes = get_active_users().filter(**{function_field: '4'})
+        for user in users:
+            print(colored("Utilisateur :", "green"), colored(user, "green", "on_white"))
 
-        for user in users:            
+            alternate = None
             # COMMISIONS ET GROUPE DE TRAVAIL (1 - Chargé de commission, 2 - Président, 3 - Membre)
             if function_field == 'functions_commissions':
                 # On boucle sur toutes les commissions auxquelles l'utilisateur est associé
@@ -274,7 +276,7 @@ def create_convocation_users(request, page):
                     # On vérifie si l'ID de la commission est le même que l'ID de la page parente
                     if str(uf['commission']) == str(parent_page.id):
                         function_value = dict(FonctionsCommissionListe.choices)[uf['function']]                      
-                        if function_value == 'Chargé de commission':                    
+                        if function_value == 'Chargé de commission':
                             function_weight = '1'
                         elif function_value == 'Président':
                             function_weight = '2'
@@ -304,14 +306,17 @@ def create_convocation_users(request, page):
                 else:
                     function_weight = '2'
                 # print(f'Fonction (conseil ou bureau): {function_value} - Poids : {function_weight}')
-                
+                    
+                # On récupère le remplaçant :                
+                if function_field == 'function_council':                
+                    alternate = substitutes.filter(municipality=user.municipality).first()
+
             gender_value = user.get_civility_display()
             function_value = ROLE_TRANSLATIONS.get(gender_value, {}).get(function_value, function_value)
             if gender_value == "Neutre":
                 gender_value = "Monsieur/Madame"
             identity_value = f"{user.first_name} {user.last_name.upper()}"
             municipality_value = user.get_municipality_display()
-            alternate = substitutes.filter(municipality=user.municipality).first()
 
             cu = ConvocationUser.objects.create(
                 convocation=page,

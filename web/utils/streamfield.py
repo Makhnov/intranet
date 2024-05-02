@@ -1,6 +1,5 @@
 import re
 from django.conf import settings
-from django.utils.html import format_html
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
@@ -27,10 +26,6 @@ from wagtail.blocks import (
 from wagtail.images.blocks import ImageChooserBlock
 from images.models import CustomImage
 from pdf2image import convert_from_bytes
-
-# Medias
-from django.forms.utils import flatatt
-from django.utils.html import format_html, format_html_join
 
 # Tableaux
 from wagtail.contrib.table_block.blocks import TableBlock
@@ -86,6 +81,7 @@ class SizeBlock(ChoiceBlock):
     class Meta:
         icon = "placeholder"
 
+# Liste de choix pour sélectionner les couleurs du thème CGS
 class ColorBlock(ChoiceBlock):
     choices = [
         ("green", _("Green")),

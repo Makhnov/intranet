@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     whereAmI();
 });
 
@@ -43,7 +43,7 @@ function whereAmI() {
     if (document.querySelector("form[action^='/admin/users/'][method='post']")) {
         console.log("Création/édition d'utilisateur détectée");
         userCommissionUpdate();
-        userElectedUpdate(); 
+        userElectedUpdate();
     }
 
     // Page de création/édition d'évènemenents pour le calendrier
@@ -70,7 +70,7 @@ function whereAmI() {
 
     // Page de FAQ
     if (TITRE.includes('Faq page')) {
-        console.log("Page de FAQ détectée");        
+        console.log("Page de FAQ détectée");
     }
 }
 
@@ -101,20 +101,20 @@ function userFunctionUpdate() {
 
     // Met à jour la valeur de l'input caché avec le JSON des données
     document.getElementById('id_functions_commissions').value = JSON.stringify(functionsData);
-}   
+}
 
 // Fonction qui crée un bloc info (look warning pour les ancienne convocations)
 function createInfoBlock(id, message) {
     const block = document.getElementById(id);
     if (block) {
         return;
-    } else { 
+    } else {
         const div = document.createElement('div');
-        div.classList.add('cgs-warning');        
+        div.classList.add('cgs-warning');
         div.setAttribute('id', id);
         const p = document.createElement('p');
         p.classList.add('warning-message');
-        p.innerHTML  = message;
+        p.innerHTML = message;
         div.appendChild(p);
         return div;
     }
@@ -133,12 +133,12 @@ function removeInfoBlock(id) {
 // Page d'accueil du Dashboard
 function accueil() {
     // Sélectionne tous les SVG avec la classe "icon icon" et itère sur chacun
-    document.querySelectorAll(".w-summary__list svg.icon").forEach(function(svg) {
+    document.querySelectorAll(".w-summary__list svg.icon").forEach(function (svg) {
         let a = svg.nextElementSibling;  // le lien <a> suivant le SVG
         let url = a.getAttribute("href");  // l'URL du lien <a>
 
         // Attache un écouteur d'événement "click" au SVG
-        svg.addEventListener("click", function() {
+        svg.addEventListener("click", function () {
             window.location.href = url;  // navigue vers l'URL du lien <a>
         });
     });
@@ -181,7 +181,7 @@ function amicale() {
 
 // Page intermédiaire de la création de Convocs ou de CR en passant par Quickcreate (page d'accueil)
 function quickcreate() {
-    const container = document.querySelector('body.ready ul.listing')    
+    const container = document.querySelector('body.ready ul.listing')
     const items = document.querySelectorAll('body.ready ul.listing li');
     // const H1 = document.querySelector('header h1');
     // const title = H1 ? H1.textContent.split("Création d'")[1] || "" : "";    
@@ -190,7 +190,7 @@ function quickcreate() {
     LI.classList.add('list', 'cgs-closed');
     LI.setAttribute('data-name', 'Commissions et groupes de travail');
     LI.setAttribute('data-model', 'CommissionPage');
-    
+
     const A = document.createElement('a');
     A.classList.add('icon', 'icon-plus-inverse', 'icon-larger');
     A.setAttribute('ID', 'commissions-dropdown');
@@ -200,19 +200,19 @@ function quickcreate() {
     const text = document.createElement('strong');
     text.textContent = "Commissions et groupes de travail";
     const icon = document.createElement('span');
-    icon.textContent ="▶️"
+    icon.textContent = "▶️"
     //⤵️⤴️🔼🔽▶️◀️
 
     const UL = document.createElement('ul');
     UL.classList.add('com-listing', 'cgs-quick', 'cgs-hidden');
-    
-    A.appendChild(text); 
-    A.appendChild(icon); 
+
+    A.appendChild(text);
+    A.appendChild(icon);
     LI.appendChild(A);
     LI.appendChild(UL);
     container.appendChild(LI);
 
-    A.addEventListener('click', function() {
+    A.addEventListener('click', function () {
         UL.classList.toggle('cgs-hidden');
         LI.classList.toggle('cgs-closed');
         if (UL.classList.contains('cgs-hidden')) {
@@ -240,7 +240,7 @@ function quickcreate() {
 function faqList() {
     // On boucle sur les <a> du thead pour modifier le titre
     const As = document.querySelectorAll("thead th a");
-    As.forEach(a => {        
+    As.forEach(a => {
         if (a.title.includes("Titre")) {
             a.textContent = `${a.textContent}: [Thématique] - [Cibles] - [Mots-clef]`;
         }
@@ -281,7 +281,7 @@ function usersList() {
 
     anchor.appendChild(select);
 
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         const selectedValue = this.value;
         let newUrl;
 
@@ -300,7 +300,7 @@ function usersList() {
         const baseURL = tempArray[0];
         let additionalURL = tempArray[1];
         let temp = '';
-    
+
         if (additionalURL) {
             const tempArray = additionalURL.split('&');
             for (let i = 0; i < tempArray.length; i++) {
@@ -310,18 +310,18 @@ function usersList() {
                 }
             }
         }
-    
+
         const rowsTxt = temp + '' + param + '=' + paramVal;
         return baseURL + '?' + newAdditionalURL + rowsTxt;
     }
 }
 
 // Page de création/édition d'utilisateur, mise en forme de la section des commissions
-function userCommissionUpdate() {    
+function userCommissionUpdate() {
     // On récupère la liste des options que l'on trie par ordre alphabétique on créee une nouvelle liste avec la même id
     const commissions = document.getElementById('id_commissions');
     const fonctions = document.getElementById('id_functions_commissions');
-    const FVALUES =JSON.parse(fonctions.value);
+    const FVALUES = JSON.parse(fonctions.value);
     const tableau = Array.from(commissions.options).sort((a, b) => a.textContent.localeCompare(b.textContent));
     const newCommissions = document.createElement('div');
     newCommissions.setAttribute('id', 'id_commissions');
@@ -336,7 +336,7 @@ function userCommissionUpdate() {
     const FmodelField = FdataField.parentElement;
     const Fwrapper = FmodelField.parentElement;
     // Gestion des blocs d'erreurs
-    const Ccontent = document.getElementById('commissions-content');    
+    const Ccontent = document.getElementById('commissions-content');
     // on récupère les <div class="w-field__errors" data-field-errors=""> qui contiennent des enfants
     const Cerrors = Ccontent.querySelectorAll('.w-field__errors[data-field-errors]');
     for (const err of Cerrors) {
@@ -347,7 +347,7 @@ function userCommissionUpdate() {
     }
 
     tableau.forEach((option, i) => {
-        const { function: FONCTION } = FVALUES.find(({ commission }) => commission === option.value) || {};    
+        const { function: FONCTION } = FVALUES.find(({ commission }) => commission === option.value) || {};
         // On remplace l'option par une div/label/input
         const CDIV = document.createElement('div');
         const FDIV = document.createElement('div');
@@ -361,16 +361,16 @@ function userCommissionUpdate() {
         // On donne à l'input l'id équivalente au for. Si option selected => input checked
         CINPUT.setAttribute('id', `id_commissions_${i}`);
         CINPUT.setAttribute('type', 'checkbox');
-        CINPUT.setAttribute('name', 'commissions');        
+        CINPUT.setAttribute('name', 'commissions');
         CINPUT.setAttribute('value', option.value);
         if (option.selected) {
             CINPUT.setAttribute('checked', 'checked');
         }
 
         // Ecouteur d'évenement sur l'input
-        CINPUT.addEventListener('change', function() {
+        CINPUT.addEventListener('change', function () {
             // Sélection du select correspondant via data-id
-            const select = document.querySelector(`select[data-id="${this.value}"]`);    
+            const select = document.querySelector(`select[data-id="${this.value}"]`);
             // Si l'input est coché, ajoute la classe 'cgs-checked', sinon la retire
             if (this.checked) {
                 select.classList.add('cgs-checked');
@@ -378,8 +378,8 @@ function userCommissionUpdate() {
                     select.value = "3";
                 }
             } else {
-                select.classList.remove('cgs-checked');  
-                select.value = "";              
+                select.classList.remove('cgs-checked');
+                select.value = "";
             }
         });
 
@@ -427,18 +427,18 @@ function userCommissionUpdate() {
         const FMEMBRE = document.createElement('option');
         FMEMBRE.value = "3";
         FMEMBRE.textContent = "Membre";
-        FSELECT.appendChild(FMEMBRE);    
+        FSELECT.appendChild(FMEMBRE);
         const FPRES = document.createElement('option');
         FPRES.value = "1";
-        FPRES.textContent = "Président";   
-        FSELECT.appendChild(FPRES); 
+        FPRES.textContent = "Président";
+        FSELECT.appendChild(FPRES);
         const FCHARGE = document.createElement('option');
         FCHARGE.value = "2";
         FCHARGE.textContent = "Chargé de commission";
         FSELECT.appendChild(FCHARGE);
         if (fonction !== undefined) {
             FSELECT.classList.add("cgs-checked");
-            FSELECT.value = fonction;   
+            FSELECT.value = fonction;
         }
         return FSELECT;
     }
@@ -450,7 +450,7 @@ function userCommissionUpdate() {
         input.setAttribute('name', 'functions_commissions');
         input.setAttribute('id', 'id_functions_commissions');
         element.appendChild(input);
-    } 
+    }
 }
 
 // Page de création/édition d'utilisateur, vérification du formulaire des élus
@@ -466,7 +466,7 @@ function userElectedUpdate() {
     const CHARGES = document.querySelectorAll("#id_functions_commissions_list option[value='2']");
 
     // Désactive les sélections dans les panels spécifiés
-    function initialsSelects() {        
+    function initialsSelects() {
         FMUN.classList.add("cgs-panel-disabled");
         CONS.classList.add("cgs-panel-disabled");
         BUR.classList.add("cgs-panel-disabled");
@@ -478,7 +478,7 @@ function userElectedUpdate() {
     function updateSelects() {
 
         // Valeur "municipalité" 
-        if (MUN.value) {            
+        if (MUN.value) {
             FMUN.classList.remove("cgs-panel-disabled");
         } else {
             FMUN.classList.add("cgs-panel-disabled");
@@ -506,7 +506,7 @@ function userElectedUpdate() {
         } else if (CONS.value === "2") {
             CONF.value = "2";
             BUR.value = "2";
-            allowCharges(true);            
+            allowCharges(true);
         } else {
             CONF.value = (FMUN.value === "1") ? "3" : "";
             BUR.value = "";
@@ -568,13 +568,13 @@ function joyousSingleEvent() {
     });
 
     function updateEventFields(ID) {
-        fetch('/api/v2/pages/' + ID) 
+        fetch('/api/v2/pages/' + ID)
             .then(response => response.json())
             .then(data => {
                 // Mise à jour du titre et du slug
                 const TempTitle = data.title.replace('Convocation ', '');
-                const EventTitle = TempTitle.charAt(0).toUpperCase() + TempTitle.slice(1);   
-                const EventSlug = TempTitle.toLowerCase().replace(/ /g, '-');             
+                const EventTitle = TempTitle.charAt(0).toUpperCase() + TempTitle.slice(1);
+                const EventSlug = TempTitle.toLowerCase().replace(/ /g, '-');
                 document.getElementById('id_title').value = EventTitle;
                 document.getElementById('id_slug').value = EventSlug;
 
@@ -585,7 +585,7 @@ function joyousSingleEvent() {
 
                 // Mise à jour de la localisation et de l'url
                 document.getElementById('id_location').value = "Hôtel communautaire. 15, avenue du Comminges 31260 MANE";
-                document.getElementById('id_website').value = "https://cagiregaronnesalat.fr/"+EventSlug+"/";
+                document.getElementById('id_website').value = "https://cagiregaronnesalat.fr/" + EventSlug + "/";
 
                 // Mise à jour de l'image           
                 if (data.meta.parent.meta.logo) {
@@ -594,12 +594,12 @@ function joyousSingleEvent() {
                 }
             })
             .catch(error => console.error('Error:', error));
-    }    
+    }
 
     function updateImageFields(logo) {
-        const input = document.getElementById('id_image'); 
+        const input = document.getElementById('id_image');
         const chooser = document.getElementById('id_image-chooser');
-        const image = chooser.querySelector('img');        
+        const image = chooser.querySelector('img');
         const title = document.getElementById('id_image-title');
 
         if (input) {
@@ -614,7 +614,7 @@ function joyousSingleEvent() {
     function formatDate(date) {
         return date.toISOString().split('T')[0];
     }
-    
+
     function formatTime(date) {
         return date.toTimeString().split(' ')[0].substring(0, 5);
     }
@@ -636,7 +636,7 @@ function convocationDate() {
     if (DateSection) {
         checkConvocationDate(DateSection);
     }
-    DateSection.addEventListener('change', function() {
+    DateSection.addEventListener('change', function () {
         checkConvocationDate(this);
     });
 
@@ -657,31 +657,31 @@ function convocationDate() {
             } else if (ID) {
                 // console.log("EDITION DE CONVOCATION");
                 fetch('/api/v2/pages/' + convocationId + '/')
-                .then(response => response.json())
-                .then(data => {
-                    // On vérifie l'ancieneté de la convocation
-                    const old = data.old ? data.old : false;                
-                    // console.log(old);
-                    if (old) {
-                        throw new Error("Ancienne convocation détectée");
-                    } else {
-                        // console.log("Nouvelle convocation détectée");
-                        manageConvocationDate('new');
-                    }
-                })
-                .catch(error => {
-                    if (error.message === "Ancienne convocation détectée") {                    
-                        // console.log(error.message);
-                        manageConvocationDate('old');
-                    } else {
-                        // console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
-                        manageConvocationDate('error');
-                    }
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        // On vérifie l'ancieneté de la convocation
+                        const old = data.old ? data.old : false;
+                        // console.log(old);
+                        if (old) {
+                            throw new Error("Ancienne convocation détectée");
+                        } else {
+                            // console.log("Nouvelle convocation détectée");
+                            manageConvocationDate('new');
+                        }
+                    })
+                    .catch(error => {
+                        if (error.message === "Ancienne convocation détectée") {
+                            // console.log(error.message);
+                            manageConvocationDate('old');
+                        } else {
+                            // console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
+                            manageConvocationDate('error');
+                        }
+                    });
             } else {
                 return
             }
-        } 
+        }
 
         function manageConvocationDate(state) {
 
@@ -698,14 +698,14 @@ function convocationDate() {
             switch (state) {
                 case 'create':
                     // console.log("CREATE STEP 2");
-                    
+
                     // Si la date de la convocation est antérieure à la date du jour, on affiche un message d'erreur
                     if (selectedDate < today) {
                         removeInfoBlock("cv-date");
                         agendaSection.classList.add('cgs-hidden');
                         const infoBlock = createInfoBlock("cv-date", "La date de la convocation est antérieure à la date du jour. Ajoutez donc simplement l'ancienne convocation en pièce jointe 🔗 (format PDF ou DOCX).<br> Si vous souhaitez remplir vous-même la convocation, choisissez une date adaptée.");
                         if (infoBlock) {
-                            PJSection.appendChild(infoBlock);        
+                            PJSection.appendChild(infoBlock);
                         }
                     } else {
                         removeInfoBlock("cv-date");
@@ -721,7 +721,7 @@ function convocationDate() {
                         agendaSection.classList.remove('cgs-hidden');
                         const infoNewBlock = createInfoBlock("cv-date", "Attention, lors de sa création, cette convocation a été enregistrée comme 'Nouvelle' même si vous en modifiez la date il faudra toujours la remplir vous même. <br> Si vous souhaitez une 'ancienne' convocation il faut en créer une autre.");
                         if (infoNewBlock) {
-                            PJSection.appendChild(infoNewBlock);        
+                            PJSection.appendChild(infoNewBlock);
                         }
                     } else {
                         removeInfoBlock("cv-date");
@@ -739,7 +739,7 @@ function convocationDate() {
                         agendaSection.classList.add('cgs-hidden');
                         const infoOldBlock = createInfoBlock("cv-date", "Lors de sa création, cette convocation a été enregistrée comme 'Ancienne'. Ajoutez donc simplement l'ordre du jour de la convocation 'originelle' en pièce jointe 🔗 (format PDF ou DOCX).<br> Si vous souhaitez remplir vous même la convocation il faut en créer une nouvelle avec la bonne date (postèrieure à la date en cours), le cas échéant pensez à supprimer celle-ci.");
                         if (infoOldBlock) {
-                            PJSection.appendChild(infoOldBlock);        
+                            PJSection.appendChild(infoOldBlock);
                         }
                     }
                     break;
@@ -757,7 +757,7 @@ function convocationDate() {
 function compteRenduUsers() {
     // Convocation
     const convocation = document.querySelector('#id_convocation');
-    
+
     // Secrétaire de séance
     const secretaryField = document.querySelector('#id_secretary');
     const secretarySection = document.querySelector('[data-id="secretary"]');
@@ -767,15 +767,20 @@ function compteRenduUsers() {
 
     // Absents remplacés
     const replacedUsersField = document.querySelector('#id_replaced_users');
+    const replacedSection = absencesSection.querySelector('div[data-id="replaced"]');
 
     // Absents non remplacés
     const unreplacedUsersField = document.querySelector('#id_unreplaced_users');
+    const unreplacedSection = absencesSection.querySelector('div[data-id="unreplaced"]');
+
+    // Techniciens présents lors d'une instance (Bureaux, conférences, commissions)
+    const techniciansSection = absencesSection.querySelector('div[data-id="technicians"]');
 
     // Quorum section
     const quorumSection = document.querySelector('[data-id="quorum"]');
 
     // Ordre du jour
-    const agendaSection = document.querySelector('[data-id="body"]');    
+    const agendaSection = document.querySelector('[data-id="body"]');
 
     // PJ
     const PJSection = document.querySelector('[data-id="attachments"]');
@@ -840,7 +845,7 @@ function compteRenduUsers() {
                 if (data && data.items) {
                     // Filtre les utilisateurs pour ne récupérer que les élus. (tous ceux qui n'ont pas "elected": "null"). 
                     // Nom de la variable dans le reste du code : electedUsers
-                    const filteredUsers = data.items.filter(user => user.elected);    
+                    const filteredUsers = data.items.filter(user => user.elected);
                     // Appelle la fonction callback avec la liste filtrée des utilisateurs
                     callback(null, filteredUsers);
                 } else {
@@ -854,11 +859,18 @@ function compteRenduUsers() {
             });
     }
 
+    // Fonction qui met à jour le titre d'une section
+    function updateSectionTitle(section, newTitle) {
+        console.log(section);
+        const h3 = section.querySelector('h3');
+        h3.textContent = newTitle;
+    }
+
     // Fonction qui met à jour les champs [absents remplacés], [absents non remplacés] et [remplaçants]
-    function updateUsersField(field, participants, presenceValue, electedUsers, fieldName) {
+    function updateUsersField(field, participants, presenceValue, electedUsers, fieldName, infosup) {
         // Déclare les variables pour les utilisateurs absents et les remplaçants
         let userIsAbsent;
-        let substitutes = []; 
+        let substitutes = [];
         let absents = [];
 
         // Boucle sur tous les participants liés à la Convocation
@@ -866,7 +878,7 @@ function compteRenduUsers() {
             // console.log(participant);
             const div = document.createElement('div');
             const labelUser = document.createElement('label');
-            labelUser.setAttribute('for', field.id + '_' + index); 
+            labelUser.setAttribute('for', field.id + '_' + index);
             const inputUser = document.createElement('input');
             inputUser.setAttribute('type', 'checkbox');
             inputUser.setAttribute('name', fieldName);
@@ -885,12 +897,23 @@ function compteRenduUsers() {
             }
 
             labelUser.appendChild(inputUser);
-            labelUser.appendChild(document.createTextNode(' ' + participant.identity));
+            if (infosup) {
+                if (infosup == "municipality") {
+                    labelUser.appendChild(document.createTextNode(' ' + participant.identity + ' (' + participant.municipality + ')'));
+                } else if (infosup == "function" && participant.function != "Membre") {
+                    labelUser.appendChild(document.createTextNode(' ' + participant.identity + ' (' + participant.function + ')'));
+                } else {
+                    labelUser.appendChild(document.createTextNode(' ' + participant.identity));
+                }
+            } else {
+                labelUser.appendChild(document.createTextNode(' ' + participant.identity));
+            }
+
             div.appendChild(labelUser);
 
             if (electedUsers) {
                 let userHasAlternate = false;
-                let userHasSubstitute = false;              
+                let userHasSubstitute = false;
                 let tabID = [participant.id, participant.user, false]
                 const emptyOption = document.createElement('option');
                 emptyOption.value = tabID;
@@ -964,23 +987,23 @@ function compteRenduUsers() {
             labelElement.style.animation = '';
         });
     }
-        
+
     // Fonction qui active ou désactive les options de substitution dans le menu déroulant
     function substituteOptionState(enabledValue = false, disabledValue = false, excludedValue = false) {
         let optionsEnabled;
         let optionsDisabled;
 
-        if (excludedValue) {                                
+        if (excludedValue) {
             if (enabledValue) {
                 optionsEnabled = document.querySelectorAll(`option[sub-value="${enabledValue}"]:not([value="${excludedValue}"])`);
-            } 
+            }
             if (disabledValue) {
                 optionsDisabled = document.querySelectorAll(`option[sub-value="${disabledValue}"]:not([value="${excludedValue}"])`);
             }
         } else {
             if (enabledValue) {
                 optionsEnabled = document.querySelectorAll(`option[sub-value="${enabledValue}"]`);
-            } 
+            }
             if (disabledValue) {
                 optionsDisabled = document.querySelectorAll(`option[sub-value="${disabledValue}"]`);
             }
@@ -1005,7 +1028,7 @@ function compteRenduUsers() {
     function selectSubstituteState(event) {
         const thisInput = event.target;
         const replacedLabel = thisInput.parentElement;
-        
+
         let blankOption = null;
         let selectedOption = null;
         if (replacedLabel.nextElementSibling) {
@@ -1016,13 +1039,13 @@ function compteRenduUsers() {
         if (thisInput.checked) {
             replacedLabel.classList.add("cgs-checked");
             if (selectedOption) {
-                selectedOption.selected = true; 
-            }                
+                selectedOption.selected = true;
+            }
         } else {
             replacedLabel.classList.remove("cgs-checked");
             if (blankOption) {
                 blankOption.selected = true;
-            }                               
+            }
         }
     }
 
@@ -1039,7 +1062,7 @@ function compteRenduUsers() {
             nope(thisInput.parentElement);
             thisInput.checked = false;
             return true;
-        } 
+        }
 
         return false;
     }
@@ -1108,7 +1131,7 @@ function compteRenduUsers() {
                     });
                 });
                 break;
-            
+
             case 3:
                 // Écouteurs pour les select "substitute_users"
                 document.querySelectorAll('select[name="substitute_users"]').forEach(select => {
@@ -1128,7 +1151,7 @@ function compteRenduUsers() {
             // Création du bloc d'information
             const infoBlock = createInfoBlock("cr-old", "Cette page est liée à une ancienne convocation. Ajoutez donc simplement le compte-rendu en pièce jointe 🔗 (format PDF ou DOCX).");
             // On l'ajoute apres le premier enfant de PJSection    
-            if (infoBlock) {               
+            if (infoBlock) {
                 PJSection.appendChild(infoBlock);
             }
         } else {
@@ -1140,33 +1163,45 @@ function compteRenduUsers() {
             removeInfoBlock("cr-old");
         }
     }
+
     // Mise à jour des utilisateurs de la convocation
     function updateConvocationUsers(convocationId) {
         fetch('/api/v2/pages/' + convocationId + '/')
             .then(response => response.json())
             .then(data => {
+
                 // On vérifie l'ancieneté de la convocation
-                const old = data.old ? data.old : false;                
+                const old = data.old ? data.old : false;
                 if (old) {
                     throw new Error("Ancienne convocation détectée");
                 } else {
                     oldConvocation(false);
                 }
+
                 // On récupère les participants de la convocation
                 const participants = data.convocation_users ? data.convocation_users : false;
 
-                
                 // On récupere le type de parent si possible
-                const parent = data.meta.parent ? data.meta.parent.meta.type : false;      
+                const parent = data.meta.parent ? data.meta.parent.meta.type : false;
+
                 // On récupère le secrétaire de séance si il existe
                 const secretary = data.compte_rendu_page ? data.compte_rendu_page.secretary : false;
-                
-                if (data && parent) {                            
-                    switch (parent) {                    
+
+                if (data && parent) {
+                    // 🆎 : Absents remplacés (replaced)
+                    // 🔄 : Remplaçants (substitutes)
+                    // 🅰️ : Absents (unreplaced)
+                    // 🛠️ : Technicien (technicians)
+                    // ✏️ : Secrétaire (secretary)
+                    // ✅ : Quorum (quorum)                    
+                    switch (parent) {
+
+                        // CONSEILS : 🆎- 🔄 - 🅰️ - ✏️ - ✅
                         case 'administration.ConseilsIndexPage':
                             console.log("Compte-rendu de conseil détecté (on affiche tout)");
-                            // On affiche les quatres sections
-                            fetchUsers(function(err, electedUsers) {
+
+                            // RECUPERATION DES DONNEES, LISTENERS
+                            fetchUsers(function (err, electedUsers) {
                                 if (err) {
                                     console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
                                     return;
@@ -1174,68 +1209,82 @@ function compteRenduUsers() {
                                 if (data) {
                                     updateSecretaryField(electedUsers, secretary);
                                     if (participants) {
-                                        updateUsersField(document.querySelector('#id_replaced_users'), participants, 2, electedUsers, "replaced_users");
-                                        updateUsersField(document.querySelector('#id_unreplaced_users'), participants, 3, false, "unreplaced_users");
-    
+                                        updateUsersField(replacedUsersField, participants, 2, electedUsers, "replaced_users", false);
+                                        updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", false);
+
                                         requestListener(1);
                                         requestListener(2);
                                         requestListener(3);
                                     }
                                 }
                             });
+
+                            // ON CACHE LES PARTIES INUTILES
+                            techniciansSection.classList.add('cgs-hidden');
                             break;
+
+                        // BUREAUX : 🅰️ - 🛠️
                         case 'administration.BureauxIndexPage':
-                            console.log("Compte-rendu de bureau détecté (on cache tout)");
-                            // on cache les quatres sections, pas besoin de récupérer les participants
-                            break;
-                        case 'administration.CommissionPage':
-                            console.log("Compte-rendu de commission détecté (on n'affiche que le secrétaire de séance)");
-                            // On n'affiche que le secréatire de séance
-                            fetchUsers(function(err, electedUsers) {
-                                if (err) {
-                                    console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
-                                    return;
-                                }
-                
-                                if (data) {
-                                    updateSecretaryField(electedUsers, secretary);
-                                }
-                            });
-                            absencesSection.classList.add('cgs-hidden');
-                            quorumSection.classList.add('cgs-hidden');    
-                            break;
-                        case 'administration.ConferencesIndexPage':
-                            console.log("Compte-rendu de conférence détecté (on affiche tout sauf le secrétaire de séance)");
-                            // On n'affiche tout sauf le secrétaire de séance
-                            fetchUsers(function(err, electedUsers) {
-                                if (err) {
-                                    console.error("Erreur lors de la récupération de la liste des utilisateurs :", err);
-                                    return;
-                                }
-                
-                                if (data && participants) {
-                                        updateUsersField(document.querySelector('#id_replaced_users'), participants, 2, electedUsers, "replaced_users");
-                                        updateUsersField(document.querySelector('#id_unreplaced_users'), participants, 3, false, "unreplaced_users");
-    
-                                        requestListener(1);
-                                        requestListener(2);
-                                        requestListener(3);
-                                }
-                            });
+                            console.log("Compte-rendu de bureau détecté (on affiche les absents et les techniciens)");
+
+                            // RECUPERATION DES DONNEES, LISTENERS
+                            if (data && participants) {
+                                console.log(participants);
+                                updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", false);
+                                updateSectionTitle(unreplacedSection, 'Absents lors du bureau :')
+                            }
+
+                            // ON CACHE LES PARTIES INUTILES
                             secretarySection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');
+                            replacedSection.classList.add('cgs-hidden');
+                            break;
+
+                        // COMMISSIONS : 🅰️ - 🛠️
+                        case 'administration.CommissionPage':
+                            console.log("Compte-rendu de commission détecté (on affiche les absents et les techniciens)");
+
+                            // RECUPERATION DES DONNEES, LISTENERS
+                            if (data && participants) {
+                                console.log(participants);
+                                updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", 'function');
+                                updateSectionTitle(unreplacedSection, '🚨 Présents 🚨 à la commission :')
+                            }
+
+                            // ON CACHE LES PARTIES INUTILES
+                            secretarySection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');
+                            replacedSection.classList.add('cgs-hidden');
+                            break;
+
+                        // CONFERENCES : 🅰️ - 🛠️
+                        case 'administration.ConferencesIndexPage':
+                            console.log("Compte-rendu de conférence détecté (on affiche les absents et les techniciens)");
+
+                            // RECUPERATION DES DONNEES, LISTENERS
+                            if (data && participants) {
+                                console.log(participants);
+                                updateUsersField(unreplacedUsersField, participants, 3, false, "unreplaced_users", 'municipality');
+                                updateSectionTitle(unreplacedSection, 'Absents à la conférence :')
+                            }
+
+                            // ON CACHE LES PARTIES INUTILES
+                            secretarySection.classList.add('cgs-hidden');
+                            quorumSection.classList.add('cgs-hidden');
+                            replacedSection.classList.add('cgs-hidden');
                             break;
                     }
                 }
             })
             .catch(error => {
-                if (error.message === "Ancienne convocation détectée") {                    
+                if (error.message === "Ancienne convocation détectée") {
                     console.log(error.message);
                     oldConvocation(true);
                 } else {
                     // Gérez ici les autres types d'erreurs
                     console.error("Erreur lors de la récupération des utilisateurs de la convocation :", error);
                 }
-            });   
+            });
     }
 }
 
@@ -1258,7 +1307,7 @@ function compteRenduImportBloc() {
         importDisplay(structBlock, type);
         importButton(structBlock, type);
     }
-        
+
     // Mise en page des blocs
     function importDisplay(block, type) {
         block.classList.add('cgs-colbox');
@@ -1268,25 +1317,25 @@ function compteRenduImportBloc() {
         contentBloc.classList.add('cgs-column12', 'cgs-collapsible', 'cgs-collapsed');
         const contentLabel = contentBloc.querySelector('label');
         contentLabel.addEventListener('click', () => collapsible(contentLabel));
-    }    
+    }
 
     // Modification des inputs
     function importButton(bloc, type) {
-        const input = bloc.querySelector(`[id^="body-"][id$="-value-${type}_import"]`);  
+        const input = bloc.querySelector(`[id^="body-"][id$="-value-${type}_import"]`);
         const submit = document.querySelector('form#page-edit-form footer nav button[type="submit"].action-save');
         const button = submit.cloneNode(true);
 
         if (button) {
             button.removeChild(button.querySelector('svg.button-longrunning__icon'));
-            button.classList.add('cgs-import');        
+            button.classList.add('cgs-import');
             button.dataset.wProgressLabelValue = "Importer le " + type;
             button.dataset.wProgressActiveValue = "Importation…";
 
             // On copie l'input et on le remplace dans le DOM par le bouton (auquel on attache un écouteur d'évenement).
-            const hiddenInput = input.cloneNode(true);    
+            const hiddenInput = input.cloneNode(true);
             input.replaceWith(button);
 
-            button.addEventListener('click', function(event) {
+            button.addEventListener('click', function (event) {
                 event.preventDefault(); // Empêcher la soumission du formulaire
 
                 const form = button.closest('form');
@@ -1294,8 +1343,8 @@ function compteRenduImportBloc() {
                     console.log('Formulaire non trouvé');
                     return;
                 }
-                hiddenInput.value = "on";        
-                hiddenInput.type = "hidden";   
+                hiddenInput.value = "on";
+                hiddenInput.type = "hidden";
                 form.appendChild(hiddenInput);
 
                 // Finalement on ajoute le faux formulaire au document et on le soumet

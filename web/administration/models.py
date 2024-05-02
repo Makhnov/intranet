@@ -701,6 +701,19 @@ class CompteRenduPage(PdfViewPageMixin, Page):
         blank=True,
         related_name='unreplaced_cr',
     )
+    technicians = StreamField(
+        [
+            ('technician', CharBlock(
+                icon="user",
+                classname="technician",
+                label=_("Technician"),
+            )),
+        ],
+        null=True,
+        blank=True,
+        help_text=_("First name LAST NAME and object if necessary."),
+        verbose_name=_("Technicians"),
+    )
     date = models.DateTimeField(verbose_name="Date", null=True, blank=True)
     quorum = models.BooleanField(
         default=True,
@@ -753,6 +766,11 @@ class CompteRenduPage(PdfViewPageMixin, Page):
                     widget=forms.CheckboxSelectMultiple,
                     classname="instance_unreplaced col6",
                     attrs={'data-id': "unreplaced"},
+                ),
+                FieldPanel(
+                    "technicians",
+                    classname="instance_technicians col6",
+                    attrs={'data-id': "technicians"},
                 ),
             ],
             heading=_("Absence management"),
