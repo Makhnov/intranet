@@ -93,7 +93,7 @@
 {% endblock %}
 
 {% block content %}
-    {% include ""|add:main_dir|add:"/widgets/"|add:doc|add:".html" with class_type=dir %}
+    {% include "widgets/viewer/"|add:main_dir|add:"/item.html" with class_type=dir %}
 {% endblock %}
 
 {% block footer_mid %}

@@ -1,0 +1,15 @@
+{% block content %}
+
+    <main class="main-content">
+        {% if page.numeric %}
+            {% with doc=page.numeric.document %}
+                <div 
+                    id="viewer"
+                    alt="{% if doc.title %}{{ doc.title }}{% else %}{{ doc }}{% endif %}"
+                    data-url="{{doc.url}}"
+                >
+                </div>
+            {% endwith %}
+        {% endif %}
+    </main>
+{% endblock %}

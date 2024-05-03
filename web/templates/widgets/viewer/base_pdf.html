@@ -5,4 +5,4 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/'|add:doc|add:'_pdf.min.css' %}">
 {% endblock %}
 
-{% include ""|add:main_dir|add:"/widgets/"|add:doc|add:".html" with class_type=dir %}
+{% include "widgets/viewer/"|add:main_dir|add:"/"|add:sub_dir|add:"/"|add:doc|add:".html" with class_type=dir %}

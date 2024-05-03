@@ -1,4 +1,4 @@
-{% if old %}
+{% if old or page.numeric %}
     {% include "widgets/viewer/viewer.html" with doc="compte_rendu" main_dir="administration" sub_dir="conseils" %}
 {% else %}
     {% include "widgets/viewer/base.html" with doc="compte_rendu" main_dir="administration" sub_dir="conseils" %}

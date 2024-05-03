@@ -21,47 +21,73 @@ body {
         width:max-content!important;
     }
 }
+
 .container-fluid {
-    margin: 0 10%;
+    position: relative;
+    overflow: hidden;
+
     padding: 0px;
     display: grid;
-    grid-template-columns: 100px 1fr 1fr 1fr 50px;
+    grid-template-columns: 150px 1fr 1fr 1fr 75px;
     grid-template-rows: repeat(9, auto);
 }
+
 .watermark {
     position: fixed;
     z-index: -1;
     top: 0px;
-    left: 50%;
+    left: 45%;
     transform: translate(-50%);
 
     height: 100%;
     width: auto;
 
+    max-width: var(--container-width);
+    max-height: calc(var(--container-width) * 297 / 210);
+    
     opacity: 0.75;
 }
-.logo {
-    position: absolute;
-    top: 50px;
-    left: 50px;
 
-    height: 250px;
+.logo {
+    grid-row:1;
+    grid-column: 1;
+
+    height: 200px;
     width: auto;
+
+    transform-origin: center;
+    transform: translate(-25px , -100px) rotate(125deg) scale(2);
+    transition: all .33s ease-in-out;
+
+    &:hover {
+        animation: wizz 2s infinite alternate;
+    }
+}
+
+@keyframes wizz {
+    0% {
+        transform: translate(-25px , -100px) rotate(125deg) scale(2);
+    }
+    70% {
+        transform: translate(50px , 0) rotate(0) scale(1);
+    }
+    100% {
+        transform: translate(50px , -400px) rotate(0deg) scale(0);
+    }
 }
 
 .footer-image {
-    position: fixed;
-    bottom:0;
-    left: 0;
-
     width: 100%;
-    height: 300px;
+    height: auto;
+    grid-row: 9;
+    grid-column: 1/ all;
 }
 
 .grid-item {
     align-self: center;
-    font-size: 1rem;
+    font-size: calc(var(--font-size) + .1rem);
     font-family: 'rhino';
+    margin-top: 50px;
 }
 
 .grid-invitation {
@@ -106,7 +132,6 @@ body {
 
     text-align: start;
     margin-top: 100px;
-    margin-left: 50px;
 }
 
 .grid-rdv {
@@ -116,8 +141,6 @@ body {
     text-align: center;
     line-height: 10px;
     font-weight: bold;
-    margin-top: 50px;
-    margin-bottom: 100px;
 }
 
 .grid-odj {
@@ -126,21 +149,20 @@ body {
 
     text-align: start;
     line-height: initial;
-    margin-left: 50px;
 }
 
 .grid-odj ol, .grid-odj ul {
     list-style-type: none;
-    counter-reset: list-counter;
     padding-left: 0;
 }
+
 .grid-odj li {
-    counter-increment: list-counter;
     padding-left: 10px;
 }
+
 .grid-odj li::before {
     display: inline-block;
-    content: counter(list-counter)".";
+    content: "❖";
     margin-right: 5px;
     min-width: 2em;
 }
@@ -148,32 +170,81 @@ body {
 .grid-closing {
     grid-row: 7;
     grid-column: 2 / span 3;
-    margin-top: 2em;
-    margin-bottom: 2em;
 
     text-align: start;
-    margin-top: 50px;
-    margin-bottom: 100px;
-    margin-left: 50px;
 }
 
 .grid-signature {
     grid-row: 8;
-    grid-column: 2 / span 3;
+    grid-column: 2 / span 2;
 
     text-align: start;
     line-height: 10px;
     font-weight: bold;
-    margin-left: 50px;
 }
 
 .grid-documents {
     grid-row: 8;
-    grid-column: 3;
-    
-    align-self: end;
-    text-align: end;
+    grid-column: 4;
+    padding: 10px 0;
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    column-gap: .5rem;
+
+    > button {
+        all:initial;
+        cursor: pointer;
+        margin: 0;
+        padding: .25rem;
+
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+
+        background-color: var(--w-color-white);
+        border-radius: 50%;
+        box-shadow: 0 0 1px 0 var(--cyan),0 1px 10px 0 var(--cyan);
+
+        transform-origin: center;
+        transition: all .2s ease-in-out;
+        
+        &:hover, &[title="Afficher les pièces jointes"] {
+            img, > svg {
+                transform: rotate(90deg);
+            }
+        }
+        img, > svg {
+            flex:none;        
+        }
+    } 
+
+    > ul {
+        flex: 0 1 auto;
+        padding: .25rem 0;
+
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        
+        background-color: var(--w-color-white);
+        border-radius: .5rem;
+
+        box-shadow: 0 0 1px 0 var(--cyan),0 1px 10px 0 var(--cyan);
+
+        transform-origin: center right;
+        transition: all .2s ease-in-out;
+
+        a {
+            padding: 0 .5rem;
+            display:flex;
+        }
+    }
 }
+
 .grid-documents * {
     margin:0;
     padding:0;
@@ -186,6 +257,7 @@ body {
     align-self: end;
     text-align: end;
 }
+
 .grid-links * {
     margin:0;
     padding:0;

@@ -647,7 +647,7 @@ header nav.cgs-nav.header {
     }
 
     li.nav-item:not(.cgs-selected) p {
-        display:none;
+        display:none!important;
     }
 
     li.nav-item.cgs-selected {
@@ -928,6 +928,7 @@ footer nav.footer.cgs-nav {
             height: calc(var(--footer-height) * .75);
             width: calc(var(--footer-height) * .75);
             margin: calc(var(--footer-height) * .125) calc(var(--footer-height) * .125);
+
             svg, img {
                 height: calc(var(--footer-height) * .75)!important;
                 width: calc(var(--footer-height) * .75)!important;    
@@ -964,21 +965,6 @@ footer nav.footer.cgs-nav {
         height: calc(var(--nav-icon-size) + .25em);
         width: calc(var(--nav-icon-size) + .25em);
     }
-    /* <p> Désactivés dans le HTML pour l'instant
-    li.nav-item {
-        &:not(:hover) p {
-            font-size: 0;
-        }
-        p {
-            position: absolute;
-            cursor: pointer;
-            pointer-events: none;
-            background-color: white;
-            border-radius:.2em;
-            top: 0;         
-            transition: .3s ease-in-out;
-        }    
-    }*/
 }
 
 /***********************************************                       SEARCHBAR SEARCHBLOCK                         ***************************************************/

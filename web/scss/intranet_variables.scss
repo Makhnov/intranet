@@ -416,6 +416,10 @@
 		// Police pour toutes les pages de contenu
 		--font-size:1rem;
 	}
+    .container-fluid.viewer {
+        grid-template-columns: 100px 1fr 1fr 1fr 50px;
+        grid-template-rows: repeat(9, auto);
+    }
     .cgs-streamfield {
         // Couleurs        
         .cgs-colored {
@@ -500,6 +504,16 @@
 		// Police pour toutes les pages de contenu
 		--font-size:.9rem;
 	}
+    .container-fluid.viewer {
+        grid-template-columns: 80px 1fr 1fr 1fr 40px;
+        grid-template-rows: repeat(9, auto);
+
+        .watermark {
+            left:50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
 	.cgs-streamfield {
 		grid-template-columns: 100%!important;
 
@@ -598,6 +612,24 @@
 		// Police pour toutes les pages de contenu
 		--font-size:.8rem;
 	}
+    .container-fluid.viewer {
+        grid-template-columns: 60px 1fr 1fr 1fr 30px;
+        grid-template-rows: repeat(9, auto);
+        
+        .watermark {
+            left: 40%;
+            max-width: 100vw;
+            max-height: 141vw;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .grid-invitation {
+            p, h2 {
+                height: 5rem;
+            }
+        }
+    }
 	.cgs-streamfield {
 		grid-template-columns: 100%!important;
 
@@ -731,6 +763,24 @@
 		// Police pour toutes les pages de contenu
 		--font-size:.75rem;
 	}
+    .container-fluid.viewer {
+        grid-template-columns: 40px 1fr 1fr 1fr 20px;
+        grid-template-rows: repeat(9, auto);
+        
+        .watermark {
+            left: 40%;
+            max-width: 100vw;
+            max-height: 141vw;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .grid-invitation {
+            p, h2 {
+                height: 5rem;
+            }
+        }
+    }
 	.cgs-streamfield {
 		grid-template-columns: 100%!important;
 

@@ -1,0 +1,239 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags cgs_tags static %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="container-fluid viewer">
+
+            {% comment %} Watermark (Absolute){% endcomment %}
+            {% if settings.dashboard.PDFSettings.watermark %}
+                {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}                    
+            {% endif %}
+
+
+            {% comment %} Logo (Ligne 1/1) {% endcomment %}
+            {% if settings.dashboard.PDFSettings.logo %}
+                {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+            {% endif %}
+
+            {% comment %} TITRE (Ligne 1 / 234) {% endcomment %}
+            <div class="grid-item grid-title">
+                <h1>Compte-rendu du conseil communautaire du {{ page.date|date:"l d F Y" }}</h1>
+            </div>
+            
+            {% comment %} INVITATION (Ligne 2) {% endcomment %}
+            <div class="grid-item grid-invitation">
+                {% comment %} Titres {% endcomment %}
+                <div class="headings">
+                    <h2>Date de la convocation :</h2>
+                    <h2>Lieu de la réunion :</h2>
+                    <h2>Président(e) de séance :</h2>
+                    <h2>secretaire de séance :</h2>
+                </div>
+
+                {% comment %} Contenus {% endcomment %}
+                <div class="content">
+                    <p>{{ page.date|date:"l d F Y" }}</p>
+                    <p>{{ settings.dashboard.PDFSettings.locality }}</p>
+                    {% if titulars %}
+                        <p>{{ titulars.0.identity }}, {{ titulars.0.function }} de la communauté de communes.</p>
+                    {% endif %}
+                    {% if page.secretary %}
+                        {% with secretaire=page.secretary %}
+                            <p>
+                                {{ secretaire.civility }} {{ secretaire.first_name }} {{ secretaire.last_name.upper }} - 
+                                {% if secretaire.function_council == '1' %}
+                                    {% if secretaire.civility == "Monsieur" %}
+                                        Président du conseil communautaire
+                                    {% elif secretaire.civility == "Madame" %}
+                                        Présidente du conseil communautaire
+                                    {% else %}
+                                        Président(e) du conseil communautaire
+                                    {% endif %}
+                                {% elif secretaire.function_council == '2' %}
+                                    {% if secretaire.civility == "Monsieur" %}
+                                        Vice-président du conseil communautaire
+                                    {% elif secretaire.civility == "Madame" %}
+                                        Vice-présidente du conseil communautaire
+                                    {% else %}
+                                        Vice-président(e) du conseil communautaire
+                                    {% endif %}
+                                {% else %}
+                                    {% if secretaire.function_municipality == '1' %}
+                                        {% if secretaire.civility == "Monsieur" %}
+                                            Maire
+                                        {% elif secretaire.civility == "Madame" %}
+                                            Maire
+                                        {% else %}
+                                            Maire
+                                        {% endif %}
+                                        de {{ secretaire.municipality }}
+                                    {% else %}
+                                        Conseiller communautaire
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                        {% endwith %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% comment %} PRESENCES ET ABSENCES (Ligne 3) {% endcomment %}
+            <div class="grid-item grid-presence">
+                {% comment %} Présents {% endcomment %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-dark"><u>Titulaires Présents :</u></h2>
+                        <p>
+                            {% for user in titulars %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>          
+                    </div>
+                </div>
+                
+                {% comment %} Suppléants {% endcomment %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-dark">
+                            <u>
+                            {% if alternates|length == 1 %}
+                                Suppléant présent :
+                            {% else %}
+                                Suppléants présents :
+                            {% endif %}
+                            </u>
+                        </h2>
+                        <p>
+                            {% for user in alternates %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            
+                {% comment %} Absents remplacés {% endcomment %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-dark">
+                            <u>
+                            {% if replaced|length == 1 %}
+                                Absent excusé ayant donné procuration :
+                            {% else %}
+                                Absents excusés ayant donné procuration :
+                            {% endif %}
+                            </u>
+                        </h2>
+                        <p>
+                            {% for user in replaced %}
+                                {{ user.absent_identity }} ({{ user.absent_municipality }}) a donné procuration à {{ user.substitute_identity }} {% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            
+                {% comment %} Absents non remplacés {% endcomment %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-dark">
+                            <u>
+                            {% if unreplaced|length == 1 %}
+                                Absent excusé :
+                            {% else %}
+                                Absents excusés :
+                            {% endif %}
+                            </u>
+                        </h2>
+                        <p>
+                            {% for user in unreplaced %}
+                                {{ user.identity }} ({{ user.municipality }}){% if not forloop.last %}, {% else %}.{% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>     
+
+            {% comment %} QUORUM (Ligne 4) {% endcomment %}
+            <div class="grid-item grid-quorum">
+                <p>* * *</p>
+                <p>
+                    {% if titulars %}
+                            {% if titulars.0.civility == "Monsieur" %}
+                                {% if page.quorum %}
+                                    Monsieur le président fait l'appel, constate que le quorum est atteint.
+                                {% else %}
+                                    Monsieur le président fait l'appel, constate que le quorum n'est pas atteint.
+                                {% endif %}
+                            {% elif titulars.0.civility == "Madame" %}
+                                {% if page.quorum %}
+                                    Madame la présidente fait l'appel, constate que le quorum est atteint.
+                                {% else %}
+                                    Madame la présidente fait l'appel, constate que le quorum n'est pas atteint.
+                                {% endif %}
+                            {% else %}
+                                {% if page.quorum %}
+                                    Monsieur/Madame le(a) président(e) fait l'appel, constate que le quorum est atteint.
+                                {% else %}
+                                    Monsieur/Madame le(a) président(e), constate que le quorum n'est pas atteint.
+                                {% endif %}
+                            {% endif %}
+                    {% endif %}
+                </p>
+                <p>* * *</p>
+            </div>
+
+            {% comment %} COMPTE-RENDU (Ligne 5) {% endcomment %}
+            {% if page.body %}
+                <div class="grid-item grid-cr cgs-streamfield">
+                    {% include "widgets/blocks/streamfield.html" with value=page.body %}
+                </div>
+            {% endif %}
+
+            {% comment %} CLOSINGS (Ligne 6) {% endcomment %}
+
+            {% comment %} SIGNATURE (Ligne 7) {% endcomment %}
+
+            {% comment %} PIECES-JOINTES (Ligne 8) {% endcomment %}
+            {% if page.attachments %}
+                <div class="grid-item grid-documents">
+                    <button
+                        id="show-attachments"                        
+                        class="attachments"
+                        title="Afficher les pièces jointes"
+                        alt="Bouton pour afficher/masquer les pièces jointes"
+                    >
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.attachments_file class_type="cgs-huge-icon cgs-zerofill" %}
+                    </button>
+                    <ul class="cgs-width-none">
+                        {% for piece_jointe in page.attachments %}
+                            {% if piece_jointe %}
+                                <a 
+                                    download 
+                                    href="{{ piece_jointe.document.file.url }}"                                 
+                                    {% if piece_jointe.title %}
+                                        title="{{ piece_jointe.title }}"
+                                    {% elif piece_jointe.document.title %}
+                                        title="{{ piece_jointe.document.title }}"
+                                    {% elif piece_jointe.document.filename %}
+                                        title="{{ piece_jointe.document.filename }}"
+                                    {% else %}
+                                        title="Télécharger la pièce jointe"
+                                    {% endif %}                            
+                                >
+                                    {% with file_info=piece_jointe.document.filename|get_extension_info %}
+                                        {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-huge-icon" file_type=file_info.0 file_description=False %}
+                                    {% endwith %}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% comment %} Image de pied de page (Ligne 9){% endcomment %}
+            {% if settings.dashboard.PDFSettings.footer_image %}
+                {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+            {% endif %}
+
+        </div>
+    </main>
+{% endblock %}

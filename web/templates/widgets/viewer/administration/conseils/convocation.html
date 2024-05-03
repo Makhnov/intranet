@@ -1,0 +1,137 @@
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags cgs_tags static %}
+
+{% block content %}
+    <main class="main-content">
+        <div class="container-fluid viewer">
+
+            {% comment %} Watermark {% endcomment %}
+            {% if settings.dashboard.PDFSettings.watermark %}
+                {% image settings.dashboard.PDFSettings.watermark original class="watermark" alt="Watermark" %}
+            {% endif %}
+    
+            {% comment %} Logo {% endcomment %}
+            {% if settings.dashboard.PDFSettings.logo %}
+                {% image settings.dashboard.PDFSettings.logo original class="logo" alt="Logo" %}
+            {% endif %}
+
+            <div class="grid-item grid-invitation">   
+                <div class="grid-invitation-content">
+                    {% if hosts %}
+                        {% with host=hosts.0 %}
+                            <div>
+                                <p>{{ host.civility }} {{ host.name }}</p>
+                                <p>{{ host.function }}</p>
+                            </div>
+                        {% endwith %}
+                    {% endif %}
+                    <p>A</p>
+                    <p>Mesdames, Messieurs les</p>
+                    <p>délégués communautaires et</p>
+                    <p>délégués suppléants</p>
+                </div>
+            </div>
+            
+            <div class="grid-item grid-informations">
+                <p>{{ settings.dashboard.PDFSettings.locality }}</p>
+                <p>Le {{ page.latest_revision_created_at|date:"l d F Y" }}</p>
+            </div>
+
+            <div class="grid-item grid-opening">
+                {% with settings.dashboard.PDFSettings.opening_councils|spread:"au premier" as parts %}
+                    <p>
+                        {{ parts.0|linebreaksbr }}{{ position_m }}
+                        {% with parts.1|spread:"XXXX" as parts_2 %}
+                            {{ parts_2.0|linebreaksbr }}
+                            {{ page.date|date:"Y" }}
+                            {{ parts_2.1|linebreaksbr }}
+                        {% endwith %}   
+                    </p>
+                {% endwith %}
+            </div>
+
+            <div class="grid-item grid-rdv">
+                <p>
+                    {{ page.date|date:"l d F Y" }} à {{ page.date|date:"H" }}H{{ page.date|date:"i" }}                        
+                </p>        
+                <p>{{ settings.dashboard.PDFSettings.locality_description }}</p>
+            </div>
+
+            <div class="grid-item grid-odj {{ sub_dir }}">
+                <p>A l’ordre du jour sont inscrits les points suivants :</p>
+                <p>{{ page.body|richtext }}</p>
+            </div>
+            
+            <div class="grid-item grid-closing">
+                {% if sub_dir == "bureaux" %}
+                    <p>{{ settings.dashboard.PDFSettings.closing_boards|linebreaksbr }}</p>
+                {% elif sub_dir == "commissions" %}
+                    <p>{{ settings.dashboard.PDFSettings.closing_commissions|linebreaksbr }}</p>
+                {% elif sub_dir == "conferences" %}
+                    <p>{{ settings.dashboard.PDFSettings.closing_conferences|linebreaksbr }}</p>
+                {% elif sub_dir == "conseils" %}
+                    <p>{{ settings.dashboard.PDFSettings.closing_councils|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+
+            <div class="grid-item grid-signature">
+                {% if hosts %}
+                    {% if hosts|length == 1 %}
+                        {% for host in hosts %}
+                            <p>{{ host.name }},</p>
+                            <p>{{ host.function }}.</p>
+                        {% endfor %}
+                    {% else %}
+                        {% for host in hosts %}
+                            {% if forloop.last and not forloop.first %}
+                                et {{ host.civility }} {{ host.name }}, {{ host.function }}
+                            {% else %}
+                                {{ host.civility }} {{ host.name }}, {{ host.function }}{% if not forloop.last %};{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if page.attachments %}
+                <div class="grid-item grid-documents">
+                    <button
+                        id="show-attachments"                        
+                        class="attachments"
+                        title="Afficher les pièces jointes"
+                        alt="Bouton pour afficher les pièces jointes"
+                    >
+                        {% include 'widgets/images/logo.html' with intranet_icon=settings.dashboard.IntranetIcons.attachments_file class_type="cgs-huge-icon cgs-zerofill" %}
+                    </button>
+                    <ul class="cgs-width-none">
+                        {% for piece_jointe in page.attachments %}
+                            {% if piece_jointe %}
+                                <a 
+                                    download 
+                                    href="{{ piece_jointe.document.file.url }}"                                 
+                                    {% if piece_jointe.title %}
+                                        title="{{ piece_jointe.title }}"
+                                    {% elif piece_jointe.document.title %}
+                                        title="{{ piece_jointe.document.title }}"
+                                    {% elif piece_jointe.document.filename %}
+                                        title="{{ piece_jointe.document.filename }}"
+                                    {% else %}
+                                        title="Télécharger la pièce jointe"
+                                    {% endif %}                            
+                                >
+                                    {% with file_info=piece_jointe.document.filename|get_extension_info %}
+                                        {% include "widgets/images/files.html" with class_type="cgs-zerofill cgs-huge-icon" file_type=file_info.0 file_description=False %}
+                                    {% endwith %}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% comment %} Image de pied de page {% endcomment %}
+            {% if settings.dashboard.PDFSettings.footer_image %}
+                {% image settings.dashboard.PDFSettings.footer_image original class="footer-image" alt="Footer Image" %}
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

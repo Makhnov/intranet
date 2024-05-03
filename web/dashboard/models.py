@@ -725,6 +725,15 @@ class IntranetIcons(BaseSiteSetting):
     )
 
     # FICHIERS
+    attachments_file =models.ForeignKey(
+        get_image_model_string(),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name=_("Attachments"),
+        help_text=_("Mail attachments icon"),
+    )
     image_file = models.ForeignKey(
         get_image_model_string(),
         null=True,
@@ -1038,6 +1047,7 @@ class IntranetIcons(BaseSiteSetting):
         ),
         MultiFieldPanel(# Fichiers
             [
+                FieldPanel('attachments_file', heading=_("Attachments")),
                 FieldPanel('pdf_file', heading=_("PDF")),
                 FieldPanel('doc_file', heading=_("DOC")),
                 FieldPanel('calc_file', heading=_("Excel")),

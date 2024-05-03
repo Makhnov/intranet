@@ -1,5 +1,6 @@
 // Gestion du comportement des sous-menus pour les menus déroulants
 document.addEventListener('DOMContentLoaded', function () {
+    console.log("Fichier intranet.js chargé");
     CGSTheme(USER_THEME, USER_ICONS, USER_AVATAR);
     whatTheHell();
 });
@@ -29,6 +30,7 @@ function whatTheHell() {
     if (PREVIEWS.length > 0) {
         preview(PREVIEWS);
     }
+
     // SWAP
     const SWAPABLES = document.querySelectorAll('.cgs-swap');
     if (SWAPABLES.length > 0) {
@@ -53,20 +55,29 @@ function whatTheHell() {
         searchBlock(FORM);
     }
 
+    // Gestion des messages
     const MESSAGES = document.querySelectorAll('.cgs-message');
     if (MESSAGES.length > 0) {
         cgsMessages(MESSAGES);
     }
 
+    // Mise à jour du profil
     const UPDATE_BLOCK = document.getElementById('update-block');
     const PROFILE_BLOCK = document.getElementById('profile-block');
     if (UPDATE_BLOCK && PROFILE_BLOCK) {
         profileUpdate(UPDATE_BLOCK, PROFILE_BLOCK);
     }
+
+    // Afficher les pièces-jointes
+    const ATTACHMENTS = document.getElementById('show-attachments');
+    if (ATTACHMENTS) {
+        showAttachments(ATTACHMENTS);
+    }
 }
 
 //////////////////////////////////////////   FONCTIONS GLOBALES    //////////////////////////////////////////////////
 
+// Gestion du thème en fonction du profil utilisateur
 function CGSTheme(theme, icons, avatar) {
     if (!sessionStorage.getItem('selectedColor')) {
         const defaultColor = CGS_COLORS[icons];
@@ -79,6 +90,7 @@ function CGSTheme(theme, icons, avatar) {
     }
 }
 
+// Ajout d'un message
 function cgsMessages(msgs) {
     msgs.forEach(msg => {
         const close = msg.querySelector('.msg-close');
@@ -87,6 +99,31 @@ function cgsMessages(msgs) {
         }
     });
 
+}
+
+// Toggle d'avatar
+function avatarToggle() {
+    const clearAvatar = document.getElementById('clear_avatar');
+    const previewAvatar = document.getElementById('preview_avatar');
+
+    if (clearAvatar && previewAvatar) {
+        clearAvatar.addEventListener('click', function () {
+            const defaultSrc = previewAvatar.getAttribute('data-default');
+            const currentSrc = previewAvatar.getAttribute('data-current');
+            console.log(clearAvatar.checked);
+
+            if (clearAvatar.checked) {
+                if (defaultSrc === currentSrc) {
+                    alert("🚫 Vous utilisez déjà l'avatar par défaut, il n'y a rien à réinitialiser.");
+                    clearAvatar.checked = false;
+                } else {
+                    previewAvatar.src = defaultSrc;
+                }
+            } else {
+                previewAvatar.src = currentSrc;
+            }
+        });
+    }
 }
 
 ////////////////////////////////////////// PAGES/SECTION CHARGEES  //////////////////////////////////////////////////
@@ -521,29 +558,13 @@ function profileUpdate(updateBox, profileBox) {
     }
 }
 
-// Toggle d'avatar
-function avatarToggle() {
-    const clearAvatar = document.getElementById('clear_avatar');
-    const previewAvatar = document.getElementById('preview_avatar');
-
-    if (clearAvatar && previewAvatar) {
-        clearAvatar.addEventListener('click', function () {
-            const defaultSrc = previewAvatar.getAttribute('data-default');
-            const currentSrc = previewAvatar.getAttribute('data-current');
-            console.log(clearAvatar.checked);
-
-            if (clearAvatar.checked) {
-                if (defaultSrc === currentSrc) {
-                    alert("🚫 Vous utilisez déjà l'avatar par défaut, il n'y a rien à réinitialiser.");
-                    clearAvatar.checked = false;
-                } else {
-                    previewAvatar.src = defaultSrc;
-                }
-            } else {
-                previewAvatar.src = currentSrc;
-            }
-        });
-    }
+// Afficher les pièces-jointes
+function showAttachments(button) {
+    const attachments = button.nextElementSibling;
+    button.addEventListener('click', function () {
+        attachments.classList.toggle('cgs-width-none');
+        button.title = button.title === 'Afficher les pièces jointes' ? 'Masquer les pièces jointes' : 'Afficher les pièces jointes';
+    });
 }
 
 //////////////////////////////////////////   VARIABLES   //////////////////////////////////////////////////
