@@ -1615,10 +1615,6 @@ msgstr "Nom de famille"
 msgid "Display name"
 msgstr "Nom d'affichage"
 
-#: .\templates\account\profile.html:123
-msgid "Address"
-msgstr "Adresse"
-
 #: .\templates\account\profile.html:124 .\users\models.py:32
 msgid "Address line 1"
 msgstr "Adresse ligne 1"
