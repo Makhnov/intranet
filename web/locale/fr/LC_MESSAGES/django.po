@@ -1615,7 +1615,7 @@ msgstr "Nom de famille"
 msgid "Display name"
 msgstr "Nom d'affichage"
 
-#: .\templates\account\profile.html:121
+#: .\templates\account\profile.html:123
 msgid "Address"
 msgstr "Adresse"
 
