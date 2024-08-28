@@ -69,3 +69,4 @@ __pycache__/
 # ssl
 # /home/webmaster/docker_intranet/web/data/certbot/conf
 conf/
+etc/letsencrypt/ovh.ini
