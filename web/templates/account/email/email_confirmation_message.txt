@@ -1,0 +1,11 @@
+{% extends "account/email/base_message.txt" %}
+{% load account %}
+{% load i18n %}
+
+{% block content %}{% autoescape off %}{% user_display user as user_display %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+Bonjour {{ user_display }} si il s'agit de votre première connexion sur {{ site_domain }} merci de confirmer en cliquant sur ce lien :
+{{ activate_url }}
+
+Dans le cas contraire, vous pouvez contacter les administrateurs à cette adresse: service.informatique@cagiregaronnesalat.fr{% endblocktrans %}
+{% endautoescape %}{% endblock content %}
