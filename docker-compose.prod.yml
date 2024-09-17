@@ -107,6 +107,6 @@ services:
     init: false
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw # ICI
     networks:
       - frontend
